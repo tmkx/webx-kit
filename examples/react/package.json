@@ -1,5 +1,21 @@
 {
   "name": "@webx-kit/example-react",
-  "scripts": {},
-  "dependencies": {}
+  "private": true,
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "^2.43.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "^2.43.0",
+    "@modern-js/tsconfig": "^2.43.0",
+    "@types/node": "^20.10.5",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "typescript": "^5.3.3"
+  }
 }
