@@ -14,6 +14,13 @@ const manifest: Manifest.WebExtensionManifest = {
     page: 'html/options/index.html',
     open_in_tab: true,
   },
+  content_scripts: [
+    {
+      matches: ['<all_urls>'],
+      js: ['static/js/content-script.js'],
+      run_at: 'document_idle',
+    },
+  ],
   host_permissions: ['<all_urls>'],
   ...(isDev
     ? {
