@@ -8,6 +8,9 @@ export default defineConfig({
   source: {
     entriesDir: './src/pages',
   },
+  dev: {
+    assetPrefix: 'http://localhost:8080/',
+  },
   output: {
     disableInlineRuntimeChunk: true, // inline scripts are not allowed in MV3
     disableFilenameHash: true,
@@ -26,13 +29,7 @@ export default defineConfig({
   tools: {
     devServer: {
       client: {
-        host: '127.0.0.1',
-      },
-      devMiddleware: {
-        writeToDisk(_file) {
-          // return !file.includes('.hot-update.'); // default behavior
-          return true; // write hot-update file to FS
-        },
+        host: 'localhost',
       },
     },
   },

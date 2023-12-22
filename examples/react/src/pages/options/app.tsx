@@ -1,1 +1,1 @@
-export const App = () => <div style={{ width: 400 }}>webx-kit options</div>;
+export const App = () => <div>webx-kit options</div>;

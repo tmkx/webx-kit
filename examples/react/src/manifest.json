@@ -10,5 +10,8 @@
     "page": "html/options/index.html",
     "open_in_tab": true
   },
-  "host_permissions": ["<all_urls>"]
+  "host_permissions": ["<all_urls>"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' http://localhost:8080/; object-src 'self' http://localhost:8080/"
+  }
 }
