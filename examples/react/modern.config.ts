@@ -16,10 +16,10 @@ export default defineConfig({
     disableFilenameHash: true,
     copy: [
       {
-        from: './src/manifest.json',
-        to: './',
-        transform(input) {
-          const { $schema, ...manifest } = JSON.parse(input.toString('utf8'));
+        from: './src/manifest.ts',
+        to: './manifest.json',
+        async transform(_input, filename) {
+          const manifest = await evalFile(filename);
           return isDev ? JSON.stringify(manifest, null, 2) : JSON.stringify(manifest);
         },
       },
@@ -34,3 +34,9 @@ export default defineConfig({
     },
   },
 });
+
+async function evalFile(filename: string) {
+  const { default: createJITI } = await import('jiti');
+  const jiti = createJITI(__filename, { interopDefault: true });
+  return jiti(filename);
+}
