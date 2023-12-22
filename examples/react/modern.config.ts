@@ -27,7 +27,9 @@ export default defineConfig({
         from: './src/manifest.ts',
         to: './manifest.json',
         async transform(_input, filename) {
-          const manifest = await evalFile(filename);
+          const {
+            mod: { default: manifest },
+          } = await evalFile<typeof import('./src/manifest')>(filename);
           return isDev ? JSON.stringify(manifest, null, 2) : JSON.stringify(manifest);
         },
       },
@@ -62,8 +64,7 @@ export default defineConfig({
   },
 });
 
-async function evalFile(filename: string) {
-  const { default: createJITI } = await import('jiti');
-  const jiti = createJITI(__filename, { interopDefault: true });
-  return jiti(filename);
+async function evalFile<T>(filepath: string) {
+  const { bundleRequire } = await import('bundle-require');
+  return await bundleRequire<T>({ filepath });
 }
