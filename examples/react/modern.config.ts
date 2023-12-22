@@ -9,7 +9,7 @@ export default defineConfig({
     entriesDir: './src/pages',
   },
   dev: {
-    assetPrefix: 'http://localhost:8080/',
+    assetPrefix: true,
   },
   output: {
     disableInlineRuntimeChunk: true, // inline scripts are not allowed in MV3
