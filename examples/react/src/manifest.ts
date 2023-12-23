@@ -19,6 +19,8 @@ const manifest: Manifest.WebExtensionManifest = {
       matches: ['<all_urls>'],
       js: ['static/js/content-script.js'],
       run_at: 'document_idle',
+      // @ts-expect-error HMR loads hot-update chunks as script elements, causing cross-context issues
+      world: 'MAIN',
     },
   ],
   host_permissions: ['<all_urls>'],
