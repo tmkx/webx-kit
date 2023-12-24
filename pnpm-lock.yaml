@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@modern-js/server@2.43.0':
+    hash: ywtilqlmmibahzivreboykaqtu
+    path: patches/@modern-js__server@2.43.0.patch
+
 importers:
 
   .: {}
@@ -1934,7 +1939,7 @@ packages:
       '@modern-js/plugin-i18n': 2.43.0
       '@modern-js/plugin-lint': 2.43.0
       '@modern-js/prod-server': 2.43.0(react-dom@18.2.0)(react@18.2.0)
-      '@modern-js/server': 2.43.0(@babel/traverse@7.23.6)(react-dom@18.2.0)(react@18.2.0)
+      '@modern-js/server': 2.43.0(patch_hash=ywtilqlmmibahzivreboykaqtu)(@babel/traverse@7.23.6)(react-dom@18.2.0)(react@18.2.0)
       '@modern-js/server-core': 2.43.0
       '@modern-js/server-utils': 2.43.0(@babel/traverse@7.23.6)
       '@modern-js/types': 2.43.0
@@ -2061,7 +2066,7 @@ packages:
       '@babel/parser': 7.23.6
       '@babel/types': 7.23.6
       '@modern-js/prod-server': 2.43.0(react-dom@18.2.0)(react@18.2.0)
-      '@modern-js/server': 2.43.0(@babel/traverse@7.23.6)(react-dom@18.2.0)(react@18.2.0)
+      '@modern-js/server': 2.43.0(patch_hash=ywtilqlmmibahzivreboykaqtu)(@babel/traverse@7.23.6)(react-dom@18.2.0)(react@18.2.0)
       '@modern-js/types': 2.43.0
       '@modern-js/utils': 2.43.0
       '@swc/helpers': 0.5.3
@@ -2110,7 +2115,7 @@ packages:
       '@babel/preset-react': 7.23.3(@babel/core@7.23.6)
       '@modern-js/builder-shared': 2.43.0(@babel/traverse@7.23.6)(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)
       '@modern-js/inspector-webpack-plugin': 1.0.6
-      '@modern-js/server': 2.43.0(@babel/traverse@7.23.6)(react-dom@18.2.0)(react@18.2.0)
+      '@modern-js/server': 2.43.0(patch_hash=ywtilqlmmibahzivreboykaqtu)(@babel/traverse@7.23.6)(react-dom@18.2.0)(react@18.2.0)
       '@modern-js/types': 2.43.0
       '@modern-js/utils': 2.43.0
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.10(react-refresh@0.14.0)(webpack@5.89.0)
@@ -2441,7 +2446,7 @@ packages:
       - supports-color
     dev: true
 
-  /@modern-js/server@2.43.0(@babel/traverse@7.23.6)(react-dom@18.2.0)(react@18.2.0):
+  /@modern-js/server@2.43.0(patch_hash=ywtilqlmmibahzivreboykaqtu)(@babel/traverse@7.23.6)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-MUTX/L6aY9xjZRV2mHQNbSRiDgRMqK0N51xCniEF5U501PhencTi/TMEY6TnLMDFUSf1j/VjiREeN6aVSiUBLg==}
     peerDependencies:
       devcert: ^1.0.0
@@ -2479,6 +2484,7 @@ packages:
       - supports-color
       - utf-8-validate
     dev: true
+    patched: true
 
   /@modern-js/tsconfig@2.43.0:
     resolution: {integrity: sha512-lxIJmhnvV6UBqjsefRQf7AISLdkgEv2mmvsrmNEVoRgOhD4EHSSbBI7leUo80U6KogJt10MDJKn6J+6W6Rk8ng==}

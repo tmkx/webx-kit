@@ -4,6 +4,10 @@ const manifest: chrome.runtime.ManifestV3 = {
   manifest_version: 3,
   name: 'webx-kit-demo',
   version: '0.0.0',
+  background: {
+    service_worker: 'static/js/background.js',
+    type: 'module',
+  },
   action: {
     default_popup: 'popup.html',
   },
