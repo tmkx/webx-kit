@@ -8,10 +8,10 @@ const manifest: Manifest.WebExtensionManifest = {
   name: 'webx-kit-demo',
   version: '0.0.0',
   action: {
-    default_popup: 'html/popup/index.html',
+    default_popup: 'popup.html',
   },
   options_ui: {
-    page: 'html/options/index.html',
+    page: 'options.html',
     open_in_tab: true,
   },
   content_scripts: [

@@ -18,9 +18,15 @@ export default defineConfig({
   dev: {
     assetPrefix: true,
   },
+  html: {
+    disableHtmlFolder: true,
+  },
   output: {
     disableInlineRuntimeChunk: true, // inline scripts are not allowed in MV3
     disableFilenameHash: true,
+    distPath: {
+      html: '.',
+    },
     copy: [
       {
         from: './src/manifest.ts',
