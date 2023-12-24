@@ -41,11 +41,6 @@ export default defineConfig({
     ],
     polyfill: 'off',
   },
-  performance: {
-    chunkSplit: {
-      strategy: 'all-in-one',
-    },
-  },
   tools: {
     devServer: {
       client: {
@@ -54,6 +49,10 @@ export default defineConfig({
       },
     },
     webpackChain(chain) {
+      // DO NOT split chunks when the entry is "content-script"
+      chain.optimization.runtimeChunk(false).splitChunks({
+        chunks: (chunk) => chunk.getEntryOptions()?.name !== 'content-script',
+      });
       scriptEntries.forEach((entry) => chain.entry(entry.name).add(entry.path));
     },
   },
