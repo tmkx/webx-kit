@@ -1,4 +1,3 @@
-import assert from 'node:assert';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -48,18 +47,8 @@ export default defineConfig({
         host: 'localhost',
       },
     },
-    webpack(config) {
-      assert(
-        config.entry &&
-          typeof config.entry !== 'string' &&
-          typeof config.entry !== 'function' &&
-          !Array.isArray(config.entry)
-      );
-
-      config.entry = {
-        ...config.entry,
-        ...Object.fromEntries(scriptEntries.map((entry) => [entry.name, entry.path])),
-      };
+    webpackChain(chain) {
+      scriptEntries.forEach((entry) => chain.entry(entry.name).add(entry.path));
     },
   },
 });
