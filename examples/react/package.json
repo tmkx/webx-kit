@@ -8,16 +8,15 @@
   "dependencies": {
     "@modern-js/runtime": "^2.43.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "webextension-polyfill": "^0.10.0"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@modern-js/app-tools": "^2.43.0",
     "@modern-js/tsconfig": "^2.43.0",
+    "@types/chrome": "^0.0.254",
     "@types/node": "^20.10.5",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
-    "@types/webextension-polyfill": "^0.10.7",
     "bundle-require": "^4.0.2",
     "typescript": "^5.3.3"
   }

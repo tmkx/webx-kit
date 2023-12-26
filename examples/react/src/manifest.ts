@@ -1,9 +1,6 @@
-import type { Manifest } from 'webextension-polyfill';
-
 const isDev = process.env.NODE_ENV === 'development';
 
-const manifest: Manifest.WebExtensionManifest = {
-  // $schema: 'https://json.schemastore.org/chrome-manifest.json',
+const manifest: chrome.runtime.ManifestV3 = {
   manifest_version: 3,
   name: 'webx-kit-demo',
   version: '0.0.0',
@@ -19,7 +16,7 @@ const manifest: Manifest.WebExtensionManifest = {
       matches: ['<all_urls>'],
       js: ['static/js/content-script.js'],
       run_at: 'document_idle',
-      // @ts-expect-error HMR loads hot-update chunks as script elements, causing cross-context issues
+      // HMR loads hot-update chunks as script elements, causing cross-context issues
       world: 'MAIN',
     },
   ],
