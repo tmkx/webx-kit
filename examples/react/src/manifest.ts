@@ -20,8 +20,6 @@ const manifest: chrome.runtime.ManifestV3 = {
       matches: ['<all_urls>'],
       js: ['static/js/content-script.js'],
       run_at: 'document_idle',
-      // HMR loads hot-update chunks as script elements, causing cross-context issues
-      world: 'MAIN',
     },
   ],
   host_permissions: ['<all_urls>'],

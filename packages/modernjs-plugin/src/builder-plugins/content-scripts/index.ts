@@ -1,4 +1,6 @@
-import { BuilderPlugin } from '../types';
+import { isDev, type WebpackChain } from '@modern-js/utils';
+import { BuilderPlugin } from '../../types';
+import { ContentScriptHMRPlugin } from './hmr-plugin';
 
 export type ContentScriptEntry = {
   name: string;
@@ -30,8 +32,13 @@ export const contentScriptsPlugin = ({ contentScripts }: ContentScriptsOptions):
         ? contentScripts
         : [{ name: DEFAULT_CONTENT_SCRIPT_NAME, import: contentScripts }];
 
-      api.modifyWebpackChain((chain) => {
+      api.modifyWebpackChain((chain: WebpackChain) => {
         entries.forEach((entry) => chain.entry(entry.name).add(entry.import));
+
+        if (isDev()) {
+          const contentScriptNames = new Set(getContentScriptEntryNames({ contentScripts }));
+          chain.plugin('ContentScriptHMRPlugin').use(ContentScriptHMRPlugin, [contentScriptNames]);
+        }
       });
     },
   };
