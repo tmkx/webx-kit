@@ -1,0 +1,20 @@
+{
+  "name": "@webx-kit/modernjs-plugin",
+  "private": true,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "types": "./src/index.ts",
+  "scripts": {},
+  "dependencies": {
+    "@modern-js/app-tools": "^2.43.0",
+    "@modern-js/utils": "^2.43.0",
+    "bundle-require": "^4.0.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
