@@ -1,7 +1,5 @@
-import { appTools, defineConfig, webpack as webpackNS } from '@modern-js/app-tools';
+import { appTools, defineConfig } from '@modern-js/app-tools';
 import { webxPlugin } from '@webx-kit/modernjs-plugin';
-
-// const isDev = process.env.NODE_ENV === 'development';
 
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig({

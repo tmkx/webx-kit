@@ -9,6 +9,8 @@ import {
 import { hmrCorsPlugin } from './builder-plugins/hmr-cors';
 import { ManifestOptions, manifestPlugin } from './builder-plugins/manifest';
 
+export { isDev, isProd } from '@modern-js/utils';
+
 export type { BackgroundEntry } from './builder-plugins/background';
 export type { ContentScriptEntry } from './builder-plugins/content-scripts';
 
