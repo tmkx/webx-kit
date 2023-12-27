@@ -20,8 +20,8 @@ export const manifestPlugin = (options: ManifestOptions): BuilderPlugin => {
       api.modifyBuilderConfig((config) => {
         config.output ??= {};
         config.output.copy ??= [];
-        if (!Array.isArray(config.output.copy)) return;
-        config.output.copy.push({
+        const copyPatterns = Array.isArray(config.output.copy) ? config.output.copy : config.output.copy.patterns;
+        copyPatterns.push({
           from: options.manifest || DEFAULT_MANIFEST_SRC,
           to: './manifest.json',
           async transform(_input, filename) {

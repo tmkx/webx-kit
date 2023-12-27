@@ -6,6 +6,7 @@ import {
   contentScriptsPlugin,
   getContentScriptEntryNames,
 } from './builder-plugins/content-scripts';
+import { hmrCorsPlugin } from './builder-plugins/hmr-cors';
 import { ManifestOptions, manifestPlugin } from './builder-plugins/manifest';
 
 export type { BackgroundEntry } from './builder-plugins/background';
@@ -63,6 +64,7 @@ export const webxPlugin = (options: WebxPluginOptions = {}): CliPlugin<AppTools<
       (config.builderPlugins ??= []).push(
         backgroundPlugin(options),
         contentScriptsPlugin(options),
+        hmrCorsPlugin(),
         manifestPlugin(options)
       );
     },
