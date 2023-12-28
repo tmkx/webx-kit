@@ -5,10 +5,5 @@
     "node": ">=18"
   },
   "packageManager": "pnpm@8.13.1",
-  "scripts": {},
-  "pnpm": {
-    "patchedDependencies": {
-      "@modern-js/server@2.43.0": "patches/@modern-js__server@2.43.0.patch"
-    }
-  }
+  "scripts": {}
 }
