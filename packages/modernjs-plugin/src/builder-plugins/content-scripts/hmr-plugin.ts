@@ -12,6 +12,10 @@ export class ContentScriptHMRPlugin {
     } = compiler;
 
     class ContentScriptHMRRuntimeModule extends webpack.RuntimeModule {
+      constructor() {
+        super('content-script hmr runtime', webpack.RuntimeModule.STAGE_ATTACH);
+      }
+
       generate() {
         if (!this.chunk) return null;
         return webpack.Template.asString([
@@ -38,10 +42,7 @@ export class ContentScriptHMRPlugin {
         if (!isEnabledForChunk(chunk)) return;
         set.add(RuntimeGlobals.moduleFactoriesAddOnly);
         set.add(RuntimeGlobals.hasOwnProperty);
-        compilation.addRuntimeModule(
-          chunk,
-          new ContentScriptHMRRuntimeModule('background reload runtime', webpack.RuntimeModule.STAGE_ATTACH)
-        );
+        compilation.addRuntimeModule(chunk, new ContentScriptHMRRuntimeModule());
       };
       compilation.hooks.runtimeRequirementInTree
         .for(RuntimeGlobals.ensureChunkHandlers)

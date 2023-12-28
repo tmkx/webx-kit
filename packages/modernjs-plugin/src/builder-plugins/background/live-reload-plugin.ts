@@ -20,6 +20,10 @@ export class BackgroundReloadPlugin {
       } = compilation;
 
       class BackgroundReloadRuntimeModule extends webpack.RuntimeModule {
+        constructor() {
+          super('background reload runtime', webpack.RuntimeModule.STAGE_ATTACH);
+        }
+
         generate() {
           if (!this.chunk) return null;
           return webpack.Template.asString([
@@ -55,10 +59,7 @@ export class BackgroundReloadPlugin {
         if (!isEnabledForChunk(chunk)) return;
         set.add(RuntimeGlobals.moduleFactoriesAddOnly);
         set.add(RuntimeGlobals.hasOwnProperty);
-        compilation.addRuntimeModule(
-          chunk,
-          new BackgroundReloadRuntimeModule('background reload runtime', webpack.RuntimeModule.STAGE_ATTACH)
-        );
+        compilation.addRuntimeModule(chunk, new BackgroundReloadRuntimeModule());
       };
       compilation.hooks.runtimeRequirementInTree
         .for(RuntimeGlobals.ensureChunkHandlers)
