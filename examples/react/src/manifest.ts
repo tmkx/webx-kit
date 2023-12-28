@@ -23,6 +23,13 @@ const manifest: chrome.runtime.ManifestV3 = {
     },
   ],
   host_permissions: ['<all_urls>'],
+  web_accessible_resources: [
+    {
+      matches: ['<all_urls>'],
+      resources: ['static/css/*'],
+    },
+  ],
+
   ...(isDev
     ? {
         content_security_policy: {

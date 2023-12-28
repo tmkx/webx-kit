@@ -1,6 +1,8 @@
-import { isDev, type WebpackChain } from '@modern-js/utils';
+import { WebpackChain, isDev } from '@modern-js/utils';
 import { BuilderPlugin } from '../../types';
 import { ContentScriptHMRPlugin } from './hmr-plugin';
+import { ContentScriptShadowRootPlugin } from './shadow-root-plugin';
+import { DEFAULT_CONTENT_SCRIPT_NAME } from './constants.mjs';
 
 export type ContentScriptEntry = {
   name: string;
@@ -13,8 +15,6 @@ export type ContentScriptsOptions = {
    */
   contentScripts?: string | ContentScriptEntry[];
 };
-
-const DEFAULT_CONTENT_SCRIPT_NAME = 'content-script';
 
 export const getContentScriptEntryNames = ({ contentScripts }: ContentScriptsOptions): string[] => {
   if (!contentScripts) return [];
@@ -38,6 +38,7 @@ export const contentScriptsPlugin = ({ contentScripts }: ContentScriptsOptions):
         if (isDev()) {
           const contentScriptNames = new Set(getContentScriptEntryNames({ contentScripts }));
           chain.plugin('ContentScriptHMRPlugin').use(ContentScriptHMRPlugin, [contentScriptNames]);
+          chain.plugin('ContentScriptShadowRootPlugin').use(ContentScriptShadowRootPlugin, [contentScriptNames]);
         }
       });
     },

@@ -7,7 +7,9 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "declaration": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "allowJs": true,
+    "noEmit": true
   },
   "exclude": ["dist"]
 }
