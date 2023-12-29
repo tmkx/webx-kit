@@ -6,6 +6,7 @@
     "build": "modern build"
   },
   "dependencies": {
+    "@douyinfe/semi-ui": "^2.49.2",
     "@modern-js/runtime": "^2.44.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

@@ -23,7 +23,26 @@ export default defineConfig({
   tools: {
     postcss: {
       postcssOptions: {
-        plugins: [require('tailwindcss')],
+        plugins: [
+          require('tailwindcss'),
+          {
+            postcss(css) {
+              css.walkRules((rule) => {
+                const bodyToHostSelectors = rule.selectors
+                  .filter((selector) => selector.startsWith('body'))
+                  .map((selector) => {
+                    if (selector.startsWith('body['))
+                      return selector.replace(/body[(.+?)]/, (_, attr) => `:host(${attr})`);
+                    return selector.replace('body', `:host`);
+                  });
+
+                if (bodyToHostSelectors.length > 0) {
+                  rule.selectors = [...rule.selectors, ...bodyToHostSelectors];
+                }
+              });
+            },
+          },
+        ],
       },
     },
   },
