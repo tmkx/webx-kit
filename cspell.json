@@ -1,0 +1,14 @@
+// https://github.com/streetsidesoftware/cspell/tree/main/packages/cspell
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "useGitignore": true,
+  "ignorePaths": [
+    "pnpm-lock.yaml",
+    "*.svg",
+    "*.snap"
+  ],
+  "words": [
+    "modernjs",
+    "webx"
+  ]
+}
