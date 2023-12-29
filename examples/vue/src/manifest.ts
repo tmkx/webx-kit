@@ -2,7 +2,7 @@ const isDev = process.env.NODE_ENV === 'development';
 
 const manifest: chrome.runtime.ManifestV3 = {
   manifest_version: 3,
-  name: 'WebX Kit Demo',
+  name: 'WebX Kit Vue Demo',
   version: '0.0.0',
   icons: {
     512: 'public/logo.png',

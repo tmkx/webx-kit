@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { App } from './app';
 import '../global.less';
 
-const container = document.createElement('div');
+const container = document.createElement('webx-root');
 const shadowRoot = container.attachShadow({ mode: 'open' });
 
 setWebxRoot({ root: shadowRoot });

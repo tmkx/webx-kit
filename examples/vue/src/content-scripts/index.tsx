@@ -3,7 +3,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import '../global.less';
 
-const container = document.createElement('div');
+const container = document.createElement('webx-root');
 const shadowRoot = container.attachShadow({ mode: 'open' });
 
 setWebxRoot({ root: shadowRoot });

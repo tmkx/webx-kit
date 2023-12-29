@@ -12,6 +12,11 @@ export default defineConfig({
     }),
   ],
   builderPlugins: [builderPluginVue()],
+  source: {
+    define: {
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(false),
+    },
+  },
   output: {
     polyfill: 'off',
     disableSourceMap: !isDev(),
