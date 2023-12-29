@@ -39,7 +39,7 @@ importers:
         specifier: ^18.2.18
         version: 18.2.18
       '@webx-kit/modernjs-plugin':
-        specifier: workspace:^
+        specifier: ^0.0.0
         version: link:../../packages/modernjs-plugin
       tailwindcss:
         specifier: ^3.4.0
