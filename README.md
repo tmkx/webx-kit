@@ -12,7 +12,7 @@
 ## Tech stacks
 
 - [Webpack](https://webpack.js.org/) - with an extremely friendly and extensible framework: **[Modern.js](https://modernjs.dev/)**
-- [React](https://react.dev/)
+- [React](https://react.dev/) / [Vue](https://vuejs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - ... and more!
 
