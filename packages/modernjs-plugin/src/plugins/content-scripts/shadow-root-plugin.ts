@@ -17,8 +17,8 @@ export class ContentScriptShadowRootPlugin extends ContentScriptBasePlugin {
     new compiler.webpack.NormalModuleReplacementPlugin(
       /mini-css-extract-plugin\/dist\/hmr\/hotModuleReplacement\.js$/,
       (resolveData) => {
-        const sssLoader = path.resolve(__dirname, 'shadow-root-loader.js');
-        resolveData.request = `${sssLoader}!${resolveData.request}`;
+        const shadowRootLoader = path.resolve(__dirname, 'shadow-root-loader.js');
+        resolveData.request = `${shadowRootLoader}!${resolveData.request}`;
       }
     ).apply(compiler);
   }

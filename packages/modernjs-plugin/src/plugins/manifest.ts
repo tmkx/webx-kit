@@ -1,4 +1,5 @@
-import { isDev } from '@modern-js/utils';
+import path from 'node:path';
+import { FSWatcher, fs, isDev, watch } from '@modern-js/utils';
 import { evalFile } from '../utils';
 import { BuilderPlugin } from '../types';
 
@@ -17,21 +18,32 @@ export const manifestPlugin = (options: ManifestOptions): BuilderPlugin => {
   return {
     name: '@webx-kit/modernjs-plugin/manifest',
     async setup(api) {
-      api.modifyBuilderConfig((config) => {
-        config.output ??= {};
-        config.output.copy ??= [];
-        const copyPatterns = Array.isArray(config.output.copy) ? config.output.copy : config.output.copy.patterns;
-        copyPatterns.push({
-          from: options.manifest || DEFAULT_MANIFEST_SRC,
-          to: './manifest.json',
-          async transform(_input, filename) {
-            const {
-              mod: { default: manifest },
-            } = await evalFile<{ default: unknown }>(filename);
-            return isDev() ? JSON.stringify(manifest, null, 2) : JSON.stringify(manifest);
-          },
+      const { rootPath, distPath } = api.context;
+      const sourcePath = path.join(rootPath, options.manifest || DEFAULT_MANIFEST_SRC);
+      const outputPath = path.join(distPath, 'manifest.json');
+
+      async function generateManifest() {
+        const {
+          mod: { default: manifest },
+        } = await evalFile<{ default: unknown }>(sourcePath);
+        const content = isDev() ? JSON.stringify(manifest, null, 2) : JSON.stringify(manifest);
+        await fs.writeFile(outputPath, content);
+      }
+
+      let watcher: FSWatcher | undefined;
+
+      api.onAfterStartDevServer(() => {
+        watcher = watch(sourcePath, ({ changedFilePath, changeType }) => {
+          if (changedFilePath !== sourcePath) return;
+          if (changeType !== 'change' && changeType !== 'add') return;
+          return generateManifest();
         });
+        return generateManifest();
       });
+
+      api.onAfterBuild(() => generateManifest());
+
+      api.onExit(() => watcher?.close());
     },
   };
 };
