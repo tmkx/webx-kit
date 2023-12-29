@@ -1,14 +1,27 @@
 {
   "name": "@webx-kit/modernjs-plugin",
-  "private": true,
+  "version": "0.0.0",
   "exports": {
     ".": {
       "types": "./src/index.ts",
       "default": "./src/index.ts"
+    },
+    "./runtime": {
+      "types": "./src/runtime.ts",
+      "default": "./src/runtime.ts"
     }
   },
   "types": "./src/index.ts",
-  "scripts": {},
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./src/index.ts"
+      ],
+      "*": [
+        "./src/*.ts"
+      ]
+    }
+  },
   "dependencies": {
     "@modern-js/app-tools": "^2.44.0",
     "@modern-js/utils": "^2.44.0",

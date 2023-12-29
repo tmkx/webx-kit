@@ -9,7 +9,8 @@
     "declaration": true,
     "isolatedModules": true,
     "allowJs": true,
-    "noEmit": true
+    "rootDir": "./src",
+    "outDir": "./dist"
   },
   "exclude": ["dist"]
 }

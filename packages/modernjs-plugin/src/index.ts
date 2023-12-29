@@ -1,3 +1,4 @@
+import path from 'node:path';
 import { AppTools, CliPlugin, UserConfig, mergeConfig } from '@modern-js/app-tools';
 import { WebpackChain, isDev } from '@modern-js/utils';
 import { BackgroundOptions, backgroundPlugin, getBackgroundEntryNames } from './plugins/background';
@@ -19,6 +20,7 @@ const getDefaultConfig = ({ allInOneEntries }: { allInOneEntries: Set<string> })
       define: {
         __DEV__: isDev(),
       },
+      include: [path.resolve(__dirname, './runtime.ts')],
     },
     dev: {
       assetPrefix: true,
