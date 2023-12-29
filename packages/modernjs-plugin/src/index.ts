@@ -1,18 +1,14 @@
-import { AppTools, CliPlugin, UserConfig, mergeConfig, webpack as webpackNS } from '@modern-js/app-tools';
-import { WebpackChain } from '@modern-js/utils';
-import { BackgroundOptions, backgroundPlugin, getBackgroundEntryNames } from './builder-plugins/background';
-import {
-  ContentScriptsOptions,
-  contentScriptsPlugin,
-  getContentScriptEntryNames,
-} from './builder-plugins/content-scripts';
-import { hmrCorsPlugin } from './builder-plugins/hmr-cors';
-import { ManifestOptions, manifestPlugin } from './builder-plugins/manifest';
+import { AppTools, CliPlugin, UserConfig, mergeConfig } from '@modern-js/app-tools';
+import { WebpackChain, isDev } from '@modern-js/utils';
+import { BackgroundOptions, backgroundPlugin, getBackgroundEntryNames } from './plugins/background';
+import { ContentScriptsOptions, contentScriptsPlugin, getContentScriptEntryNames } from './plugins/content-scripts';
+import { hmrCorsPlugin } from './plugins/hmr-cors';
+import { ManifestOptions, manifestPlugin } from './plugins/manifest';
 
 export { isDev, isProd } from '@modern-js/utils';
 
-export type { BackgroundEntry } from './builder-plugins/background';
-export type { ContentScriptEntry } from './builder-plugins/content-scripts';
+export type { BackgroundEntry } from './plugins/background';
+export type { ContentScriptEntry } from './plugins/content-scripts';
 
 export interface WebxPluginOptions extends BackgroundOptions, ContentScriptsOptions, ManifestOptions {}
 
@@ -20,6 +16,9 @@ const getDefaultConfig = ({ allInOneEntries }: { allInOneEntries: Set<string> })
   return {
     source: {
       entriesDir: './src/pages',
+      define: {
+        __DEV__: isDev(),
+      },
     },
     dev: {
       assetPrefix: true,
@@ -42,11 +41,11 @@ const getDefaultConfig = ({ allInOneEntries }: { allInOneEntries: Set<string> })
         },
       },
       webpackChain(chain: WebpackChain) {
+        chain.experiments({ outputModule: true });
         // DO NOT split chunks when the entry is background/content-scripts
         chain.optimization.runtimeChunk(false).splitChunks({
           chunks: (chunk) => !allInOneEntries.has(chunk.getEntryOptions()?.name!),
         });
-        chain.experiments({ outputModule: true });
       },
     },
   };
