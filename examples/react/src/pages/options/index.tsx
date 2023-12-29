@@ -1,4 +1,6 @@
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import { App } from './app';
+import '../../global.less';
+import './style.less';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(<App />);
+createRoot(document.getElementById('root')!).render(<App />);

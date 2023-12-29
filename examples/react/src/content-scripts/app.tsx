@@ -1,12 +1,15 @@
 import { useState } from 'react';
-import styles from './styles.module.less';
+import logo from '@/assets/text-logo.svg';
 
 export const App = () => {
   const [count, setCount] = useState(0);
   return (
-    <div className={styles.container}>
-      <span>Count: </span>
-      <button onClick={() => setCount(count + 1)}>{count}</button>
+    <div className="fixed z-10 right-16 bottom-16 text-base text-center bg-slate-200 px-6 py-4 rounded-xl">
+      <img className="h-5" src={logo} alt="Logo" />
+      <span className="text-slate-700 dark:text-slate-400">Count: </span>
+      <button className="text-sky-700 tabular-nums" onClick={() => setCount(count + 1)}>
+        {count}
+      </button>
     </div>
   );
 };

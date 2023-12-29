@@ -12,5 +12,18 @@ export default defineConfig({
   ],
   output: {
     polyfill: 'off',
+    copy: [
+      {
+        from: './public',
+        to: './public',
+      },
+    ],
+  },
+  tools: {
+    postcss: {
+      postcssOptions: {
+        plugins: [require('tailwindcss')],
+      },
+    },
   },
 });

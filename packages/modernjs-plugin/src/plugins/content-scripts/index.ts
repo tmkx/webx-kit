@@ -1,6 +1,7 @@
 import { WebpackChain, isDev } from '@modern-js/utils';
 import { BuilderPlugin } from '../../types';
 import { ContentScriptHMRPlugin } from './hmr-plugin';
+import { ContentScriptPublicPathPlugin } from './public-path-plugin';
 import { ContentScriptShadowRootPlugin } from './shadow-root-plugin';
 import { DEFAULT_CONTENT_SCRIPT_NAME } from './constants.mjs';
 
@@ -35,10 +36,12 @@ export const contentScriptsPlugin = ({ contentScripts }: ContentScriptsOptions):
       api.modifyWebpackChain((chain: WebpackChain) => {
         entries.forEach((entry) => chain.entry(entry.name).add(entry.import));
 
+        const contentScriptNames = new Set(getContentScriptEntryNames({ contentScripts }));
         if (isDev()) {
-          const contentScriptNames = new Set(getContentScriptEntryNames({ contentScripts }));
           chain.plugin('ContentScriptHMRPlugin').use(ContentScriptHMRPlugin, [contentScriptNames]);
           chain.plugin('ContentScriptShadowRootPlugin').use(ContentScriptShadowRootPlugin, [contentScriptNames]);
+        } else {
+          chain.plugin('ContentScriptPublicPathPlugin').use(ContentScriptPublicPathPlugin, [contentScriptNames]);
         }
       });
     },

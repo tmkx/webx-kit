@@ -1,6 +1,7 @@
 import { setWebxRoot } from '@webx-kit/modernjs-plugin/runtime';
 import { createRoot } from 'react-dom/client';
 import { App } from './app';
+import '../global.less';
 
 const container = document.createElement('div');
 const shadowRoot = container.attachShadow({ mode: 'open' });

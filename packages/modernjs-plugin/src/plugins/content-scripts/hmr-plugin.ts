@@ -1,18 +1,11 @@
 import type { webpack as webpackNS } from '@modern-js/app-tools';
+import { ContentScriptBasePlugin } from './base-plugin';
 
-export class ContentScriptHMRPlugin {
-  constructor(readonly contentScriptEntries: Set<string>) {}
-
+export class ContentScriptHMRPlugin extends ContentScriptBasePlugin {
   apply(compiler: webpackNS.Compiler) {
-    const { contentScriptEntries } = this;
+    const { isEnabledForChunk } = this;
 
     compiler.hooks.thisCompilation.tap('ContentScriptHMRPlugin', (compilation) => {
-      const isEnabledForChunk = (chunk: webpackNS.Chunk) => {
-        const entryName = chunk.getEntryOptions()?.name;
-        if (!entryName) return false;
-        return contentScriptEntries.has(entryName);
-      };
-
       compilation.hooks.runtimeModule.tap('ContentScriptHMRPlugin', (module, chunk) => {
         if (!isEnabledForChunk(chunk)) return;
         if (module.name === 'load script') patchLoadScriptRuntimeModule(module, compiler);
@@ -33,6 +26,10 @@ function patchLoadScriptRuntimeModule(
         await import(url);
         done(null);
       };`,
+
+      `
+      window.location.reload = () => { debugger; }
+      `,
     ]);
   };
 }

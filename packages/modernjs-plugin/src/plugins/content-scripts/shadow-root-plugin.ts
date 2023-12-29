@@ -1,20 +1,13 @@
 import path from 'node:path';
 import type { webpack as webpackNS } from '@modern-js/app-tools';
+import { ContentScriptBasePlugin } from './base-plugin';
 import { ROOT_NAME, STYLE_ROOT_NAME } from './constants.mjs';
 
-export class ContentScriptShadowRootPlugin {
-  constructor(readonly contentScriptEntries: Set<string>) {}
-
+export class ContentScriptShadowRootPlugin extends ContentScriptBasePlugin {
   apply(compiler: webpackNS.Compiler) {
-    const { contentScriptEntries } = this;
+    const { isEnabledForChunk } = this;
 
     compiler.hooks.thisCompilation.tap('ContentScriptShadowRootPlugin', (compilation) => {
-      const isEnabledForChunk = (chunk: webpackNS.Chunk) => {
-        const entryName = chunk.getEntryOptions()?.name;
-        if (!entryName) return false;
-        return contentScriptEntries.has(entryName);
-      };
-
       compilation.hooks.runtimeModule.tap('ContentScriptShadowRootPlugin', (module, chunk) => {
         if (!isEnabledForChunk(chunk)) return;
         if (module.name === 'css loading') patchCSSLoadingRuntimeModule(module);

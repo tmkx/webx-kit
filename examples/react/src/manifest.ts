@@ -2,8 +2,11 @@ const isDev = process.env.NODE_ENV === 'development';
 
 const manifest: chrome.runtime.ManifestV3 = {
   manifest_version: 3,
-  name: 'webx-kit-demo',
+  name: 'WebX Kit Demo',
   version: '0.0.0',
+  icons: {
+    512: 'public/logo.png',
+  },
   background: {
     service_worker: 'static/js/background.js',
     type: 'module',
@@ -26,7 +29,7 @@ const manifest: chrome.runtime.ManifestV3 = {
   web_accessible_resources: [
     {
       matches: ['<all_urls>'],
-      resources: ['static/css/*'],
+      resources: ['static/css/*', 'static/svg/*'],
     },
   ],
 
