@@ -34,8 +34,10 @@ export class BackgroundReloadPlugin {
 
             // jsonp is not working in the ServiceWorker environment, and dynamic scripts are NOT supported
             `${RuntimeGlobals.loadScript} = async function (url, done, key, chunkId) {
-              const code = await fetch(url).then((res) => res.text());
-              const [, hash] = /__webpack_require__\\.h = function\\(\\) { return "(\\w+)"; }/.exec(code) || [];`,
+              const code = await fetch(url).then((res) => res.text());`,
+            // __webpack_require__.h = function() { return "xxxxxxxx"; }
+            // __webpack_require__.h = () => ("xxxxxxxx")
+            `const [, hash] = /__webpack_require__\\.h =.+?"(\\w+)"/.exec(code) || [];`,
 
             autoReload
               ? `const hasUpdate = /^\\/\\*\\*\\*\\/ ".+":$/m.test(code);
