@@ -3,6 +3,7 @@ import { AppTools, CliPlugin, UserConfig, mergeConfig } from '@modern-js/app-too
 import { WebpackChain, isDev } from '@modern-js/utils';
 import { BackgroundOptions, backgroundPlugin, getBackgroundEntryNames } from './plugins/background';
 import { ContentScriptsOptions, contentScriptsPlugin, getContentScriptEntryNames } from './plugins/content-scripts';
+import { CleanOptions, cleanPlugin } from './plugins/clean';
 import { hmrCorsPlugin } from './plugins/hmr-cors';
 import { ManifestOptions, manifestPlugin } from './plugins/manifest';
 
@@ -11,7 +12,7 @@ export { isDev, isProd } from '@modern-js/utils';
 export type { BackgroundEntry } from './plugins/background';
 export type { ContentScriptEntry } from './plugins/content-scripts';
 
-export interface WebxPluginOptions extends BackgroundOptions, ContentScriptsOptions, ManifestOptions {}
+export interface WebxPluginOptions extends BackgroundOptions, ContentScriptsOptions, CleanOptions, ManifestOptions {}
 
 const getDefaultConfig = ({ allInOneEntries }: { allInOneEntries: Set<string> }): UserConfig<AppTools<'webpack'>> => {
   return {
@@ -67,6 +68,7 @@ export const webxPlugin = (options: WebxPluginOptions = {}): CliPlugin<AppTools<
       (config.builderPlugins ??= []).push(
         backgroundPlugin(options),
         contentScriptsPlugin(options),
+        cleanPlugin(options),
         hmrCorsPlugin(),
         manifestPlugin(options)
       );
