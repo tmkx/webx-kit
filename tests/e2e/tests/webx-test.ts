@@ -1,3 +1,5 @@
+/// <reference types="@webx-kit/chrome-types" />
+
 import assert from 'node:assert';
 import { createServer } from 'node:http';
 import path from 'node:path';

@@ -8,8 +8,8 @@
   "devDependencies": {
     "@modern-js/utils": "^2.44.0",
     "@playwright/test": "^1.40.1",
-    "@types/chrome": "^0.0.254",
     "@types/node": "^20.10.5",
+    "@webx-kit/chrome-types": "workspace:^",
     "typescript": "^5.3.3"
   }
 }

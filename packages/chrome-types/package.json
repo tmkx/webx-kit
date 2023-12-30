@@ -1,0 +1,24 @@
+{
+  "name": "@webx-kit/chrome-types",
+  "version": "0.0.0",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.d.ts"
+    }
+  },
+  "types": "./src/index.d.ts",
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "url": "https://github.com/tmkx/webx-kit.git",
+    "directory": "packages/chrome-types"
+  },
+  "dependencies": {
+    "@types/chrome": "^0.0.254"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
