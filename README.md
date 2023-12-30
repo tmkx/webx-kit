@@ -5,15 +5,17 @@
 
 ## Features
 
+- 💅 Fully customizable, take control of any details
 - 🔥 Support **HMR** for popup/options/**content-scripts**/...
 - ♻️ Live reload for background
 - 📃 Support [Chrome Manifest V3](https://developer.chrome.com/docs/extensions/develop/migrate/what-is-mv3), and generating `manifest.json` with TypeScript
+- 🎭 Support E2E test, based on [Playwright](https://playwright.dev/)
 
 ## Tech stacks
 
-- [Webpack](https://webpack.js.org/) - with an extremely friendly and extensible framework: **[Modern.js](https://modernjs.dev/)**
+- [Webpack](https://webpack.js.org/) - powerful, mature, with a greatly simplified experience provided by **[Modern.js](https://modernjs.dev/)**
 - [React](https://react.dev/) / [Vue](https://vuejs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
+- [Tailwind CSS](https://tailwindcss.com/) / Sass / Less / CSS Modules
 - ... and more!
 
 ## Related
