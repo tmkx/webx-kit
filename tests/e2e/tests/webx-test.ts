@@ -26,8 +26,10 @@ export const test = base.extend<{
 }>({
   packageName: ({ launchOptions }, use) => use(getPackageNameFromLaunchOptions(launchOptions)),
   packageDir: async ({ packageName }, use) => {
-    const { stdout: packageDir } = await execa('pnpm', ['--filter', packageName, 'exec', 'pwd']);
-    return use(packageDir);
+    const { stdout: packagesInfoJson } = await execa('pnpm', ['list', '--filter', packageName, '--depth=-1', '--json']);
+    const packagesInfo = JSON.parse(packagesInfoJson) as { name: string; path: string }[];
+    if (packagesInfo.length === 0) throw new Error(`Cannot find ${packageName}`);
+    return use(packagesInfo[0].path);
   },
   context: async ({ headless, packageDir, launchOptions }, use) => {
     const extensionPath = path.join(packageDir, 'dist');
