@@ -23,6 +23,13 @@ export default defineConfig({
       },
     },
     {
+      name: 'Svelte',
+      grep: /svelte/,
+      use: {
+        launchOptions: createLaunchOptions('@webx-kit/example-svelte'),
+      },
+    },
+    {
       name: 'Vue',
       grep: /vue/,
       use: {
