@@ -14,7 +14,7 @@
 ## Tech stacks
 
 - [Webpack](https://webpack.js.org/) - powerful, mature, with a greatly simplified experience provided by **[Modern.js](https://modernjs.dev/)**
-- [React](https://react.dev/) / [Vue](https://vuejs.org/)
+- [React](https://react.dev/) / [Vue](https://vuejs.org/) / [Solid](https://www.solidjs.com/)
 - [Tailwind CSS](https://tailwindcss.com/) / Sass / Less / CSS Modules
 - ... and more!
 

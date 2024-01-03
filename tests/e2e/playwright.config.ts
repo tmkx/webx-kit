@@ -16,6 +16,13 @@ export default defineConfig({
       },
     },
     {
+      name: 'Solid',
+      grep: /solid/,
+      use: {
+        launchOptions: createLaunchOptions('@webx-kit/example-solid'),
+      },
+    },
+    {
       name: 'Vue',
       grep: /vue/,
       use: {
