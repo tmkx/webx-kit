@@ -1,5 +1,6 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { isDev, webxPlugin } from '@webx-kit/modernjs-plugin';
+import { builderPluginSolid } from '@webx-kit/modernjs-builder-plugin-solid';
+import { webxPlugin } from '@webx-kit/modernjs-plugin';
 
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig({
@@ -10,8 +11,8 @@ export default defineConfig({
       contentScripts: './src/content-scripts/index.tsx',
     }),
   ],
+  builderPlugins: [builderPluginSolid()],
   output: {
-    disableSvgr: true,
     copy: [
       {
         from: './public',
@@ -20,12 +21,6 @@ export default defineConfig({
     ],
   },
   tools: {
-    babel(_config, { addPresets, addPlugins }) {
-      addPresets(['babel-preset-solid']);
-      if (isDev()) {
-        addPlugins([['solid-refresh/babel', { bundler: 'webpack5' }]]);
-      }
-    },
     postcss: {
       postcssOptions: {
         plugins: [require('tailwindcss')],
