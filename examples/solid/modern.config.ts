@@ -11,9 +11,7 @@ export default defineConfig({
     }),
   ],
   output: {
-    polyfill: 'off',
     disableSvgr: true,
-    disableSourceMap: !isDev(),
     copy: [
       {
         from: './public',

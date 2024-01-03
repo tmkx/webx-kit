@@ -1,5 +1,5 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { isDev, webxPlugin } from '@webx-kit/modernjs-plugin';
+import { webxPlugin } from '@webx-kit/modernjs-plugin';
 
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig({
@@ -11,8 +11,6 @@ export default defineConfig({
     }),
   ],
   output: {
-    polyfill: 'off',
-    disableSourceMap: !isDev(),
     copy: [
       {
         from: './public',

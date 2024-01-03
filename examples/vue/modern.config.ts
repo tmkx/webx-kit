@@ -14,12 +14,11 @@ export default defineConfig({
   builderPlugins: [builderPluginVue()],
   source: {
     define: {
+      // TODO: remove next line after https://github.com/web-infra-dev/modern.js/pull/5185 is merged
       __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(false),
     },
   },
   output: {
-    polyfill: 'off',
-    disableSourceMap: !isDev(),
     copy: [
       {
         from: './public',

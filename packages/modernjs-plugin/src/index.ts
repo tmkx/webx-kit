@@ -32,9 +32,11 @@ const getDefaultConfig = ({ allInOneEntries }: { allInOneEntries: Set<string> })
     output: {
       disableInlineRuntimeChunk: true, // inline scripts are not allowed in MV3
       disableFilenameHash: true,
+      disableSourceMap: !isDev(),
       distPath: {
         html: '.',
       },
+      polyfill: 'off',
     },
     tools: {
       devServer: {
