@@ -1,12 +1,13 @@
 import type { webpack as webpackNS } from '@modern-js/app-tools';
 import { ContentScriptBasePlugin } from './base-plugin';
+import { tapRuntimeModule } from '../../utils';
 
 export class ContentScriptHMRPlugin extends ContentScriptBasePlugin {
   apply(compiler: webpackNS.Compiler) {
     const { isEnabledForChunk } = this;
 
     compiler.hooks.thisCompilation.tap('ContentScriptHMRPlugin', (compilation) => {
-      compilation.hooks.runtimeModule.tap('ContentScriptHMRPlugin', (module, chunk) => {
+      tapRuntimeModule(this.isRspack, compilation, 'ContentScriptHMRPlugin', (module, chunk) => {
         if (!isEnabledForChunk(chunk)) return;
         if (module.name === 'load script') patchLoadScriptRuntimeModule(module, compiler);
       });

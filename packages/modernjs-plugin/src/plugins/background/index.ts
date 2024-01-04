@@ -38,18 +38,42 @@ export const backgroundPlugin = ({ background, backgroundLiveReload = true }: Ba
       const entry: BackgroundEntry =
         typeof background === 'string' ? { name: DEFAULT_BACKGROUND_NAME, import: background } : background;
 
-      api.modifyWebpackChain((chain: WebpackChain) => {
-        chain.entryPoints.set(entry.name, {
-          values: () =>
-            ({
-              import: entry.import,
-              library: { type: 'module' },
-            } satisfies webpackNS.EntryObject[string]),
-        } as any);
+      const { bundlerType } = api.context;
+      if (bundlerType === 'webpack') {
+        api.modifyWebpackChain((chain: WebpackChain) => {
+          chain.entryPoints.set(entry.name, {
+            values: () =>
+              ({
+                import: entry.import,
+                library: { type: 'module' },
+              } satisfies webpackNS.EntryObject[string]),
+          } as any);
 
-        if (isDev())
-          chain.plugin('BackgroundReloadPlugin').use(BackgroundReloadPlugin, [entry.name, backgroundLiveReload]);
-      });
+          if (isDev())
+            chain
+              .plugin('BackgroundReloadPlugin')
+              .use(BackgroundReloadPlugin, [
+                { entryName: entry.name, autoReload: backgroundLiveReload, isRspack: false },
+              ]);
+        });
+      } else {
+        api.modifyBundlerChain((chain) => {
+          chain.entryPoints.set(entry.name, {
+            values: () =>
+              ({
+                import: entry.import,
+                library: { type: 'module' },
+              } satisfies webpackNS.EntryObject[string]),
+          } as any);
+
+          if (isDev())
+            chain
+              .plugin('BackgroundReloadPlugin')
+              .use(BackgroundReloadPlugin, [
+                { entryName: entry.name, autoReload: backgroundLiveReload, isRspack: true },
+              ]);
+        });
+      }
     },
   };
 };

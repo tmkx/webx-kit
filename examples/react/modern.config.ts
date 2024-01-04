@@ -4,7 +4,9 @@ import { webxPlugin } from '@webx-kit/modernjs-plugin';
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig({
   plugins: [
-    appTools(),
+    appTools({
+      bundler: 'experimental-rspack',
+    }),
     webxPlugin({
       background: './src/background/index.ts',
       contentScripts: './src/content-scripts/index.tsx',

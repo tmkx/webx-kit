@@ -33,17 +33,36 @@ export const contentScriptsPlugin = ({ contentScripts }: ContentScriptsOptions):
         ? contentScripts
         : [{ name: DEFAULT_CONTENT_SCRIPT_NAME, import: contentScripts }];
 
-      api.modifyWebpackChain((chain: WebpackChain) => {
-        entries.forEach((entry) => chain.entry(entry.name).add(entry.import));
+      const { bundlerType } = api.context;
+      if (bundlerType === 'webpack') {
+        api.modifyWebpackChain((chain: WebpackChain) => {
+          entries.forEach((entry) => chain.entry(entry.name).add(entry.import));
 
-        const contentScriptNames = new Set(getContentScriptEntryNames({ contentScripts }));
-        if (isDev()) {
-          chain.plugin('ContentScriptHMRPlugin').use(ContentScriptHMRPlugin, [contentScriptNames]);
-          chain.plugin('ContentScriptShadowRootPlugin').use(ContentScriptShadowRootPlugin, [contentScriptNames]);
-        } else {
-          chain.plugin('ContentScriptPublicPathPlugin').use(ContentScriptPublicPathPlugin, [contentScriptNames]);
-        }
-      });
+          const contentScriptNames = new Set(getContentScriptEntryNames({ contentScripts }));
+          if (isDev()) {
+            chain.plugin('ContentScriptHMRPlugin').use(ContentScriptHMRPlugin, [contentScriptNames]);
+            chain.plugin('ContentScriptShadowRootPlugin').use(ContentScriptShadowRootPlugin, [contentScriptNames]);
+          } else {
+            chain.plugin('ContentScriptPublicPathPlugin').use(ContentScriptPublicPathPlugin, [contentScriptNames]);
+          }
+        });
+      } else {
+        api.modifyBundlerChain((chain) => {
+          entries.forEach((entry) => chain.entry(entry.name).add(entry.import));
+
+          const contentScriptNames = new Set(getContentScriptEntryNames({ contentScripts }));
+          if (isDev()) {
+            chain.plugin('ContentScriptHMRPlugin').use(ContentScriptHMRPlugin, [contentScriptNames, true]);
+            chain
+              .plugin('ContentScriptShadowRootPlugin')
+              .use(ContentScriptShadowRootPlugin, [contentScriptNames, true]);
+          } else {
+            chain
+              .plugin('ContentScriptPublicPathPlugin')
+              .use(ContentScriptPublicPathPlugin, [contentScriptNames, true]);
+          }
+        });
+      }
     },
   };
 };

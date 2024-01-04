@@ -1,7 +1,7 @@
 import type { webpack as webpackNS } from '@modern-js/app-tools';
 
 export class ContentScriptBasePlugin {
-  constructor(readonly contentScriptEntries: Set<string>) {}
+  constructor(readonly contentScriptEntries: Set<string>, readonly isRspack?: boolean) {}
 
   isEnabledForChunk = (chunk: webpackNS.Chunk) => {
     const entryName = chunk.getEntryOptions()?.name;

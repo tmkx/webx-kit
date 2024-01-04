@@ -1,12 +1,13 @@
 import type { webpack as webpackNS } from '@modern-js/app-tools';
 import { ContentScriptBasePlugin } from './base-plugin';
+import { tapRuntimeModule } from '../../utils';
 
 export class ContentScriptPublicPathPlugin extends ContentScriptBasePlugin {
   apply(compiler: webpackNS.Compiler) {
     const { isEnabledForChunk } = this;
 
     compiler.hooks.thisCompilation.tap('ContentScriptPublicPathPlugin', (compilation) => {
-      compilation.hooks.runtimeModule.tap('ContentScriptPublicPathPlugin', (module, chunk) => {
+      tapRuntimeModule(this.isRspack, compilation, 'ContentScriptPublicPathPlugin', (module, chunk) => {
         if (!isEnabledForChunk(chunk)) return;
         if (module.name === 'publicPath') patchPublicPathRuntimeModule(module, compiler);
       });

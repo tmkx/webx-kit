@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "^2.44.0",
+    "@modern-js/builder-rspack-provider": "^2.44.0",
     "@modern-js/tsconfig": "^2.44.0",
     "@types/chrome": "^0.0.254",
     "@types/node": "^20.10.5",
