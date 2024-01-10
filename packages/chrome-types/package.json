@@ -16,7 +16,7 @@
     "directory": "packages/chrome-types"
   },
   "dependencies": {
-    "@types/chrome": "^0.0.254"
+    "@types/chrome": "^0.0.256"
   },
   "devDependencies": {
     "typescript": "^5.3.3"

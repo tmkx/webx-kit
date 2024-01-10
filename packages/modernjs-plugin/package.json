@@ -30,8 +30,8 @@
     "directory": "packages/modernjs-plugin"
   },
   "dependencies": {
-    "@modern-js/app-tools": "^2.44.0",
-    "@modern-js/utils": "^2.44.0",
+    "@modern-js/app-tools": "^2.45.0",
+    "@modern-js/utils": "^2.45.0",
     "bundle-require": "^4.0.2"
   },
   "devDependencies": {

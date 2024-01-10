@@ -26,9 +26,9 @@
     "directory": "packages/modernjs-builder-plugin-solid"
   },
   "dependencies": {
-    "@modern-js/app-tools": "^2.44.0",
-    "@modern-js/utils": "^2.44.0",
-    "babel-preset-solid": "^1.8.6",
+    "@modern-js/app-tools": "^2.45.0",
+    "@modern-js/utils": "^2.45.0",
+    "babel-preset-solid": "^1.8.9",
     "solid-refresh": "^0.6.1"
   },
   "devDependencies": {
