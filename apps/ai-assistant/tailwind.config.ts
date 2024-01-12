@@ -3,6 +3,9 @@ import plugin from 'tailwindcss/plugin';
 
 const config: Config = {
   content: ['./src/**/*.{ts,tsx}'],
+  corePlugins: {
+    preflight: false,
+  },
   plugins: [
     plugin(({ addUtilities }) => {
       addUtilities({

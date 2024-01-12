@@ -6,6 +6,7 @@
     "build": "modern build"
   },
   "dependencies": {
+    "@douyinfe/semi-ui": "^2.51.0",
     "@webx-kit/runtime": "workspace:^",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
