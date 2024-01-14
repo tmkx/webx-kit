@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Button, ConfigProvider, Tooltip } from '@douyinfe/semi-ui';
+import { Button, ConfigProvider } from '@douyinfe/semi-ui';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import clsx from 'clsx';
 import './global.less';
 
@@ -28,17 +29,26 @@ export const App = () => {
   return (
     <ConfigProvider getPopupContainer={() => window.__webxRoot as unknown as HTMLElement}>
       <div className={clsx('absolute', visible ? 'block' : 'hidden')} style={rootStyle}>
-        <Tooltip content="Beautiful">
-          <Button theme="solid" type="primary" onClick={logSelectedText}>
-            Log selected Text
-          </Button>
-        </Tooltip>
+        <Button theme="solid" type="primary" onClick={logSelectedText}>
+          Log selected Text
+        </Button>
       </div>
     </ConfigProvider>
   );
 };
 
-function logSelectedText() {
+let genAI: GoogleGenerativeAI | undefined;
+
+const GOOGLE_API_KEY = 'GOOGLE_API_KEY';
+chrome.storage.local.get(GOOGLE_API_KEY).then(({ GOOGLE_API_KEY }) => {
+  if (!GOOGLE_API_KEY)
+    return console.warn(
+      "`GOOGLE_API_KEY` is not provided. update the api key by executing `chrome.storage.local.set({ GOOGLE_API_KEY: 'XXX' })`"
+    );
+  genAI = new GoogleGenerativeAI(GOOGLE_API_KEY);
+});
+
+async function logSelectedText() {
   const selection = getSelection();
   if (!selection || selection.isCollapsed) return;
   const { rangeCount } = selection;
@@ -47,4 +57,20 @@ function logSelectedText() {
     text += selection.getRangeAt(i).cloneContents().textContent;
   }
   console.log('Selected text:', text);
+
+  if (!genAI) {
+    return console.warn('skipped calling gemini-pro');
+  }
+
+  const result = await genAI.getGenerativeModel({ model: 'gemini-pro' }).generateContentStream({
+    contents: [
+      {
+        role: 'user',
+        parts: [{ text: 'Translate the following text to Chinese:\n' + text }],
+      },
+    ],
+  });
+  for await (const token of result.stream || []) {
+    console.log('RECEIVE', token.text());
+  }
 }

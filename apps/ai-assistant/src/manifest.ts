@@ -7,6 +7,7 @@ const manifest: chrome.runtime.ManifestV3 = {
   icons: {
     512: 'public/logo.png',
   },
+  permissions: ['storage'],
   background: {
     service_worker: 'static/js/background.js',
     type: 'module',
