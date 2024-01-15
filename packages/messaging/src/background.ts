@@ -5,9 +5,18 @@ export type WebxMessageMiddleware = (
   port: chrome.runtime.Port
 ) => WebxMessage | false | void | Promise<WebxMessage | false | void>;
 
+// #region middlewares
+const tabIdMiddleware: WebxMessageMiddleware = (message, port) => {
+  return {
+    tabId: port.sender?.tab?.id,
+    ...message,
+  };
+};
+// #endregion
+
 export const connections = new Set<chrome.runtime.Port>();
 
-export const middlewares = new Set<WebxMessageMiddleware>();
+export const middlewares = new Set<WebxMessageMiddleware>([tabIdMiddleware]);
 
 async function handleMessage(message: unknown, port: chrome.runtime.Port) {
   if (!isWebxMessage(message)) return;
@@ -22,8 +31,8 @@ async function handleMessage(message: unknown, port: chrome.runtime.Port) {
 
   for (const connection of connections) {
     if (connection === port) continue;
-    if (message.to && !connection.name.slice(NAMESPACE.length).startsWith(message.to)) continue;
-    connection.postMessage(message);
+    if (webxMessage.to && !connection.name.slice(NAMESPACE.length).startsWith(webxMessage.to)) continue;
+    connection.postMessage(webxMessage);
   }
 }
 

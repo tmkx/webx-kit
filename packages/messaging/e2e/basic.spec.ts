@@ -40,11 +40,15 @@ test('Messaging', async ({ context, getURL }) => {
 
   await wait(300);
 
-  expect(popupLog.map((msg) => msg.data)).toEqual(['from options']);
-  expect(optionsLog.map((msg) => msg.data)).toEqual(['from popup']);
-  expect(contentScriptLog.map((msg) => msg.data)).toEqual([
-    'from options',
-    'from popup',
-    'from popup to content-script',
+  function mapLog(msg: WebxMessage) {
+    return { tabId: msg.tabId, data: msg.data };
+  }
+
+  expect(popupLog.map(mapLog)).toEqual([{ tabId: expect.any(Number), data: 'from options' }]);
+  expect(optionsLog.map(mapLog)).toEqual([{ tabId: expect.any(Number), data: 'from popup' }]);
+  expect(contentScriptLog.map(mapLog)).toEqual([
+    { tabId: expect.any(Number), data: 'from options' },
+    { tabId: expect.any(Number), data: 'from popup' },
+    { tabId: expect.any(Number), data: 'from popup to content-script' },
   ]);
 });
