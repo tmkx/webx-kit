@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 importers:
 
   .: {}
@@ -45,7 +49,7 @@ importers:
     dependencies:
       '@modern-js/runtime':
         specifier: ^2.45.0
-        version: 2.45.0(react-dom@18.2.0)(react@18.2.0)(webpack@5.89.0)
+        version: 2.45.0(@types/react-dom@18.2.18)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)(webpack@5.89.0)
       solid-js:
         specifier: ^1.8.10
         version: 1.8.10
@@ -76,7 +80,7 @@ importers:
     dependencies:
       '@modern-js/runtime':
         specifier: ^2.45.0
-        version: 2.45.0(react-dom@18.2.0)(react@18.2.0)(webpack@5.89.0)
+        version: 2.45.0(@types/react-dom@18.2.18)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)(webpack@5.89.0)
       svelte:
         specifier: ^4.2.8
         version: 4.2.8
@@ -107,7 +111,7 @@ importers:
     dependencies:
       '@modern-js/runtime':
         specifier: ^2.45.0
-        version: 2.45.0(react-dom@18.2.0)(react@18.2.0)(webpack@5.89.0)
+        version: 2.45.0(@types/react-dom@18.2.18)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)(webpack@5.89.0)
       vue:
         specifier: ^3.4.10
         version: 3.4.10(typescript@5.3.3)
@@ -140,6 +144,24 @@ importers:
         specifier: ^0.0.256
         version: 0.0.256
     devDependencies:
+      typescript:
+        specifier: ^5.3.3
+        version: 5.3.3
+
+  packages/messaging:
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: ^2.45.0
+        version: 2.45.0(react-dom@18.2.0)(react@18.2.0)(styled-components@6.1.8)(typescript@5.3.3)
+      '@types/chrome':
+        specifier: ^0.0.256
+        version: 0.0.256
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.11.0
+      '@webx-kit/modernjs-plugin':
+        specifier: workspace:^
+        version: link:../modernjs-plugin
       typescript:
         specifier: ^5.3.3
         version: 5.3.3
@@ -2113,7 +2135,7 @@ packages:
       webpack: '>=4.6.0'
     dependencies:
       make-dir: 3.1.0
-      webpack: 5.89.0(esbuild@0.17.19)
+      webpack: 5.89.0
     dev: false
 
   /@modern-js-reduck/plugin-auto-actions@1.1.11(@modern-js-reduck/store@1.1.11):
@@ -2178,31 +2200,6 @@ packages:
       '@swc/helpers': 0.5.1
       '@types/react': 18.2.47
       '@types/react-dom': 18.2.18
-      hoist-non-react-statics: 3.3.2
-      invariant: 2.2.4
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-    dev: false
-
-  /@modern-js-reduck/react@1.1.11(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-6ViI1wyrkSIAkwpKfK6bC8dnzmyfp2FTWL2AAI2PrIYNAhd+jMuTM4ik6xDHncQmTny3+rAH2B8FfsUIVm7fxQ==}
-    peerDependencies:
-      '@types/react': ^16.8 || ^17.0 || ^18.0
-      '@types/react-dom': ^16.8 || ^17.0 || ^18.0
-      react: ^16.8 || ^17.0 || ^18.0
-      react-dom: ^16.8 || ^17.0 || ^18.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      '@types/react-dom':
-        optional: true
-    dependencies:
-      '@modern-js-reduck/plugin-auto-actions': 1.1.11(@modern-js-reduck/store@1.1.11)
-      '@modern-js-reduck/plugin-devtools': 1.1.11(@modern-js-reduck/store@1.1.11)
-      '@modern-js-reduck/plugin-effects': 1.1.11(@modern-js-reduck/store@1.1.11)
-      '@modern-js-reduck/plugin-immutable': 1.1.11(@modern-js-reduck/store@1.1.11)
-      '@modern-js-reduck/store': 1.1.11
-      '@swc/helpers': 0.5.1
       hoist-non-react-statics: 3.3.2
       invariant: 2.2.4
       react: 18.2.0
@@ -2368,7 +2365,7 @@ packages:
       '@modern-js/builder-webpack-provider':
         optional: true
     dependencies:
-      '@modern-js/builder-shared': 2.45.0(@babel/traverse@7.23.7)(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)
+      '@modern-js/builder-shared': 2.45.0(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)
       '@swc/helpers': 0.5.3
       '@vue/babel-plugin-jsx': 1.1.5(@babel/core@7.23.7)
       vue-loader: 17.4.2(vue@3.4.10)(webpack@5.89.0)
@@ -2447,6 +2444,55 @@ packages:
       - uglify-js
       - utf-8-validate
       - webpack-cli
+
+  /@modern-js/builder-shared@2.45.0(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3):
+    resolution: {integrity: sha512-DeBIVzf30te17ODJt2GYIpfMxF5uPFahCkb2HxiprQYMG4MaHdaBW8xvbE8QO2nyYuj84blvYGwF3cbnHVaGJA==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@babel/core': 7.23.7
+      '@babel/parser': 7.23.6
+      '@babel/types': 7.23.6
+      '@modern-js/prod-server': 2.45.0(react-dom@18.2.0)(react@18.2.0)
+      '@modern-js/server': 2.45.0(@babel/traverse@7.23.7)(react-dom@18.2.0)(react@18.2.0)
+      '@modern-js/types': 2.45.0
+      '@modern-js/utils': 2.45.0
+      '@swc/helpers': 0.5.3
+      acorn: 8.11.3
+      caniuse-lite: 1.0.30001576
+      css-minimizer-webpack-plugin: 5.0.1(webpack@5.89.0)
+      cssnano: 6.0.1(postcss@8.4.31)
+      fork-ts-checker-webpack-plugin: 8.0.0(typescript@5.3.3)(webpack@5.89.0)
+      htmlparser2: 9.0.0
+      line-diff: 2.1.1
+      postcss: 8.4.31
+      source-map: 0.7.4
+      webpack: 5.89.0
+      webpack-sources: 3.2.3
+      zod: 3.22.4
+      zod-validation-error: 1.2.0(zod@3.22.4)
+    transitivePeerDependencies:
+      - '@babel/traverse'
+      - '@parcel/css'
+      - '@swc/core'
+      - '@swc/css'
+      - '@types/express'
+      - bufferutil
+      - clean-css
+      - csso
+      - debug
+      - devcert
+      - esbuild
+      - lightningcss
+      - react
+      - react-dom
+      - supports-color
+      - ts-node
+      - tsconfig-paths
+      - typescript
+      - uglify-js
+      - utf-8-validate
+      - webpack-cli
+    dev: true
 
   /@modern-js/builder-webpack-provider@2.45.0(@babel/traverse@7.23.7)(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(styled-components@6.1.8)(typescript@5.3.3):
     resolution: {integrity: sha512-MMxhyr9XSsZDpJaf/2OsBqL3pdqi6PnbVtXDDNzxET5fwTr4A0X16Q/5Irf7NQejGH8HPDKNIe3Lesy3rzolpA==}
@@ -2719,51 +2765,6 @@ packages:
       '@modern-js-reduck/plugin-effects': 1.1.11(@modern-js-reduck/store@1.1.11)
       '@modern-js-reduck/plugin-immutable': 1.1.11(@modern-js-reduck/store@1.1.11)
       '@modern-js-reduck/react': 1.1.11(@types/react-dom@18.2.18)(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)
-      '@modern-js-reduck/store': 1.1.11
-      '@modern-js/plugin': 2.45.0
-      '@modern-js/runtime-utils': 2.45.0(react-dom@18.2.0)(react@18.2.0)
-      '@modern-js/types': 2.45.0
-      '@modern-js/utils': 2.45.0
-      '@remix-run/node': 1.19.3
-      '@swc/helpers': 0.5.3
-      '@types/loadable__component': 5.13.8
-      '@types/react-helmet': 6.1.11
-      '@types/styled-components': 5.1.34
-      cookie: 0.5.0
-      esbuild: 0.17.19
-      hoist-non-react-statics: 3.3.2
-      invariant: 2.2.4
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      react-helmet: 6.1.0(react@18.2.0)
-      react-is: 18.2.0
-      react-side-effect: 2.1.2(react@18.2.0)
-      styled-components: 5.3.11(@babel/core@7.23.7)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
-    transitivePeerDependencies:
-      - '@types/react'
-      - '@types/react-dom'
-      - supports-color
-      - webpack
-    dev: false
-
-  /@modern-js/runtime@2.45.0(react-dom@18.2.0)(react@18.2.0)(webpack@5.89.0):
-    resolution: {integrity: sha512-P8KoAGgf82d8x8HS7FGmQ3qJ5YdeNy6IeYAlP6pdSO2Co5VogZjvh0ebddFUxuO+sSxKkqYAP+j6v4x9ZW4zow==}
-    engines: {node: '>=14.17.6'}
-    peerDependencies:
-      react: '>=17'
-      react-dom: '>=17'
-    dependencies:
-      '@babel/core': 7.23.7
-      '@babel/types': 7.23.6
-      '@loadable/babel-plugin': 5.15.3(@babel/core@7.23.7)
-      '@loadable/component': 5.15.3(react@18.2.0)
-      '@loadable/server': 5.15.3(@loadable/component@5.15.3)(react@18.2.0)
-      '@loadable/webpack-plugin': 5.15.2(webpack@5.89.0)
-      '@modern-js-reduck/plugin-auto-actions': 1.1.11(@modern-js-reduck/store@1.1.11)
-      '@modern-js-reduck/plugin-devtools': 1.1.11(@modern-js-reduck/store@1.1.11)
-      '@modern-js-reduck/plugin-effects': 1.1.11(@modern-js-reduck/store@1.1.11)
-      '@modern-js-reduck/plugin-immutable': 1.1.11(@modern-js-reduck/store@1.1.11)
-      '@modern-js-reduck/react': 1.1.11(react-dom@18.2.0)(react@18.2.0)
       '@modern-js-reduck/store': 1.1.11
       '@modern-js/plugin': 2.45.0
       '@modern-js/runtime-utils': 2.45.0(react-dom@18.2.0)(react@18.2.0)
@@ -4494,6 +4495,40 @@ packages:
       serialize-javascript: 6.0.2
       webpack: 5.89.0(esbuild@0.17.19)
 
+  /css-minimizer-webpack-plugin@5.0.1(webpack@5.89.0):
+    resolution: {integrity: sha512-3caImjKFQkS+ws1TGcFn0V1HyDJFq1Euy589JlD6/3rV2kj+w7r5G9WDMgSHvpvXHNZ2calVypZWuEDQd9wfLg==}
+    engines: {node: '>= 14.15.0'}
+    peerDependencies:
+      '@parcel/css': '*'
+      '@swc/css': '*'
+      clean-css: '*'
+      csso: '*'
+      esbuild: '*'
+      lightningcss: '*'
+      webpack: ^5.0.0
+    peerDependenciesMeta:
+      '@parcel/css':
+        optional: true
+      '@swc/css':
+        optional: true
+      clean-css:
+        optional: true
+      csso:
+        optional: true
+      esbuild:
+        optional: true
+      lightningcss:
+        optional: true
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.20
+      cssnano: 6.0.1(postcss@8.4.31)
+      jest-worker: 29.7.0
+      postcss: 8.4.31
+      schema-utils: 4.2.0
+      serialize-javascript: 6.0.2
+      webpack: 5.89.0
+    dev: true
+
   /css-select@4.3.0:
     resolution: {integrity: sha512-wPpOYtnsVontu2mODhA19JrqWxNsfdatRKd64kmpRbQgh1KtItko5sTnEpPdpSaJszTOhEMlF/RPz28qj4HqhQ==}
     dependencies:
@@ -5181,7 +5216,7 @@ packages:
       semver: 7.5.4
       tapable: 2.2.1
       typescript: 5.3.3
-      webpack: 5.89.0(esbuild@0.17.19)
+      webpack: 5.89.0
 
   /form-data@4.0.0:
     resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
@@ -7642,6 +7677,29 @@ packages:
       terser: 5.26.0
       webpack: 5.89.0(esbuild@0.17.19)
 
+  /terser-webpack-plugin@5.3.9(webpack@5.89.0):
+    resolution: {integrity: sha512-ZuXsqE07EcggTWQjXUj+Aot/OMcD0bMKGgF63f7UxYcu5/AJF53aIpK1YoP5xR9l6s/Hy2b+t1AM0bLNPRuhwA==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      '@swc/core': '*'
+      esbuild: '*'
+      uglify-js: '*'
+      webpack: ^5.1.0
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      esbuild:
+        optional: true
+      uglify-js:
+        optional: true
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.20
+      jest-worker: 27.5.1
+      schema-utils: 3.3.0
+      serialize-javascript: 6.0.2
+      terser: 5.26.0
+      webpack: 5.89.0
+
   /terser@5.26.0:
     resolution: {integrity: sha512-dytTGoE2oHgbNV9nTzgBEPaqAWvcJNl66VZ0BkJqlvp71IjO8CxdBx/ykCNb47cLnCmCvRZ6ZR0tLkqvZCdVBQ==}
     engines: {node: '>=10'}
@@ -7869,7 +7927,7 @@ packages:
       hash-sum: 2.0.0
       vue: 3.4.10(typescript@5.3.3)
       watchpack: 2.4.0
-      webpack: 5.89.0(esbuild@0.17.19)
+      webpack: 5.89.0
     dev: true
 
   /vue@3.4.10(typescript@5.3.3):
@@ -7927,6 +7985,45 @@ packages:
       html-webpack-plugin: 5.5.3(webpack@5.89.0)
       typed-assert: 1.0.9
       webpack: 5.89.0(esbuild@0.17.19)
+
+  /webpack@5.89.0:
+    resolution: {integrity: sha512-qyfIC10pOr70V+jkmud8tMfajraGCZMBWJtrmuBymQKCrLTRejBI8STDp1MCyZu/QTdZSeacCQYpYNQVOzX5kw==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    peerDependencies:
+      webpack-cli: '*'
+    peerDependenciesMeta:
+      webpack-cli:
+        optional: true
+    dependencies:
+      '@types/eslint-scope': 3.7.7
+      '@types/estree': 1.0.5
+      '@webassemblyjs/ast': 1.11.6
+      '@webassemblyjs/wasm-edit': 1.11.6
+      '@webassemblyjs/wasm-parser': 1.11.6
+      acorn: 8.11.3
+      acorn-import-assertions: 1.9.0(acorn@8.11.3)
+      browserslist: 4.22.2
+      chrome-trace-event: 1.0.3
+      enhanced-resolve: 5.15.0
+      es-module-lexer: 1.4.1
+      eslint-scope: 5.1.1
+      events: 3.3.0
+      glob-to-regexp: 0.4.1
+      graceful-fs: 4.2.11
+      json-parse-even-better-errors: 2.3.1
+      loader-runner: 4.3.0
+      mime-types: 2.1.35
+      neo-async: 2.6.2
+      schema-utils: 3.3.0
+      tapable: 2.2.1
+      terser-webpack-plugin: 5.3.9(webpack@5.89.0)
+      watchpack: 2.4.0
+      webpack-sources: 3.2.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
 
   /webpack@5.89.0(esbuild@0.17.19):
     resolution: {integrity: sha512-qyfIC10pOr70V+jkmud8tMfajraGCZMBWJtrmuBymQKCrLTRejBI8STDp1MCyZu/QTdZSeacCQYpYNQVOzX5kw==}
@@ -8066,7 +8163,3 @@ packages:
 
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false

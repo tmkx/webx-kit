@@ -1,0 +1,16 @@
+{
+  "name": "@webx-kit/messaging",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build:demo": "modern build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@modern-js/app-tools": "^2.45.0",
+    "@types/chrome": "^0.0.256",
+    "@types/node": "^20.11.0",
+    "@webx-kit/modernjs-plugin": "workspace:^",
+    "typescript": "^5.3.3"
+  }
+}
