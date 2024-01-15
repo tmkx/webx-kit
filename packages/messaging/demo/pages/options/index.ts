@@ -1,1 +1,1 @@
-console.log('options');
+import '@/index';

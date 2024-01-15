@@ -1,1 +1,1 @@
-console.log('content-script');
+import '@/index';

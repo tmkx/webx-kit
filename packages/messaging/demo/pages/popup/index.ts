@@ -1,1 +1,1 @@
-console.log('popup');
+import '@/index';

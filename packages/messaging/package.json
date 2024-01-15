@@ -3,13 +3,16 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "modern dev",
-    "build:demo": "modern build"
+    "build:demo": "modern build",
+    "test": "playwright test"
   },
-  "dependencies": {},
   "devDependencies": {
     "@modern-js/app-tools": "^2.45.0",
+    "@modern-js/utils": "^2.45.0",
+    "@playwright/test": "^1.40.1",
     "@types/chrome": "^0.0.256",
     "@types/node": "^20.11.0",
+    "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "typescript": "^5.3.3"
   }
