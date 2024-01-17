@@ -1,4 +1,4 @@
-import { setWebxRoot } from '@webx-kit/modernjs-plugin/runtime';
+import { setWebxRoot } from '@webx-kit/runtime/content-scripts';
 import { render } from 'solid-js/web';
 import { App } from './app';
 import '../global.less';

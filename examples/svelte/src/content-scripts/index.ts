@@ -1,4 +1,4 @@
-import { setWebxRoot } from '@webx-kit/modernjs-plugin/runtime';
+import { setWebxRoot } from '@webx-kit/runtime/content-scripts';
 import App from './app.svelte';
 import '../global.less';
 

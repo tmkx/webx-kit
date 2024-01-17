@@ -1,4 +1,4 @@
-import { setWebxRoot } from '@webx-kit/modernjs-plugin/runtime';
+import { setWebxRoot } from '@webx-kit/runtime/content-scripts';
 import { createApp } from 'vue';
 import App from './App.vue';
 import '../global.less';

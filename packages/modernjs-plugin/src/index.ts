@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { AppTools, CliPlugin, UserConfig, mergeConfig } from '@modern-js/app-tools';
-import { WebpackChain, isDev } from '@modern-js/utils';
+import { WebpackChain, isDev, pkgUp, lodash } from '@modern-js/utils';
 import { BackgroundOptions, backgroundPlugin, getBackgroundEntryNames } from './plugins/background';
 import { ContentScriptsOptions, contentScriptsPlugin, getContentScriptEntryNames } from './plugins/content-scripts';
 import { CleanOptions, cleanPlugin } from './plugins/clean';
@@ -15,13 +15,19 @@ export type { ContentScriptEntry } from './plugins/content-scripts';
 export interface WebxPluginOptions extends BackgroundOptions, ContentScriptsOptions, CleanOptions, ManifestOptions {}
 
 const getDefaultConfig = ({ allInOneEntries }: { allInOneEntries: Set<string> }): UserConfig<AppTools<'webpack'>> => {
+  const webxRuntimePackageJsonPath = lodash.attempt(() =>
+    pkgUp.sync({
+      cwd: require.resolve('@webx-kit/runtime', { paths: [process.cwd()] }),
+    })
+  );
+
   return {
     source: {
       entriesDir: './src/pages',
       define: {
         __DEV__: isDev(),
       },
-      include: [path.resolve(__dirname, './runtime.ts')],
+      include: typeof webxRuntimePackageJsonPath === 'string' ? [path.dirname(webxRuntimePackageJsonPath)] : [],
     },
     dev: {
       assetPrefix: true,

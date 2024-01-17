@@ -6,7 +6,7 @@
     "build": "modern build"
   },
   "dependencies": {
-    "@modern-js/runtime": "^2.45.0",
+    "@webx-kit/runtime": "workspace:^",
     "svelte": "^4.2.8"
   },
   "devDependencies": {

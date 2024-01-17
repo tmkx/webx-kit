@@ -6,7 +6,7 @@
     "build": "modern build"
   },
   "dependencies": {
-    "@modern-js/runtime": "^2.45.0",
+    "@webx-kit/runtime": "workspace:^",
     "solid-js": "^1.8.10"
   },
   "devDependencies": {

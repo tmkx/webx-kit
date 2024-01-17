@@ -3,8 +3,6 @@ declare global {
     __webxRoot?: SetWebxRootOptions['root'];
     __webxStyleRoot?: SetWebxRootOptions['styleRoot'];
   }
-
-  const __DEV__: boolean;
 }
 
 export interface SetWebxRootOptions {

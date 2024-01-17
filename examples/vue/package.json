@@ -6,7 +6,7 @@
     "build": "modern build"
   },
   "dependencies": {
-    "@modern-js/runtime": "^2.45.0",
+    "@webx-kit/runtime": "workspace:^",
     "vue": "^3.4.10"
   },
   "devDependencies": {
