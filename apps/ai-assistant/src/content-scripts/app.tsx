@@ -1,8 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Button, ButtonGroup, Card, ConfigProvider, Spin, Tooltip } from '@douyinfe/semi-ui';
-import { IconBriefStroked, IconLanguage } from '@douyinfe/semi-icons';
+import { Button, ButtonGroup, Card, ConfigProvider, Dropdown, Spin, Tooltip } from '@douyinfe/semi-ui';
+import { IconBriefStroked, IconLanguage, IconMoreStroked } from '@douyinfe/semi-icons';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { isPageInDark, computePosition, isSelectionValid } from '@webx-kit/runtime/content-scripts';
+import {
+  autoUpdatePosition,
+  computePosition,
+  isPageInDark,
+  isSelectionValid,
+  rangeToReference,
+} from '@webx-kit/runtime/content-scripts';
 import clsx from 'clsx';
 import './global.less';
 
@@ -27,12 +33,7 @@ export const App = () => {
         await new Promise((resolve) => setTimeout(resolve));
         const selection = getSelection();
         if (!isSelectionValid(selection)) return setVisible(false);
-        if (!containerRef.current) return;
-        const result = await computePosition(selection.getRangeAt(0), containerRef.current, {
-          placement: 'top',
-        });
         setVisible(true);
-        setRootStyle({ position: result.strategy, left: result.x, top: result.y });
       },
       { signal: ac.signal }
     );
@@ -40,7 +41,33 @@ export const App = () => {
   }, []);
 
   useEffect(() => {
-    if (!visible) setContent('');
+    if (visible) {
+      const floatingElement = containerRef.current;
+      if (!floatingElement) return;
+      const selection = getSelection();
+      if (!isSelectionValid(selection)) return;
+      const range = selection.getRangeAt(0);
+
+      // TODO: throttle
+      const handleUpdatePosition = () => {
+        computePosition(range, floatingElement, {
+          strategy: 'fixed',
+          placement: 'top',
+        }).then((result) => {
+          setRootStyle({ transform: `translate(${result.x}px, ${result.y}px)` });
+        });
+      };
+      const ac = new AbortController();
+      addEventListener('wheel', handleUpdatePosition, { signal: ac.signal });
+      addEventListener('scroll', handleUpdatePosition, { signal: ac.signal });
+      const cleanup = autoUpdatePosition(rangeToReference(range), floatingElement, handleUpdatePosition);
+      return () => {
+        cleanup();
+        ac.abort();
+      };
+    } else {
+      setContent('');
+    }
   }, [visible]);
 
   const handleTranslate = async (text: string) => {
@@ -130,6 +157,18 @@ export const App = () => {
               }}
             />
           </Tooltip>
+          <Dropdown
+            trigger="click"
+            render={
+              <Dropdown.Menu>
+                <Dropdown.Item>Menu Item 1</Dropdown.Item>
+                <Dropdown.Item>Menu Item 2</Dropdown.Item>
+                <Dropdown.Item>Menu Item 3</Dropdown.Item>
+              </Dropdown.Menu>
+            }
+          >
+            <Button theme="solid" type="primary" icon={<IconMoreStroked />} />
+          </Dropdown>
         </ButtonGroup>
         {!content ? null : <Card className="min-w-96">{content}</Card>}
       </div>
