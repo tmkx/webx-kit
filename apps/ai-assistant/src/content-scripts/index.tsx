@@ -20,5 +20,7 @@ styleEl.addEventListener('load', () => shadowRoot.append(appRoot));
 
 shadowRoot.append(styleEl);
 container.style.setProperty('position', 'absolute');
+container.style.setProperty('left', '0');
+container.style.setProperty('top', '0');
 container.style.setProperty('z-index', '2147483647');
 document.body.prepend(container);

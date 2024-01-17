@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Card, ConfigProvider, Spin } from '@douyinfe/semi-ui';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { isPageInDark } from '@webx-kit/runtime/content-scripts';
+import { isPageInDark, position } from '@webx-kit/runtime/content-scripts';
 import clsx from 'clsx';
 import './global.less';
 
@@ -14,6 +14,7 @@ export const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [content, setContent] = useState('');
   const isDarkMode = useMemo(isPageInDark, [visible]);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ac = new AbortController();
@@ -25,8 +26,10 @@ export const App = () => {
         await new Promise((resolve) => setTimeout(resolve));
         const selection = getSelection();
         if (!selection || selection.isCollapsed) return setVisible(false);
+        if (!containerRef.current) return;
+        const result = await position(selection.getRangeAt(0), containerRef.current);
         setVisible(true);
-        setRootStyle({ left: ev.pageX, top: ev.pageY });
+        setRootStyle({ position: result.strategy, left: result.x, top: result.y });
       },
       { signal: ac.signal }
     );
@@ -64,7 +67,13 @@ export const App = () => {
   return (
     <ConfigProvider getPopupContainer={() => window.__webxRoot as unknown as HTMLElement}>
       <div
-        className={clsx('absolute', visible ? 'block' : 'hidden', isDarkMode ? 'semi-always-dark' : null)}
+        ref={containerRef}
+        tabIndex={visible ? undefined : -1}
+        className={clsx(
+          'absolute',
+          visible ? '' : 'invisible pointer-events-none',
+          isDarkMode ? 'semi-always-dark' : null
+        )}
         style={rootStyle}
       >
         <Button
