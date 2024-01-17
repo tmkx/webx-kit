@@ -287,6 +287,9 @@ importers:
 
   packages/runtime:
     devDependencies:
+      '@playwright/test':
+        specifier: ^1.40.1
+        version: 1.40.1
       typescript:
         specifier: ^5.3.3
         version: 5.3.3

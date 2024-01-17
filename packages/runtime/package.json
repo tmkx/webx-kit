@@ -31,9 +31,11 @@
     "directory": "packages/runtime"
   },
   "scripts": {
-    "lint:type": "tsc --noEmit"
+    "lint:type": "tsc --noEmit",
+    "test": "playwright test"
   },
   "devDependencies": {
+    "@playwright/test": "^1.40.1",
     "typescript": "^5.3.3"
   }
 }

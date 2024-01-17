@@ -1,3 +1,5 @@
+export * from './env';
+
 declare global {
   interface Window {
     __webxRoot?: SetWebxRootOptions['root'];

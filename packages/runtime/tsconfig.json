@@ -8,9 +8,6 @@
     "skipLibCheck": true,
     "declaration": true,
     "isolatedModules": true,
-    "allowJs": true,
-    "rootDir": "./src",
-    "outDir": "./dist"
-  },
-  "exclude": ["dist"]
+    "allowJs": true
+  }
 }
