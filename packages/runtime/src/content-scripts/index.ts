@@ -1,5 +1,6 @@
 export * from './env';
 export * from './position';
+export * from './selection';
 
 declare global {
   interface Window {

@@ -14,6 +14,9 @@ importers:
 
   apps/ai-assistant:
     dependencies:
+      '@douyinfe/semi-icons':
+        specifier: ^2.51.0
+        version: 2.51.0(react@18.2.0)
       '@douyinfe/semi-ui':
         specifier: ^2.51.0
         version: 2.51.0(react-dom@18.2.0)(react@18.2.0)

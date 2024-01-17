@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Button, Card, ConfigProvider, Spin } from '@douyinfe/semi-ui';
+import { Button, ButtonGroup, Card, ConfigProvider, Spin, Tooltip } from '@douyinfe/semi-ui';
+import { IconBriefStroked, IconLanguage } from '@douyinfe/semi-icons';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { isPageInDark, position } from '@webx-kit/runtime/content-scripts';
+import { isPageInDark, computePosition, isSelectionValid } from '@webx-kit/runtime/content-scripts';
 import clsx from 'clsx';
 import './global.less';
 
@@ -10,7 +11,7 @@ Spin.name;
 
 export const App = () => {
   const [visible, setVisible] = useState(false);
-  const [rootStyle, setRootStyle] = useState<React.CSSProperties>({ left: 0, top: 0 });
+  const [rootStyle, setRootStyle] = useState<React.CSSProperties>();
   const [isLoading, setIsLoading] = useState(false);
   const [content, setContent] = useState('');
   const isDarkMode = useMemo(isPageInDark, [visible]);
@@ -25,9 +26,11 @@ export const App = () => {
         // getSelection after a tick, because the selection may be cleared after "mouseup"
         await new Promise((resolve) => setTimeout(resolve));
         const selection = getSelection();
-        if (!selection || selection.isCollapsed) return setVisible(false);
+        if (!isSelectionValid(selection)) return setVisible(false);
         if (!containerRef.current) return;
-        const result = await position(selection.getRangeAt(0), containerRef.current);
+        const result = await computePosition(selection.getRangeAt(0), containerRef.current, {
+          placement: 'top',
+        });
         setVisible(true);
         setRootStyle({ position: result.strategy, left: result.x, top: result.y });
       },
@@ -64,6 +67,30 @@ export const App = () => {
     }
   };
 
+  const handleSummarize = async (text: string) => {
+    if (!genAI) {
+      return console.warn('skipped calling gemini-pro');
+    }
+
+    setContent('');
+    setIsLoading(true);
+    try {
+      const result = await genAI.getGenerativeModel({ model: 'gemini-pro' }).generateContentStream({
+        contents: [
+          {
+            role: 'user',
+            parts: [{ text: 'Summarize the following text to Chinese:\n' + text }],
+          },
+        ],
+      });
+      for await (const token of result.stream || []) {
+        setContent((prev) => prev + token.text());
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <ConfigProvider getPopupContainer={() => window.__webxRoot as unknown as HTMLElement}>
       <div
@@ -76,18 +103,34 @@ export const App = () => {
         )}
         style={rootStyle}
       >
-        <Button
-          theme="solid"
-          type="primary"
-          loading={isLoading}
-          onClick={() => {
-            const selectedText = getSelectedText();
-            if (!selectedText) return;
-            handleTranslate(selectedText);
-          }}
-        >
-          Translate
-        </Button>
+        <ButtonGroup className="w-max">
+          <Tooltip content="Translate" clickTriggerToHide>
+            <Button
+              theme="solid"
+              type="primary"
+              loading={isLoading}
+              icon={<IconLanguage />}
+              onClick={() => {
+                const selectedText = getSelectedText();
+                if (!selectedText) return;
+                handleTranslate(selectedText);
+              }}
+            />
+          </Tooltip>
+          <Tooltip content="Summarize" clickTriggerToHide>
+            <Button
+              theme="solid"
+              type="primary"
+              loading={isLoading}
+              icon={<IconBriefStroked />}
+              onClick={() => {
+                const selectedText = getSelectedText();
+                if (!selectedText) return;
+                handleSummarize(selectedText);
+              }}
+            />
+          </Tooltip>
+        </ButtonGroup>
         {!content ? null : <Card className="min-w-96">{content}</Card>}
       </div>
     </ConfigProvider>
@@ -107,12 +150,8 @@ chrome.storage.local.get(GOOGLE_API_KEY).then(({ GOOGLE_API_KEY }) => {
 
 function getSelectedText() {
   const selection = getSelection();
-  if (!selection || selection.isCollapsed) return;
-  const { rangeCount } = selection;
-  let text = '';
-  for (let i = 0; i < rangeCount; ++i) {
-    text += selection.getRangeAt(i).cloneContents().textContent;
-  }
+  if (!isSelectionValid(selection)) return;
+  const text = selection.getRangeAt(0).cloneContents().textContent;
   console.log('Selected text:', text);
   return text;
 }
