@@ -2,7 +2,7 @@
   "name": "@webx-kit/tests-e2e",
   "private": true,
   "scripts": {
-    "build": "pnpm --filter \"@webx-kit/example-*\" build",
+    "build:example": "turbo --filter \"@webx-kit/example-*\" build",
     "test": "playwright test"
   },
   "devDependencies": {
