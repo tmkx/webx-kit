@@ -125,13 +125,13 @@ export const App = () => {
         ref={containerRef}
         tabIndex={visible ? undefined : -1}
         className={clsx(
-          'absolute',
-          visible ? '' : 'invisible pointer-events-none',
+          'absolute transition-opacity',
+          visible ? 'opacity-100' : 'opacity-0 pointer-events-none',
           isDarkMode ? 'semi-always-dark' : null
         )}
         style={rootStyle}
       >
-        <Popover visible={!!content} content={content ? <Card className="w-96">{content}</Card> : null}>
+        <Popover trigger="custom" visible={!!content} content={<Card className="w-96">{content}</Card>}>
           <div>
             <ButtonGroup className="w-max">
               <Tooltip content="Translate" clickTriggerToHide>
@@ -162,6 +162,7 @@ export const App = () => {
               </Tooltip>
               <Dropdown
                 trigger="click"
+                position="bottomRight"
                 render={
                   <Dropdown.Menu>
                     <Dropdown.Item>Menu Item 1</Dropdown.Item>
