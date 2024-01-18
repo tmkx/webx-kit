@@ -32,7 +32,8 @@ export const manifestPlugin = (options: ManifestOptions): BuilderPlugin => {
 
       let watcher: FSWatcher | undefined;
 
-      api.onAfterStartDevServer(() => {
+      api.onAfterStartDevServer(({ port }) => {
+        process.env.PORT = String(port);
         watcher = watch(sourcePath, ({ changedFilePath, changeType }) => {
           if (changedFilePath !== sourcePath) return;
           if (changeType !== 'change' && changeType !== 'add') return;

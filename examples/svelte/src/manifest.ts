@@ -36,7 +36,7 @@ const manifest: chrome.runtime.ManifestV3 = {
   ...(isDev
     ? {
         content_security_policy: {
-          extension_pages: "script-src 'self' http://localhost:8080/; object-src 'self' http://localhost:8080/",
+          extension_pages: `script-src 'self' http://localhost:${process.env.PORT}/; object-src 'self' http://localhost:${process.env.PORT}/`,
         },
       }
     : {}),
