@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Button, ButtonGroup, Card, ConfigProvider, Dropdown, Spin, Tooltip } from '@douyinfe/semi-ui';
+import { Button, ButtonGroup, Card, Dropdown, Popover, Spin, Tooltip } from '@douyinfe/semi-ui';
 import { IconBriefStroked, IconLanguage, IconMoreStroked } from '@douyinfe/semi-icons';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import {
@@ -10,6 +10,7 @@ import {
   rangeToReference,
 } from '@webx-kit/runtime/content-scripts';
 import clsx from 'clsx';
+import { Provider } from './features/provider';
 import './global.less';
 
 // hack for missing button loading rotate keyframes
@@ -119,7 +120,7 @@ export const App = () => {
   };
 
   return (
-    <ConfigProvider getPopupContainer={() => window.__webxRoot as unknown as HTMLElement}>
+    <Provider>
       <div
         ref={containerRef}
         tabIndex={visible ? undefined : -1}
@@ -130,49 +131,52 @@ export const App = () => {
         )}
         style={rootStyle}
       >
-        <ButtonGroup className="w-max">
-          <Tooltip content="Translate" clickTriggerToHide>
-            <Button
-              theme="solid"
-              type="primary"
-              loading={isLoading}
-              icon={<IconLanguage />}
-              onClick={() => {
-                const selectedText = getSelectedText();
-                if (!selectedText) return;
-                handleTranslate(selectedText);
-              }}
-            />
-          </Tooltip>
-          <Tooltip content="Summarize" clickTriggerToHide>
-            <Button
-              theme="solid"
-              type="primary"
-              loading={isLoading}
-              icon={<IconBriefStroked />}
-              onClick={() => {
-                const selectedText = getSelectedText();
-                if (!selectedText) return;
-                handleSummarize(selectedText);
-              }}
-            />
-          </Tooltip>
-          <Dropdown
-            trigger="click"
-            render={
-              <Dropdown.Menu>
-                <Dropdown.Item>Menu Item 1</Dropdown.Item>
-                <Dropdown.Item>Menu Item 2</Dropdown.Item>
-                <Dropdown.Item>Menu Item 3</Dropdown.Item>
-              </Dropdown.Menu>
-            }
-          >
-            <Button theme="solid" type="primary" icon={<IconMoreStroked />} />
-          </Dropdown>
-        </ButtonGroup>
-        {!content ? null : <Card className="min-w-96">{content}</Card>}
+        <Popover visible={!!content} content={content ? <Card className="w-96">{content}</Card> : null}>
+          <div>
+            <ButtonGroup className="w-max">
+              <Tooltip content="Translate" clickTriggerToHide>
+                <Button
+                  theme="solid"
+                  type="primary"
+                  loading={isLoading}
+                  icon={<IconLanguage />}
+                  onClick={() => {
+                    const selectedText = getSelectedText();
+                    if (!selectedText) return;
+                    handleTranslate(selectedText);
+                  }}
+                />
+              </Tooltip>
+              <Tooltip content="Summarize" clickTriggerToHide>
+                <Button
+                  theme="solid"
+                  type="primary"
+                  loading={isLoading}
+                  icon={<IconBriefStroked />}
+                  onClick={() => {
+                    const selectedText = getSelectedText();
+                    if (!selectedText) return;
+                    handleSummarize(selectedText);
+                  }}
+                />
+              </Tooltip>
+              <Dropdown
+                trigger="click"
+                render={
+                  <Dropdown.Menu>
+                    <Dropdown.Item>Menu Item 1</Dropdown.Item>
+                    <Dropdown.Item>Menu Item 2</Dropdown.Item>
+                    <Dropdown.Item>Menu Item 3</Dropdown.Item>
+                  </Dropdown.Menu>
+                }
+              >
+                <Button theme="solid" type="primary" icon={<IconMoreStroked />} />
+              </Dropdown>
+            </ButtonGroup>
+          </div>
+        </Popover>
       </div>
-    </ConfigProvider>
+    </Provider>
   );
 };
 
