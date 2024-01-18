@@ -1,7 +1,6 @@
 import path from 'node:path';
 import type { webpack as webpackNS } from '@modern-js/app-tools';
 import { ContentScriptBasePlugin } from './base-plugin';
-// @ts-ignore lint:type check
 import { ROOT_NAME, STYLE_ROOT_NAME } from './constants.mjs';
 
 export class ContentScriptShadowRootPlugin extends ContentScriptBasePlugin {

@@ -11,5 +11,8 @@
   },
   "devDependencies": {
     "turbo": "^1.11.3"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

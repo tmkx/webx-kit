@@ -3,7 +3,6 @@ import { BuilderPlugin } from '../../types';
 import { ContentScriptHMRPlugin } from './hmr-plugin';
 import { ContentScriptPublicPathPlugin } from './public-path-plugin';
 import { ContentScriptShadowRootPlugin } from './shadow-root-plugin';
-// @ts-ignore lint:type check
 import { DEFAULT_CONTENT_SCRIPT_NAME } from './constants.mjs';
 
 export type ContentScriptEntry = {

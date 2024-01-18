@@ -1,43 +1,45 @@
 {
   "name": "@webx-kit/modernjs-plugin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "exports": {
     ".": {
       "types": "./src/index.ts",
       "default": "./src/index.ts"
-    },
-    "./runtime": {
-      "types": "./src/runtime.ts",
-      "default": "./src/runtime.ts"
     }
   },
   "types": "./src/index.ts",
-  "typesVersions": {
-    "*": {
-      ".": [
-        "./src/index.ts"
-      ],
-      "*": [
-        "./src/*.ts"
-      ]
-    }
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "types": "./dist/index.d.ts"
   },
   "files": [
-    "src"
+    "dist"
   ],
   "repository": {
     "url": "https://github.com/tmkx/webx-kit.git",
     "directory": "packages/modernjs-plugin"
   },
   "scripts": {
+    "build": "tsup",
+    "prepack": "pnpm build",
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@modern-js/app-tools": "^2.45.0",
-    "@modern-js/utils": "^2.45.0",
     "bundle-require": "^4.0.2"
   },
   "devDependencies": {
+    "@modern-js/app-tools": "^2.45.0",
+    "@modern-js/utils": "^2.45.0",
+    "tsup": "^8.0.1",
     "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "@modern-js/app-tools": "^2.40.0",
+    "@modern-js/utils": "^2.40.0"
   }
 }
