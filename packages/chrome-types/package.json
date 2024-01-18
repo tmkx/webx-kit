@@ -15,6 +15,9 @@
     "url": "https://github.com/tmkx/webx-kit.git",
     "directory": "packages/chrome-types"
   },
+  "scripts": {
+    "lint:type": "tsc --noEmit"
+  },
   "dependencies": {
     "@types/chrome": "^0.0.256"
   },

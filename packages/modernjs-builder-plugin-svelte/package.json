@@ -25,6 +25,9 @@
     "url": "https://github.com/tmkx/webx-kit.git",
     "directory": "packages/modernjs-builder-plugin-svelte"
   },
+  "scripts": {
+    "lint:type": "tsc --noEmit"
+  },
   "dependencies": {
     "@modern-js/app-tools": "^2.45.0",
     "@modern-js/utils": "^2.45.0",

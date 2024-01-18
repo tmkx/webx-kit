@@ -1,6 +1,6 @@
 {
   "name": "@webx-kit/modernjs-plugin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "exports": {
     ".": {
       "types": "./src/index.ts",
@@ -28,6 +28,9 @@
   "repository": {
     "url": "https://github.com/tmkx/webx-kit.git",
     "directory": "packages/modernjs-plugin"
+  },
+  "scripts": {
+    "lint:type": "tsc --noEmit"
   },
   "dependencies": {
     "@modern-js/app-tools": "^2.45.0",

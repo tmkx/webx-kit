@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "modern dev",
     "build:demo": "modern build",
-    "test": "playwright test"
+    "test": "playwright test",
+    "lint:type": "tsc --noEmit"
   },
   "devDependencies": {
     "@modern-js/app-tools": "^2.45.0",

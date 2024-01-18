@@ -30,7 +30,9 @@
     "url": "https://github.com/tmkx/webx-kit.git",
     "directory": "packages/runtime"
   },
-  "dependencies": {},
+  "scripts": {
+    "lint:type": "tsc --noEmit"
+  },
   "devDependencies": {
     "typescript": "^5.3.3"
   }

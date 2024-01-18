@@ -7,6 +7,10 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist"]
+    },
+    "lint:type": {
+      "dependsOn": ["^lint:type"],
+      "outputMode": "none"
     }
   }
 }
