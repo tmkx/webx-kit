@@ -10,7 +10,7 @@
     },
     "lint:type": {
       "dependsOn": ["^lint:type"],
-      "outputMode": "none"
+      "outputs": []
     }
   }
 }

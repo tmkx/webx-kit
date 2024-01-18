@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Button, ButtonGroup, Card, Dropdown, Popover, Spin, Tooltip } from '@douyinfe/semi-ui';
+import { Button, ButtonGroup, Card, Divider, Dropdown, Popover, Spin, Tooltip } from '@douyinfe/semi-ui';
 import { IconBriefStroked, IconLanguage, IconMoreStroked } from '@douyinfe/semi-icons';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import {
@@ -20,6 +20,7 @@ export const App = () => {
   const [visible, setVisible] = useState(false);
   const [rootStyle, setRootStyle] = useState<React.CSSProperties>();
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedText, setSelectedText] = useState('');
   const [content, setContent] = useState('');
   const isDarkMode = useMemo(isPageInDark, [visible]);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -34,6 +35,7 @@ export const App = () => {
         await new Promise((resolve) => setTimeout(resolve));
         const selection = getSelection();
         if (!isSelectionValid(selection)) return setVisible(false);
+        setSelectedText(selection.getRangeAt(0).cloneContents().textContent?.trim() || '');
         setVisible(true);
       },
       { signal: ac.signal }
@@ -67,12 +69,13 @@ export const App = () => {
         ac.abort();
       };
     } else {
+      setSelectedText('');
       setContent('');
     }
   }, [visible]);
 
   const handleTranslate = async (text: string) => {
-    if (!genAI) {
+    if (!genAI || !text) {
       return console.warn('skipped calling gemini-pro');
     }
 
@@ -96,7 +99,7 @@ export const App = () => {
   };
 
   const handleSummarize = async (text: string) => {
-    if (!genAI) {
+    if (!genAI || !text) {
       return console.warn('skipped calling gemini-pro');
     }
 
@@ -131,7 +134,18 @@ export const App = () => {
         )}
         style={rootStyle}
       >
-        <Popover trigger="custom" visible={!!content} content={<Card className="w-96">{content}</Card>}>
+        <Popover
+          trigger="custom"
+          visible={visible && !!selectedText && !!content}
+          rePosKey={rootStyle?.transform}
+          content={
+            <Card className="w-96">
+              <div>{selectedText}</div>
+              <Divider margin={12} />
+              <div>{content}</div>
+            </Card>
+          }
+        >
           <div>
             <ButtonGroup className="w-max">
               <Tooltip content="Translate" clickTriggerToHide>
@@ -141,8 +155,6 @@ export const App = () => {
                   loading={isLoading}
                   icon={<IconLanguage />}
                   onClick={() => {
-                    const selectedText = getSelectedText();
-                    if (!selectedText) return;
                     handleTranslate(selectedText);
                   }}
                 />
@@ -154,8 +166,6 @@ export const App = () => {
                   loading={isLoading}
                   icon={<IconBriefStroked />}
                   onClick={() => {
-                    const selectedText = getSelectedText();
-                    if (!selectedText) return;
                     handleSummarize(selectedText);
                   }}
                 />
@@ -191,11 +201,3 @@ chrome.storage.local.get(GOOGLE_API_KEY).then(({ GOOGLE_API_KEY }) => {
     );
   genAI = new GoogleGenerativeAI(GOOGLE_API_KEY);
 });
-
-function getSelectedText() {
-  const selection = getSelection();
-  if (!isSelectionValid(selection)) return;
-  const text = selection.getRangeAt(0).cloneContents().textContent;
-  console.log('Selected text:', text);
-  return text;
-}

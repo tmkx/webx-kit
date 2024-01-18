@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "modern dev",
-    "build": "modern build"
+    "build": "modern build",
+    "lint:type": "tsc --noEmit"
   },
   "dependencies": {
     "@douyinfe/semi-icons": "^2.51.0",
