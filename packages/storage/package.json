@@ -8,11 +8,11 @@
     "lint:type": "tsc --noEmit"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.45.0",
-    "@modern-js/utils": "^2.45.0",
-    "@playwright/test": "^1.40.1",
-    "@types/chrome": "^0.0.256",
-    "@types/node": "^20.11.0",
+    "@modern-js/app-tools": "^2.46.1",
+    "@modern-js/utils": "^2.46.1",
+    "@playwright/test": "^1.41.0",
+    "@types/chrome": "^0.0.258",
+    "@types/node": "^20.11.5",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "typescript": "^5.3.3"

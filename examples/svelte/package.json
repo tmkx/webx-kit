@@ -8,12 +8,12 @@
   },
   "dependencies": {
     "@webx-kit/runtime": "workspace:^",
-    "svelte": "^4.2.8"
+    "svelte": "^4.2.9"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.45.0",
-    "@types/chrome": "^0.0.256",
-    "@types/node": "^20.11.0",
+    "@modern-js/app-tools": "^2.46.1",
+    "@types/chrome": "^0.0.258",
+    "@types/node": "^20.11.5",
     "@webx-kit/modernjs-builder-plugin-svelte": "workspace:^",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "tailwindcss": "^3.4.1",

@@ -12,7 +12,9 @@
       "dependsOn": ["^lint:type"],
       "outputs": []
     },
-    "pretest": {},
+    "pretest": {
+      "outputs": ["dist"]
+    },
     "test": {
       "dependsOn": ["pretest", "^test"]
     }

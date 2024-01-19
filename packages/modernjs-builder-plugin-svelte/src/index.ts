@@ -1,12 +1,10 @@
-import type { AppTools, UserConfig } from '@modern-js/app-tools';
 import { isDev } from '@modern-js/utils';
 import { merge } from '@modern-js/utils/lodash';
+import { RsbuildPlugin } from '@rsbuild/shared';
 import type { CompileOptions } from 'svelte/compiler';
 import sveltePreprocess from 'svelte-preprocess';
 
 export type AutoPreprocessOptions = NonNullable<Parameters<typeof sveltePreprocess>[0]>;
-
-type BuilderPlugin = NonNullable<UserConfig<AppTools>['builderPlugins']>[number];
 
 export interface LoaderOptions {
   compilerOptions?: CompileOptions;
@@ -29,18 +27,18 @@ export interface PluginSvelteOptions {
   preprocessOptions?: AutoPreprocessOptions;
 }
 
-export const builderPluginSvelte = ({ loaderOptions, preprocessOptions }: PluginSvelteOptions = {}): BuilderPlugin => {
+export const builderPluginSvelte = ({ loaderOptions, preprocessOptions }: PluginSvelteOptions = {}): RsbuildPlugin => {
   return {
     name: '@webx-kit/modernjs-builder-plugin-svelte',
     remove: ['builder-plugin-react', 'builder-plugin-antd', 'builder-plugin-arco'],
     setup(api) {
-      api.modifyBuilderConfig((config, { mergeBuilderConfig }) => {
-        return mergeBuilderConfig(config, {
-          output: {
-            disableSvgr: true,
-          },
-        });
-      });
+      // api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
+      //   return mergeRsbuildConfig(config, {
+      //     output: {
+      //       disableSvgr: true,
+      //     },
+      //   });
+      // });
 
       api.modifyBundlerChain((chain) => {
         chain.resolve.extensions.add('.svelte');

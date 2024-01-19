@@ -1,5 +1,5 @@
 import { WebpackChain, isDev } from '@modern-js/utils';
-import { BuilderPlugin } from '../../types';
+import { RsbuildPlugin } from '@rsbuild/shared';
 import { ContentScriptHMRPlugin } from './hmr-plugin';
 import { ContentScriptPublicPathPlugin } from './public-path-plugin';
 import { ContentScriptShadowRootPlugin } from './shadow-root-plugin';
@@ -23,7 +23,7 @@ export const getContentScriptEntryNames = ({ contentScripts }: ContentScriptsOpt
   return contentScripts.map(({ name }) => name);
 };
 
-export const contentScriptsPlugin = ({ contentScripts }: ContentScriptsOptions): BuilderPlugin => {
+export const contentScriptsPlugin = ({ contentScripts }: ContentScriptsOptions): RsbuildPlugin => {
   return {
     name: '@webx-kit/modernjs-plugin/content-scripts',
     async setup(api) {

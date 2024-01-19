@@ -1,6 +1,6 @@
 import type { webpack as webpackNS } from '@modern-js/app-tools';
 import { isDev, type WebpackChain } from '@modern-js/utils';
-import { BuilderPlugin } from '../../types';
+import { RsbuildPlugin } from '@rsbuild/shared';
 import { BackgroundReloadPlugin } from './live-reload-plugin';
 
 export type BackgroundEntry = {
@@ -29,7 +29,7 @@ export const getBackgroundEntryNames = ({ background }: BackgroundOptions): stri
   return [background.name];
 };
 
-export const backgroundPlugin = ({ background, backgroundLiveReload = true }: BackgroundOptions): BuilderPlugin => {
+export const backgroundPlugin = ({ background, backgroundLiveReload = true }: BackgroundOptions): RsbuildPlugin => {
   return {
     name: '@webx-kit/modernjs-plugin/background',
     async setup(api) {

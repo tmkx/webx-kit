@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { fs } from '@modern-js/utils';
-import { BuilderPlugin } from '../types';
+import { RsbuildPlugin } from '@rsbuild/shared';
 
 export type CleanOptions = {
   /**
@@ -13,7 +13,7 @@ export type CleanOptions = {
 
 const DEFAULT_CLEAN_FILES = ['deploy.yml', 'modern.config.json', 'route.json'];
 
-export const cleanPlugin = ({ clean = DEFAULT_CLEAN_FILES }: CleanOptions): BuilderPlugin => {
+export const cleanPlugin = ({ clean = DEFAULT_CLEAN_FILES }: CleanOptions): RsbuildPlugin => {
   return {
     name: '@webx-kit/modernjs-plugin/clean',
     async setup(api) {

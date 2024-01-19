@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { FSWatcher, fs, isDev, watch } from '@modern-js/utils';
+import { RsbuildPlugin } from '@rsbuild/shared';
 import { evalFile } from '../utils';
-import { BuilderPlugin } from '../types';
 
 export type ManifestOptions = {
   /**
@@ -14,7 +14,7 @@ export type ManifestOptions = {
 
 const DEFAULT_MANIFEST_SRC = './src/manifest.ts';
 
-export const manifestPlugin = (options: ManifestOptions): BuilderPlugin => {
+export const manifestPlugin = (options: ManifestOptions): RsbuildPlugin => {
   return {
     name: '@webx-kit/modernjs-plugin/manifest',
     async setup(api) {

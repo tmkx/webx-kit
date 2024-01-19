@@ -29,12 +29,18 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@modern-js/app-tools": "^2.45.0",
-    "@modern-js/utils": "^2.45.0",
+    "@rsbuild/core": "^0.3.5",
+    "@rsbuild/plugin-babel": "^0.3.5",
     "babel-preset-solid": "^1.8.9",
-    "solid-refresh": "^0.6.1"
+    "solid-refresh": "^0.6.3"
   },
   "devDependencies": {
+    "@modern-js/utils": "^2.46.1",
+    "@rsbuild/shared": "^0.3.4",
     "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "@modern-js/utils": "^2.40.0",
+    "@rsbuild/shared": "^0.2.0"
   }
 }

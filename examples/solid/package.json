@@ -7,13 +7,14 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
+    "@rsbuild/plugin-babel": "^0.3.5",
     "@webx-kit/runtime": "workspace:^",
-    "solid-js": "^1.8.10"
+    "solid-js": "^1.8.11"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.45.0",
-    "@types/chrome": "^0.0.256",
-    "@types/node": "^20.11.0",
+    "@modern-js/app-tools": "^2.46.1",
+    "@types/chrome": "^0.0.258",
+    "@types/node": "^20.11.5",
     "@webx-kit/modernjs-builder-plugin-solid": "workspace:^",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "tailwindcss": "^3.4.1",
