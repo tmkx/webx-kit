@@ -14,4 +14,7 @@ export default defineConfig({
   source: {
     entriesDir: './demo/pages',
   },
+  output: {
+    overrideBrowserslist: ['last 2 Chrome versions'],
+  },
 });

@@ -17,6 +17,7 @@ export default defineConfig(() => ({
         to: './public',
       },
     ],
+    overrideBrowserslist: ['last 2 Chrome versions'],
   },
   tools: {
     postcss: {
