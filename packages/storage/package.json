@@ -1,5 +1,5 @@
 {
-  "name": "@webx-kit/messaging",
+  "name": "@webx-kit/storage",
   "version": "0.0.0",
   "scripts": {
     "dev": "modern dev",

@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build:example": "turbo --filter \"@webx-kit/example-*\" build",
+    "pretest": "pnpm build:example",
     "test": "playwright test"
   },
   "devDependencies": {

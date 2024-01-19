@@ -301,6 +301,33 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
 
+  packages/storage:
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: ^2.45.0
+        version: 2.45.0(typescript@5.3.3)
+      '@modern-js/utils':
+        specifier: ^2.45.0
+        version: 2.45.0
+      '@playwright/test':
+        specifier: ^1.40.1
+        version: 1.40.1
+      '@types/chrome':
+        specifier: ^0.0.256
+        version: 0.0.256
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.11.0
+      '@webx-kit/chrome-types':
+        specifier: workspace:^
+        version: link:../chrome-types
+      '@webx-kit/modernjs-plugin':
+        specifier: workspace:^
+        version: link:../modernjs-plugin
+      typescript:
+        specifier: ^5.3.3
+        version: 5.3.3
+
   tests/e2e:
     devDependencies:
       '@modern-js/utils':

@@ -11,6 +11,10 @@
     "lint:type": {
       "dependsOn": ["^lint:type"],
       "outputs": []
+    },
+    "pretest": {},
+    "test": {
+      "dependsOn": ["pretest", "^test"]
     }
   }
 }
