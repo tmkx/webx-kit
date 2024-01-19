@@ -6,12 +6,12 @@ export type CleanOptions = {
   /**
    * manifest source file path
    *
-   * @default ['modern.config.json', 'route.json']
+   * @default ['deploy.yml', 'modern.config.json', 'route.json']
    */
   clean?: string[] | false;
 };
 
-const DEFAULT_CLEAN_FILES = ['modern.config.json', 'route.json'];
+const DEFAULT_CLEAN_FILES = ['deploy.yml', 'modern.config.json', 'route.json'];
 
 export const cleanPlugin = ({ clean = DEFAULT_CLEAN_FILES }: CleanOptions): BuilderPlugin => {
   return {
@@ -20,7 +20,7 @@ export const cleanPlugin = ({ clean = DEFAULT_CLEAN_FILES }: CleanOptions): Buil
       if (clean === false) return;
       const { distPath } = api.context;
       api.onAfterBuild(async () => {
-        for (const file of DEFAULT_CLEAN_FILES) {
+        for (const file of clean) {
           const filePath = path.resolve(distPath, file);
           if (fs.existsSync(filePath)) await fs.unlink(filePath);
         }
