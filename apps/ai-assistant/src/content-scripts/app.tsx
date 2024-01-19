@@ -195,9 +195,6 @@ let genAI: GoogleGenerativeAI | undefined;
 
 const GOOGLE_API_KEY = 'GOOGLE_API_KEY';
 chrome.storage.local.get(GOOGLE_API_KEY).then(({ GOOGLE_API_KEY }) => {
-  if (!GOOGLE_API_KEY)
-    return console.warn(
-      "`GOOGLE_API_KEY` is not provided. update the api key by executing `chrome.storage.local.set({ GOOGLE_API_KEY: 'XXX' })`"
-    );
+  if (!GOOGLE_API_KEY) return console.warn('`GOOGLE_API_KEY` is not provided.`');
   genAI = new GoogleGenerativeAI(GOOGLE_API_KEY);
 });
