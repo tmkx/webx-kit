@@ -1,5 +1,5 @@
 import { setupStaticServer } from '@webx-kit/test-utils/playwright';
-import { expect, test } from './webx-test';
+import { expect, test } from './context';
 
 const getWebpageURL = setupStaticServer(test);
 

@@ -4,6 +4,8 @@
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
+    "pretest": "modern build",
+    "test": "playwright test",
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
@@ -13,9 +15,11 @@
   "devDependencies": {
     "@modern-js/app-tools": "^2.46.1",
     "@modern-js/builder-plugin-vue": "^2.46.1",
+    "@playwright/test": "^1.41.0",
     "@types/chrome": "^0.0.258",
     "@types/node": "^20.11.5",
     "@webx-kit/modernjs-plugin": "workspace:^",
+    "@webx-kit/test-utils": "workspace:^",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.3.3"
   }

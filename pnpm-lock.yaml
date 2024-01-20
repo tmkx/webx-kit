@@ -79,6 +79,9 @@ importers:
       '@modern-js/app-tools':
         specifier: ^2.46.1
         version: 2.46.1(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)
+      '@playwright/test':
+        specifier: ^1.41.0
+        version: 1.41.0
       '@types/chrome':
         specifier: ^0.0.258
         version: 0.0.258
@@ -94,6 +97,9 @@ importers:
       '@webx-kit/modernjs-plugin':
         specifier: workspace:^
         version: link:../../packages/modernjs-plugin
+      '@webx-kit/test-utils':
+        specifier: workspace:^
+        version: link:../../packages/test-utils
       tailwindcss:
         specifier: ^3.4.1
         version: 3.4.1
@@ -116,6 +122,9 @@ importers:
       '@modern-js/app-tools':
         specifier: ^2.46.1
         version: 2.46.1(typescript@5.3.3)
+      '@playwright/test':
+        specifier: ^1.41.0
+        version: 1.41.0
       '@types/chrome':
         specifier: ^0.0.258
         version: 0.0.258
@@ -128,6 +137,9 @@ importers:
       '@webx-kit/modernjs-plugin':
         specifier: workspace:^
         version: link:../../packages/modernjs-plugin
+      '@webx-kit/test-utils':
+        specifier: workspace:^
+        version: link:../../packages/test-utils
       tailwindcss:
         specifier: ^3.4.1
         version: 3.4.1
@@ -147,6 +159,9 @@ importers:
       '@modern-js/app-tools':
         specifier: ^2.46.1
         version: 2.46.1(typescript@5.3.3)
+      '@playwright/test':
+        specifier: ^1.41.0
+        version: 1.41.0
       '@types/chrome':
         specifier: ^0.0.258
         version: 0.0.258
@@ -159,6 +174,9 @@ importers:
       '@webx-kit/modernjs-plugin':
         specifier: workspace:^
         version: link:../../packages/modernjs-plugin
+      '@webx-kit/test-utils':
+        specifier: workspace:^
+        version: link:../../packages/test-utils
       tailwindcss:
         specifier: ^3.4.1
         version: 3.4.1
@@ -181,6 +199,9 @@ importers:
       '@modern-js/builder-plugin-vue':
         specifier: ^2.46.1
         version: 2.46.1(typescript@5.3.3)(vue@3.4.15)
+      '@playwright/test':
+        specifier: ^1.41.0
+        version: 1.41.0
       '@types/chrome':
         specifier: ^0.0.258
         version: 0.0.258
@@ -190,6 +211,9 @@ importers:
       '@webx-kit/modernjs-plugin':
         specifier: workspace:^
         version: link:../../packages/modernjs-plugin
+      '@webx-kit/test-utils':
+        specifier: workspace:^
+        version: link:../../packages/test-utils
       tailwindcss:
         specifier: ^3.4.1
         version: 3.4.1

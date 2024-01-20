@@ -2,9 +2,8 @@
   "name": "@webx-kit/tests-e2e",
   "private": true,
   "scripts": {
-    "build:example": "turbo --filter \"@webx-kit/example-*\" build",
-    "pretest": "pnpm build:example",
-    "test": "playwright test"
+    "pretest": "turbo --filter \"@webx-kit/example-*\" build",
+    "test": "playwright test --pass-with-no-tests"
   },
   "devDependencies": {
     "@modern-js/utils": "^2.46.1",
