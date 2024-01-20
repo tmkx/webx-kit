@@ -1,6 +1,7 @@
-import { expect, setupStaticServer, test } from './webx-test';
+import { setupStaticServer } from '@webx-kit/test-utils/playwright';
+import { expect, test } from './webx-test';
 
-const getWebpageURL = setupStaticServer();
+const getWebpageURL = setupStaticServer(test);
 
 test('Options Page', async ({ getURL, page }) => {
   await page.goto(await getURL('options.html'));

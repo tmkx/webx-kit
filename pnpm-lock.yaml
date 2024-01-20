@@ -218,9 +218,6 @@ importers:
       '@playwright/test':
         specifier: ^1.41.0
         version: 1.41.0
-      '@types/chrome':
-        specifier: ^0.0.258
-        version: 0.0.258
       '@types/node':
         specifier: ^20.11.5
         version: 20.11.5
@@ -230,6 +227,9 @@ importers:
       '@webx-kit/modernjs-plugin':
         specifier: workspace:^
         version: link:../modernjs-plugin
+      '@webx-kit/test-utils':
+        specifier: workspace:^
+        version: link:../test-utils
       typescript:
         specifier: ^5.3.3
         version: 5.3.3
@@ -327,9 +327,6 @@ importers:
       '@playwright/test':
         specifier: ^1.41.0
         version: 1.41.0
-      '@types/chrome':
-        specifier: ^0.0.258
-        version: 0.0.258
       '@types/node':
         specifier: ^20.11.5
         version: 20.11.5
@@ -339,6 +336,25 @@ importers:
       '@webx-kit/modernjs-plugin':
         specifier: workspace:^
         version: link:../modernjs-plugin
+      '@webx-kit/test-utils':
+        specifier: workspace:^
+        version: link:../test-utils
+      typescript:
+        specifier: ^5.3.3
+        version: 5.3.3
+
+  packages/test-utils:
+    dependencies:
+      '@webx-kit/chrome-types':
+        specifier: workspace:^
+        version: link:../chrome-types
+    devDependencies:
+      '@playwright/test':
+        specifier: ^1.41.0
+        version: 1.41.0
+      '@types/node':
+        specifier: ^20.11.5
+        version: 20.11.5
       typescript:
         specifier: ^5.3.3
         version: 5.3.3
@@ -357,6 +373,9 @@ importers:
       '@webx-kit/chrome-types':
         specifier: workspace:^
         version: link:../../packages/chrome-types
+      '@webx-kit/test-utils':
+        specifier: workspace:^
+        version: link:../../packages/test-utils
       typescript:
         specifier: ^5.3.3
         version: 5.3.3

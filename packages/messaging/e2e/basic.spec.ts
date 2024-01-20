@@ -1,9 +1,9 @@
 import type { Page } from '@playwright/test';
-import { expect, setupStaticServer, test } from './context';
-import { wait } from '@modern-js/utils';
+import { setupStaticServer, sleep } from '@webx-kit/test-utils/playwright';
+import { expect, test } from './context';
 import type { WebxMessage } from '@/shared';
 
-const getWebpageURL = setupStaticServer();
+const getWebpageURL = setupStaticServer(test);
 
 test('Background', async ({ background }) => {
   // @ts-expect-error
@@ -38,7 +38,7 @@ test('Messaging', async ({ context, getURL }) => {
   // @ts-expect-error
   await popupPage.evaluate(() => globalThis.__send('from popup to content-script', 'content-script'));
 
-  await wait(300);
+  await sleep(300);
 
   function mapLog(msg: WebxMessage) {
     return { tabId: msg.tabId, data: msg.data };

@@ -11,6 +11,7 @@
     "@playwright/test": "^1.41.0",
     "@types/node": "^20.11.5",
     "@webx-kit/chrome-types": "workspace:^",
+    "@webx-kit/test-utils": "workspace:^",
     "typescript": "^5.3.3"
   }
 }

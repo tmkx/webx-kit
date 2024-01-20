@@ -1,0 +1,52 @@
+{
+  "name": "@webx-kit/test-utils",
+  "version": "0.0.0",
+  "exports": {
+    "./*": {
+      "types": "./src/*.ts",
+      "default": "./src/*.ts"
+    }
+  },
+  "types": "./src/index.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./src/*.ts"
+      ]
+    }
+  },
+  "publishConfig": {
+    "exports": {
+      "./*": {
+        "types": "./dist/*.d.ts",
+        "default": "./dist/*.js"
+      }
+    },
+    "types": "./dist/index.d.ts",
+    "typesVersions": {
+      "*": {
+        "*": [
+          "./dist/*.d.ts"
+        ]
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p ./tsconfig.build.json",
+    "lint:type": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@webx-kit/chrome-types": "workspace:^"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.41.0",
+    "@types/node": "^20.11.5",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "@playwright/test": "^1.30.0"
+  }
+}
