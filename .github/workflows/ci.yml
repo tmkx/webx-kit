@@ -1,8 +1,6 @@
 name: CI
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
 
@@ -30,5 +28,5 @@ jobs:
           pnpm i --frozen-lockfile
           pnpm playwright install
 
-      - name: Build and Test
+      - name: Test
         run: pnpm test
