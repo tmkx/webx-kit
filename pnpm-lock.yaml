@@ -397,6 +397,18 @@ importers:
       '@webx-kit/chrome-types':
         specifier: workspace:^
         version: link:../../packages/chrome-types
+      '@webx-kit/example-react':
+        specifier: workspace:^
+        version: link:../../examples/react
+      '@webx-kit/example-solid':
+        specifier: workspace:^
+        version: link:../../examples/solid
+      '@webx-kit/example-svelte':
+        specifier: workspace:^
+        version: link:../../examples/svelte
+      '@webx-kit/example-vue':
+        specifier: workspace:^
+        version: link:../../examples/vue
       '@webx-kit/test-utils':
         specifier: workspace:^
         version: link:../../packages/test-utils

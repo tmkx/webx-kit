@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import logo from '@/assets/text-logo.svg';
+import { Hello } from './hello';
 
 export const App = () => {
   const [count, setCount] = useState(0);
@@ -12,6 +13,7 @@ export const App = () => {
           {count}
         </button>
       </div>
+      <Hello />
     </div>
   );
 };
