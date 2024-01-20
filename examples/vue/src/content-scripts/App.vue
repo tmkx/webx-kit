@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import logo from '@/assets/text-logo.svg';
+import Hello from './Hello.vue';
 
 const count = ref(0);
 </script>
@@ -12,5 +13,6 @@ const count = ref(0);
       <span className="text-slate-700 dark:text-slate-400">Count: </span>
       <button className="text-sky-700 tabular-nums" @click="count += 1">{{ count }}</button>
     </div>
+    <Hello />
   </div>
 </template>

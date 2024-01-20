@@ -17,7 +17,7 @@ test('Content Scripts', async ({ page }) => {
   await page.goto(getWebpageURL());
   await expect(page.locator('webx-root')).toBeInViewport();
   // await page.locator('body').screenshot({ path: './webx-root.png' });
-  await expect(page.locator('webx-root').evaluate((el) => el.shadowRoot?.textContent)).resolves.toBe('Count: 0');
+  await expect(page.locator('webx-root')).toContainText('Count: 0');
   await page.locator('webx-root').locator('button').click();
-  await expect(page.locator('webx-root').evaluate((el) => el.shadowRoot?.textContent)).resolves.toBe('Count: 1');
+  await expect(page.locator('webx-root')).toContainText('Count: 1');
 });

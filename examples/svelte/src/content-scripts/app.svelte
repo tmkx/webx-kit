@@ -1,5 +1,6 @@
 <script lang="ts">
   import logo from '@/assets/text-logo.svg';
+  import Hello from './hello.svelte';
 
   let count = 0;
 
@@ -16,4 +17,5 @@
       {count}
     </button>
   </div>
+  <Hello />
 </div>
