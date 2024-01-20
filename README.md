@@ -1,6 +1,10 @@
 <p align="center">
-  <img width="500" src="https://github.com/tmkx/webx-kit/assets/13805071/e7fdbe7d-ed6e-40d3-b555-4ac6369cc97d">
+  <img width="500" src="https://github.com/tmkx/webx-kit/assets/13805071/e7fdbe7d-ed6e-40d3-b555-4ac6369cc97d" />
   <p align="center">A tool set for <b>Web</b> e<b>X</b>tension development</p>
+</p>
+
+<p align="center">
+  <a href="https://github.com/tmkx/webx-kit/actions/workflows/ci.yml" target="_blank"><img alt="CI" src="https://github.com/tmkx/webx-kit/actions/workflows/ci.yml/badge.svg" /></a>
 </p>
 
 ## Features
