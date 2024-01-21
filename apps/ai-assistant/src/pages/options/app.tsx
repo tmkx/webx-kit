@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Button, Form, Toast } from '@douyinfe/semi-ui';
+import { useAtom } from 'jotai';
+import { apiKeyAtom } from '@/hooks/atoms/config';
 import { useSemiTheme } from '@/hooks/use-theme';
 
 interface FormValues {
@@ -9,15 +11,14 @@ interface FormValues {
 export const App = () => {
   useSemiTheme();
   const formRef = useRef<Form<FormValues>>(null);
+  const [apiKey, setAPIKey] = useAtom(apiKeyAtom);
 
   useEffect(() => {
-    chrome.storage.local.get('GOOGLE_API_KEY', ({ GOOGLE_API_KEY }) => {
-      formRef.current?.formApi.setValue('apiKey', GOOGLE_API_KEY || '');
-    });
-  }, []);
+    if (apiKey) formRef.current?.formApi.setValue('apiKey', apiKey);
+  }, [apiKey]);
 
   const handleSubmit = async (formValues: FormValues) => {
-    await chrome.storage.local.set({ GOOGLE_API_KEY: formValues.apiKey });
+    setAPIKey(formValues.apiKey);
     Toast.success('Saved');
   };
 
