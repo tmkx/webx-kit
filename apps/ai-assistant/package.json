@@ -11,7 +11,9 @@
     "@douyinfe/semi-ui": "^2.51.3",
     "@google/generative-ai": "^0.1.3",
     "@webx-kit/runtime": "workspace:^",
+    "@webx-kit/storage": "workspace:^",
     "clsx": "^2.1.0",
+    "jotai": "^2.6.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

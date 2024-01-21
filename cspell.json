@@ -13,6 +13,7 @@
     "rsbuild",
     "svgr",
     "tailwindcss",
+    "testid",
     "webx"
   ]
 }

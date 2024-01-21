@@ -10,6 +10,8 @@ import {
   rangeToReference,
 } from '@webx-kit/runtime/content-scripts';
 import clsx from 'clsx';
+import { atom, useAtomValue } from 'jotai';
+import { apiKeyAtom } from '@/hooks/atoms/config';
 import { Provider } from './features/provider';
 import './global.less';
 
@@ -24,6 +26,8 @@ export const App = () => {
   const [content, setContent] = useState('');
   const isDarkMode = useMemo(isPageInDark, [visible]);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const genAI = useAtomValue(genAIAtom);
 
   useEffect(() => {
     const ac = new AbortController();
@@ -191,10 +195,7 @@ export const App = () => {
   );
 };
 
-let genAI: GoogleGenerativeAI | undefined;
-
-const GOOGLE_API_KEY = 'GOOGLE_API_KEY';
-chrome.storage.local.get(GOOGLE_API_KEY).then(({ GOOGLE_API_KEY }) => {
-  if (!GOOGLE_API_KEY) return console.warn('`GOOGLE_API_KEY` is not provided.`');
-  genAI = new GoogleGenerativeAI(GOOGLE_API_KEY);
+const genAIAtom = atom(async (get) => {
+  const apiKey = await get(apiKeyAtom);
+  return apiKey ? new GoogleGenerativeAI(apiKey) : null;
 });

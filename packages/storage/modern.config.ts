@@ -7,7 +7,7 @@ export default defineConfig({
     appTools(),
     webxPlugin({
       background: './demo/background/index.ts',
-      contentScripts: './demo/content-scripts/index.ts',
+      contentScripts: './demo/content-scripts/index.tsx',
       manifest: './demo/manifest.ts',
     }),
   ],
