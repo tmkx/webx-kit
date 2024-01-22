@@ -8,12 +8,13 @@
     "@modern-js/utils": "^2.46.1",
     "@playwright/test": "^1.41.0",
     "@types/node": "^20.11.5",
+    "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/example-react": "workspace:^",
     "@webx-kit/example-solid": "workspace:^",
     "@webx-kit/example-svelte": "workspace:^",
     "@webx-kit/example-vue": "workspace:^",
-    "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
+    "p-retry": "^6.2.0",
     "typescript": "^5.3.3"
   }
 }

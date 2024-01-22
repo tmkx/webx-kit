@@ -1,7 +1,22 @@
-import { IncomingMessage, RequestListener, ServerResponse, createServer } from 'node:http';
+import { IncomingMessage, RequestListener, ServerResponse, createServer as createHttpServer } from 'node:http';
+import { createServer as createNetServer } from 'node:net';
 
 export function sleep(ms: number) {
   return new Promise<void>((resolve) => setTimeout(resolve, ms));
+}
+
+export async function getRandomPort() {
+  const server = createNetServer();
+  server.listen(0);
+  return new Promise<number>((resolve, reject) => {
+    server.addListener('listening', () => {
+      const address = server.address();
+      if (!address || typeof address === 'string') reject('Invalid address');
+      else resolve(address.port);
+      server.close();
+    });
+    server.addListener('close', () => reject('Close'));
+  });
 }
 
 export interface CreateStaticServerOptions {
@@ -10,7 +25,7 @@ export interface CreateStaticServerOptions {
 
 export async function createStaticServer({ handler }: CreateStaticServerOptions = {}) {
   const serverHandler = handler || ((_req, res) => res.end(`<html></html>`));
-  const server = createServer(serverHandler);
+  const server = createHttpServer(serverHandler);
   server.listen(0);
   return {
     server,

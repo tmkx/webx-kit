@@ -1,7 +1,7 @@
 import assert from 'node:assert';
 import path from 'node:path';
-import { fs, execa, stripAnsi, wait } from '@modern-js/utils';
-import { createWebxTest } from '@webx-kit/test-utils/playwright';
+import { dynamicImport, fs, execa, stripAnsi, wait } from '@modern-js/utils';
+import { createWebxTest, getRandomPort } from '@webx-kit/test-utils/playwright';
 import { LaunchOptions } from '@playwright/test';
 
 export function createLaunchOptions(packageName: string, launchOptions?: LaunchOptions) {
@@ -43,7 +43,8 @@ export function startDev({ beforeAll, afterAll, afterEach }: typeof test) {
     baseDir = packageDir;
     const { stdout: dirtyFiles } = await execa('git', ['ls-files', '--modified'], { cwd: packageDir });
     if (!!dirtyFiles) throw new Error('make sure all modifications have been staged');
-    childProcess = execa('pnpm', ['dev'], { cwd: packageDir });
+    const PORT = String(await getRandomPort());
+    childProcess = execa('pnpm', ['dev'], { cwd: packageDir, env: { PORT } });
     await Promise.race([
       new Promise<void>((resolve) => {
         const handler = (chunk: unknown) => {
@@ -59,7 +60,11 @@ export function startDev({ beforeAll, afterAll, afterEach }: typeof test) {
       wait(20 * 1000).then((): Promise<void> => Promise.reject('Timeout')),
     ]);
   });
-  afterEach(() => execa('git', ['checkout', '.'], { cwd: baseDir }));
+  afterEach(async () => {
+    const { default: pRetry } = (await dynamicImport('p-retry')) as typeof import('p-retry');
+    // tolerate `.git/index.lock` conflict
+    await pRetry(() => execa('git', ['checkout', '.'], { cwd: baseDir }), { retries: 3 });
+  });
   afterAll(() => childProcess.kill('SIGINT'));
 
   const resolvePath = (file: string) => path.resolve(baseDir, file);
