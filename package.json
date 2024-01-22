@@ -11,6 +11,7 @@
     "test": "turbo test"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.1",
     "@playwright/test": "^1.41.0",
     "turbo": "^1.11.3"
   },
