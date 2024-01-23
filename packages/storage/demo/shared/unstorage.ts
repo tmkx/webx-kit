@@ -3,7 +3,7 @@ import { createStorage } from 'unstorage';
 import { createDriver } from '@/unstorage';
 
 export const storage = createStorage({
-  driver: createDriver(),
+  driver: createDriver({ prefix: 'unstorage:' }),
 });
 
 export function useUnstorage(key: string, defaultValue?: any) {

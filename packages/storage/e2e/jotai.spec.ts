@@ -12,6 +12,10 @@ test('Single page', async ({ getURL, page }) => {
 
   await page.reload();
   await expect(page.getByTestId('apiKey')).toHaveText('Changed');
+
+  await expect(page.evaluate(() => chrome.storage.local.get())).resolves.toEqual({
+    'jotai:apiKey': 'Changed',
+  });
 });
 
 test('Cross pages', async ({ getURL, context }) => {

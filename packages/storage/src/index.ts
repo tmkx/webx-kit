@@ -1,50 +1,68 @@
+import type { StringKeyOf } from 'type-fest';
+
 export interface ChromeStorage<T extends Record<string, any> = Record<string, any>> {
-  setItem: <K extends keyof T>(key: K, value: T[K]) => Promise<void>;
-  getItem: <K extends keyof T>(key: K, defaultValue?: T[K]) => Promise<T[K] | null>;
+  setItem: <K extends StringKeyOf<T>>(key: K, value: T[K]) => Promise<void>;
+  getItem: <K extends StringKeyOf<T>>(key: K, defaultValue?: T[K]) => Promise<T[K] | null>;
   hasItem: (key: string) => Promise<boolean>;
   getKeys: () => Promise<string[]>;
-  removeItem: (key: keyof T | (keyof T)[]) => Promise<void>;
+  removeItem: (key: StringKeyOf<T> | StringKeyOf<T>[]) => Promise<void>;
   clear: () => Promise<void>;
-  subscribe: <K extends keyof T>(key: K, callback: (value: T[K] | null) => void) => VoidFunction;
+  subscribe: <K extends StringKeyOf<T>>(key: K, callback: (value: T[K] | null) => void) => VoidFunction;
   watch: (callback: (event: 'update' | 'remove', key: string) => void) => VoidFunction;
 }
 
-export function createStorage<T extends Record<string, any> = Record<string, any>>(
-  area: chrome.storage.AreaName = 'local'
-): ChromeStorage<T> {
-  const storage = chrome.storage[area];
+export interface CreateStorageOptions {
+  /**
+   * @default "local"
+   */
+  area?: chrome.storage.AreaName;
+  prefix?: string;
+}
 
-  async function setItem<K extends keyof T>(key: K, value: T[K]): Promise<void> {
-    return storage.set({ [key]: value });
+export function createStorage<T extends Record<string, any> = Record<string, any>>(
+  options?: CreateStorageOptions
+): ChromeStorage<T> {
+  const { area = 'local', prefix } = options || {};
+  const storage = chrome.storage[area];
+  const [addPrefix, removePrefix] = createPrefixHelpers(prefix);
+
+  async function setItem<K extends StringKeyOf<T>>(key: K, value: T[K]): Promise<void> {
+    return storage.set({ [addPrefix(key)]: value });
   }
 
-  async function getItem<K extends keyof T>(key: K, defaultValue?: T[K]): Promise<T[K] | null> {
-    const result = await storage.get(key as string);
-    return key in result ? result[key as string] : arguments.length === 2 ? defaultValue : null;
+  async function getItem<K extends StringKeyOf<T>>(key: K, defaultValue?: T[K]): Promise<T[K] | null> {
+    const prefixedKey = addPrefix(key);
+    const result = await storage.get(prefixedKey);
+    return prefixedKey in result ? result[prefixedKey] : arguments.length === 2 ? defaultValue : null;
   }
 
   async function hasItem(key: string): Promise<boolean> {
-    const result = await storage.get(key as string);
-    return key in result;
+    const prefixedKey = addPrefix(key);
+    const result = await storage.get(prefixedKey);
+    return prefixedKey in result;
   }
 
   async function getKeys(): Promise<string[]> {
     const result = await storage.get();
-    return Object.keys(result);
+    const prefixedKeys = Object.keys(result);
+    if (!prefix) return prefixedKeys;
+    return prefixedKeys.filter((key) => key.startsWith(prefix)).map(removePrefix);
   }
 
-  async function removeItem(key: keyof T | (keyof T)[]): Promise<void> {
-    return storage.remove(key as string | string[]);
+  async function removeItem(key: StringKeyOf<T> | StringKeyOf<T>[]): Promise<void> {
+    return storage.remove(Array.isArray(key) ? key.map(addPrefix) : addPrefix(key));
   }
 
   async function clear(): Promise<void> {
-    return storage.clear();
+    if (!prefix) return storage.clear();
+    const keys = await getKeys();
+    return storage.remove(keys.map(addPrefix));
   }
 
   type OnChangedListener = Parameters<(typeof storage)['onChanged']['addListener']>[0];
 
   let onChangedActive = false;
-  const onChangedCallbacks = new Map<keyof T, Set<(value: any) => void>>();
+  const onChangedCallbacks = new Map<string, Set<(value: any) => void>>();
   const onChangedListener: OnChangedListener = (changes) => {
     for (const [key, value] of Object.entries(changes)) {
       const changedCallback = onChangedCallbacks.get(key);
@@ -74,10 +92,11 @@ export function createStorage<T extends Record<string, any> = Record<string, any
     }
   }
 
-  function subscribe<K extends keyof T>(key: K, callback: (value: T[K] | null) => void): VoidFunction {
-    addCallback(key as string, callback);
+  function subscribe<K extends StringKeyOf<T>>(key: K, callback: (value: T[K] | null) => void): VoidFunction {
+    const prefixedKey = addPrefix(key);
+    addCallback(prefixedKey, callback);
     return () => {
-      removeCallback(key as string, callback);
+      removeCallback(prefixedKey, callback);
     };
   }
 
@@ -85,7 +104,7 @@ export function createStorage<T extends Record<string, any> = Record<string, any
     const listener: OnChangedListener = (changes) => {
       for (const [key, value] of Object.entries(changes)) {
         const type = 'newValue' in value ? 'update' : 'remove';
-        callback(type, key);
+        callback(type, removePrefix(key));
       }
     };
     storage.onChanged.addListener(listener);
@@ -104,4 +123,18 @@ export function createStorage<T extends Record<string, any> = Record<string, any
     subscribe,
     watch,
   };
+}
+
+function identity<T>(value: T): T {
+  return value;
+}
+
+type StringTransformer = (key: string) => string;
+
+function createPrefixHelpers(prefix?: string): [StringTransformer, StringTransformer] {
+  if (!prefix) return [identity, identity];
+  const len = prefix.length;
+  const add: StringTransformer = (key) => prefix + key;
+  const remove: StringTransformer = (key) => (key.startsWith(prefix) ? key.slice(len) : key);
+  return [add, remove];
 }
