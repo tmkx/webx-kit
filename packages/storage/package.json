@@ -5,6 +5,10 @@
     ".": {
       "types": "./src/index.ts",
       "default": "./src/index.ts"
+    },
+    "./unstorage": {
+      "types": "./src/unstorage.ts",
+      "default": "./src/unstorage.ts"
     }
   },
   "types": "./src/index.ts",
@@ -13,6 +17,10 @@
       ".": {
         "types": "./dist/index.d.mts",
         "default": "./dist/index.mjs"
+      },
+      "./unstorage": {
+        "types": "./dist/unstorage.d.mts",
+        "default": "./dist/unstorage.mjs"
       }
     },
     "types": "./dist/index.d.mts"
@@ -40,7 +48,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tsup": "^8.0.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "unstorage": "^1.10.1"
   },
   "peerDependencies": {
     "@types/chrome": "^0.0.258"

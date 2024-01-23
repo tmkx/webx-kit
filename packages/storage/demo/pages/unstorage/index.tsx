@@ -1,9 +1,8 @@
 import { createRoot } from 'react-dom/client';
-import { useAtom } from 'jotai/react';
-import { apiKeyAtom } from '../../shared/atoms';
+import { useUnstorage } from '../../shared/unstorage';
 
 const App = () => {
-  const [apiKey, setAPIKey] = useAtom(apiKeyAtom);
+  const [apiKey, setAPIKey] = useUnstorage('apiKey', 'DEFAULT');
   return (
     <div>
       <div data-testid="apiKey">{apiKey}</div>

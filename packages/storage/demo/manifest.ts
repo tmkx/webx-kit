@@ -7,10 +7,6 @@ const manifest: chrome.runtime.ManifestV3 = {
     service_worker: 'static/js/background.js',
     type: 'module',
   },
-  options_ui: {
-    page: 'options.html',
-    open_in_tab: true,
-  },
   content_scripts: [
     {
       matches: ['<all_urls>'],
