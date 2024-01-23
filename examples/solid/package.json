@@ -9,7 +9,6 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@rsbuild/plugin-babel": "^0.3.5",
     "@webx-kit/runtime": "workspace:^",
     "solid-js": "^1.8.11"
   },
