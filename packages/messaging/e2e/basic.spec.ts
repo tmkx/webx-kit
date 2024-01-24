@@ -1,12 +1,20 @@
 import type { Page } from '@playwright/test';
 import { setupStaticServer, sleep } from '@webx-kit/test-utils/playwright';
 import { expect, test } from './context';
+import type { connections } from '@/background';
+import type { send, on } from '@/client-base';
 import type { WebxMessage } from '@/shared';
 
 const getWebpageURL = setupStaticServer(test);
 
+declare module globalThis {
+  /** only in background */
+  const __webxConnections: typeof connections | undefined;
+  const __send: typeof send;
+  const __on: typeof on;
+}
+
 test('Background', async ({ background }) => {
-  // @ts-expect-error
   await expect(background.evaluate(() => typeof globalThis.__webxConnections)).resolves.toBe('object');
 });
 
@@ -31,11 +39,8 @@ test('Messaging', async ({ context, getURL }) => {
     contentScript.goto(getWebpageURL()),
   ]);
 
-  // @ts-expect-error
   await optionsPage.evaluate(() => globalThis.__send('from options'));
-  // @ts-expect-error
   await popupPage.evaluate(() => globalThis.__send('from popup'));
-  // @ts-expect-error
   await popupPage.evaluate(() => globalThis.__send('from popup to content-script', 'content-script'));
 
   await sleep(300);
