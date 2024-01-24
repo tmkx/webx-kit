@@ -127,7 +127,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.46.1
-        version: 2.46.1(typescript@5.3.3)
+        version: 2.46.1(type-fest@4.10.0)(typescript@5.3.3)
       '@playwright/test':
         specifier: ^1.41.0
         version: 1.41.0
@@ -164,7 +164,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.46.1
-        version: 2.46.1(typescript@5.3.3)
+        version: 2.46.1(type-fest@4.10.0)(typescript@5.3.3)
       '@playwright/test':
         specifier: ^1.41.0
         version: 1.41.0
@@ -201,7 +201,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.46.1
-        version: 2.46.1(typescript@5.3.3)
+        version: 2.46.1(type-fest@4.10.0)(typescript@5.3.3)
       '@modern-js/builder-plugin-vue':
         specifier: ^2.46.1
         version: 2.46.1(typescript@5.3.3)(vue@3.4.15)
@@ -238,10 +238,14 @@ importers:
         version: 5.3.3
 
   packages/messaging:
+    dependencies:
+      type-fest:
+        specifier: ^4.10.0
+        version: 4.10.0
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.46.1
-        version: 2.46.1(typescript@5.3.3)
+        version: 2.46.1(type-fest@4.10.0)(typescript@5.3.3)
       '@modern-js/utils':
         specifier: ^2.46.1
         version: 2.46.1
@@ -319,7 +323,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.46.1
-        version: 2.46.1(typescript@5.3.3)
+        version: 2.46.1(type-fest@4.10.0)(typescript@5.3.3)
       '@modern-js/utils':
         specifier: ^2.46.1
         version: 2.46.1
@@ -2849,7 +2853,7 @@ packages:
       - webpack-plugin-serve
     dev: true
 
-  /@modern-js/app-tools@2.46.1(typescript@5.3.3):
+  /@modern-js/app-tools@2.46.1(type-fest@4.10.0)(typescript@5.3.3):
     resolution: {integrity: sha512-s3+5bqWrEV4AM8G3K/TPdGRxjVEqYLhZEJdBEQPFtGKVSRuSpyYqM8bjp1GXM7Doyqjc96tBsU7SUTAyMSOoXw==}
     engines: {node: '>=14.17.6'}
     hasBin: true
@@ -2869,7 +2873,7 @@ packages:
       '@modern-js/server-core': 2.46.1
       '@modern-js/server-utils': 2.46.1(@babel/traverse@7.23.7)
       '@modern-js/types': 2.46.1
-      '@modern-js/uni-builder': 2.46.1(@babel/traverse@7.23.7)(esbuild@0.17.19)(typescript@5.3.3)
+      '@modern-js/uni-builder': 2.46.1(@babel/traverse@7.23.7)(esbuild@0.17.19)(type-fest@4.10.0)(typescript@5.3.3)
       '@modern-js/upgrade': 2.46.1
       '@modern-js/utils': 2.46.1
       '@rsbuild/plugin-esbuild': 0.3.4(@swc/helpers@0.5.3)
@@ -3492,7 +3496,7 @@ packages:
       - webpack-plugin-serve
     dev: true
 
-  /@modern-js/uni-builder@2.46.1(@babel/traverse@7.23.7)(esbuild@0.17.19)(typescript@5.3.3):
+  /@modern-js/uni-builder@2.46.1(@babel/traverse@7.23.7)(esbuild@0.17.19)(type-fest@4.10.0)(typescript@5.3.3):
     resolution: {integrity: sha512-AK4G9ha1Vs9J65YNy0lI82/JlgkGo0HVXTcImMjGuMwZ/03qM1QvBonjm1VxowSe+r+NXMBt4WwpIHOjtGdQOw==}
     dependencies:
       '@babel/core': 7.23.7

@@ -7,6 +7,9 @@
     "test": "playwright test",
     "lint:type": "tsc --noEmit"
   },
+  "dependencies": {
+    "type-fest": "^4.10.0"
+  },
   "devDependencies": {
     "@modern-js/app-tools": "^2.46.1",
     "@modern-js/utils": "^2.46.1",

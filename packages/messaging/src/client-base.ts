@@ -1,6 +1,5 @@
-import { ClientType, NAMESPACE, WebxMessage, isWebxMessage } from './shared';
-
-export type WebxMessageListener = (message: WebxMessage) => void;
+import type { LiteralUnion } from 'type-fest';
+import { ClientType, NAMESPACE, WebxMessage, WebxMessageListener, isWebxMessage } from './shared';
 
 export const id = crypto.randomUUID();
 const listeners = new Set<WebxMessageListener>();
@@ -23,7 +22,7 @@ export function ensureClient(type: ClientType) {
   return port;
 }
 
-export function send(data: unknown, target?: ClientType) {
+export function send(data: unknown, target?: LiteralUnion<ClientType | '*', string>) {
   const port = ensureClient(clientType);
   port.postMessage({
     id: crypto.randomUUID(),
@@ -33,11 +32,11 @@ export function send(data: unknown, target?: ClientType) {
   } satisfies WebxMessage);
 }
 
-export function off(listener: (message: WebxMessage) => void) {
+export function off(listener: WebxMessageListener) {
   listeners.delete(listener);
 }
 
-export function on(listener: (message: WebxMessage) => void) {
+export function on(listener: WebxMessageListener) {
   listeners.add(listener);
   return () => off(listener);
 }
