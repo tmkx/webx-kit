@@ -15,6 +15,8 @@ export interface WebxMessage {
   data: unknown;
 }
 
+export type WebxMessageListener = (message: WebxMessage) => void;
+
 export function isWebxMessage(message: unknown): message is WebxMessage {
   return typeof message === 'object' && message !== null && 'id' in message && 'from' in message && 'data' in message;
 }

@@ -39,8 +39,8 @@ test('Messaging', async ({ context, getURL }) => {
     contentScript.goto(getWebpageURL()),
   ]);
 
-  await optionsPage.evaluate(() => globalThis.__send('from options'));
-  await popupPage.evaluate(() => globalThis.__send('from popup'));
+  await optionsPage.evaluate(() => globalThis.__send('from options', '*'));
+  await popupPage.evaluate(() => globalThis.__send('from popup', '*'));
   await popupPage.evaluate(() => globalThis.__send('from popup to content-script', 'content-script'));
 
   await sleep(300);
