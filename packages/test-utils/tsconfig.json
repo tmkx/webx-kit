@@ -13,7 +13,8 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "noEmit": true
   },
   "exclude": ["dist"]
 }

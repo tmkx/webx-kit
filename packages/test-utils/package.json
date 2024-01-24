@@ -1,6 +1,9 @@
 {
   "name": "@webx-kit/test-utils",
   "version": "0.0.0",
+  "bin": {
+    "webx-launch": "bin/webx-launch.mjs"
+  },
   "exports": {
     "./*": {
       "types": "./src/*.ts",
@@ -39,6 +42,7 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
+    "@modern-js/utils": "^2.46.1",
     "@webx-kit/chrome-types": "workspace:^"
   },
   "devDependencies": {
