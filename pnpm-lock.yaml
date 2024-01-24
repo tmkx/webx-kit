@@ -397,6 +397,9 @@ importers:
 
   packages/test-utils:
     dependencies:
+      '@modern-js/utils':
+        specifier: ^2.46.1
+        version: 2.46.1
       '@webx-kit/chrome-types':
         specifier: workspace:^
         version: link:../chrome-types
@@ -3588,7 +3591,6 @@ packages:
       caniuse-lite: 1.0.30001579
       lodash: 4.17.21
       rslog: 1.2.0
-    dev: true
 
   /@module-federation/runtime-tools@0.0.8:
     resolution: {integrity: sha512-tqx3wlVHnpWLk+vn22c0x9Nv1BqdZnoS6vdMb53IsVpbQIFP70nhhvymHUyFuPkoLzMFidS7GpG58DYT/4lvCw==}
@@ -10036,7 +10038,6 @@ packages:
   /rslog@1.2.0:
     resolution: {integrity: sha512-2ZFW7Jtkzt4VkwCFRTE+0lKbzSLSH7U5OM9qZ5YuKk4xVrlIJJZx9Qh/fCyfsk8H+qXbermMc7+18qKJxLQ/bw==}
     engines: {node: '>=14.17.6'}
-    dev: true
 
   /rspack-manifest-plugin@5.0.0-alpha0(webpack@5.89.0):
     resolution: {integrity: sha512-a84H6P/lK0x3kb0I8Qdiwxrnjt1oNW0j+7kwPMWcODJu8eYFBrTXa1t+14n18Jvg9RKIR6llCH16mYxf2d0s8A==}
