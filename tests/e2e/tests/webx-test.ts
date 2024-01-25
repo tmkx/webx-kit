@@ -19,6 +19,8 @@ const webxTest = createWebxTest({
   extensionPath: 'UNKNOWN',
 });
 
+const DEV_DIST_DIR = 'node_modules/.cache/dev-dist';
+
 export const test = webxTest.extend<{
   packageName: string;
   packageDir: string;
@@ -30,7 +32,7 @@ export const test = webxTest.extend<{
     if (packagesInfo.length === 0) throw new Error(`Cannot find ${packageName}`);
     return use(packagesInfo[0].path);
   },
-  extensionPath: async ({ packageDir }, use) => use(path.join(packageDir, 'dist')),
+  extensionPath: async ({ packageDir }, use) => use(path.resolve(packageDir, DEV_DIST_DIR)),
 });
 
 export const expect = test.expect;
@@ -44,7 +46,10 @@ export function startDev({ beforeAll, afterAll, afterEach }: typeof test) {
     const { stdout: dirtyFiles } = await execa('git', ['ls-files', '--modified'], { cwd: packageDir });
     if (!!dirtyFiles) throw new Error('make sure all modifications have been staged');
     const PORT = String(await getRandomPort());
-    childProcess = execa('pnpm', ['dev'], { cwd: packageDir, env: { PORT } });
+    childProcess = execa('pnpm', ['dev'], {
+      cwd: packageDir,
+      env: { PORT, WEBX_DIST: DEV_DIST_DIR },
+    });
     await Promise.race([
       new Promise<void>((resolve) => {
         const handler = (chunk: unknown) => {
@@ -57,6 +62,7 @@ export function startDev({ beforeAll, afterAll, afterEach }: typeof test) {
         };
         childProcess.stdout?.addListener('data', handler);
       }),
+      childProcess.catch((reason): Promise<void> => Promise.reject(reason.message)),
       wait(20 * 1000).then((): Promise<void> => Promise.reject('Timeout')),
     ]);
   });

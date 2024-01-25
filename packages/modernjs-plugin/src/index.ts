@@ -40,6 +40,7 @@ const getDefaultConfig = ({ allInOneEntries }: { allInOneEntries: Set<string> })
       disableFilenameHash: true,
       disableSourceMap: !isDev(),
       distPath: {
+        ...(process.env.WEBX_DIST ? { root: process.env.WEBX_DIST } : null),
         html: '.',
       },
       polyfill: 'off',
