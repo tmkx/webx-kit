@@ -29,6 +29,9 @@ importers:
       '@google/generative-ai':
         specifier: ^0.1.3
         version: 0.1.3
+      '@webx-kit/messaging':
+        specifier: workspace:^
+        version: link:../../packages/messaging
       '@webx-kit/runtime':
         specifier: workspace:^
         version: link:../../packages/runtime

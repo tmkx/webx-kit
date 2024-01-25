@@ -1,6 +1,19 @@
 {
   "name": "@webx-kit/messaging",
   "version": "0.0.0",
+  "exports": {
+    "./*": {
+      "types": "./src/*.ts",
+      "default": "./src/*.ts"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./src/*.ts"
+      ]
+    }
+  },
   "scripts": {
     "dev": "modern dev",
     "pretest": "modern build",
