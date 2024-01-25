@@ -1,15 +1,50 @@
-import type { LiteralUnion } from 'type-fest';
-import { ClientType, NAMESPACE, WebxMessage, WebxMessageListener, isWebxMessage } from './shared';
+import {
+  ClientType,
+  MessageTarget,
+  NAMESPACE,
+  SendFn,
+  SendOptions,
+  TimeoutError,
+  WebxMessage,
+  WebxMessageListener,
+  createSubscriber,
+  isWebxMessage,
+  randomID,
+  withResolvers,
+} from './shared';
 
-export const id = crypto.randomUUID();
+export const id = randomID();
 const listeners = new Set<WebxMessageListener>();
+
+type PromiseResolvers<T> = ReturnType<typeof withResolvers<T>>;
+
+const ongoingMessageResolversMap = new Map<string, PromiseResolvers<any>>();
 
 let clientType: ClientType;
 export let port: chrome.runtime.Port | undefined;
 
 function handleMessage(message: unknown) {
   if (!isWebxMessage(message)) return;
-  listeners.forEach((listener) => listener(message));
+  if (listeners.size) {
+    const subscriber = createSubscriber(message, send);
+    listeners.forEach((listener) => listener(message, subscriber));
+  }
+  const { id, cmd, data } = message;
+  const resolver = ongoingMessageResolversMap.get(id);
+  if (resolver) {
+    if (cmd) {
+      if (cmd === 'next' || cmd === 'complete') {
+        resolver.resolve(data);
+        ongoingMessageResolversMap.delete(id);
+      } else if (cmd === 'error') {
+        resolver.reject(data);
+        ongoingMessageResolversMap.delete(id);
+      }
+    } else {
+      resolver.resolve(data);
+      ongoingMessageResolversMap.delete(id);
+    }
+  }
 }
 
 export function ensureClient(type: ClientType) {
@@ -22,14 +57,38 @@ export function ensureClient(type: ClientType) {
   return port;
 }
 
-export function send(data: unknown, target?: LiteralUnion<ClientType | '*', string>) {
+export const send: SendFn = (data: unknown, options?: SendOptions) => {
+  const { id, ...messages } = options || {};
   const port = ensureClient(clientType);
   port.postMessage({
-    id: crypto.randomUUID(),
-    from: `${clientType}@${id}`,
-    to: target,
+    ...messages,
+    id: id || randomID(),
     data,
   } satisfies WebxMessage);
+};
+
+export interface RequestOptions {
+  to?: MessageTarget;
+  timeout?: number;
+}
+
+export function request<T>(data: unknown, options?: RequestOptions) {
+  const { to, timeout } = options || {};
+  const id = randomID();
+
+  send(data, { type: 'promise', to, id });
+
+  const resolvers = withResolvers<T>();
+  ongoingMessageResolversMap.set(id, resolvers);
+
+  if (timeout) {
+    setTimeout(() => {
+      resolvers.reject(new TimeoutError());
+      ongoingMessageResolversMap.delete(id);
+    }, timeout);
+  }
+
+  return resolvers.promise;
 }
 
 export function off(listener: WebxMessageListener) {

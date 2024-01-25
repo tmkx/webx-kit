@@ -1,4 +1,5 @@
-import { client, send, on } from '@/options';
+import { client, send, on, request } from '@/options';
+import '../../global.css';
 
 // @ts-expect-error
 globalThis.__client = client;
@@ -6,5 +7,13 @@ globalThis.__client = client;
 globalThis.__send = send;
 // @ts-expect-error
 globalThis.__on = on;
+// @ts-expect-error
+globalThis.__request = request;
 
-on(console.debug.bind('options'));
+on((message, subscriber) => {
+  console.log(message);
+  subscriber.reply({
+    reply: 'options',
+    data: message.data,
+  });
+});
