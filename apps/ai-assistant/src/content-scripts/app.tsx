@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, ButtonGroup, Card, Divider, Dropdown, Popover, Spin, Tooltip } from '@douyinfe/semi-ui';
 import { IconBriefStroked, IconLanguage, IconMoreStroked } from '@douyinfe/semi-icons';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import {
   autoUpdatePosition,
   computePosition,
@@ -9,9 +8,8 @@ import {
   isSelectionValid,
   rangeToReference,
 } from '@webx-kit/runtime/content-scripts';
+import { stream } from '@webx-kit/messaging/content-script';
 import clsx from 'clsx';
-import { atom, useAtomValue } from 'jotai';
-import { apiKeyAtom } from '@/hooks/atoms/config';
 import { Provider } from './features/provider';
 import './global.less';
 
@@ -26,8 +24,6 @@ export const App = () => {
   const [content, setContent] = useState('');
   const isDarkMode = useMemo(isPageInDark, [visible]);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  const genAI = useAtomValue(genAIAtom);
 
   useEffect(() => {
     const ac = new AbortController();
@@ -79,51 +75,37 @@ export const App = () => {
   }, [visible]);
 
   const handleTranslate = async (text: string) => {
-    if (!genAI || !text) {
+    if (!text) {
       return console.warn('skipped calling gemini-pro');
     }
 
     setContent('');
     setIsLoading(true);
-    try {
-      const result = await genAI.getGenerativeModel({ model: 'gemini-pro' }).generateContentStream({
-        contents: [
-          {
-            role: 'user',
-            parts: [{ text: 'Translate the following text to Chinese:\n' + text }],
-          },
-        ],
-      });
-      for await (const token of result.stream || []) {
-        setContent((prev) => prev + token.text());
+    stream(
+      { type: 'stream', prompt: 'Translate the following text to Chinese:\n' + text },
+      {
+        next: (token) => setContent((prev) => prev + token),
+        error: () => setIsLoading(false),
+        complete: () => setIsLoading(false),
       }
-    } finally {
-      setIsLoading(false);
-    }
+    );
   };
 
   const handleSummarize = async (text: string) => {
-    if (!genAI || !text) {
+    if (!text) {
       return console.warn('skipped calling gemini-pro');
     }
 
     setContent('');
     setIsLoading(true);
-    try {
-      const result = await genAI.getGenerativeModel({ model: 'gemini-pro' }).generateContentStream({
-        contents: [
-          {
-            role: 'user',
-            parts: [{ text: 'Summarize the following text to Chinese:\n' + text }],
-          },
-        ],
-      });
-      for await (const token of result.stream || []) {
-        setContent((prev) => prev + token.text());
+    stream(
+      { type: 'stream', prompt: 'Summarize the following text to Chinese:\n' + text },
+      {
+        next: (token) => setContent((prev) => prev + token),
+        error: () => setIsLoading(false),
+        complete: () => setIsLoading(false),
       }
-    } finally {
-      setIsLoading(false);
-    }
+    );
   };
 
   return (
@@ -194,8 +176,3 @@ export const App = () => {
     </Provider>
   );
 };
-
-const genAIAtom = atom(async (get) => {
-  const apiKey = await get(apiKeyAtom);
-  return apiKey ? new GoogleGenerativeAI(apiKey) : null;
-});
