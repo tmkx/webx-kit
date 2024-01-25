@@ -7,7 +7,7 @@ export type ClientType = 'devtools' | 'popup' | 'options' | 'content-script';
 export type MessageTarget = LiteralUnion<ClientType, string>;
 
 export type MessageType = 'promise' | 'subscription';
-export type MessageCommand = 'next' | 'error' | 'complete';
+export type MessageCommand = 'next' | 'error' | 'complete' | 'unsubscribe';
 
 export interface WebxMessage {
   /** Message ID */

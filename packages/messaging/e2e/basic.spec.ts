@@ -2,7 +2,7 @@ import type { Page } from '@playwright/test';
 import { setupStaticServer, sleep } from '@webx-kit/test-utils/playwright';
 import { expect, test } from './context';
 import type { connections } from '@/background';
-import type { send, on, request } from '@/client-base';
+import type { send, on, request, stream } from '@/client-base';
 import type { WebxMessage } from '@/shared';
 
 const getWebpageURL = setupStaticServer(test);
@@ -13,6 +13,7 @@ declare module globalThis {
   const __send: typeof send;
   const __on: typeof on;
   const __request: typeof request;
+  const __stream: typeof stream;
 }
 
 test('Background', async ({ background }) => {
@@ -58,4 +59,22 @@ test('Messaging', async ({ context, getURL }) => {
   ]);
   expect(optionsLog.map(mapLog)).toEqual([{ tabId: expect.any(Number), data: 'popup' }]);
   expect(contentScriptLog.map(mapLog)).toEqual([{ tabId: expect.any(Number), data: 'popup to content-script' }]);
+});
+
+test('Stream', async ({ context, getURL }) => {
+  const optionsPage = await context.newPage();
+
+  await optionsPage.goto(await getURL('options.html'));
+
+  const result = await optionsPage.evaluate(() => {
+    return new Promise<unknown[]>((resolve) => {
+      const result: unknown[] = [];
+      globalThis.__stream('options', {
+        next: (value) => result.push(value),
+        complete: () => resolve(result),
+      });
+    });
+  });
+
+  expect(result).toEqual([1, 2, 3]);
 });
