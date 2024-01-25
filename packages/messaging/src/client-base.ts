@@ -1,3 +1,4 @@
+import { Observable, Observer, Subscriber } from 'rxjs';
 import {
   ClientType,
   MessageTarget,
@@ -18,7 +19,8 @@ const listeners = new Set<WebxMessageListener>();
 
 type PromiseResolvers<T> = ReturnType<typeof withResolvers<T>>;
 
-const ongoingMessageResolversMap = new Map<string, PromiseResolvers<any>>();
+const ongoingRequestResolversMap = new Map<string, PromiseResolvers<any>>();
+const ongoingStreamSubscribersMap = new Map<string, Set<Subscriber<any>>>();
 
 let clientType: ClientType;
 export let port: chrome.runtime.Port | undefined;
@@ -30,19 +32,27 @@ function handleMessage(message: unknown) {
     listeners.forEach((listener) => listener(message, subscriber));
   }
   const { id, cmd, data } = message;
-  const resolver = ongoingMessageResolversMap.get(id);
+  const resolver = ongoingRequestResolversMap.get(id);
   if (resolver) {
-    if (cmd) {
-      if (cmd === 'next' || cmd === 'complete') {
-        resolver.resolve(data);
-        ongoingMessageResolversMap.delete(id);
-      } else if (cmd === 'error') {
-        resolver.reject(data);
-        ongoingMessageResolversMap.delete(id);
-      }
-    } else {
+    if (!cmd || cmd === 'next' || cmd === 'complete') {
       resolver.resolve(data);
-      ongoingMessageResolversMap.delete(id);
+      ongoingRequestResolversMap.delete(id);
+    } else if (cmd === 'error') {
+      resolver.reject(data);
+      ongoingRequestResolversMap.delete(id);
+    }
+  }
+
+  const subscriber = ongoingStreamSubscribersMap.get(id);
+  if (subscriber) {
+    if (!cmd || cmd === 'next') {
+      subscriber.forEach((s) => s.next(data));
+    } else if (cmd === 'error') {
+      subscriber.forEach((s) => s.error(data));
+      ongoingRequestResolversMap.delete(id);
+    } else if (cmd === 'complete') {
+      subscriber.forEach((s) => s.complete());
+      ongoingRequestResolversMap.delete(id);
     }
   }
 }
@@ -79,16 +89,45 @@ export function request<T>(data: unknown, options?: RequestOptions) {
   send(data, { type: 'promise', to, id });
 
   const resolvers = withResolvers<T>();
-  ongoingMessageResolversMap.set(id, resolvers);
+  ongoingRequestResolversMap.set(id, resolvers);
 
   if (timeout) {
     setTimeout(() => {
       resolvers.reject(new TimeoutError());
-      ongoingMessageResolversMap.delete(id);
+      ongoingRequestResolversMap.delete(id);
     }, timeout);
   }
 
   return resolvers.promise;
+}
+
+export function stream<T>(
+  data: unknown,
+  observerOrNext: Partial<Observer<T>> | ((value: T) => void),
+  options?: RequestOptions
+) {
+  const { to, timeout } = options || {};
+  const id = randomID();
+
+  if (timeout) {
+    setTimeout(() => {
+      ongoingStreamSubscribersMap.delete(id);
+    }, timeout);
+  }
+
+  send(data, { type: 'subscription', to, id });
+  const subscribers = new Set<Subscriber<any>>();
+  ongoingStreamSubscribersMap.set(id, subscribers);
+  const ob$ = new Observable<T>(function (subscriber) {
+    subscribers.add(subscriber);
+    return () => {
+      subscribers.delete(subscriber);
+      if (ongoingRequestResolversMap.has(id)) {
+        send(data, { type: 'subscription', to, id, cmd: 'unsubscribe' });
+      }
+    };
+  });
+  return ob$.subscribe(observerOrNext);
 }
 
 export function off(listener: WebxMessageListener) {

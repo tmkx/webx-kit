@@ -8,10 +8,22 @@ globalThis.__on = on;
 // @ts-expect-error
 globalThis.__send = send;
 
-on((message, subscriber) => {
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+on(async (message, subscriber) => {
   console.log('RECEIVE', message);
-  subscriber.reply({
-    reply: 'background',
-    data: message.data,
-  });
+  if (message.type === 'promise') {
+    subscriber.reply({
+      reply: 'background',
+      data: message.data,
+    });
+  } else if (message.type === 'subscription' && message.cmd !== 'unsubscribe') {
+    await sleep(50);
+    subscriber.next(1);
+    await sleep(50);
+    subscriber.next(2);
+    await sleep(50);
+    subscriber.next(3);
+    subscriber.complete();
+  }
 });

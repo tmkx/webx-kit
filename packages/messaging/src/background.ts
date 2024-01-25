@@ -41,7 +41,7 @@ async function handleMessage(message: unknown, port: chrome.runtime.Port) {
 
   if (!webxMessage.to) {
     if (listeners.size) {
-      const subscriber = createSubscriber(message, send);
+      const subscriber = createSubscriber(webxMessage, send);
       listeners.forEach((listener) => listener(webxMessage, subscriber));
     }
     return;
