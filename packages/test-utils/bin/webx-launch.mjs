@@ -8,7 +8,7 @@ import { chalk, fs, findMonorepoRoot } from '@modern-js/utils';
 import commander from '@modern-js/utils/commander';
 import { chromium } from '@playwright/test';
 
-commander.program.option('--path <path>', 'extension path', 'dist');
+commander.program.option('--path <path>', 'extension path', 'dist').option('--no-pin', 'pin extension to toolbar');
 
 const opts = commander.program.parse(process.argv).opts();
 
@@ -40,7 +40,22 @@ chromium
     await Promise.all(outdatedPages.map((page) => page.close()));
     await page.goto(`chrome://extensions/`);
 
-    await page.evaluate(() => chrome.developerPrivate.updateProfileConfiguration({ inDeveloperMode: true }));
+    await page.evaluate(async (pin) => {
+      await chrome.developerPrivate.updateProfileConfiguration({ inDeveloperMode: true });
+      if (pin) {
+        const extensions = await chrome.developerPrivate.getExtensionsInfo();
+        await Promise.all(
+          extensions
+            .filter((ext) => !ext.pinnedToToolbar)
+            .map((ext) =>
+              chrome.developerPrivate.updateExtensionConfiguration({
+                extensionId: ext.id,
+                pinnedToToolbar: true,
+              })
+            )
+        );
+      }
+    }, opts.pin);
   })
   .catch((err) => {
     console.log(chalk.red`Start failed`, err);
