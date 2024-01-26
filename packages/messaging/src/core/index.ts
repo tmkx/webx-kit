@@ -1,11 +1,12 @@
-import type { Promisable } from 'type-fest';
+import type { Promisable, Observer } from 'type-fest';
 import { randomID, withResolvers } from './utils';
 
 export type SendMessageFunction = (message: any) => void;
+export type CleanupFunction = VoidFunction;
 
 export interface Port {
   postMessage: SendMessageFunction;
-  onMessage: (listener: SendMessageFunction) => VoidFunction;
+  onMessage: (listener: SendMessageFunction) => CleanupFunction;
 }
 
 /**
@@ -37,9 +38,14 @@ export interface RequestMessage {
   data: any;
 }
 
+export interface StreamMessage {
+  name: string;
+  data: any;
+}
+
 export interface CreateMessagingOptions {
   onRequest?: (message: RequestMessage) => Promisable<any>;
-  onStream?: (message: any) => any;
+  onStream?: (message: StreamMessage, subscriber: Observer<any>) => Promisable<CleanupFunction | void>;
   onEvent?: (message: any) => any;
   on?: (message: any) => any;
 }
@@ -51,8 +57,12 @@ function isPacket(message: any): message is Packet {
 type PromiseResolvers<T> = ReturnType<typeof withResolvers<T>>;
 
 export function createMessaging(port: Port, options?: CreateMessagingOptions) {
-  const { on, onRequest } = options || {};
+  const { on, onRequest, onStream } = options || {};
+  // sender side
   const ongoingRequestResolvers = new Map<string, PromiseResolvers<any>>();
+  const ongoingStreamObservers = new Map<string, Partial<Observer<any>>>();
+  // receiver side
+  const processingStreamCleanups = new Map<string, CleanupFunction | void>();
 
   async function handleMessage(message: any) {
     on?.(message);
@@ -81,6 +91,55 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions) {
         ongoingRequestResolvers.delete(message.i);
         break;
       }
+      case 's': {
+        if (!onStream) throw new Error('unimplemented');
+        function terminate(d?: { error: unknown } | { complete: boolean }) {
+          d && port.postMessage({ t: 'S', i: message.i, d } satisfies Packet);
+          processingStreamCleanups.get(message.i)?.();
+          processingStreamCleanups.delete(message.i);
+        }
+
+        // sending again means "unsubscribe"
+        if (processingStreamCleanups.has(message.i)) {
+          terminate();
+          break;
+        }
+
+        const observer: Observer<any> = {
+          next(value) {
+            port.postMessage({ t: 'S', i: message.i, d: { next: value } } satisfies Packet);
+          },
+          error(error) {
+            terminate({ error });
+          },
+          complete() {
+            terminate({ complete: true });
+          },
+        };
+
+        try {
+          const cleanup = await onStream(message.d, observer);
+          processingStreamCleanups.set(message.i, cleanup);
+        } catch (error) {
+          terminate({ error });
+        }
+        break;
+      }
+      case 'S': {
+        const observer = ongoingStreamObservers.get(message.i);
+        if (!observer) throw new Error('no observer');
+        const data = message.d;
+        if ('next' in data) {
+          observer.next?.(data.next);
+        } else if ('error' in data) {
+          observer.error?.(data.error);
+          ongoingStreamObservers.delete(message.i);
+        } else if ('complete' in data) {
+          observer.complete?.();
+          ongoingStreamObservers.delete(message.i);
+        }
+        break;
+      }
     }
   }
 
@@ -93,6 +152,16 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions) {
       ongoingRequestResolvers.set(id, resolvers);
       port.postMessage({ t: 'r', i: id, d: { name, data } } satisfies Packet);
       return resolvers.promise;
+    },
+    stream(name: string, data: unknown, observer: Partial<Observer<any>>) {
+      const id = randomID();
+      ongoingStreamObservers.set(id, observer);
+      port.postMessage({ t: 's', i: id, d: { name, data } } satisfies Packet);
+      return () => {
+        if (!ongoingStreamObservers.has(id)) return;
+        port.postMessage({ t: 's', i: id, d: null } satisfies Packet);
+        ongoingStreamObservers.delete(id);
+      };
     },
     dispose() {
       offMessage();
