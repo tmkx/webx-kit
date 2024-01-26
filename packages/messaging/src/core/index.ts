@@ -5,6 +5,7 @@ export type SendMessageFunction = (message: any) => void;
 export type CleanupFunction = VoidFunction;
 
 export interface Port {
+  name: string;
   postMessage: SendMessageFunction;
   onMessage: (listener: SendMessageFunction) => CleanupFunction;
 }
@@ -43,10 +44,23 @@ export interface StreamMessage {
   data: any;
 }
 
+export interface RequestContext {
+  relay: (to: Messaging) => Promisable<any>;
+}
+
+export interface StreamContext {
+  relay: (to: Messaging) => Promisable<any>;
+}
+
 export interface CreateMessagingOptions {
-  onRequest?: (message: RequestMessage) => Promisable<any>;
-  onStream?: (message: StreamMessage, subscriber: Observer<any>) => Promisable<CleanupFunction | void>;
+  onRequest?: (this: RequestContext, message: RequestMessage) => Promisable<any>;
+  onStream?: (
+    this: StreamContext,
+    message: StreamMessage,
+    subscriber: Observer<any>
+  ) => Promisable<CleanupFunction | void>;
   onEvent?: (message: any) => any;
+  onDispose?: VoidCallback;
   on?: (message: any) => any;
 }
 
@@ -56,7 +70,14 @@ function isPacket(message: any): message is Packet {
 
 type PromiseResolvers<T> = ReturnType<typeof withResolvers<T>>;
 
-export function createMessaging(port: Port, options?: CreateMessagingOptions) {
+export interface Messaging {
+  name: string;
+  request: <T>(name: string, data: unknown) => Promise<T>;
+  stream: (name: string, data: unknown, observer: Partial<Observer<any>>) => VoidCallback;
+  dispose: VoidFunction;
+}
+
+export function createMessaging(port: Port, options?: CreateMessagingOptions): Messaging {
   const { on, onRequest, onStream } = options || {};
   // sender side
   const ongoingRequestResolvers = new Map<string, PromiseResolvers<any>>();
@@ -69,10 +90,15 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions) {
     if (!isPacket(message)) return;
     switch (message.t) {
       case 'r': {
-        if (!onRequest) throw new Error('unimplemented');
+        if (!onRequest) return;
         let d;
         try {
-          const response = await onRequest(message.d);
+          const context: RequestContext = {
+            relay(to) {
+              return to.request(message.d.name, message.d.data);
+            },
+          };
+          const response = await onRequest.call(context, message.d);
           d = { data: response };
         } catch (err) {
           d = { error: err };
@@ -82,7 +108,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions) {
       }
       case 'R': {
         const resolvers = ongoingRequestResolvers.get(message.i);
-        if (!resolvers) throw new Error('no resolvers');
+        if (!resolvers) return;
         const data = message.d;
 
         if ('data' in data) resolvers.resolve(data.data);
@@ -92,7 +118,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions) {
         break;
       }
       case 's': {
-        if (!onStream) throw new Error('unimplemented');
+        if (!onStream) return;
         function terminate(d?: { error: unknown } | { complete: boolean }) {
           d && port.postMessage({ t: 'S', i: message.i, d } satisfies Packet);
           processingStreamCleanups.get(message.i)?.();
@@ -118,7 +144,12 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions) {
         };
 
         try {
-          const cleanup = await onStream(message.d, observer);
+          const context: StreamContext = {
+            relay(to) {
+              return to.stream(message.d.name, message.d.data, observer);
+            },
+          };
+          const cleanup = await onStream.call(context, message.d, observer);
           processingStreamCleanups.set(message.i, cleanup);
         } catch (error) {
           terminate({ error });
@@ -127,7 +158,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions) {
       }
       case 'S': {
         const observer = ongoingStreamObservers.get(message.i);
-        if (!observer) throw new Error('no observer');
+        if (!observer) return;
         const data = message.d;
         if ('next' in data) {
           observer.next?.(data.next);
@@ -146,6 +177,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions) {
   const offMessage = port.onMessage(handleMessage);
 
   return {
+    name: port.name,
     request<T>(name: string, data: unknown) {
       const resolvers = withResolvers<T>();
       const id = randomID();
@@ -153,7 +185,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions) {
       port.postMessage({ t: 'r', i: id, d: { name, data } } satisfies Packet);
       return resolvers.promise;
     },
-    stream(name: string, data: unknown, observer: Partial<Observer<any>>) {
+    stream(name, data, observer) {
       const id = randomID();
       ongoingStreamObservers.set(id, observer);
       port.postMessage({ t: 's', i: id, d: { name, data } } satisfies Packet);
@@ -171,6 +203,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions) {
 
 export function fromMessagePort(port: MessagePort): Port {
   return {
+    name: randomID(),
     postMessage: port.postMessage.bind(port),
     onMessage(listener) {
       const ac = new AbortController();
