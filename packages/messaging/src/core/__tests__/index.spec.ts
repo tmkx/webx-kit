@@ -24,7 +24,7 @@ it('should support request', async () => {
     async onRequest(message) {
       switch (message.name) {
         case 'hello':
-          return await sleep(0, `Hello, ${message.data.name}`);
+          return await sleep(0, `Hello, ${message.user}`);
         default:
           throw new Error('Unknown method');
       }
@@ -32,8 +32,8 @@ it('should support request', async () => {
   });
   const sender = createMessaging(fromMessagePort(port2));
 
-  await expect(sender.request('hello', { name: 'Tmk' })).resolves.toEqual('Hello, Tmk');
-  await expect(sender.request('greet', { name: 'Tmk' })).rejects.toThrow('Unknown method');
+  await expect(sender.request({ name: 'hello', user: 'Tmk' })).resolves.toEqual('Hello, Tmk');
+  await expect(sender.request({ name: 'greet', user: 'Tmk' })).rejects.toThrow('Unknown method');
 });
 
 it('should support stream', async () => {
@@ -47,9 +47,6 @@ it('should support stream', async () => {
           subscriber.next(2);
           subscriber.next(3);
           subscriber.complete();
-          return () => {
-            console.log('cleanup');
-          };
         }
         default:
           throw new Error('Unknown method');
@@ -61,22 +58,28 @@ it('should support stream', async () => {
   await expect(
     new Promise<unknown[]>((resolve, reject) => {
       const result: unknown[] = [];
-      sender.stream('hello', null, {
-        next: (value) => result.push(value),
-        error: (reason) => reject(reason),
-        complete: () => resolve(result),
-      });
+      sender.stream(
+        { name: 'hello' },
+        {
+          next: (value) => result.push(value),
+          error: (reason) => reject(reason),
+          complete: () => resolve(result),
+        }
+      );
     })
   ).resolves.toEqual([1, 2, 3]);
 
   await expect(
     new Promise<unknown[]>((resolve, reject) => {
       const result: unknown[] = [];
-      sender.stream('greet', null, {
-        next: (value) => result.push(value),
-        error: (reason) => reject(reason),
-        complete: () => resolve(result),
-      });
+      sender.stream(
+        { name: 'greet' },
+        {
+          next: (value) => result.push(value),
+          error: (reason) => reject(reason),
+          complete: () => resolve(result),
+        }
+      );
     })
   ).rejects.toThrow('Unknown method');
 });
@@ -90,9 +93,7 @@ it('should support abort stream', async () => {
       switch (message.name) {
         case 'hello': {
           let i = 0;
-          const timer = setInterval(() => {
-            subscriber.next(i++);
-          }, message.data);
+          const timer = setInterval(() => subscriber.next(i++), message.interval);
           return () => {
             clearInterval(timer);
             cleanupFn();
@@ -109,11 +110,14 @@ it('should support abort stream', async () => {
   await expect(
     new Promise<unknown[]>((resolve, reject) => {
       const result: unknown[] = [];
-      const unsubscribe = sender.stream('hello', 30, {
-        next: (value) => result.push(value),
-        error: (reason) => reject(reason),
-        complete: completeFn,
-      });
+      const unsubscribe = sender.stream(
+        { name: 'hello', interval: 30 },
+        {
+          next: (value) => result.push(value),
+          error: (reason) => reject(reason),
+          complete: completeFn,
+        }
+      );
       setTimeout(() => {
         unsubscribe();
         resolve(result);
@@ -133,7 +137,7 @@ it('should support relay request', async () => {
     async onRequest(message) {
       switch (message.name) {
         case 'hello':
-          return await sleep(0, `Hello, ${message.data.name}`);
+          return await sleep(0, `Hello, ${message.user}`);
         default:
           throw new Error('Unknown method');
       }
@@ -147,8 +151,8 @@ it('should support relay request', async () => {
   });
   const sender = createMessaging(fromMessagePort(port4));
 
-  await expect(sender.request('hello', { name: 'Tmk' })).resolves.toEqual('Hello, Tmk');
-  await expect(sender.request('greet', { name: 'Tmk' })).rejects.toThrow('Unknown method');
+  await expect(sender.request({ name: 'hello', user: 'Tmk' })).resolves.toEqual('Hello, Tmk');
+  await expect(sender.request({ name: 'greet', user: 'Tmk' })).rejects.toThrow('Unknown method');
 });
 
 it('should support relay stream', async () => {
@@ -163,9 +167,6 @@ it('should support relay stream', async () => {
           subscriber.next(2);
           subscriber.next(3);
           subscriber.complete();
-          return () => {
-            console.log('cleanup');
-          };
         }
         default:
           throw new Error('Unknown method');
@@ -183,22 +184,28 @@ it('should support relay stream', async () => {
   await expect(
     new Promise<unknown[]>((resolve, reject) => {
       const result: unknown[] = [];
-      sender.stream('hello', null, {
-        next: (value) => result.push(value),
-        error: (reason) => reject(reason),
-        complete: () => resolve(result),
-      });
+      sender.stream(
+        { name: 'hello' },
+        {
+          next: (value) => result.push(value),
+          error: (reason) => reject(reason),
+          complete: () => resolve(result),
+        }
+      );
     })
   ).resolves.toEqual([1, 2, 3]);
 
   await expect(
     new Promise<unknown[]>((resolve, reject) => {
       const result: unknown[] = [];
-      sender.stream('greet', null, {
-        next: (value) => result.push(value),
-        error: (reason) => reject(reason),
-        complete: () => resolve(result),
-      });
+      sender.stream(
+        { name: 'greet' },
+        {
+          next: (value) => result.push(value),
+          error: (reason) => reject(reason),
+          complete: () => resolve(result),
+        }
+      );
     })
   ).rejects.toThrow('Unknown method');
 });

@@ -34,16 +34,6 @@ interface Packet {
   d: any;
 }
 
-export interface RequestMessage {
-  name: string;
-  data: any;
-}
-
-export interface StreamMessage {
-  name: string;
-  data: any;
-}
-
 export interface RequestContext {
   relay: (to: Messaging) => Promisable<any>;
 }
@@ -53,12 +43,8 @@ export interface StreamContext {
 }
 
 export interface CreateMessagingOptions {
-  onRequest?: (this: RequestContext, message: RequestMessage) => Promisable<any>;
-  onStream?: (
-    this: StreamContext,
-    message: StreamMessage,
-    subscriber: Observer<any>
-  ) => Promisable<CleanupFunction | void>;
+  onRequest?: (this: RequestContext, message: any) => Promisable<any>;
+  onStream?: (this: StreamContext, message: any, subscriber: Observer<any>) => Promisable<CleanupFunction | void>;
   onEvent?: (message: any) => any;
   onDispose?: VoidCallback;
   on?: (message: any) => any;
@@ -72,9 +58,9 @@ type PromiseResolvers<T> = ReturnType<typeof withResolvers<T>>;
 
 export interface Messaging {
   name: string;
-  request: <T>(name: string, data: unknown) => Promise<T>;
-  stream: (name: string, data: unknown, observer: Partial<Observer<any>>) => VoidCallback;
-  dispose: VoidFunction;
+  request<T>(data: unknown): Promise<T>;
+  stream(data: unknown, observer: Partial<Observer<any>>): VoidCallback;
+  dispose(): void;
 }
 
 export function createMessaging(port: Port, options?: CreateMessagingOptions): Messaging {
@@ -95,7 +81,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
         try {
           const context: RequestContext = {
             relay(to) {
-              return to.request(message.d.name, message.d.data);
+              return to.request(message.d);
             },
           };
           const response = await onRequest.call(context, message.d);
@@ -146,7 +132,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
         try {
           const context: StreamContext = {
             relay(to) {
-              return to.stream(message.d.name, message.d.data, observer);
+              return to.stream(message.d, observer);
             },
           };
           const cleanup = await onStream.call(context, message.d, observer);
@@ -178,17 +164,17 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
 
   return {
     name: port.name,
-    request<T>(name: string, data: unknown) {
+    request<T>(data: unknown) {
       const resolvers = withResolvers<T>();
       const id = randomID();
       ongoingRequestResolvers.set(id, resolvers);
-      port.postMessage({ t: 'r', i: id, d: { name, data } } satisfies Packet);
+      port.postMessage({ t: 'r', i: id, d: data } satisfies Packet);
       return resolvers.promise;
     },
-    stream(name, data, observer) {
+    stream(data, observer) {
       const id = randomID();
       ongoingStreamObservers.set(id, observer);
-      port.postMessage({ t: 's', i: id, d: { name, data } } satisfies Packet);
+      port.postMessage({ t: 's', i: id, d: data } satisfies Packet);
       return () => {
         if (!ongoingStreamObservers.has(id)) return;
         port.postMessage({ t: 's', i: id, d: null } satisfies Packet);
