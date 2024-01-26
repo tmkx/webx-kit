@@ -17,7 +17,9 @@
   "scripts": {
     "dev": "modern dev",
     "pretest": "modern build",
-    "test": "playwright test",
+    "test": "pnpm run /^test:/",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
@@ -32,6 +34,7 @@
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.1"
   }
 }
