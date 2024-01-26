@@ -23,7 +23,6 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "rxjs": "^7.8.1",
     "type-fest": "^4.10.0"
   },
   "devDependencies": {

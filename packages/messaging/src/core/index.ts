@@ -8,6 +8,7 @@ export interface Port {
   name: string;
   postMessage: SendMessageFunction;
   onMessage: (listener: SendMessageFunction) => CleanupFunction;
+  onDispose: (listener: VoidCallback) => CleanupFunction;
 }
 
 /**
@@ -64,7 +65,7 @@ export interface Messaging {
 }
 
 export function createMessaging(port: Port, options?: CreateMessagingOptions): Messaging {
-  const { on, onRequest, onStream } = options || {};
+  const { on, onRequest, onStream, onDispose } = options || {};
   // sender side
   const ongoingRequestResolvers = new Map<string, PromiseResolvers<any>>();
   const ongoingStreamObservers = new Map<string, Partial<Observer<any>>>();
@@ -161,6 +162,12 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
   }
 
   const offMessage = port.onMessage(handleMessage);
+  const offDispose = port.onDispose(dispose);
+  function dispose() {
+    offMessage();
+    offDispose();
+    onDispose?.();
+  }
 
   return {
     name: port.name,
@@ -181,9 +188,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
         ongoingStreamObservers.delete(id);
       };
     },
-    dispose() {
-      offMessage();
-    },
+    dispose,
   };
 }
 
@@ -195,6 +200,28 @@ export function fromMessagePort(port: MessagePort): Port {
       const ac = new AbortController();
       port.addEventListener('message', (ev) => listener(ev.data), { signal: ac.signal });
       return ac.abort.bind(ac);
+    },
+    onDispose() {
+      return () => {};
+    },
+  };
+}
+
+export function fromChromePort(port: chrome.runtime.Port): Port {
+  return {
+    name: port.name,
+    postMessage: port.postMessage.bind(port),
+    onMessage(listener) {
+      port.onMessage.addListener(listener);
+      return () => {
+        port.onMessage.removeListener(listener);
+      };
+    },
+    onDispose(listener) {
+      port.onDisconnect.addListener(listener);
+      return () => {
+        port.onDisconnect.removeListener(listener);
+      };
     },
   };
 }

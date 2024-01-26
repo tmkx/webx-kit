@@ -1,20 +1,23 @@
-import { client, send, on, request, stream } from '@/content-script';
+import { client, setRequestHandler, setStreamHandler } from '@/content-script';
 
 // @ts-expect-error
 globalThis.__client = client;
-// @ts-expect-error
-globalThis.__send = send;
-// @ts-expect-error
-globalThis.__on = on;
-// @ts-expect-error
-globalThis.__request = request;
-// @ts-expect-error
-globalThis.__stream = stream;
 
-on((message, subscriber) => {
-  console.log(message);
-  subscriber.reply({
+setRequestHandler((message) => {
+  return {
     reply: 'content-script',
     data: message.data,
-  });
+  };
+});
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+setStreamHandler(async (_message, subscriber) => {
+  await sleep(50);
+  subscriber.next('content-script 1');
+  await sleep(50);
+  subscriber.next('content-script 2');
+  await sleep(50);
+  subscriber.next('content-script 3');
+  subscriber.complete();
 });
