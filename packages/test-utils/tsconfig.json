@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2015",
     "lib": ["DOM", "ESNext"],
-    "allowJs": true,
+    "allowJs": false,
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
@@ -14,7 +14,7 @@
     "resolveJsonModule": true,
     "moduleResolution": "node",
     "baseUrl": "./",
-    "noEmit": true
+    "noEmit": true,
   },
   "exclude": ["dist"]
 }

@@ -2,7 +2,7 @@ import { setTimeout as sleep } from 'node:timers/promises';
 import { expect, it, vi } from 'vitest';
 import { createMessaging, fromMessagePort } from '../index';
 
-it('should on/off listener', async () => {
+it.concurrent('should on/off listener', async () => {
   const { port1, port2 } = new MessageChannel();
   const listenerFn = vi.fn();
 
@@ -17,7 +17,7 @@ it('should on/off listener', async () => {
   expect(listenerFn).toBeCalledTimes(1);
 });
 
-it('should support request', async () => {
+it.concurrent('should support request', async () => {
   const { port1, port2 } = new MessageChannel();
 
   const _receiver = createMessaging(fromMessagePort(port1), {
@@ -36,7 +36,7 @@ it('should support request', async () => {
   await expect(sender.request({ name: 'greet', user: 'Tmk' })).rejects.toThrow('Unknown method');
 });
 
-it('should support stream', async () => {
+it.concurrent('should support stream', async () => {
   const { port1, port2 } = new MessageChannel();
 
   const _receiver = createMessaging(fromMessagePort(port1), {
@@ -84,7 +84,7 @@ it('should support stream', async () => {
   ).rejects.toThrow('Unknown method');
 });
 
-it('should support abort stream', async () => {
+it.concurrent('should support abort stream', async () => {
   const { port1, port2 } = new MessageChannel();
 
   const cleanupFn = vi.fn();
@@ -111,7 +111,7 @@ it('should support abort stream', async () => {
     new Promise<unknown[]>((resolve, reject) => {
       const result: unknown[] = [];
       const unsubscribe = sender.stream(
-        { name: 'hello', interval: 30 },
+        { name: 'hello', interval: 50 },
         {
           next: (value) => result.push(value),
           error: (reason) => reject(reason),
@@ -121,7 +121,7 @@ it('should support abort stream', async () => {
       setTimeout(() => {
         unsubscribe();
         resolve(result);
-      }, 80);
+      }, 123);
     })
   ).resolves.toEqual([0, 1]);
   await sleep(10);
@@ -129,7 +129,7 @@ it('should support abort stream', async () => {
   expect(completeFn).not.toBeCalled();
 });
 
-it('should support relay request', async () => {
+it.concurrent('should support relay request', async () => {
   const { port1, port2 } = new MessageChannel();
   const { port1: port3, port2: port4 } = new MessageChannel();
 
@@ -155,7 +155,7 @@ it('should support relay request', async () => {
   await expect(sender.request({ name: 'greet', user: 'Tmk' })).rejects.toThrow('Unknown method');
 });
 
-it('should support relay stream', async () => {
+it.concurrent('should support relay stream', async () => {
   const { port1, port2 } = new MessageChannel();
   const { port1: port3, port2: port4 } = new MessageChannel();
 

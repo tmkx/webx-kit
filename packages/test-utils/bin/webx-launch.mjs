@@ -8,13 +8,20 @@ import { chalk, fs, findMonorepoRoot } from '@modern-js/utils';
 import commander from '@modern-js/utils/commander';
 import { chromium } from '@playwright/test';
 
-commander.program.option('--path <path>', 'extension path', 'dist').option('--no-pin', 'pin extension to toolbar');
+commander.program.option('--path [path]', 'extension path').option('--no-pin', 'pin extension to toolbar');
 
 const opts = commander.program.parse(process.argv).opts();
 
-const extensionPath = path.resolve(opts.path);
-if (!fs.existsSync(extensionPath)) throw new Error(`\`${extensionPath}\` does not exist`);
-if (!fs.statSync(extensionPath).isDirectory()) throw new Error(`\`${extensionPath}\` is not a directory`);
+let extensionPath;
+
+if (opts.path) {
+  extensionPath = path.resolve(opts.path);
+} else {
+  extensionPath = fs.existsSync(path.resolve('output/manifest.json')) ? path.resolve('output') : path.resolve('dist');
+}
+
+if (!fs.existsSync(path.resolve(extensionPath, 'manifest.json')))
+  throw new Error(`\`${path.join(extensionPath, 'manifest.json')}\` does not exist`);
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const monorepoRoot = findMonorepoRoot(dirname);

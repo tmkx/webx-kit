@@ -8,7 +8,7 @@ import {
   isSelectionValid,
   rangeToReference,
 } from '@webx-kit/runtime/content-scripts';
-import { stream } from '@webx-kit/messaging/content-script';
+import { client } from '@webx-kit/messaging/content-script';
 import clsx from 'clsx';
 import { Provider } from './features/provider';
 import './global.less';
@@ -81,8 +81,8 @@ export const App = () => {
 
     setContent('');
     setIsLoading(true);
-    stream(
-      { type: 'stream', prompt: 'Translate the following text to Chinese:\n' + text },
+    client.stream(
+      { prompt: 'Translate the following text to Chinese:\n' + text },
       {
         next: (token) => setContent((prev) => prev + token),
         error: () => setIsLoading(false),
@@ -98,8 +98,8 @@ export const App = () => {
 
     setContent('');
     setIsLoading(true);
-    stream(
-      { type: 'stream', prompt: 'Summarize the following text to Chinese:\n' + text },
+    client.stream(
+      { prompt: 'Summarize the following text to Chinese:\n' + text },
       {
         next: (token) => setContent((prev) => prev + token),
         error: () => setIsLoading(false),

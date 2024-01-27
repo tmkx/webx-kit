@@ -35,5 +35,11 @@ jobs:
           pnpm i --frozen-lockfile
           pnpm playwright install
 
+      - name: Build
+        run: pnpm build
+
+      - name: Lint
+        run: pnpm lint:type
+
       - name: Test
         run: pnpm test
