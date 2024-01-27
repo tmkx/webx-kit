@@ -106,15 +106,15 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
       }
       case 's': {
         if (!onStream) return;
-        function terminate(d?: { error: unknown } | { complete: boolean }) {
-          d && port.postMessage({ t: 'S', i: message.i, d } satisfies Packet);
+        function terminate(d: { error: unknown } | { complete: boolean }) {
+          port.postMessage({ t: 'S', i: message.i, d } satisfies Packet);
           processingStreamCleanups.get(message.i)?.();
           processingStreamCleanups.delete(message.i);
         }
 
         // sending again means "unsubscribe"
         if (processingStreamCleanups.has(message.i)) {
-          terminate();
+          terminate({ complete: false });
           break;
         }
 
@@ -153,7 +153,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
           observer.error?.(data.error);
           ongoingStreamObservers.delete(message.i);
         } else if ('complete' in data) {
-          observer.complete?.();
+          data.complete && observer.complete?.();
           ongoingStreamObservers.delete(message.i);
         }
         break;
@@ -185,7 +185,6 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
       return () => {
         if (!ongoingStreamObservers.has(id)) return;
         port.postMessage({ t: 's', i: id, d: null } satisfies Packet);
-        ongoingStreamObservers.delete(id);
       };
     },
     dispose,
