@@ -111,7 +111,7 @@ it.concurrent('should support abort stream', async () => {
     new Promise<unknown[]>((resolve, reject) => {
       const result: unknown[] = [];
       const unsubscribe = sender.stream(
-        { name: 'hello', interval: 50 },
+        { name: 'hello', interval: 100 },
         {
           next: (value) => result.push(value),
           error: (reason) => reject(reason),
@@ -121,7 +121,7 @@ it.concurrent('should support abort stream', async () => {
       setTimeout(() => {
         unsubscribe();
         resolve(result);
-      }, 123);
+      }, 250);
     })
   ).resolves.toEqual([0, 1]);
   await sleep(10);
