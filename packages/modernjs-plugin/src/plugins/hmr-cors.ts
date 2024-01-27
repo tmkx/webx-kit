@@ -30,6 +30,7 @@ export const hmrCorsPlugin = (): RsbuildPlugin => {
             tools: {
               devServer: {
                 before: [
+                  // @ts-ignore
                   (req, res, next) => {
                     if (req.method?.toUpperCase() !== 'OPTIONS') return next();
                     res.writeHead(200, {

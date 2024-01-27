@@ -10,10 +10,10 @@
       "outputs": []
     },
     "pretest": {
-      "outputs": ["dist"]
+      "outputs": ["output"]
     },
     "test": {
-      "dependsOn": ["pretest", "^test"]
+      "dependsOn": ["build", "pretest", "^test"]
     }
   }
 }

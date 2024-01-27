@@ -4,7 +4,6 @@
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",
-    "pretest": "modern build",
     "test": "playwright test",
     "lint:type": "tsc --noEmit"
   },
