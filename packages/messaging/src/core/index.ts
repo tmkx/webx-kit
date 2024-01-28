@@ -169,7 +169,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
     onDispose?.();
   }
 
-  return {
+  const messaging: Messaging = {
     name: port.name,
     request<T>(data: unknown) {
       const resolvers = withResolvers<T>();
@@ -189,6 +189,15 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
     },
     dispose,
   };
+
+  if (process.env.NODE_ENV === 'test') {
+    Object.assign(messaging, {
+      ongoingRequestResolvers,
+      ongoingStreamObservers,
+    });
+  }
+
+  return messaging;
 }
 
 export function fromMessagePort(port: MessagePort): Port {

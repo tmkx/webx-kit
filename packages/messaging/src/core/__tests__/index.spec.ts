@@ -1,6 +1,13 @@
 import { setTimeout as sleep } from 'node:timers/promises';
 import { expect, it, vi } from 'vitest';
-import { createMessaging, fromMessagePort } from '../index';
+import { Messaging, createMessaging, fromMessagePort } from '../index';
+
+function expectMessagingIsNotLeaked(messaging: Messaging) {
+  // @ts-expect-error
+  expect(messaging.ongoingRequestResolvers).toHaveLength(0);
+  // @ts-expect-error
+  expect(messaging.ongoingStreamObservers).toHaveLength(0);
+}
 
 it.concurrent('should on/off listener', async () => {
   const { port1, port2 } = new MessageChannel();
@@ -15,12 +22,14 @@ it.concurrent('should on/off listener', async () => {
   receiver.dispose();
   await (port2.postMessage('hello'), sleep(10));
   expect(listenerFn).toBeCalledTimes(1);
+
+  expectMessagingIsNotLeaked(receiver);
 });
 
 it.concurrent('should support request', async () => {
   const { port1, port2 } = new MessageChannel();
 
-  const _receiver = createMessaging(fromMessagePort(port1), {
+  const receiver = createMessaging(fromMessagePort(port1), {
     async onRequest(message) {
       switch (message.name) {
         case 'hello':
@@ -34,12 +43,15 @@ it.concurrent('should support request', async () => {
 
   await expect(sender.request({ name: 'hello', user: 'Tmk' })).resolves.toEqual('Hello, Tmk');
   await expect(sender.request({ name: 'greet', user: 'Tmk' })).rejects.toThrow('Unknown method');
+
+  expectMessagingIsNotLeaked(receiver);
+  expectMessagingIsNotLeaked(sender);
 });
 
 it.concurrent('should support stream', async () => {
   const { port1, port2 } = new MessageChannel();
 
-  const _receiver = createMessaging(fromMessagePort(port1), {
+  const receiver = createMessaging(fromMessagePort(port1), {
     async onStream(message, subscriber) {
       switch (message.name) {
         case 'hello': {
@@ -82,13 +94,16 @@ it.concurrent('should support stream', async () => {
       );
     })
   ).rejects.toThrow('Unknown method');
+
+  expectMessagingIsNotLeaked(receiver);
+  expectMessagingIsNotLeaked(sender);
 });
 
 it.concurrent('should support abort stream', async () => {
   const { port1, port2 } = new MessageChannel();
 
   const cleanupFn = vi.fn();
-  const _receiver = createMessaging(fromMessagePort(port1), {
+  const receiver = createMessaging(fromMessagePort(port1), {
     async onStream(message, subscriber) {
       switch (message.name) {
         case 'hello': {
@@ -127,13 +142,16 @@ it.concurrent('should support abort stream', async () => {
   await sleep(10);
   expect(cleanupFn).toBeCalled();
   expect(completeFn).not.toBeCalled();
+
+  expectMessagingIsNotLeaked(receiver);
+  expectMessagingIsNotLeaked(sender);
 });
 
 it.concurrent('should support relay request', async () => {
   const { port1, port2 } = new MessageChannel();
   const { port1: port3, port2: port4 } = new MessageChannel();
 
-  const _destination = createMessaging(fromMessagePort(port1), {
+  const destination = createMessaging(fromMessagePort(port1), {
     async onRequest(message) {
       switch (message.name) {
         case 'hello':
@@ -144,7 +162,7 @@ it.concurrent('should support relay request', async () => {
     },
   });
   const relay1 = createMessaging(fromMessagePort(port2));
-  const _relay2 = createMessaging(fromMessagePort(port3), {
+  const relay2 = createMessaging(fromMessagePort(port3), {
     onRequest() {
       return this.relay(relay1);
     },
@@ -153,13 +171,18 @@ it.concurrent('should support relay request', async () => {
 
   await expect(sender.request({ name: 'hello', user: 'Tmk' })).resolves.toEqual('Hello, Tmk');
   await expect(sender.request({ name: 'greet', user: 'Tmk' })).rejects.toThrow('Unknown method');
+
+  expectMessagingIsNotLeaked(destination);
+  expectMessagingIsNotLeaked(relay1);
+  expectMessagingIsNotLeaked(relay2);
+  expectMessagingIsNotLeaked(sender);
 });
 
 it.concurrent('should support relay stream', async () => {
   const { port1, port2 } = new MessageChannel();
   const { port1: port3, port2: port4 } = new MessageChannel();
 
-  const _destination = createMessaging(fromMessagePort(port1), {
+  const destination = createMessaging(fromMessagePort(port1), {
     async onStream(message, subscriber) {
       switch (message.name) {
         case 'hello': {
@@ -174,7 +197,7 @@ it.concurrent('should support relay stream', async () => {
     },
   });
   const relay1 = createMessaging(fromMessagePort(port2));
-  const _relay2 = createMessaging(fromMessagePort(port3), {
+  const relay2 = createMessaging(fromMessagePort(port3), {
     onStream() {
       return this.relay(relay1);
     },
@@ -208,4 +231,9 @@ it.concurrent('should support relay stream', async () => {
       );
     })
   ).rejects.toThrow('Unknown method');
+
+  expectMessagingIsNotLeaked(destination);
+  expectMessagingIsNotLeaked(relay1);
+  expectMessagingIsNotLeaked(relay2);
+  expectMessagingIsNotLeaked(sender);
 });
