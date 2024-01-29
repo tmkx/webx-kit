@@ -15,6 +15,7 @@
     "svgr",
     "tailwindcss",
     "testid",
+    "trpc",
     "webx"
   ]
 }
