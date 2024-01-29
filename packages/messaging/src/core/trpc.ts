@@ -1,7 +1,13 @@
-import { AnyRouter, callProcedure, getErrorShape, getTRPCErrorFromUnknown, transformTRPCResponse } from '@trpc/server';
-import { applyWSSHandler } from '@trpc/server/adapters/ws';
-import { transformResult } from '@trpc/server/unstable-core-do-not-import';
-import { observable } from '@trpc/server/observable';
+import {
+  AnyRouter,
+  TRPCError,
+  callProcedure,
+  getErrorShape,
+  getTRPCErrorFromUnknown,
+  transformTRPCResponse,
+} from '@trpc/server';
+import { TRPCResponseMessage, transformResult } from '@trpc/server/unstable-core-do-not-import';
+import { isObservable, observable } from '@trpc/server/observable';
 import { Port, createMessaging } from './index';
 import { Operation, TRPCClientError, TRPCLink } from '@trpc/client';
 
@@ -25,14 +31,65 @@ export function applyMessagingHandler<TRouter extends AnyRouter>(options: Messag
           ctx,
           type,
         });
+
+        if (type === 'subscription') {
+          if (!isObservable(result)) {
+            throw new TRPCError({
+              message: `Subscription ${path} did not return an observable`,
+              code: 'INTERNAL_SERVER_ERROR',
+            });
+          }
+        } else {
+          subscriber.next(
+            transformTRPCResponse(router._def._config, {
+              result: { data: result },
+            })
+          );
+          subscriber.complete();
+          return;
+        }
+
         subscriber.next(
           transformTRPCResponse(router._def._config, {
-            result: {
-              data: result,
-            },
-          })
+            result: { type: 'started' },
+          } as TRPCResponseMessage)
         );
-        subscriber.complete();
+
+        const observable = result;
+        const sub = observable.subscribe({
+          next(data) {
+            subscriber.next(
+              transformTRPCResponse(router._def._config, {
+                result: { data },
+              })
+            );
+          },
+          error(err) {
+            const error = getTRPCErrorFromUnknown(err);
+            subscriber.next(
+              transformTRPCResponse(router._def._config, {
+                error: getErrorShape({
+                  config: router._def._config,
+                  error,
+                  type,
+                  path,
+                  input,
+                  ctx,
+                }),
+              })
+            );
+          },
+          complete() {
+            subscriber.next(
+              transformTRPCResponse(router._def._config, {
+                result: { type: 'stopped' },
+              } as TRPCResponseMessage)
+            );
+            subscriber.complete();
+          },
+        });
+
+        return sub.unsubscribe;
       } catch (cause) {
         const error = getTRPCErrorFromUnknown(cause);
         subscriber.error(

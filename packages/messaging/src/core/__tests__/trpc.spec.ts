@@ -1,9 +1,12 @@
 import { createTRPCClient } from '@trpc/client';
 import { initTRPC } from '@trpc/server';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 import { applyMessagingHandler, messagingLink } from '../trpc';
 import { Messaging, fromMessagePort } from '../index';
+import { observable } from '@trpc/server/observable';
+import { sleep } from '@webx-kit/test-utils/shared';
+import { withResolvers } from '../utils';
 
 function expectMessagingIsNotLeaked(messaging: Messaging) {
   // @ts-expect-error
@@ -13,6 +16,7 @@ function expectMessagingIsNotLeaked(messaging: Messaging) {
 }
 
 describe('Basic', () => {
+  const streamCleanupFn = vi.fn();
   const { port1, port2 } = new MessageChannel();
 
   // Server
@@ -33,6 +37,35 @@ describe('Basic', () => {
     mutationFail: t.procedure.mutation(() => {
       throw new Error('Internal Error');
     }),
+
+    streamBasic: t.procedure.subscription(() => {
+      return observable<number>((observer) => {
+        observer.next(1);
+        observer.next(2);
+        observer.next(3);
+        observer.complete();
+      });
+    }),
+
+    streamError: t.procedure.subscription(() => {
+      return observable<number>((observer) => {
+        observer.next(1);
+        observer.error(new Error('Internal Error'));
+      });
+    }),
+
+    streamInterval: t.procedure
+      .input(z.object({ from: z.number(), interval: z.number() }))
+      .subscription(({ input }) => {
+        return observable<number>((observer) => {
+          let i = input.from;
+          const timer = setInterval(() => observer.next(i++), input.interval);
+          return () => {
+            streamCleanupFn();
+            clearInterval(timer);
+          };
+        });
+      }),
   });
   const server = applyMessagingHandler({ port: fromMessagePort(port1), router: appRouter });
 
@@ -99,5 +132,73 @@ describe('Basic', () => {
     await expect(client.mutationFail.mutate()).rejects.toThrowErrorMatchingInlineSnapshot(
       `[TRPCClientError: Internal Error]`
     );
+  });
+
+  it('should support stream', async () => {
+    const onStartedFn = vi.fn();
+    const onDataFn = vi.fn();
+    const onErrorFn = vi.fn();
+    const onStoppedFn = vi.fn();
+    const { promise, resolve } = withResolvers();
+    client.streamBasic.subscribe(undefined, {
+      onStarted: onStartedFn,
+      onComplete: () => resolve(null),
+      onData: onDataFn,
+      onError: onErrorFn,
+      onStopped: onStoppedFn,
+    });
+    await promise;
+    expect(onStartedFn).toBeCalledTimes(1);
+    expect(onDataFn.mock.calls).toEqual([[1], [2], [3]]);
+    expect(onErrorFn).not.toBeCalled();
+    expect(onStoppedFn).toBeCalledTimes(1);
+  });
+
+  it('should support stream internal error', async () => {
+    const onStartedFn = vi.fn();
+    const onCompleteFn = vi.fn();
+    const onDataFn = vi.fn();
+    const onStoppedFn = vi.fn();
+    const { promise, reject } = withResolvers();
+    client.streamError.subscribe(undefined, {
+      onStarted: onStartedFn,
+      onComplete: onCompleteFn,
+      onData: onDataFn,
+      onError: reject,
+      onStopped: onStoppedFn,
+    });
+    await expect(promise).rejects.toThrow('Internal Error');
+    expect(onStartedFn).toBeCalledTimes(1);
+    expect(onDataFn.mock.calls).toEqual([[1]]);
+    expect(onCompleteFn).not.toBeCalled();
+    expect(onStoppedFn).not.toBeCalled();
+  });
+
+  it('should support unsubscribe stream', async () => {
+    const onStartedFn = vi.fn();
+    const onCompleteFn = vi.fn();
+    const onDataFn = vi.fn();
+    const onErrorFn = vi.fn();
+    const onStoppedFn = vi.fn();
+    const unsubscribe = client.streamInterval.subscribe(
+      { from: 666, interval: 100 },
+      {
+        onStarted: onStartedFn,
+        onComplete: onCompleteFn,
+        onData: onDataFn,
+        onError: onErrorFn,
+        onStopped: onStoppedFn,
+      }
+    );
+    await sleep(250);
+    expect(streamCleanupFn).not.toBeCalled();
+    unsubscribe.unsubscribe();
+    await sleep(30);
+    expect(onStartedFn).toBeCalledTimes(1);
+    expect(onCompleteFn).not.toBeCalled();
+    expect(onDataFn.mock.calls).toEqual([[666], [667]]);
+    expect(onErrorFn).not.toBeCalled();
+    expect(onStoppedFn).not.toBeCalled();
+    expect(streamCleanupFn).toBeCalledTimes(1);
   });
 });
