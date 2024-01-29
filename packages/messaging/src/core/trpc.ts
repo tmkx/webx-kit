@@ -18,73 +18,52 @@ export interface MessagingHandlerOptions<TRouter extends AnyRouter> {
 
 export function applyMessagingHandler<TRouter extends AnyRouter>(options: MessagingHandlerOptions<TRouter>) {
   const { port, router } = options;
+  const { procedures, _config: rootConfig } = router._def;
 
   const server = createMessaging(port, {
+    async onRequest(message) {
+      const { type, path, input, context: ctx } = message as Operation<unknown>;
+      try {
+        const result = await callProcedure({ procedures, path, getRawInput: () => Promise.resolve(input), ctx, type });
+        return transformTRPCResponse(rootConfig, { result: { data: result } });
+      } catch (cause) {
+        const error = getTRPCErrorFromUnknown(cause);
+        return transformTRPCResponse(rootConfig, {
+          error: getErrorShape({ config: rootConfig, error, type, path, input, ctx }),
+        });
+      }
+    },
     async onStream(message, subscriber) {
       const { type, path, input, context: ctx } = message as Operation<unknown>;
 
       try {
-        const result = await callProcedure({
-          procedures: router._def.procedures,
-          path,
-          getRawInput: async () => input,
-          ctx,
-          type,
-        });
+        const result = await callProcedure({ procedures, path, getRawInput: () => Promise.resolve(input), ctx, type });
 
-        if (type === 'subscription') {
-          if (!isObservable(result)) {
-            throw new TRPCError({
-              message: `Subscription ${path} did not return an observable`,
-              code: 'INTERNAL_SERVER_ERROR',
-            });
-          }
-        } else {
-          subscriber.next(
-            transformTRPCResponse(router._def._config, {
-              result: { data: result },
-            })
-          );
-          subscriber.complete();
-          return;
+        if (!isObservable(result)) {
+          throw new TRPCError({
+            message: `Subscription ${path} did not return an observable`,
+            code: 'INTERNAL_SERVER_ERROR',
+          });
         }
 
-        subscriber.next(
-          transformTRPCResponse(router._def._config, {
-            result: { type: 'started' },
-          } as TRPCResponseMessage)
-        );
+        subscriber.next(transformTRPCResponse(rootConfig, { result: { type: 'started' } } as TRPCResponseMessage));
 
         const observable = result;
         const sub = observable.subscribe({
           next(data) {
-            subscriber.next(
-              transformTRPCResponse(router._def._config, {
-                result: { data },
-              })
-            );
+            subscriber.next(transformTRPCResponse(rootConfig, { result: { data } }));
           },
           error(err) {
             const error = getTRPCErrorFromUnknown(err);
             subscriber.next(
-              transformTRPCResponse(router._def._config, {
-                error: getErrorShape({
-                  config: router._def._config,
-                  error,
-                  type,
-                  path,
-                  input,
-                  ctx,
-                }),
+              transformTRPCResponse(rootConfig, {
+                error: getErrorShape({ config: rootConfig, error, type, path, input, ctx }),
               })
             );
+            subscriber.complete();
           },
           complete() {
-            subscriber.next(
-              transformTRPCResponse(router._def._config, {
-                result: { type: 'stopped' },
-              } as TRPCResponseMessage)
-            );
+            subscriber.next(transformTRPCResponse(rootConfig, { result: { type: 'stopped' } } as TRPCResponseMessage));
             subscriber.complete();
           },
         });
@@ -93,15 +72,8 @@ export function applyMessagingHandler<TRouter extends AnyRouter>(options: Messag
       } catch (cause) {
         const error = getTRPCErrorFromUnknown(cause);
         subscriber.error(
-          transformTRPCResponse(router._def._config, {
-            error: getErrorShape({
-              config: router._def._config,
-              error,
-              type,
-              path,
-              input,
-              ctx,
-            }),
+          transformTRPCResponse(rootConfig, {
+            error: getErrorShape({ config: rootConfig, error, type, path, input, ctx }),
           })
         );
       }
@@ -118,13 +90,32 @@ export interface MessagingLinkOptions<TRouter extends AnyRouter> {
 export function messagingLink<TRouter extends AnyRouter>(options: MessagingLinkOptions<TRouter>): TRPCLink<TRouter> {
   const { port } = options;
   const client = createMessaging(port);
-  return (runtime) => {
+  const link: TRPCLink<TRouter> = (runtime) => {
     return ({ op }) => {
+      const { type, path, id, context } = op;
+      const input = runtime.transformer.serialize(op.input);
+
+      if (op.type !== 'subscription') {
+        return observable((observer) => {
+          client
+            .request({ type, path, input, id, context })
+            .then((response) => {
+              const transformed = transformResult(response as any, runtime.transformer);
+
+              if (!transformed.ok) {
+                observer.error(TRPCClientError.from(transformed.error));
+                return;
+              }
+              observer.next({ result: transformed.result });
+              observer.complete();
+            })
+            .catch((err) => {
+              observer.error(err as TRPCClientError<any>);
+            });
+        });
+      }
+
       return observable((observer) => {
-        const { type, path, id, context } = op;
-
-        const input = runtime.transformer.serialize(op.input);
-
         const unsub = client.stream(
           { type, path, input, id, context },
           {
@@ -145,19 +136,18 @@ export function messagingLink<TRouter extends AnyRouter>(options: MessagingLinkO
               observer.next({
                 result: transformed.result,
               });
-
-              if (op.type !== 'subscription') {
-                // if it isn't a subscription we don't care about next response
-                unsub();
-                observer.complete();
-              }
             },
           }
         );
-        return () => {
-          unsub();
-        };
+        return unsub;
       });
     };
   };
+
+  if (process.env.NODE_ENV === 'test') {
+    // @ts-expect-error
+    link.client = client;
+  }
+
+  return link;
 }

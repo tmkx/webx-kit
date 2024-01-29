@@ -70,12 +70,15 @@ describe('Basic', () => {
   const server = applyMessagingHandler({ port: fromMessagePort(port1), router: appRouter });
 
   // Client
+  const link = messagingLink({ port: fromMessagePort(port2) });
   const client = createTRPCClient<typeof appRouter>({
-    links: [messagingLink({ port: fromMessagePort(port2) })],
+    links: [link],
   });
 
   afterEach(() => {
     expectMessagingIsNotLeaked(server);
+    // @ts-expect-error
+    expectMessagingIsNotLeaked(link.client);
   });
 
   it('should support query', async () => {
@@ -172,6 +175,7 @@ describe('Basic', () => {
     expect(onDataFn.mock.calls).toEqual([[1]]);
     expect(onCompleteFn).not.toBeCalled();
     expect(onStoppedFn).not.toBeCalled();
+    await sleep(30);
   });
 
   it('should support unsubscribe stream', async () => {
