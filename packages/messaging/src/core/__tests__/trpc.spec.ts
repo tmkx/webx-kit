@@ -1,3 +1,4 @@
+import { setTimeout as sleep } from 'node:timers/promises';
 import { createTRPCClient } from '@trpc/client';
 import { initTRPC } from '@trpc/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -5,7 +6,6 @@ import { z } from 'zod';
 import { applyMessagingHandler, messagingLink } from '../trpc';
 import { Messaging, fromMessagePort } from '../index';
 import { observable } from '@trpc/server/observable';
-import { sleep } from '@webx-kit/test-utils/shared';
 import { withResolvers } from '../utils';
 
 function expectMessagingIsNotLeaked(messaging: Messaging) {
@@ -142,10 +142,10 @@ describe('Basic', () => {
     const onDataFn = vi.fn();
     const onErrorFn = vi.fn();
     const onStoppedFn = vi.fn();
-    const { promise, resolve } = withResolvers();
+    const { promise, resolve } = withResolvers<void>();
     client.streamBasic.subscribe(undefined, {
       onStarted: onStartedFn,
-      onComplete: () => resolve(null),
+      onComplete: resolve,
       onData: onDataFn,
       onError: onErrorFn,
       onStopped: onStoppedFn,
@@ -175,7 +175,7 @@ describe('Basic', () => {
     expect(onDataFn.mock.calls).toEqual([[1]]);
     expect(onCompleteFn).not.toBeCalled();
     expect(onStoppedFn).not.toBeCalled();
-    await sleep(30);
+    await sleep();
   });
 
   it('should support unsubscribe stream', async () => {
@@ -184,25 +184,32 @@ describe('Basic', () => {
     const onDataFn = vi.fn();
     const onErrorFn = vi.fn();
     const onStoppedFn = vi.fn();
+    const unsubscribeResolver = withResolvers<void>();
     const unsubscribe = client.streamInterval.subscribe(
-      { from: 666, interval: 100 },
+      { from: 666, interval: 10 },
       {
         onStarted: onStartedFn,
         onComplete: onCompleteFn,
-        onData: onDataFn,
+        onData(value) {
+          onDataFn(value);
+          if (onDataFn.mock.calls.length === 2) {
+            unsubscribe.unsubscribe();
+            unsubscribeResolver.resolve();
+          }
+        },
         onError: onErrorFn,
         onStopped: onStoppedFn,
       }
     );
-    await sleep(250);
+    await unsubscribeResolver.promise;
     expect(streamCleanupFn).not.toBeCalled();
-    unsubscribe.unsubscribe();
-    await sleep(30);
+    await sleep();
     expect(onStartedFn).toBeCalledTimes(1);
     expect(onCompleteFn).not.toBeCalled();
     expect(onDataFn.mock.calls).toEqual([[666], [667]]);
     expect(onErrorFn).not.toBeCalled();
     expect(onStoppedFn).not.toBeCalled();
     expect(streamCleanupFn).toBeCalledTimes(1);
+    await sleep();
   });
 });

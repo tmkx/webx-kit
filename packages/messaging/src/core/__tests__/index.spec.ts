@@ -1,6 +1,7 @@
 import { setTimeout as sleep } from 'node:timers/promises';
 import { expect, it, vi } from 'vitest';
 import { Messaging, createMessaging, fromMessagePort } from '../index';
+import { withResolvers } from '../utils';
 
 function expectMessagingIsNotLeaked(messaging: Messaging) {
   // @ts-expect-error
@@ -9,13 +10,19 @@ function expectMessagingIsNotLeaked(messaging: Messaging) {
   expect(messaging.ongoingStreamObservers).toHaveLength(0);
 }
 
-it.concurrent('should on/off listener', async () => {
+it('should on/off listener', async () => {
   const { port1, port2 } = new MessageChannel();
   const listenerFn = vi.fn();
 
-  const receiver = createMessaging(fromMessagePort(port1), { on: listenerFn });
+  const resolver = withResolvers<void>();
+  const receiver = createMessaging(fromMessagePort(port1), {
+    on: (...args) => {
+      listenerFn(...args);
+      resolver.resolve();
+    },
+  });
 
-  await (port2.postMessage('hello'), sleep(10));
+  await (port2.postMessage('hello'), resolver.promise);
   expect(listenerFn).toBeCalledTimes(1);
   expect(listenerFn).toBeCalledWith('hello');
 
@@ -26,7 +33,7 @@ it.concurrent('should on/off listener', async () => {
   expectMessagingIsNotLeaked(receiver);
 });
 
-it.concurrent('should support request', async () => {
+it('should support request', async () => {
   const { port1, port2 } = new MessageChannel();
 
   const receiver = createMessaging(fromMessagePort(port1), {
@@ -48,7 +55,7 @@ it.concurrent('should support request', async () => {
   expectMessagingIsNotLeaked(sender);
 });
 
-it.concurrent('should support stream', async () => {
+it('should support stream', async () => {
   const { port1, port2 } = new MessageChannel();
 
   const receiver = createMessaging(fromMessagePort(port1), {
@@ -99,9 +106,10 @@ it.concurrent('should support stream', async () => {
   expectMessagingIsNotLeaked(sender);
 });
 
-it.concurrent('should support abort stream', async () => {
+it('should support abort stream', async () => {
   const { port1, port2 } = new MessageChannel();
 
+  const cleanResolver = withResolvers<void>();
   const cleanupFn = vi.fn();
   const receiver = createMessaging(fromMessagePort(port1), {
     async onStream(message, subscriber) {
@@ -112,6 +120,7 @@ it.concurrent('should support abort stream', async () => {
           return () => {
             clearInterval(timer);
             cleanupFn();
+            cleanResolver.resolve();
           };
         }
         default:
@@ -126,28 +135,31 @@ it.concurrent('should support abort stream', async () => {
     new Promise<unknown[]>((resolve, reject) => {
       const result: unknown[] = [];
       const unsubscribe = sender.stream(
-        { name: 'hello', interval: 100 },
+        { name: 'hello', interval: 10 },
         {
-          next: (value) => result.push(value),
+          next: (value) => {
+            result.push(value);
+            if (result.length === 2) {
+              unsubscribe();
+              resolve(result);
+            }
+          },
           error: (reason) => reject(reason),
           complete: completeFn,
         }
       );
-      setTimeout(() => {
-        unsubscribe();
-        resolve(result);
-      }, 250);
     })
   ).resolves.toEqual([0, 1]);
-  await sleep(10);
+  await cleanResolver.promise;
   expect(cleanupFn).toBeCalled();
   expect(completeFn).not.toBeCalled();
 
+  await sleep();
   expectMessagingIsNotLeaked(receiver);
   expectMessagingIsNotLeaked(sender);
 });
 
-it.concurrent('should support relay request', async () => {
+it('should support relay request', async () => {
   const { port1, port2 } = new MessageChannel();
   const { port1: port3, port2: port4 } = new MessageChannel();
 
@@ -178,7 +190,7 @@ it.concurrent('should support relay request', async () => {
   expectMessagingIsNotLeaked(sender);
 });
 
-it.concurrent('should support relay stream', async () => {
+it('should support relay stream', async () => {
   const { port1, port2 } = new MessageChannel();
   const { port1: port3, port2: port4 } = new MessageChannel();
 
