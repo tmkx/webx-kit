@@ -85,7 +85,10 @@ export const App = () => {
       { prompt: 'Translate the following text to Chinese:\n' + text },
       {
         next: (token) => setContent((prev) => prev + token),
-        error: () => setIsLoading(false),
+        error: (err) => {
+          console.log('Translate Error', { err });
+          setIsLoading(false);
+        },
         complete: () => setIsLoading(false),
       }
     );

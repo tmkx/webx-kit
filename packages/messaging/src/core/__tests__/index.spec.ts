@@ -249,3 +249,23 @@ it('should support relay stream', async () => {
   expectMessagingIsNotLeaked(relay2);
   expectMessagingIsNotLeaked(sender);
 });
+
+it('should serialize error message', async () => {
+  const { port1, port2 } = new MessageChannel();
+
+  const receiver = createMessaging(fromMessagePort(port1), {
+    async onStream(_message, _subscriber) {
+      throw new Error('Internal Error');
+    },
+  });
+  const sender = createMessaging(fromMessagePort(port2));
+
+  const { promise, resolve, reject } = withResolvers<void>();
+  sender.stream(null, { error: reject, complete: resolve });
+
+  await expect(promise).rejects.toBeTypeOf('string');
+  await expect(promise).rejects.toThrow('Internal Error');
+
+  expectMessagingIsNotLeaked(receiver);
+  expectMessagingIsNotLeaked(sender);
+});

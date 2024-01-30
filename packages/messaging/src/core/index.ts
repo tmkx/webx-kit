@@ -139,7 +139,8 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
           const cleanup = await onStream.call(context, message.d, observer);
           processingStreamCleanups.set(message.i, cleanup);
         } catch (error) {
-          terminate({ error });
+          // Error is not serializable in `chrome.runtime.Port`
+          terminate({ error: error instanceof Error ? error.message : error });
         }
         break;
       }

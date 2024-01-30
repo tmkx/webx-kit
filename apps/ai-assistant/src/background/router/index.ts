@@ -10,12 +10,14 @@ const genAIAtom = atom(async (get) => {
   return apiKey ? new GoogleGenerativeAI(apiKey) : null;
 });
 
-store.sub(genAIAtom, () => {});
+let genAI: GoogleGenerativeAI | null = null;
+const updateGenAIInstance = () => store.get(genAIAtom).then((instance) => (genAI = instance));
+updateGenAIInstance();
+store.sub(genAIAtom, updateGenAIInstance);
 
 setStreamHandler(async (message, subscriber) => {
   const { data } = message;
   if (data && typeof data === 'object' && 'prompt' in data && typeof data.prompt === 'string') {
-    const genAI = await store.get(genAIAtom);
     if (!genAI) return subscriber.error('GenAI is not initialized');
     const result = await genAI.getGenerativeModel({ model: 'gemini-pro' }).generateContentStream({
       contents: [
