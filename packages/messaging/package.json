@@ -29,11 +29,14 @@
     "@modern-js/app-tools": "^2.46.1",
     "@modern-js/utils": "^2.46.1",
     "@playwright/test": "^1.41.0",
+    "@trpc/client": "11.0.0-next-beta.242",
+    "@trpc/server": "11.0.0-next-beta.242",
     "@types/node": "^20.11.5",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
     "typescript": "^5.3.3",
-    "vitest": "^1.2.1"
+    "vitest": "^1.2.1",
+    "zod": "^3.22.4"
   }
 }

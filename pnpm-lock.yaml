@@ -255,6 +255,12 @@ importers:
       '@playwright/test':
         specifier: ^1.41.0
         version: 1.41.0
+      '@trpc/client':
+        specifier: 11.0.0-next-beta.242
+        version: 11.0.0-next-beta.242(@trpc/server@11.0.0-next-beta.242)
+      '@trpc/server':
+        specifier: 11.0.0-next-beta.242
+        version: 11.0.0-next-beta.242
       '@types/node':
         specifier: ^20.11.5
         version: 20.11.5
@@ -273,6 +279,9 @@ importers:
       vitest:
         specifier: ^1.2.1
         version: 1.2.1(@types/node@20.11.5)
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
 
   packages/modernjs-builder-plugin-solid:
     dependencies:
@@ -2871,13 +2880,13 @@ packages:
       '@modern-js/new-action': 2.46.1(typescript@5.3.3)
       '@modern-js/node-bundle-require': 2.46.1
       '@modern-js/plugin': 2.46.1
-      '@modern-js/plugin-data-loader': 2.46.1
+      '@modern-js/plugin-data-loader': 2.46.1(react-dom@18.2.0)(react@18.2.0)
       '@modern-js/plugin-i18n': 2.46.1
       '@modern-js/plugin-lint': 2.46.1
-      '@modern-js/prod-server': 2.46.1
-      '@modern-js/server': 2.46.1(@babel/traverse@7.23.7)(@rsbuild/core@0.3.4)
+      '@modern-js/prod-server': 2.46.1(react-dom@18.2.0)(react@18.2.0)
+      '@modern-js/server': 2.46.1(@babel/traverse@7.23.7)
       '@modern-js/server-core': 2.46.1
-      '@modern-js/server-utils': 2.46.1(@babel/traverse@7.23.7)(@rsbuild/core@0.3.4)
+      '@modern-js/server-utils': 2.46.1(@babel/traverse@7.23.7)
       '@modern-js/types': 2.46.1
       '@modern-js/uni-builder': 2.46.1(@babel/traverse@7.23.7)(esbuild@0.17.19)(type-fest@4.10.0)(typescript@5.3.3)
       '@modern-js/upgrade': 2.46.1
@@ -3114,23 +3123,6 @@ packages:
       esbuild: 0.17.19
     dev: true
 
-  /@modern-js/plugin-data-loader@2.46.1:
-    resolution: {integrity: sha512-YUpj7kQnf8vfXtTBhKQc9LoI7TGZCEmO1Q2S9YTre/vsd8tn25C71AupEhCMrZh5RzyugHPe2RQ+Ad7FbyOftQ==}
-    engines: {node: '>=14.17.6'}
-    peerDependencies:
-      react: '>=17.0.0'
-    dependencies:
-      '@babel/core': 7.23.7
-      '@modern-js/runtime-utils': 2.46.1
-      '@modern-js/utils': 2.46.1
-      '@remix-run/node': 1.19.3
-      '@swc/helpers': 0.5.3
-      path-to-regexp: 6.2.1
-    transitivePeerDependencies:
-      - react-dom
-      - supports-color
-    dev: true
-
   /@modern-js/plugin-data-loader@2.46.1(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-YUpj7kQnf8vfXtTBhKQc9LoI7TGZCEmO1Q2S9YTre/vsd8tn25C71AupEhCMrZh5RzyugHPe2RQ+Ad7FbyOftQ==}
     engines: {node: '>=14.17.6'}
@@ -3176,32 +3168,6 @@ packages:
       '@swc/helpers': 0.5.3
     dev: true
 
-  /@modern-js/prod-server@2.46.1:
-    resolution: {integrity: sha512-O2q0G5QbPd80FMkqi7Mf/kD3sznOUCfhfV7BSzJLHM6djFAdxz8l3wytGL2jUADImTwKv30rWgp6f9dcg2+WPA==}
-    dependencies:
-      '@modern-js/plugin': 2.46.1
-      '@modern-js/runtime-utils': 2.46.1
-      '@modern-js/server-core': 2.46.1
-      '@modern-js/utils': 2.46.1
-      '@swc/helpers': 0.5.3
-      cookie: 0.5.0
-      etag: 1.8.1
-      fresh: 0.5.2
-      http-proxy-middleware: 2.0.6
-      ignore-styles: 5.0.1
-      isbot: 3.8.0
-      merge-deep: 3.0.3
-      node-html-parser: 6.1.12
-      path-to-regexp: 6.2.1
-      serve-static: 1.15.0
-    transitivePeerDependencies:
-      - '@types/express'
-      - debug
-      - react
-      - react-dom
-      - supports-color
-    dev: true
-
   /@modern-js/prod-server@2.46.1(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-O2q0G5QbPd80FMkqi7Mf/kD3sznOUCfhfV7BSzJLHM6djFAdxz8l3wytGL2jUADImTwKv30rWgp6f9dcg2+WPA==}
     dependencies:
@@ -3226,25 +3192,6 @@ packages:
       - react
       - react-dom
       - supports-color
-    dev: true
-
-  /@modern-js/runtime-utils@2.46.1:
-    resolution: {integrity: sha512-/dfd2VOxFlG5zLjpLILaWTJpGpoVufQmIe/zyxUmfmc25hTNvCaYpHgcBJdTuJstqkvo0EsenHWMZ+ESx7WIfw==}
-    peerDependencies:
-      react: '>=17.0.0'
-      react-dom: '>=17.0.0'
-    peerDependenciesMeta:
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@modern-js/utils': 2.46.1
-      '@remix-run/router': 1.10.0
-      '@swc/helpers': 0.5.3
-      lru-cache: 6.0.0
-      react-router-dom: 6.17.0
-      serialize-javascript: 6.0.2
     dev: true
 
   /@modern-js/runtime-utils@2.46.1(react-dom@18.2.0)(react@18.2.0):
@@ -3332,9 +3279,9 @@ packages:
     dependencies:
       '@babel/core': 7.23.7
       '@babel/register': 7.23.7(@babel/core@7.23.7)
-      '@modern-js/prod-server': 2.46.1
-      '@modern-js/runtime-utils': 2.46.1
-      '@modern-js/server-utils': 2.46.1(@babel/traverse@7.23.7)(@rsbuild/core@0.3.4)
+      '@modern-js/prod-server': 2.46.1(react-dom@18.2.0)(react@18.2.0)
+      '@modern-js/runtime-utils': 2.46.1(react-dom@18.2.0)(react@18.2.0)
+      '@modern-js/server-utils': 2.46.1(@babel/traverse@7.23.7)
       '@modern-js/types': 2.46.1
       '@modern-js/utils': 2.46.1
       '@swc/helpers': 0.5.3
@@ -3372,8 +3319,8 @@ packages:
     dependencies:
       '@babel/core': 7.23.7
       '@babel/register': 7.23.7(@babel/core@7.23.7)
-      '@modern-js/prod-server': 2.46.1
-      '@modern-js/runtime-utils': 2.46.1
+      '@modern-js/prod-server': 2.46.1(react-dom@18.2.0)(react@18.2.0)
+      '@modern-js/runtime-utils': 2.46.1(react-dom@18.2.0)(react@18.2.0)
       '@modern-js/server-utils': 2.46.1(@babel/traverse@7.23.7)(@rsbuild/core@0.3.4)
       '@modern-js/types': 2.46.1
       '@modern-js/utils': 2.46.1
@@ -3570,7 +3517,7 @@ packages:
       '@babel/core': 7.23.7
       '@babel/preset-react': 7.23.3(@babel/core@7.23.7)
       '@babel/types': 7.23.6
-      '@modern-js/prod-server': 2.46.1
+      '@modern-js/prod-server': 2.46.1(react-dom@18.2.0)(react@18.2.0)
       '@modern-js/server': 2.46.1(@babel/traverse@7.23.7)(@rsbuild/core@0.3.4)
       '@modern-js/utils': 2.46.1
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.10(react-refresh@0.14.0)(type-fest@4.10.0)(webpack@5.89.0)
@@ -4665,6 +4612,18 @@ packages:
     resolution: {integrity: sha512-FaruWX6KdudYloq1AHD/4nU+UsMTdNE8CKyrseXWEcgjDAbvkwJg2QGPAnfIJLIWsjZOSPLOAykK6fuYp4vp4A==}
     dependencies:
       tslib: 2.6.2
+
+  /@trpc/client@11.0.0-next-beta.242(@trpc/server@11.0.0-next-beta.242):
+    resolution: {integrity: sha512-TyT5tZX5bUYNmlIPQqbzJ5XP6U8rUhpaauYUzQdXF1OKN7QqVrGe7pRUL0qvO/3hRwoJw9DqUS4slbh6EZrMYg==}
+    peerDependencies:
+      '@trpc/server': 11.0.0-next-beta.242+4377b3cf6
+    dependencies:
+      '@trpc/server': 11.0.0-next-beta.242
+    dev: true
+
+  /@trpc/server@11.0.0-next-beta.242:
+    resolution: {integrity: sha512-Aj49nseCZwCev3HYrdSgtetHZ4qqr2HvQhLGvzipHF9KkFy2bacKMPzxXpGJQqON9QC0Lgmdv7S0S/UqWm5otg==}
+    dev: true
 
   /@trysound/sax@0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
@@ -9938,17 +9897,6 @@ packages:
       - react-dom
     dev: false
 
-  /react-router-dom@6.17.0:
-    resolution: {integrity: sha512-qWHkkbXQX+6li0COUUPKAUkxjNNqPJuiBd27dVwQGDNsuFBdMbrS6UZ0CLYc4CsbdLYTckn4oB4tGDuPZpPhaQ==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      react: '>=16.8'
-      react-dom: '>=16.8'
-    dependencies:
-      '@remix-run/router': 1.10.0
-      react-router: 6.17.0
-    dev: true
-
   /react-router-dom@6.17.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-qWHkkbXQX+6li0COUUPKAUkxjNNqPJuiBd27dVwQGDNsuFBdMbrS6UZ0CLYc4CsbdLYTckn4oB4tGDuPZpPhaQ==}
     engines: {node: '>=14.0.0'}
@@ -9960,15 +9908,6 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-router: 6.17.0(react@18.2.0)
-    dev: true
-
-  /react-router@6.17.0:
-    resolution: {integrity: sha512-YJR3OTJzi3zhqeJYADHANCGPUu9J+6fT5GLv82UWRGSxu6oJYCKVmxUcaBQuGm9udpWmPsvpme/CdHumqgsoaA==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      react: '>=16.8'
-    dependencies:
-      '@remix-run/router': 1.10.0
     dev: true
 
   /react-router@6.17.0(react@18.2.0):
