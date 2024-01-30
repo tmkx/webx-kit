@@ -8,13 +8,16 @@ import {
   isSelectionValid,
   rangeToReference,
 } from '@webx-kit/runtime/content-scripts';
-import { client } from '@webx-kit/messaging/content-script';
+import { createTrpcHandler } from '@webx-kit/messaging/content-script';
 import clsx from 'clsx';
+import type { AppRouter } from '@/background/router';
 import { Provider } from './features/provider';
 import './global.less';
 
 // hack for missing button loading rotate keyframes
 Spin.name;
+
+const { client } = createTrpcHandler<AppRouter>({});
 
 export const App = () => {
   const [visible, setVisible] = useState(false);
@@ -81,15 +84,21 @@ export const App = () => {
 
     setContent('');
     setIsLoading(true);
-    client.stream(
-      { prompt: 'Translate the following text to Chinese:\n' + text },
+    client.generateContentStream.subscribe(
       {
-        next: (token) => setContent((prev) => prev + token),
-        error: (err) => {
+        prompt: 'Translate the following text to Chinese:\n' + text,
+      },
+      {
+        onData(token) {
+          setContent((prev) => prev + token);
+        },
+        onError(err) {
           console.log('Translate Error', { err });
           setIsLoading(false);
         },
-        complete: () => setIsLoading(false),
+        onComplete() {
+          setIsLoading(false);
+        },
       }
     );
   };
@@ -101,12 +110,21 @@ export const App = () => {
 
     setContent('');
     setIsLoading(true);
-    client.stream(
-      { prompt: 'Summarize the following text to Chinese:\n' + text },
+    client.generateContentStream.subscribe(
       {
-        next: (token) => setContent((prev) => prev + token),
-        error: () => setIsLoading(false),
-        complete: () => setIsLoading(false),
+        prompt: 'Summarize the following text to Chinese:\n' + text,
+      },
+      {
+        onData(token) {
+          setContent((prev) => prev + token);
+        },
+        onError(err) {
+          console.log('Translate Error', { err });
+          setIsLoading(false);
+        },
+        onComplete() {
+          setIsLoading(false);
+        },
       }
     );
   };

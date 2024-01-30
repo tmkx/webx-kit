@@ -29,6 +29,12 @@ importers:
       '@google/generative-ai':
         specifier: ^0.1.3
         version: 0.1.3
+      '@trpc/client':
+        specifier: 11.0.0-next-beta.248
+        version: 11.0.0-next-beta.248(@trpc/server@11.0.0-next-beta.248)
+      '@trpc/server':
+        specifier: 11.0.0-next-beta.248
+        version: 11.0.0-next-beta.248
       '@webx-kit/messaging':
         specifier: workspace:^
         version: link:../../packages/messaging
@@ -50,6 +56,9 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.46.1
@@ -4621,9 +4630,21 @@ packages:
       '@trpc/server': 11.0.0-next-beta.242
     dev: true
 
+  /@trpc/client@11.0.0-next-beta.248(@trpc/server@11.0.0-next-beta.248):
+    resolution: {integrity: sha512-5b6ARBTyjzQoefjoOrDJSWEsbyBTt/yCeRJLo4llBQZqynM3KHTW7DFmSznv9SA8t/Rbvc91AXwLVys1Q7DefQ==}
+    peerDependencies:
+      '@trpc/server': 11.0.0-next-beta.248+05798dd78
+    dependencies:
+      '@trpc/server': 11.0.0-next-beta.248
+    dev: false
+
   /@trpc/server@11.0.0-next-beta.242:
     resolution: {integrity: sha512-Aj49nseCZwCev3HYrdSgtetHZ4qqr2HvQhLGvzipHF9KkFy2bacKMPzxXpGJQqON9QC0Lgmdv7S0S/UqWm5otg==}
     dev: true
+
+  /@trpc/server@11.0.0-next-beta.248:
+    resolution: {integrity: sha512-Z3HChG8FkpaWwAjrg6R7n1OOgoipWOOay8GIGcs4w7w2UROL1EZD2ZbhOL3/20rRZcUSE0O8pFK74D8z0tKDog==}
+    dev: false
 
   /@trysound/sax@0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}

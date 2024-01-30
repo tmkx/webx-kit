@@ -2,35 +2,67 @@ import type { Observer } from 'type-fest';
 import { Messaging, createMessaging, fromChromePort } from './core';
 import { randomID } from './core/utils';
 import { ClientType, NAMESPACE, RequestHandler, StreamHandler, WebxMessage } from './shared';
+import { createTRPCClient } from '@trpc/client';
+import type { AnyTRPCRouter } from '@trpc/server';
+import { messagingLink } from './core/trpc';
 
-export const id = randomID();
+export interface CustomHandlerOptions {
+  type: ClientType;
+  requestHandler?: RequestHandler;
+  streamHandler?: StreamHandler;
+}
 
-let clientType: ClientType;
-export let client: ReturnType<typeof wrapMessaging> | undefined;
+export function createCustomHandler({
+  type,
+  requestHandler = () => Promise.reject(),
+  streamHandler = (_, subscriber) => {
+    subscriber.error('unimplemented');
+  },
+}: CustomHandlerOptions) {
+  const id = randomID();
+  const port = chrome.runtime.connect({ name: `${NAMESPACE}${type}@${id}` });
+  const messaging = createMessaging(fromChromePort(port), {
+    onRequest(message) {
+      return requestHandler(message);
+    },
+    onStream(message, subscriber) {
+      return streamHandler(message, subscriber);
+    },
+  });
 
-let requestHandler: RequestHandler = () => Promise.reject();
-let streamHandler: StreamHandler = (_, subscriber) => {
-  subscriber.error('unimplemented');
-};
+  return {
+    messaging: wrapMessaging(messaging),
+    type,
+    id,
+    dispose() {
+      messaging.dispose();
+    },
+  };
+}
 
-export function ensureClient(type: ClientType) {
-  clientType = type;
-  if (!client) {
-    const port = chrome.runtime.connect({ name: `${NAMESPACE}${type}@${id}` });
-    const messaging = createMessaging(fromChromePort(port), {
-      onRequest(message) {
-        return requestHandler(message);
-      },
-      onStream(message, subscriber) {
-        return streamHandler(message, subscriber);
-      },
-      onDispose() {
-        client = undefined;
-      },
-    });
-    client = wrapMessaging(messaging);
-  }
-  return client;
+export interface TrpcHandlerOptions {
+  type: ClientType;
+}
+
+export function createTrpcHandler<TRouter extends AnyTRPCRouter>({ type }: TrpcHandlerOptions) {
+  const id = randomID();
+  const port = chrome.runtime.connect({ name: `${NAMESPACE}${type}@${id}` });
+
+  const link = messagingLink({ port: fromChromePort(port) });
+  const client = createTRPCClient<TRouter>({
+    links: [link],
+  });
+
+  const messaging = wrapMessaging(link.messaging);
+  return {
+    messaging,
+    client,
+    type,
+    id,
+    dispose() {
+      messaging.dispose();
+    },
+  };
 }
 
 function wrapMessaging(messaging: Messaging) {
@@ -41,13 +73,8 @@ function wrapMessaging(messaging: Messaging) {
     stream(data: unknown, observer: Partial<Observer<any>>, to?: ClientType) {
       return messaging.stream({ data, to } satisfies WebxMessage, observer);
     },
+    dispose: messaging.dispose,
   };
 }
 
-export function setRequestHandler(handler: RequestHandler) {
-  requestHandler = handler;
-}
-
-export function setStreamHandler(handler: StreamHandler) {
-  streamHandler = handler;
-}
+export type WrappedMessaging = ReturnType<typeof wrapMessaging>;
