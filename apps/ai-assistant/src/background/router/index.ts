@@ -1,37 +1,35 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
-import { createCustomHandler } from '@webx-kit/messaging/background';
-import { apiKeyAtom } from '@/hooks/atoms/config';
-import { atom, getDefaultStore } from 'jotai';
+import { initTRPC } from '@trpc/server';
+import { z } from 'zod';
+import { observable } from '@trpc/server/observable';
+import { genAI } from '@/background/shared';
 
-const store = getDefaultStore();
+const t = initTRPC.create();
 
-const genAIAtom = atom(async (get) => {
-  const apiKey = await get(apiKeyAtom);
-  return apiKey ? new GoogleGenerativeAI(apiKey) : null;
+export const appRouter = t.router({
+  generateContentStream: t.procedure.input(z.object({ prompt: z.string() })).subscription(({ input }) => {
+    return observable((observer) => {
+      if (!genAI) return observer.error('GenAI is not initialized');
+      let isUnsubscribed = false;
+      (async () => {
+        const result = await genAI.getGenerativeModel({ model: 'gemini-pro' }).generateContentStream({
+          contents: [
+            {
+              role: 'user',
+              parts: [{ text: input.prompt }],
+            },
+          ],
+        });
+        for await (const token of result.stream || []) {
+          if (isUnsubscribed) break;
+          observer.next(token.text());
+        }
+        observer.complete();
+      })();
+      return () => {
+        isUnsubscribed = true;
+      };
+    });
+  }),
 });
 
-let genAI: GoogleGenerativeAI | null = null;
-const updateGenAIInstance = () => store.get(genAIAtom).then((instance) => (genAI = instance));
-updateGenAIInstance();
-store.sub(genAIAtom, updateGenAIInstance);
-
-createCustomHandler({
-  async streamHandler(message, subscriber) {
-    const { data } = message;
-    if (data && typeof data === 'object' && 'prompt' in data && typeof data.prompt === 'string') {
-      if (!genAI) return subscriber.error('GenAI is not initialized');
-      const result = await genAI.getGenerativeModel({ model: 'gemini-pro' }).generateContentStream({
-        contents: [
-          {
-            role: 'user',
-            parts: [{ text: data.prompt }],
-          },
-        ],
-      });
-      for await (const token of result.stream || []) {
-        subscriber.next(token.text());
-      }
-      subscriber.complete();
-    }
-  },
-});
+export type AppRouter = typeof appRouter;

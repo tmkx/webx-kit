@@ -1,30 +1,37 @@
 import {
-  AnyRouter,
+  AnyTRPCRouter,
   TRPCError,
-  callProcedure,
+  callTRPCProcedure,
   getErrorShape,
   getTRPCErrorFromUnknown,
   transformTRPCResponse,
 } from '@trpc/server';
 import { TRPCResponseMessage, transformResult } from '@trpc/server/unstable-core-do-not-import';
 import { isObservable, observable } from '@trpc/server/observable';
-import { Port, createMessaging } from './index';
+import { Messaging, Port, createMessaging } from './index';
 import { Operation, TRPCClientError, TRPCLink } from '@trpc/client';
 
-export interface MessagingHandlerOptions<TRouter extends AnyRouter> {
+export interface MessagingHandlerOptions<TRouter extends AnyTRPCRouter> {
   port: Port;
   router: TRouter;
+  onDispose?: VoidCallback;
 }
 
-export function applyMessagingHandler<TRouter extends AnyRouter>(options: MessagingHandlerOptions<TRouter>) {
-  const { port, router } = options;
+export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: MessagingHandlerOptions<TRouter>) {
+  const { port, router, onDispose } = options;
   const { procedures, _config: rootConfig } = router._def;
 
   const server = createMessaging(port, {
     async onRequest(message) {
       const { type, path, input, context: ctx } = message as Operation<unknown>;
       try {
-        const result = await callProcedure({ procedures, path, getRawInput: () => Promise.resolve(input), ctx, type });
+        const result = await callTRPCProcedure({
+          procedures,
+          path,
+          getRawInput: () => Promise.resolve(input),
+          ctx,
+          type,
+        });
         return transformTRPCResponse(rootConfig, { result: { data: result } });
       } catch (cause) {
         const error = getTRPCErrorFromUnknown(cause);
@@ -37,7 +44,13 @@ export function applyMessagingHandler<TRouter extends AnyRouter>(options: Messag
       const { type, path, input, context: ctx } = message as Operation<unknown>;
 
       try {
-        const result = await callProcedure({ procedures, path, getRawInput: () => Promise.resolve(input), ctx, type });
+        const result = await callTRPCProcedure({
+          procedures,
+          path,
+          getRawInput: () => Promise.resolve(input),
+          ctx,
+          type,
+        });
 
         if (!isObservable(result)) {
           throw new TRPCError({
@@ -78,19 +91,22 @@ export function applyMessagingHandler<TRouter extends AnyRouter>(options: Messag
         );
       }
     },
+    onDispose,
   });
 
   return server;
 }
 
-export interface MessagingLinkOptions<TRouter extends AnyRouter> {
+export interface MessagingLinkOptions<TRouter extends AnyTRPCRouter> {
   port: Port;
 }
 
-export function messagingLink<TRouter extends AnyRouter>(options: MessagingLinkOptions<TRouter>): TRPCLink<TRouter> {
+export function messagingLink<TRouter extends AnyTRPCRouter>(
+  options: MessagingLinkOptions<TRouter>
+): TRPCLink<TRouter> & { messaging: Messaging } {
   const { port } = options;
   const client = createMessaging(port);
-  const link: TRPCLink<TRouter> = (runtime) => {
+  const link: TRPCLink<TRouter> & { messaging: Messaging } = (runtime) => {
     return ({ op }) => {
       const { type, path, id, context } = op;
       const input = runtime.transformer.serialize(op.input);
@@ -143,11 +159,7 @@ export function messagingLink<TRouter extends AnyRouter>(options: MessagingLinkO
       });
     };
   };
-
-  if (process.env.NODE_ENV === 'test') {
-    // @ts-expect-error
-    link.client = client;
-  }
+  link.messaging = client;
 
   return link;
 }

@@ -1,3 +1,4 @@
+import { AnyTRPCRouter } from '@trpc/server';
 import { Messaging, createMessaging, fromChromePort } from './core';
 import { applyMessagingHandler } from './core/trpc';
 import { NAMESPACE, RequestHandler, StreamHandler, WebxMessage, isWebxMessage } from './shared';
@@ -74,6 +75,33 @@ export function createCustomHandler({
 
         subscriber.error('no target');
       },
+      onDispose() {
+        connections.delete(messaging);
+      },
+    });
+    connections.add(messaging);
+  };
+  chrome.runtime.onConnect.addListener(listener);
+  return {
+    connections,
+    dispose() {
+      chrome.runtime.onConnect.removeListener(listener);
+    },
+  };
+}
+
+export interface TrpcHandlerOptions<TRouter extends AnyTRPCRouter> {
+  router: TRouter;
+}
+
+export function createTrpcHandler<TRouter extends AnyTRPCRouter>({ router }: TrpcHandlerOptions<TRouter>) {
+  const connections = new Set<Messaging>();
+
+  const listener = (port: chrome.runtime.Port): void => {
+    if (!port.name.startsWith(NAMESPACE)) return;
+    const messaging = applyMessagingHandler({
+      port: fromChromePort(port),
+      router,
       onDispose() {
         connections.delete(messaging);
       },

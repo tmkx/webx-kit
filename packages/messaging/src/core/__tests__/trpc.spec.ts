@@ -77,8 +77,7 @@ describe('Basic', () => {
 
   afterEach(() => {
     expectMessagingIsNotLeaked(server);
-    // @ts-expect-error
-    expectMessagingIsNotLeaked(link.client);
+    expectMessagingIsNotLeaked(link.messaging);
   });
 
   it('should support query', async () => {
