@@ -1,14 +1,14 @@
 import { setupStaticServer } from '@webx-kit/test-utils/playwright';
 import { expect, test } from './context';
-import type { connections } from '@/background';
-import type { ensureClient } from '@/client-base';
+import type { Messaging } from '@/core';
+import type { WrappedMessaging } from '@/client-base';
 
 const getWebpageURL = setupStaticServer(test);
 
 declare module globalThis {
   /** only in background */
-  const __webxConnections: typeof connections | undefined;
-  const __client: ReturnType<typeof ensureClient>;
+  const __webxConnections: Set<Messaging> | undefined;
+  const __client: WrappedMessaging;
 }
 
 test('Background', async ({ background }) => {

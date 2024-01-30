@@ -1,4 +1,5 @@
-import { ensureClient } from './client-base';
-export { setRequestHandler, setStreamHandler } from './client-base';
+import { SetOptional } from 'type-fest';
+import { CustomHandlerOptions, createCustomHandler as internalCreateCustomHandler } from './client-base';
 
-export const client = ensureClient('content-script');
+export const createCustomHandler = (options: SetOptional<CustomHandlerOptions, 'type'>) =>
+  internalCreateCustomHandler({ type: 'content-script', ...options });

@@ -8,13 +8,15 @@ import {
   isSelectionValid,
   rangeToReference,
 } from '@webx-kit/runtime/content-scripts';
-import { client } from '@webx-kit/messaging/content-script';
+import { createCustomHandler } from '@webx-kit/messaging/content-script';
 import clsx from 'clsx';
 import { Provider } from './features/provider';
 import './global.less';
 
 // hack for missing button loading rotate keyframes
 Spin.name;
+
+const { messaging } = createCustomHandler({});
 
 export const App = () => {
   const [visible, setVisible] = useState(false);
@@ -81,7 +83,7 @@ export const App = () => {
 
     setContent('');
     setIsLoading(true);
-    client.stream(
+    messaging.stream(
       { prompt: 'Translate the following text to Chinese:\n' + text },
       {
         next: (token) => setContent((prev) => prev + token),
@@ -101,7 +103,7 @@ export const App = () => {
 
     setContent('');
     setIsLoading(true);
-    client.stream(
+    messaging.stream(
       { prompt: 'Summarize the following text to Chinese:\n' + text },
       {
         next: (token) => setContent((prev) => prev + token),
