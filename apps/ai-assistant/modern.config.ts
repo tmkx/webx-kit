@@ -20,6 +20,16 @@ export default defineConfig(() => ({
     overrideBrowserslist: ['last 2 Chrome versions'],
   },
   tools: {
+    minifyCss: {
+      minimizerOptions: {
+        preset: [
+          'default',
+          {
+            calc: false,
+          },
+        ],
+      },
+    },
     postcss: {
       postcssOptions: {
         plugins: [require('tailwindcss'), bodyToHostCSSPlugin],
