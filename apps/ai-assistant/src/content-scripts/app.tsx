@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Button, ButtonGroup, Card, Divider, Dropdown, Popover, Spin, Tooltip } from '@douyinfe/semi-ui';
-import { IconBriefStroked, IconLanguage, IconMoreStroked } from '@douyinfe/semi-icons';
+import { Flex, IconButton, Popover, Separator, Theme } from '@radix-ui/themes';
+import { LanguagesIcon, ListTreeIcon, Loader2Icon } from 'lucide-react';
 import {
   autoUpdatePosition,
   computePosition,
@@ -9,13 +9,11 @@ import {
   rangeToReference,
 } from '@webx-kit/runtime/content-scripts';
 import { createTrpcHandler } from '@webx-kit/messaging/content-script';
+import '@radix-ui/themes/styles.css';
 import clsx from 'clsx';
 import type { AppRouter } from '@/background/router';
-import { Provider } from './features/provider';
+import { Provider, ScopedPopoverContent, ScopedTooltip } from './features/provider';
 import './global.less';
-
-// hack for missing button loading rotate keyframes
-Spin.name;
 
 const { client } = createTrpcHandler<AppRouter>({});
 
@@ -131,69 +129,49 @@ export const App = () => {
 
   return (
     <Provider>
-      <div
+      <Theme
         ref={containerRef}
         tabIndex={visible ? undefined : -1}
-        className={clsx(
-          'absolute transition-opacity',
-          visible ? 'opacity-100' : 'opacity-0 pointer-events-none',
-          isDarkMode ? 'semi-always-dark' : null
-        )}
+        className={clsx('absolute transition-opacity', visible ? 'opacity-100' : 'opacity-0 pointer-events-none')}
         style={rootStyle}
+        appearance={isDarkMode ? 'dark' : 'light'}
+        accentColor="blue"
+        grayColor="slate"
       >
-        <Popover
-          trigger="custom"
-          visible={visible && !!selectedText && !!content}
-          rePosKey={rootStyle?.transform}
-          content={
-            <Card className="w-96">
-              <div>{selectedText}</div>
-              <Divider margin={12} />
-              <div>{content}</div>
-            </Card>
-          }
-        >
-          <div>
-            <ButtonGroup className="w-max">
-              <Tooltip content="Translate" clickTriggerToHide>
-                <Button
-                  theme="solid"
-                  type="primary"
-                  loading={isLoading}
-                  icon={<IconLanguage />}
+        <Popover.Root open={visible && !!selectedText && !!content}>
+          <Popover.Trigger>
+            <Flex className="w-max">
+              <ScopedTooltip content="Translate">
+                <IconButton
+                  variant="solid"
+                  disabled={isLoading}
                   onClick={() => {
                     handleTranslate(selectedText);
                   }}
-                />
-              </Tooltip>
-              <Tooltip content="Summarize" clickTriggerToHide>
-                <Button
-                  theme="solid"
-                  type="primary"
-                  loading={isLoading}
-                  icon={<IconBriefStroked />}
+                >
+                  {isLoading ? <Loader2Icon className="animate-spin" size={16} /> : <LanguagesIcon size={16} />}
+                </IconButton>
+              </ScopedTooltip>
+              <ScopedTooltip content="Summarize">
+                <IconButton
+                  variant="solid"
+                  disabled={isLoading}
                   onClick={() => {
                     handleSummarize(selectedText);
                   }}
-                />
-              </Tooltip>
-              <Dropdown
-                trigger="click"
-                position="bottomRight"
-                render={
-                  <Dropdown.Menu>
-                    <Dropdown.Item>Menu Item 1</Dropdown.Item>
-                    <Dropdown.Item>Menu Item 2</Dropdown.Item>
-                    <Dropdown.Item>Menu Item 3</Dropdown.Item>
-                  </Dropdown.Menu>
-                }
-              >
-                <Button theme="solid" type="primary" icon={<IconMoreStroked />} />
-              </Dropdown>
-            </ButtonGroup>
-          </div>
-        </Popover>
-      </div>
+                >
+                  {isLoading ? <Loader2Icon className="animate-spin" size={16} /> : <ListTreeIcon size={16} />}
+                </IconButton>
+              </ScopedTooltip>
+            </Flex>
+          </Popover.Trigger>
+          <ScopedPopoverContent className="w-96">
+            <div>{selectedText}</div>
+            <Separator my="3" size="4" />
+            <div>{content}</div>
+          </ScopedPopoverContent>
+        </Popover.Root>
+      </Theme>
     </Provider>
   );
 };

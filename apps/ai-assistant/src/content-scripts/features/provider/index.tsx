@@ -1,23 +1,33 @@
-import { useRef } from 'react';
+import { Popover, Tooltip } from '@radix-ui/themes';
+import { MutableRefObject, createContext, forwardRef, useContext } from 'react';
 import { createPortal } from 'react-dom';
-import { ConfigProvider } from '@douyinfe/semi-ui';
-import { isPageInDark } from '@webx-kit/runtime/content-scripts';
-import { clsx } from 'clsx';
+
+const PortalContainerContext = createContext<MutableRefObject<HTMLDivElement | null>>({ current: null });
 
 export const Provider = (props: React.PropsWithChildren<unknown>) => {
-  const popupContainerRef = useRef<HTMLDivElement>(null);
+  const portalContainerContextRef = useContext(PortalContainerContext);
 
   return (
-    <ConfigProvider
-      getPopupContainer={() => popupContainerRef.current || (window.__webxRoot as unknown as HTMLElement)}
-    >
+    <>
       {props.children}
       {window.__webxRoot
-        ? createPortal(
-            <div ref={popupContainerRef} className={clsx(isPageInDark() ? 'semi-always-dark' : null)} />,
-            window.__webxRoot as unknown as HTMLElement
-          )
+        ? createPortal(<div ref={portalContainerContextRef} />, window.__webxRoot as unknown as HTMLElement)
         : null}
-    </ConfigProvider>
+    </>
   );
 };
+
+export const ScopedTooltip = forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof Tooltip>>(
+  (props, ref) => {
+    const { current } = useContext(PortalContainerContext);
+    return <Tooltip ref={ref} container={current} {...props} />;
+  }
+);
+
+export const ScopedPopoverContent = forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<(typeof Popover)['Content']>
+>((props, ref) => {
+  const { current } = useContext(PortalContainerContext);
+  return <Popover.Content ref={ref} container={current} {...props} />;
+});

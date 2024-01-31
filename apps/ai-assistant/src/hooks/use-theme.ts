@@ -14,10 +14,11 @@ function useMedia(query: string) {
   return matches;
 }
 
-export function useSemiTheme() {
+export function useBodyThemeClass() {
   const isDark = useMedia('(prefers-color-scheme: dark)');
 
   useLayoutEffect(() => {
-    document.body.setAttribute('theme-mode', isDark ? 'dark' : 'light');
+    document.body.classList.remove('light', 'dark');
+    document.body.classList.add(isDark ? 'dark' : 'light');
   }, [isDark]);
 }
