@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 
 function useMedia(query: string) {
   const media = useMemo(() => matchMedia(query), [query]);
@@ -14,10 +14,11 @@ function useMedia(query: string) {
   return matches;
 }
 
-export function useSemiTheme() {
+export function useBodyThemeClass() {
   const isDark = useMedia('(prefers-color-scheme: dark)');
 
-  useEffect(() => {
-    document.body.setAttribute('theme-mode', isDark ? 'dark' : 'light');
+  useLayoutEffect(() => {
+    document.body.classList.remove('light', 'dark');
+    document.body.classList.add(isDark ? 'dark' : 'light');
   }, [isDark]);
 }

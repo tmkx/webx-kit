@@ -22,7 +22,7 @@ export default defineConfig(() => ({
   tools: {
     postcss: {
       postcssOptions: {
-        plugins: [require('tailwindcss'), semiPostCSSPlugin],
+        plugins: [require('tailwindcss'), bodyToHostCSSPlugin],
       },
     },
   },
@@ -36,18 +36,22 @@ type PostCSSLoaderOptions = AppUserWebpackConfig extends {
   : never;
 type PostCSSAcceptedPlugin = NonNullable<NonNullable<PostCSSLoaderOptions['postcssOptions']>['plugins']>[number];
 
-const semiPostCSSPlugin: PostCSSAcceptedPlugin = {
+const bodyToHostCSSPlugin: PostCSSAcceptedPlugin = {
   postcss(css) {
     css.walkRules((rule) => {
       const bodyToHostSelectors = rule.selectors
         .filter((selector) => selector.startsWith('body'))
         .map((selector) => {
-          if (selector.startsWith('body[')) return selector.replace(/body[(.+?)]/, (_, attr) => `:host(${attr})`);
-          return selector.replace('body', `:host`);
+          if (selector.startsWith('body[')) return selector.replace(/body[(.+?)]/g, (_, attr) => `:host(${attr})`);
+          return selector.replace('body', ':host');
         });
 
-      if (bodyToHostSelectors.length > 0) {
-        rule.selectors = [...rule.selectors, ...bodyToHostSelectors];
+      const rootToHostSelectors = rule.selectors
+        .filter((selector) => selector.includes(':root'))
+        .map((selector) => selector.replaceAll(':root', ':host'));
+
+      if (bodyToHostSelectors.length > 0 || rootToHostSelectors.length > 0) {
+        rule.selectors = [...rule.selectors, ...bodyToHostSelectors, ...rootToHostSelectors];
       }
     });
   },
