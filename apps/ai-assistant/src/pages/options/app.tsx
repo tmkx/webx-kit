@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { apiKeyAtom } from '@/hooks/atoms/config';
 import { useBodyThemeClass } from '@/hooks/use-theme';
-import { Button, Text, TextField, Theme } from '@radix-ui/themes';
-import { KeyRoundIcon } from 'lucide-react';
-import '@radix-ui/themes/styles.css';
+import { Button, TextField } from '@/components';
+import { Form } from 'react-aria-components';
 
 export const App = () => {
   useBodyThemeClass();
@@ -15,35 +14,26 @@ export const App = () => {
     setValue(apiKey || '');
   }, [apiKey]);
 
-  const handleSubmit = () => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (ev) => {
+    ev.preventDefault();
     setAPIKey(value);
   };
 
   return (
-    <Theme className="h-full text-slate-700 flex-center flex-col">
-      <div className="w-96">
-        <div className="text-sm"></div>
-        <Text size="2" color="gray">
-          API Key
-        </Text>
-        <TextField.Root className="mt-2">
-          <TextField.Slot>
-            <KeyRoundIcon size={16} />
-          </TextField.Slot>
-          <TextField.Input
-            key={apiKey}
-            type="password"
-            placeholder="Gemini Pro API Key"
-            value={value}
-            onChange={(ev) => setValue(ev.target.value)}
-          />
-        </TextField.Root>
-        <div className="mt-2 text-right">
-          <Button variant="solid" onClick={handleSubmit}>
-            Submit
-          </Button>
+    <div className="h-full text-slate-700 flex-center flex-col">
+      <Form className="w-96 flex flex-col gap-2" onSubmit={handleSubmit}>
+        <TextField
+          name="apiKey"
+          label="API Key"
+          type="password"
+          description="Gemini Pro API Key"
+          value={value}
+          onChange={setValue}
+        />
+        <div className="text-right">
+          <Button type="submit">Submit</Button>
         </div>
-      </div>
-    </Theme>
+      </Form>
+    </div>
   );
 };
