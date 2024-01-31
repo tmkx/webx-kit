@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 
 function useMedia(query: string) {
   const media = useMemo(() => matchMedia(query), [query]);
@@ -17,7 +17,7 @@ function useMedia(query: string) {
 export function useSemiTheme() {
   const isDark = useMedia('(prefers-color-scheme: dark)');
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.body.setAttribute('theme-mode', isDark ? 'dark' : 'light');
   }, [isDark]);
 }
