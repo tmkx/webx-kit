@@ -1,4 +1,4 @@
-import { setWebxRoot } from '@webx-kit/runtime/content-scripts';
+import { setWebxRoot } from '@webx-kit/runtime/content-scripts/index';
 import { createRoot } from 'react-dom/client';
 import { App } from './app';
 import '../global.less';
@@ -10,7 +10,8 @@ setWebxRoot({ root: shadowRoot });
 
 const styleEl = document.createElement('link');
 styleEl.rel = 'stylesheet';
-styleEl.href = chrome.runtime.getURL('static/css/content-script.css');
+// @ts-expect-error TODO: refactor into a shadow root creator
+styleEl.href = __webpack_require__.p + 'static/css/content-script.css';
 
 const appRoot = document.createElement('div');
 createRoot(appRoot).render(<App />);
