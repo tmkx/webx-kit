@@ -31,13 +31,11 @@
     "bundle-require": "^4.0.2"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.48.0",
     "@modern-js/utils": "^2.48.0",
     "@rsbuild/shared": "^0.4.8",
     "typescript": "^5.3.3"
   },
   "peerDependencies": {
-    "@modern-js/app-tools": "^2.40.0",
     "@modern-js/utils": "^2.40.0",
     "@rsbuild/shared": "^0.3.0"
   }

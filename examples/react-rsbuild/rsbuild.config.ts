@@ -3,7 +3,12 @@ import { pluginReact } from '@rsbuild/plugin-react';
 import { webxPlugin } from '@webx-kit/rsbuild-plugin';
 
 export default defineConfig({
-  plugins: [pluginReact(), webxPlugin()],
+  plugins: [
+    pluginReact(),
+    webxPlugin({
+      background: './src/background/index.ts',
+    }),
+  ],
   source: {
     entry: {
       options: './src/pages/options/index.tsx',
