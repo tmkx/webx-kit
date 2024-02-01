@@ -7,10 +7,10 @@ const manifest: chrome.runtime.ManifestV3 = {
   icons: {
     512: 'public/logo.png',
   },
-  // background: {
-  //   service_worker: 'static/js/background.js',
-  //   type: 'module',
-  // },
+  background: {
+    service_worker: 'static/js/background.js',
+    type: 'module',
+  },
   action: {
     default_popup: 'popup.html',
   },

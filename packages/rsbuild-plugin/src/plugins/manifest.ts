@@ -1,6 +1,6 @@
 import path from 'node:path';
-import { FSWatcher, fs, isDev, watch } from '@modern-js/utils';
-import { RsbuildPluginAPI } from '@rsbuild/shared';
+import { FSWatcher, fs, watch } from '@modern-js/utils';
+import { RsbuildPluginAPI, isDev } from '@rsbuild/shared';
 import { evalFile } from '../utils';
 
 export type ManifestOptions = {

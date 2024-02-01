@@ -14,6 +14,7 @@
     "modernjs",
     "promisable",
     "rsbuild",
+    "rspack",
     "svgr",
     "tailwindcss",
     "testid",
