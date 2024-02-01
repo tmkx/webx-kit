@@ -1,0 +1,44 @@
+{
+  "name": "@webx-kit/rsbuild-plugin",
+  "version": "0.0.0",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "types": "./src/index.ts",
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "types": "./dist/index.d.ts"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/tmkx/webx-kit.git",
+    "directory": "packages/rsbuild-plugin"
+  },
+  "scripts": {
+    "lint:type": "tsc --noEmit"
+  },
+  "dependencies": {
+    "bundle-require": "^4.0.2"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "^2.48.0",
+    "@modern-js/utils": "^2.48.0",
+    "@rsbuild/shared": "^0.4.8",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "@modern-js/app-tools": "^2.40.0",
+    "@modern-js/utils": "^2.40.0",
+    "@rsbuild/shared": "^0.3.0"
+  }
+}
