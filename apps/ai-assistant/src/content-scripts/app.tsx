@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Flex, IconButton, Popover, Separator, Theme } from '@radix-ui/themes';
 import { LanguagesIcon, ListTreeIcon, Loader2Icon } from 'lucide-react';
 import {
   autoUpdatePosition,
@@ -9,10 +8,11 @@ import {
   rangeToReference,
 } from '@webx-kit/runtime/content-scripts';
 import { createTrpcHandler } from '@webx-kit/messaging/content-script';
-import '@radix-ui/themes/styles.css';
 import clsx from 'clsx';
 import type { AppRouter } from '@/background/router';
-import { Provider, ScopedPopoverContent, ScopedTooltip } from './features/provider';
+import { DialogTrigger, TooltipTrigger } from 'react-aria-components';
+import { Button, Popover, Tooltip } from '@/components';
+import { Provider } from './features/provider';
 import './global.less';
 
 const { client } = createTrpcHandler<AppRouter>({});
@@ -129,49 +129,46 @@ export const App = () => {
 
   return (
     <Provider>
-      <Theme
+      <div
         ref={containerRef}
         tabIndex={visible ? undefined : -1}
         className={clsx('absolute transition-opacity', visible ? 'opacity-100' : 'opacity-0 pointer-events-none')}
         style={rootStyle}
-        appearance={isDarkMode ? 'dark' : 'light'}
-        accentColor="blue"
-        grayColor="slate"
       >
-        <Popover.Root open={visible && !!selectedText && !!content}>
-          <Popover.Trigger>
-            <Flex className="w-max">
-              <ScopedTooltip content="Translate">
-                <IconButton
-                  variant="solid"
-                  disabled={isLoading}
-                  onClick={() => {
-                    handleTranslate(selectedText);
-                  }}
-                >
-                  {isLoading ? <Loader2Icon className="animate-spin" size={16} /> : <LanguagesIcon size={16} />}
-                </IconButton>
-              </ScopedTooltip>
-              <ScopedTooltip content="Summarize">
-                <IconButton
-                  variant="solid"
-                  disabled={isLoading}
-                  onClick={() => {
-                    handleSummarize(selectedText);
-                  }}
-                >
-                  {isLoading ? <Loader2Icon className="animate-spin" size={16} /> : <ListTreeIcon size={16} />}
-                </IconButton>
-              </ScopedTooltip>
-            </Flex>
-          </Popover.Trigger>
-          <ScopedPopoverContent className="w-96">
+        <DialogTrigger isOpen={visible && !!selectedText && !!content} onOpenChange={setVisible}>
+          <div className="w-max">
+            <TooltipTrigger>
+              <Button
+                className="px-2"
+                isDisabled={isLoading}
+                onPress={() => {
+                  handleTranslate(selectedText);
+                }}
+              >
+                {isLoading ? <Loader2Icon className="animate-spin" size={16} /> : <LanguagesIcon size={16} />}
+              </Button>
+              <Tooltip>Translate</Tooltip>
+            </TooltipTrigger>
+            <TooltipTrigger>
+              <Button
+                className="px-2"
+                isDisabled={isLoading}
+                onPress={() => {
+                  handleSummarize(selectedText);
+                }}
+              >
+                {isLoading ? <Loader2Icon className="animate-spin" size={16} /> : <ListTreeIcon size={16} />}
+              </Button>
+              <Tooltip>Summarize</Tooltip>
+            </TooltipTrigger>
+          </div>
+          <Popover className="w-96 p-4">
             <div>{selectedText}</div>
-            <Separator my="3" size="4" />
+            <div className="h-[1px] my-3 bg-slate-200" />
             <div>{content}</div>
-          </ScopedPopoverContent>
-        </Popover.Root>
-      </Theme>
+          </Popover>
+        </DialogTrigger>
+      </div>
     </Provider>
   );
 };
