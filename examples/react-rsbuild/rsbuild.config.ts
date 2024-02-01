@@ -10,6 +10,14 @@ export default defineConfig({
       popup: './src/pages/popup/index.tsx',
     },
   },
+  output: {
+    copy: [
+      {
+        from: './public',
+        to: './public',
+      },
+    ],
+  },
   tools: {
     postcss: {
       postcssOptions: {
