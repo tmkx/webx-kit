@@ -7,14 +7,14 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.1.3",
+    "@google/generative-ai": "^0.2.0",
     "@trpc/client": "11.0.0-next-beta.248",
     "@trpc/server": "11.0.0-next-beta.248",
     "@webx-kit/messaging": "workspace:^",
     "@webx-kit/runtime": "workspace:^",
     "@webx-kit/storage": "workspace:^",
     "clsx": "^2.1.0",
-    "jotai": "^2.6.2",
+    "jotai": "^2.6.4",
     "lucide-react": "^0.320.0",
     "react": "^18.2.0",
     "react-aria-components": "^1.0.1",
@@ -23,8 +23,8 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "^2.46.1",
-    "@types/chrome": "^0.0.258",
-    "@types/node": "^20.11.5",
+    "@types/chrome": "^0.0.259",
+    "@types/node": "^20.11.14",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
     "@webx-kit/modernjs-plugin": "workspace:^",
