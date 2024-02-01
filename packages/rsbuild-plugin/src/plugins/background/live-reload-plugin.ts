@@ -1,4 +1,4 @@
-import { Rspack } from '@rsbuild/shared';
+import type { Rspack } from '@rsbuild/shared';
 import type { JsChunk, JsRuntimeModule } from '../../utils/types';
 
 export class BackgroundReloadPlugin {

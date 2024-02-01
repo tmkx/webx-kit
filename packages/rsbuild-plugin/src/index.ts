@@ -1,9 +1,14 @@
 import { RsbuildConfig, RsbuildPlugin } from '@rsbuild/shared';
-import { BackgroundOptions, applyBackgroundSupport } from './plugins/background';
+import { BackgroundOptions, applyBackgroundSupport, getBackgroundEntryNames } from './plugins/background';
+import {
+  ContentScriptsOptions,
+  applyContentScriptsSupport,
+  getContentScriptEntryNames,
+} from './plugins/content-script';
 import { ManifestOptions, applyManifestSupport } from './plugins/manifest';
-import { JsChunk } from './utils/types';
+import type { JsChunk } from './utils/types';
 
-export interface WebxPluginOptions extends BackgroundOptions, ManifestOptions {}
+export interface WebxPluginOptions extends BackgroundOptions, ContentScriptsOptions, ManifestOptions {}
 
 function getDefaultConfig({ allInOneEntries }: { allInOneEntries: Set<string> }): RsbuildConfig {
   return {
@@ -13,10 +18,10 @@ function getDefaultConfig({ allInOneEntries }: { allInOneEntries: Set<string> })
         protocol: 'ws',
         host: 'localhost',
       },
-      writeToDisk: (filename) => !/\.hot-update\.\w+$/.test(filename),
+      writeToDisk: (filename) => !filename.includes('.hot-update.'),
     },
     output: {
-      disableFilenameHash: true,
+      filenameHash: false,
     },
     server: {
       publicDir: false,
@@ -39,12 +44,13 @@ export const webxPlugin = (options: WebxPluginOptions = {}): RsbuildPlugin => {
   return {
     name: '@webx-kit/rsbuild-plugin',
     setup(api) {
-      const allInOneEntries = new Set(['background']);
+      const allInOneEntries = new Set([...getBackgroundEntryNames(options), ...getContentScriptEntryNames(options)]);
       api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
         const originalConfig = api.getRsbuildConfig('original');
         return mergeRsbuildConfig(config, getDefaultConfig({ allInOneEntries }), originalConfig);
       });
       applyBackgroundSupport(api, options);
+      applyContentScriptsSupport(api, options);
       applyManifestSupport(api, options);
     },
   };

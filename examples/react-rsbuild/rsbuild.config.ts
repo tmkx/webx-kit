@@ -7,6 +7,7 @@ export default defineConfig({
     pluginReact(),
     webxPlugin({
       background: './src/background/index.ts',
+      contentScripts: './src/content-scripts/index.tsx',
     }),
   ],
   source: {
