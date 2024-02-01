@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@modern-js/utils": "^2.46.1",
-    "@rsbuild/shared": "^0.3.4",
+    "@rsbuild/shared": "^0.3.11",
     "svelte": "^4.2.9",
     "typescript": "^5.3.3"
   },

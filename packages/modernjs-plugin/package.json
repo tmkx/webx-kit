@@ -35,7 +35,7 @@
   "devDependencies": {
     "@modern-js/app-tools": "^2.46.1",
     "@modern-js/utils": "^2.46.1",
-    "@rsbuild/shared": "^0.3.4",
+    "@rsbuild/shared": "^0.3.11",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3"
   },

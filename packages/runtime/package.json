@@ -35,10 +35,10 @@
     "test": "playwright test"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.5.4"
+    "@floating-ui/dom": "^1.6.1"
   },
   "devDependencies": {
-    "@playwright/test": "^1.41.0",
+    "@playwright/test": "^1.41.1",
     "typescript": "^5.3.3"
   }
 }
