@@ -1,11 +1,18 @@
 import { RsbuildConfig, RsbuildPlugin } from '@rsbuild/shared';
+import { ManifestOptions, applyManifestSupport } from './plugins/manifest';
 
-export interface WebxPluginOptions {}
+export interface WebxPluginOptions extends ManifestOptions {}
 
 function getDefaultConfig(): RsbuildConfig {
   return {
     dev: {
       writeToDisk: true,
+    },
+    output: {
+      disableFilenameHash: true,
+    },
+    server: {
+      publicDir: false,
     },
   };
 }
@@ -15,8 +22,9 @@ export const webxPlugin = (options: WebxPluginOptions = {}): RsbuildPlugin => {
     name: '@webx-kit/rsbuild-plugin',
     setup(api) {
       api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
-        return mergeRsbuildConfig(getDefaultConfig(), config);
+        return mergeRsbuildConfig(config, getDefaultConfig());
       });
+      applyManifestSupport(api, options);
     },
   };
 };
