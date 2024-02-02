@@ -55,6 +55,8 @@ function isPacket(message: any): message is Packet {
   return typeof message === 'object' && message !== null && 't' in message && 'i' in message && 'd' in message;
 }
 
+function noop() {}
+
 type PromiseResolvers<T> = ReturnType<typeof withResolvers<T>>;
 
 export interface Messaging {
@@ -176,17 +178,28 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
       const resolvers = withResolvers<T>();
       const id = randomID();
       ongoingRequestResolvers.set(id, resolvers);
-      port.postMessage({ t: 'r', i: id, d: data } satisfies Packet);
+      try {
+        port.postMessage({ t: 'r', i: id, d: data } satisfies Packet);
+      } catch (err) {
+        resolvers.reject(err);
+      }
       return resolvers.promise;
     },
     stream(data, observer) {
       const id = randomID();
       ongoingStreamObservers.set(id, observer);
-      port.postMessage({ t: 's', i: id, d: data } satisfies Packet);
-      return () => {
-        if (!ongoingStreamObservers.has(id)) return;
-        port.postMessage({ t: 's', i: id, d: null } satisfies Packet);
-      };
+      try {
+        port.postMessage({ t: 's', i: id, d: data } satisfies Packet);
+        return () => {
+          if (!ongoingStreamObservers.has(id)) return;
+          port.postMessage({ t: 's', i: id, d: null } satisfies Packet);
+        };
+      } catch (err) {
+        queueMicrotask(() => {
+          observer.error?.(err);
+        });
+        return noop;
+      }
     },
     dispose,
   };
@@ -211,7 +224,7 @@ export function fromMessagePort(port: MessagePort): Port {
       return ac.abort.bind(ac);
     },
     onDispose() {
-      return () => {};
+      return noop;
     },
   };
 }
