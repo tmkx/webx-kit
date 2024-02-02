@@ -164,13 +164,24 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
     }
   }
 
-  const offMessage = port.onMessage(handleMessage);
-  const offDispose = port.onDispose(dispose);
-  function dispose() {
-    offMessage();
-    offDispose();
-    onDispose?.();
+  let active = false;
+  const offListeners: VoidFunction[] = [];
+
+  // chrome.runtime.Port will [auto disconnect](https://developer.chrome.com/docs/extensions/develop/concepts/messaging?hl=en#port-lifetime)
+  // so that we need to ensure that there is an active connection
+  function ensureActive() {
+    if (active) return;
+    active = true;
+    offListeners.push(port.onMessage(handleMessage));
+    offListeners.push(port.onDispose(dispose));
   }
+  function dispose() {
+    active = false;
+    onDispose?.();
+    offListeners.forEach((offFn) => offFn());
+    offListeners.length = 0;
+  }
+  ensureActive();
 
   const messaging: Messaging = {
     name: port.name,
@@ -179,6 +190,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
       const id = randomID();
       ongoingRequestResolvers.set(id, resolvers);
       try {
+        ensureActive();
         port.postMessage({ t: 'r', i: id, d: data } satisfies Packet);
       } catch (err) {
         resolvers.reject(err);
@@ -189,6 +201,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
       const id = randomID();
       ongoingStreamObservers.set(id, observer);
       try {
+        ensureActive();
         port.postMessage({ t: 's', i: id, d: data } satisfies Packet);
         return () => {
           if (!ongoingStreamObservers.has(id)) return;
@@ -229,17 +242,20 @@ export function fromMessagePort(port: MessagePort): Port {
   };
 }
 
-export function fromChromePort(port: chrome.runtime.Port): Port {
+export function fromChromePort(portResolver: chrome.runtime.Port | (() => chrome.runtime.Port)): Port {
+  const getPort = () => (typeof portResolver === 'function' ? portResolver() : portResolver);
   return {
-    name: port.name,
-    postMessage: port.postMessage.bind(port),
+    name: getPort().name,
+    postMessage: (message) => getPort().postMessage(message),
     onMessage(listener) {
+      const port = getPort();
       port.onMessage.addListener(listener);
       return () => {
         port.onMessage.removeListener(listener);
       };
     },
     onDispose(listener) {
+      const port = getPort();
       port.onDisconnect.addListener(listener);
       return () => {
         port.onDisconnect.removeListener(listener);

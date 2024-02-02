@@ -20,15 +20,22 @@ export function createCustomHandler({
   },
 }: CustomHandlerOptions) {
   const id = randomID();
-  const port = chrome.runtime.connect({ name: `${NAMESPACE}${type}@${id}` });
-  const messaging = createMessaging(fromChromePort(port), {
-    onRequest(message) {
-      return requestHandler(message);
-    },
-    onStream(message, subscriber) {
-      return streamHandler(message, subscriber);
-    },
-  });
+
+  let port: chrome.runtime.Port | null = null;
+  const messaging = createMessaging(
+    fromChromePort(() => (port ||= chrome.runtime.connect({ name: `${NAMESPACE}${type}@${id}` }))),
+    {
+      onRequest(message) {
+        return requestHandler(message);
+      },
+      onStream(message, subscriber) {
+        return streamHandler(message, subscriber);
+      },
+      onDispose() {
+        port = null;
+      },
+    }
+  );
 
   return {
     messaging: wrapMessaging(messaging),
@@ -46,9 +53,16 @@ export interface TrpcHandlerOptions {
 
 export function createTrpcHandler<TRouter extends AnyTRPCRouter>({ type }: TrpcHandlerOptions) {
   const id = randomID();
-  const port = chrome.runtime.connect({ name: `${NAMESPACE}${type}@${id}` });
+  let port: chrome.runtime.Port | null = null;
 
-  const link = messagingLink({ port: fromChromePort(port) });
+  const link = messagingLink({
+    port: fromChromePort(() => (port ||= chrome.runtime.connect({ name: `${NAMESPACE}${type}@${id}` }))),
+    messagingOptions: {
+      onDispose() {
+        port = null;
+      },
+    },
+  });
   const client = createTRPCClient<TRouter>({
     links: [link],
   });
