@@ -167,8 +167,6 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
   let active = false;
   const offListeners: VoidFunction[] = [];
 
-  // chrome.runtime.Port will [auto disconnect](https://developer.chrome.com/docs/extensions/develop/concepts/messaging?hl=en#port-lifetime)
-  // so that we need to ensure that there is an active connection
   function ensureActive() {
     if (active) return;
     active = true;
@@ -183,36 +181,57 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
   }
   ensureActive();
 
+  function reconnectIfDisconnected<T extends () => any>(fn: T, errorHandler: (error: unknown) => ReturnType<T>) {
+    try {
+      // chrome.runtime.Port will [auto disconnect](https://developer.chrome.com/docs/extensions/develop/concepts/messaging?hl=en#port-lifetime)
+      // so that we need to ensure that there is an active connection
+      ensureActive();
+      return fn();
+    } catch (err) {
+      try {
+        // When the background is inactive while the page is paused (e.g. during debugging)
+        // onDisconnect will not be triggered
+        if (err instanceof Error && err.message.includes('disconnected')) {
+          dispose();
+          ensureActive();
+          return fn();
+        }
+        throw err;
+      } catch (finalErr) {
+        return errorHandler(finalErr);
+      }
+    }
+  }
+
   const messaging: Messaging = {
     name: port.name,
     request<T>(data: unknown) {
       const resolvers = withResolvers<T>();
       const id = randomID();
       ongoingRequestResolvers.set(id, resolvers);
-      try {
-        ensureActive();
+      reconnectIfDisconnected(() => {
         port.postMessage({ t: 'r', i: id, d: data } satisfies Packet);
-      } catch (err) {
-        resolvers.reject(err);
-      }
+      }, resolvers.reject);
       return resolvers.promise;
     },
     stream(data, observer) {
       const id = randomID();
       ongoingStreamObservers.set(id, observer);
-      try {
-        ensureActive();
-        port.postMessage({ t: 's', i: id, d: data } satisfies Packet);
-        return () => {
-          if (!ongoingStreamObservers.has(id)) return;
-          port.postMessage({ t: 's', i: id, d: null } satisfies Packet);
-        };
-      } catch (err) {
-        queueMicrotask(() => {
-          observer.error?.(err);
-        });
-        return noop;
-      }
+      return reconnectIfDisconnected(
+        () => {
+          port.postMessage({ t: 's', i: id, d: data } satisfies Packet);
+          return () => {
+            if (!ongoingStreamObservers.has(id)) return;
+            port.postMessage({ t: 's', i: id, d: null } satisfies Packet);
+          };
+        },
+        (err) => {
+          queueMicrotask(() => {
+            observer.error?.(err);
+          });
+          return noop;
+        }
+      );
     },
     dispose,
   };

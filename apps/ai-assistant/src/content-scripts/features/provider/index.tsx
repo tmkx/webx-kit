@@ -1,4 +1,5 @@
 import { PortalContainerContext } from '@/components/shared';
+import { isPageInDark } from '@webx-kit/runtime/content-scripts/env';
 import { useContext } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -9,7 +10,10 @@ export const Provider = (props: React.PropsWithChildren<unknown>) => {
     <>
       {props.children}
       {window.__webxRoot
-        ? createPortal(<div ref={portalContainerContextRef} />, window.__webxRoot as unknown as HTMLElement)
+        ? createPortal(
+            <div ref={portalContainerContextRef} className={isPageInDark() ? 'dark' : undefined} />,
+            window.__webxRoot as unknown as HTMLElement
+          )
         : null}
     </>
   );
