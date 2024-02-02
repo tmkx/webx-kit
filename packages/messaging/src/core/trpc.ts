@@ -8,7 +8,7 @@ import {
 } from '@trpc/server';
 import { TRPCResponseMessage, transformResult } from '@trpc/server/unstable-core-do-not-import';
 import { isObservable, observable } from '@trpc/server/observable';
-import { Messaging, Port, createMessaging } from './index';
+import { CreateMessagingOptions, Messaging, Port, createMessaging } from './index';
 import { Operation, TRPCClientError, TRPCLink } from '@trpc/client';
 
 export interface MessagingHandlerOptions<TRouter extends AnyTRPCRouter> {
@@ -99,13 +99,14 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
 
 export interface MessagingLinkOptions<TRouter extends AnyTRPCRouter> {
   port: Port;
+  messagingOptions?: CreateMessagingOptions;
 }
 
 export function messagingLink<TRouter extends AnyTRPCRouter>(
   options: MessagingLinkOptions<TRouter>
 ): TRPCLink<TRouter> & { messaging: Messaging } {
-  const { port } = options;
-  const client = createMessaging(port);
+  const { port, messagingOptions } = options;
+  const client = createMessaging(port, messagingOptions);
   const link: TRPCLink<TRouter> & { messaging: Messaging } = (runtime) => {
     return ({ op }) => {
       const { type, path, id, context } = op;
