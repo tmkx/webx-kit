@@ -132,7 +132,11 @@ export const App = () => {
       <div
         ref={containerRef}
         tabIndex={visible ? undefined : -1}
-        className={clsx('absolute transition-opacity', visible ? 'opacity-100' : 'opacity-0 pointer-events-none')}
+        className={clsx(
+          'absolute transition-opacity',
+          isDarkMode && 'dark',
+          visible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        )}
         style={rootStyle}
       >
         <DialogTrigger isOpen={visible && !!selectedText && !!content} onOpenChange={setVisible}>
@@ -164,7 +168,7 @@ export const App = () => {
           </div>
           <Popover className="w-96 p-4">
             <div>{selectedText}</div>
-            <div className="h-[1px] my-3 bg-slate-200" />
+            <div className="h-[1px] my-3 bg-slate-200/20" />
             <div>{content}</div>
           </Popover>
         </DialogTrigger>
