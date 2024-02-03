@@ -5,10 +5,9 @@ export type SendMessageFunction = (message: any) => void;
 export type CleanupFunction = VoidFunction;
 
 export interface Port {
-  name: string;
-  postMessage: SendMessageFunction;
-  onMessage: (listener: SendMessageFunction) => CleanupFunction;
-  onDispose: (listener: VoidCallback) => CleanupFunction;
+  name?: string;
+  onMessage(listener: (message: any, ...rest: unknown[]) => Promisable<any>): VoidFunction;
+  send(message: any, originMessage?: [message: any, ...unknown[]]): void;
 }
 
 /**
@@ -35,24 +34,23 @@ interface Packet {
   d: any;
 }
 
-export interface RequestContext {
-  relay: (to: Messaging) => Promisable<any>;
-}
+export type RequestHandler = (message: any) => Promisable<any>;
+export type StreamHandler = (message: any, subscriber: Observer<any>) => Promisable<CleanupFunction | void>;
 
-export interface StreamContext {
-  relay: (to: Messaging) => Promisable<any>;
-}
+const INTERCEPT_ABORT = Symbol();
 
 export interface CreateMessagingOptions {
-  onRequest?: (this: RequestContext, message: any) => Promisable<any>;
-  onStream?: (this: StreamContext, message: any, subscriber: Observer<any>) => Promisable<CleanupFunction | void>;
-  onEvent?: (message: any) => any;
-  onDispose?: VoidCallback;
-  on?: (message: any) => any;
+  intercept?(data: unknown, abort: symbol): unknown | symbol;
+  onRequest?: RequestHandler;
+  onStream?: StreamHandler;
 }
 
 function isPacket(message: any): message is Packet {
   return typeof message === 'object' && message !== null && 't' in message && 'i' in message && 'd' in message;
+}
+
+function identity<T>(v: T) {
+  return v;
 }
 
 function noop() {}
@@ -60,39 +58,42 @@ function noop() {}
 type PromiseResolvers<T> = ReturnType<typeof withResolvers<T>>;
 
 export interface Messaging {
-  name: string;
-  request<T>(data: unknown): Promise<T>;
+  name?: string;
+  request(data: unknown): Promise<unknown>;
   stream(data: unknown, observer: Partial<Observer<any>>): VoidCallback;
   dispose(): void;
 }
 
 export function createMessaging(port: Port, options?: CreateMessagingOptions): Messaging {
-  const { on, onRequest, onStream, onDispose } = options || {};
+  const { intercept = identity, onRequest, onStream } = options || {};
   // sender side
   const ongoingRequestResolvers = new Map<string, PromiseResolvers<any>>();
   const ongoingStreamObservers = new Map<string, Partial<Observer<any>>>();
   // receiver side
   const processingStreamCleanups = new Map<string, CleanupFunction | void>();
 
-  async function handleMessage(message: any) {
-    on?.(message);
+  async function handleMessage(...originMessage: [message: any, ...rest: unknown[]]) {
+    const [message] = originMessage;
+
     if (!isPacket(message)) return;
+
+    function reply(message: Packet) {
+      port.send(message, originMessage);
+    }
+
     switch (message.t) {
       case 'r': {
         if (!onRequest) return;
+        const data = intercept(message.d, INTERCEPT_ABORT);
+        if (data === INTERCEPT_ABORT) return;
         let d;
         try {
-          const context: RequestContext = {
-            relay(to) {
-              return to.request(message.d);
-            },
-          };
-          const response = await onRequest.call(context, message.d);
+          const response = await onRequest(data);
           d = { data: response };
         } catch (err) {
           d = { error: err };
         }
-        port.postMessage({ t: 'R', i: message.i, d } satisfies Packet);
+        reply({ t: 'R', i: message.i, d });
         break;
       }
       case 'R': {
@@ -108,8 +109,11 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
       }
       case 's': {
         if (!onStream) return;
+        const data = intercept(message.d, INTERCEPT_ABORT);
+        if (data === INTERCEPT_ABORT) return;
+
         function terminate(d: { error: unknown } | { complete: boolean }) {
-          port.postMessage({ t: 'S', i: message.i, d } satisfies Packet);
+          reply({ t: 'S', i: message.i, d });
           processingStreamCleanups.get(message.i)?.();
           processingStreamCleanups.delete(message.i);
         }
@@ -122,7 +126,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
 
         const observer: Observer<any> = {
           next(value) {
-            port.postMessage({ t: 'S', i: message.i, d: { next: value } } satisfies Packet);
+            reply({ t: 'S', i: message.i, d: { next: value } });
           },
           error(error) {
             terminate({ error });
@@ -133,12 +137,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
         };
 
         try {
-          const context: StreamContext = {
-            relay(to) {
-              return to.stream(message.d, observer);
-            },
-          };
-          const cleanup = await onStream.call(context, message.d, observer);
+          const cleanup = await onStream(data, observer);
           processingStreamCleanups.set(message.i, cleanup);
         } catch (error) {
           // Error is not serializable in `chrome.runtime.Port`
@@ -164,44 +163,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
     }
   }
 
-  let active = false;
-  const offListeners: VoidFunction[] = [];
-
-  function ensureActive() {
-    if (active) return;
-    active = true;
-    offListeners.push(port.onMessage(handleMessage));
-    offListeners.push(port.onDispose(dispose));
-  }
-  function dispose() {
-    active = false;
-    onDispose?.();
-    offListeners.forEach((offFn) => offFn());
-    offListeners.length = 0;
-  }
-  ensureActive();
-
-  function reconnectIfDisconnected<T extends () => any>(fn: T, errorHandler: (error: unknown) => ReturnType<T>) {
-    try {
-      // chrome.runtime.Port will [auto disconnect](https://developer.chrome.com/docs/extensions/develop/concepts/messaging?hl=en#port-lifetime)
-      // so that we need to ensure that there is an active connection
-      ensureActive();
-      return fn();
-    } catch (err) {
-      try {
-        // When the background is inactive while the page is paused (e.g. during debugging)
-        // onDisconnect will not be triggered
-        if (err instanceof Error && err.message.includes('disconnected')) {
-          dispose();
-          ensureActive();
-          return fn();
-        }
-        throw err;
-      } catch (finalErr) {
-        return errorHandler(finalErr);
-      }
-    }
-  }
+  const offMessage = port.onMessage(handleMessage);
 
   const messaging: Messaging = {
     name: port.name,
@@ -209,31 +171,32 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
       const resolvers = withResolvers<T>();
       const id = randomID();
       ongoingRequestResolvers.set(id, resolvers);
-      reconnectIfDisconnected(() => {
-        port.postMessage({ t: 'r', i: id, d: data } satisfies Packet);
-      }, resolvers.reject);
+      try {
+        port.send({ t: 'r', i: id, d: data } satisfies Packet);
+      } catch (err) {
+        resolvers.reject(err);
+      }
       return resolvers.promise;
     },
     stream(data, observer) {
       const id = randomID();
       ongoingStreamObservers.set(id, observer);
-      return reconnectIfDisconnected(
-        () => {
-          port.postMessage({ t: 's', i: id, d: data } satisfies Packet);
-          return () => {
-            if (!ongoingStreamObservers.has(id)) return;
-            port.postMessage({ t: 's', i: id, d: null } satisfies Packet);
-          };
-        },
-        (err) => {
-          queueMicrotask(() => {
-            observer.error?.(err);
-          });
-          return noop;
-        }
-      );
+      try {
+        port.send({ t: 's', i: id, d: data } satisfies Packet);
+        return () => {
+          if (!ongoingStreamObservers.has(id)) return;
+          port.send({ t: 's', i: id, d: null } satisfies Packet);
+        };
+      } catch (err) {
+        queueMicrotask(() => {
+          observer.error?.(err);
+        });
+        return noop;
+      }
     },
-    dispose,
+    dispose() {
+      offMessage();
+    },
   };
 
   if (process.env.NODE_ENV === 'test') {
@@ -244,41 +207,4 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
   }
 
   return messaging;
-}
-
-export function fromMessagePort(port: MessagePort): Port {
-  return {
-    name: randomID(),
-    postMessage: port.postMessage.bind(port),
-    onMessage(listener) {
-      const ac = new AbortController();
-      port.addEventListener('message', (ev) => listener(ev.data), { signal: ac.signal });
-      return ac.abort.bind(ac);
-    },
-    onDispose() {
-      return noop;
-    },
-  };
-}
-
-export function fromChromePort(portResolver: chrome.runtime.Port | (() => chrome.runtime.Port)): Port {
-  const getPort = () => (typeof portResolver === 'function' ? portResolver() : portResolver);
-  return {
-    name: getPort().name,
-    postMessage: (message) => getPort().postMessage(message),
-    onMessage(listener) {
-      const port = getPort();
-      port.onMessage.addListener(listener);
-      return () => {
-        port.onMessage.removeListener(listener);
-      };
-    },
-    onDispose(listener) {
-      const port = getPort();
-      port.onDisconnect.addListener(listener);
-      return () => {
-        port.onDisconnect.removeListener(listener);
-      };
-    },
-  };
 }

@@ -8,20 +8,21 @@ import {
 } from '@trpc/server';
 import { TRPCResponseMessage, transformResult } from '@trpc/server/unstable-core-do-not-import';
 import { isObservable, observable } from '@trpc/server/observable';
-import { CreateMessagingOptions, Messaging, Port, createMessaging } from './index';
 import { Operation, TRPCClientError, TRPCLink } from '@trpc/client';
+import { CreateMessagingOptions, Messaging, Port, createMessaging } from './index';
 
 export interface MessagingHandlerOptions<TRouter extends AnyTRPCRouter> {
   port: Port;
   router: TRouter;
-  onDispose?: VoidCallback;
+  intercept?(data: unknown, abort: symbol): unknown | symbol;
 }
 
 export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: MessagingHandlerOptions<TRouter>) {
-  const { port, router, onDispose } = options;
+  const { port, router, intercept } = options;
   const { procedures, _config: rootConfig } = router._def;
 
   const server = createMessaging(port, {
+    intercept,
     async onRequest(message) {
       const { type, path, input, context: ctx } = message as Operation<unknown>;
       try {
@@ -91,30 +92,28 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
         );
       }
     },
-    onDispose,
   });
 
   return server;
 }
 
 export interface MessagingLinkOptions<TRouter extends AnyTRPCRouter> {
-  port: Port;
-  messagingOptions?: CreateMessagingOptions;
+  messaging: Messaging;
 }
 
 export function messagingLink<TRouter extends AnyTRPCRouter>(
   options: MessagingLinkOptions<TRouter>
-): TRPCLink<TRouter> & { messaging: Messaging } {
-  const { port, messagingOptions } = options;
-  const client = createMessaging(port, messagingOptions);
-  const link: TRPCLink<TRouter> & { messaging: Messaging } = (runtime) => {
+): TRPCLink<TRouter> {
+  const { messaging } = options;
+
+  return (runtime) => {
     return ({ op }) => {
       const { type, path, id, context } = op;
       const input = runtime.transformer.serialize(op.input);
 
       if (op.type !== 'subscription') {
         return observable((observer) => {
-          client
+          messaging
             .request({ type, path, input, id, context })
             .then((response) => {
               const transformed = transformResult(response as any, runtime.transformer);
@@ -133,7 +132,7 @@ export function messagingLink<TRouter extends AnyTRPCRouter>(
       }
 
       return observable((observer) => {
-        const unsub = client.stream(
+        const unsub = messaging.stream(
           { type, path, input, id, context },
           {
             error(err) {
@@ -160,7 +159,4 @@ export function messagingLink<TRouter extends AnyTRPCRouter>(
       });
     };
   };
-  link.messaging = client;
-
-  return link;
 }
