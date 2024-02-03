@@ -4,16 +4,10 @@ import { initTRPC } from '@trpc/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 import { applyMessagingHandler, messagingLink } from '../trpc';
-import { Messaging, fromMessagePort } from '../index';
 import { observable } from '@trpc/server/observable';
 import { withResolvers } from '../utils';
-
-function expectMessagingIsNotLeaked(messaging: Messaging) {
-  // @ts-expect-error
-  expect(messaging.ongoingRequestResolvers).toHaveLength(0);
-  // @ts-expect-error
-  expect(messaging.ongoingStreamObservers).toHaveLength(0);
-}
+import { expectMessagingIsNotLeaked, fromMessagePort } from './test-utils';
+import { createMessaging } from '..';
 
 describe('Basic', () => {
   const streamCleanupFn = vi.fn();
@@ -70,14 +64,15 @@ describe('Basic', () => {
   const server = applyMessagingHandler({ port: fromMessagePort(port1), router: appRouter });
 
   // Client
-  const link = messagingLink({ port: fromMessagePort(port2) });
+  const messaging = createMessaging(fromMessagePort(port2));
+  const link = messagingLink({ messaging });
   const client = createTRPCClient<typeof appRouter>({
     links: [link],
   });
 
   afterEach(() => {
     expectMessagingIsNotLeaked(server);
-    expectMessagingIsNotLeaked(link.messaging);
+    expectMessagingIsNotLeaked(messaging);
   });
 
   it('should support query', async () => {

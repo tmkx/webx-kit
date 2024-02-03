@@ -7,7 +7,7 @@ const { messaging } = createCustomHandler({
   requestHandler(message) {
     return {
       reply: 'options',
-      data: message.data,
+      data: message,
     };
   },
   async streamHandler(_message, subscriber) {
@@ -22,4 +22,4 @@ const { messaging } = createCustomHandler({
 });
 
 // @ts-expect-error
-globalThis.__client = messaging;
+globalThis.__clientMessaging = messaging;

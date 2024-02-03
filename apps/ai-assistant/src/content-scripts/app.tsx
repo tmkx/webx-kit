@@ -7,7 +7,7 @@ import {
   isSelectionValid,
   rangeToReference,
 } from '@webx-kit/runtime/content-scripts';
-import { createTrpcHandler } from '@webx-kit/messaging/content-script';
+import { createTrpcClient } from '@webx-kit/messaging/content-script';
 import clsx from 'clsx';
 import type { AppRouter } from '@/background/router';
 import { DialogTrigger, TooltipTrigger } from 'react-aria-components';
@@ -15,7 +15,7 @@ import { Button, Popover, Tooltip } from '@/components';
 import { Provider } from './features/provider';
 import './global.less';
 
-const { client } = createTrpcHandler<AppRouter>({});
+const { client } = createTrpcClient<AppRouter>({});
 
 export const App = () => {
   const [visible, setVisible] = useState(false);

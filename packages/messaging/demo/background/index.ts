@@ -2,11 +2,12 @@ import { createCustomHandler } from '@/background';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const { connections } = createCustomHandler({
+// @ts-expect-error
+globalThis.__messaging = createCustomHandler({
   async requestHandler(message) {
     return {
       reply: 'background',
-      data: message.data,
+      data: message,
     };
   },
   async streamHandler(_message, subscriber) {
@@ -19,6 +20,3 @@ const { connections } = createCustomHandler({
     subscriber.complete();
   },
 });
-
-// @ts-expect-error
-globalThis.__webxConnections = connections;
