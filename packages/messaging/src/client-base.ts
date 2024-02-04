@@ -13,11 +13,9 @@ const clientPort: Port = {
     };
   },
   send(message) {
-    if (typeof message?.d?.to === 'number') {
-      chrome.tabs.sendMessage(message.d.to, message);
-      return;
-    }
-    chrome.runtime.sendMessage(message);
+    return typeof message?.d?.to === 'number'
+      ? chrome.tabs.sendMessage(message.d.to, message)
+      : chrome.runtime.sendMessage(message);
   },
 };
 

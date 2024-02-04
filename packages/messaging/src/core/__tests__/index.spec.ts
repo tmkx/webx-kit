@@ -149,3 +149,28 @@ it('should serialize error message', async () => {
   expectMessagingIsNotLeaked(receiver);
   expectMessagingIsNotLeaked(sender);
 });
+
+it('should cleanup after sending error', async () => {
+  const { port1, port2 } = new MessageChannel();
+  const { promise, resolve } = withResolvers<void>();
+
+  const receiverPort = fromMessagePort(port1);
+  const receiver = createMessaging(receiverPort, {
+    async onStream(_message, subscriber) {
+      const timer = setInterval(() => subscriber.next(null), 30);
+      return () => {
+        clearInterval(timer);
+        resolve();
+      };
+    },
+  });
+  const sender = createMessaging(fromMessagePort(port2));
+
+  sender.stream(null, {
+    next: () => (receiverPort.send = () => Promise.reject('disconnected')),
+  });
+
+  await promise;
+
+  expectMessagingIsNotLeaked(receiver);
+});

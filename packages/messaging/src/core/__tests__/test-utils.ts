@@ -3,7 +3,7 @@ import { Messaging, Port } from '../index';
 
 export function fromMessagePort(port: MessagePort): Port {
   return {
-    send: (message) => port.postMessage(message),
+    send: async (message) => port.postMessage(message),
     onMessage(listener) {
       const ac = new AbortController();
       port.addEventListener('message', (ev) => listener(ev.data), { signal: ac.signal });
