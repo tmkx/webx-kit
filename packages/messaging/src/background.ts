@@ -22,7 +22,7 @@ const backgroundPort: Port = {
     if (!originMessage) return chrome.runtime.sendMessage(message);
     const [, sender] = originMessage;
     if (!sender.tab?.id) return chrome.runtime.sendMessage(message);
-    chrome.tabs.sendMessage(sender.tab.id, message, { documentId: sender.documentId, frameId: sender.frameId });
+    return chrome.tabs.sendMessage(sender.tab.id, message, { documentId: sender.documentId, frameId: sender.frameId });
   },
 };
 

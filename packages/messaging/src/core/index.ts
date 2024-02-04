@@ -7,21 +7,14 @@ export type CleanupFunction = VoidFunction;
 export interface Port {
   name?: string;
   onMessage(listener: (message: any, ...rest: unknown[]) => Promisable<any>): VoidFunction;
-  send(message: any, originMessage?: [message: any, ...unknown[]]): void;
+  send(message: any, originMessage?: [message: any, ...unknown[]]): Promise<unknown>;
 }
 
-/**
- * @private
- */
-interface Packet {
+interface AnyPacket {
   /**
    * Packet type
-   *
-   * - `r`: Request / Response
-   * - `s`: Stream
-   * - `e`: Event
    */
-  t: 'r' | 'R' | 's' | 'S' | 'e';
+  t: string;
 
   /**
    * ID
@@ -31,8 +24,42 @@ interface Packet {
   /**
    * Data
    */
+  d: unknown;
+}
+
+interface RequestPacket extends AnyPacket {
+  t: 'r';
   d: any;
 }
+
+interface ResponsePacket extends AnyPacket {
+  t: 'R';
+  d: { data: unknown } | { error: unknown };
+}
+
+interface StreamPacket extends AnyPacket {
+  t: 's';
+  d: any;
+}
+
+interface StreamDataPacket extends AnyPacket {
+  t: 'S';
+  d:
+    | { next: unknown }
+    | { error: unknown }
+    | {
+        /**
+         * true: by calling `.complete()`
+         * false: unsubscribe
+         */
+        complete: boolean;
+      };
+}
+
+/**
+ * @private
+ */
+type Packet = RequestPacket | ResponsePacket | StreamPacket | StreamDataPacket;
 
 export type RequestHandler = (message: any) => Promisable<any>;
 export type StreamHandler = (message: any, subscriber: Observer<any>) => Promisable<CleanupFunction | void>;
@@ -77,8 +104,8 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
 
     if (!isPacket(message)) return;
 
-    function reply(message: Packet) {
-      port.send(message, originMessage);
+    function reply(message: ResponsePacket | StreamDataPacket) {
+      return port.send(message, originMessage);
     }
 
     switch (message.t) {
@@ -86,14 +113,14 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
         if (!onRequest) return;
         const data = intercept(message.d, INTERCEPT_ABORT);
         if (data === INTERCEPT_ABORT) return;
-        let d;
+        let d: ResponsePacket['d'];
         try {
           const response = await onRequest(data);
           d = { data: response };
         } catch (err) {
           d = { error: err };
         }
-        reply({ t: 'R', i: message.i, d });
+        reply({ t: 'R', i: message.i, d }).catch(noop);
         break;
       }
       case 'R': {
@@ -112,27 +139,30 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
         const data = intercept(message.d, INTERCEPT_ABORT);
         if (data === INTERCEPT_ABORT) return;
 
-        function terminate(d: { error: unknown } | { complete: boolean }) {
-          reply({ t: 'S', i: message.i, d });
-          processingStreamCleanups.get(message.i)?.();
+        function safelyTerminate(d: { error: unknown } | { complete: boolean }) {
+          reply({ t: 'S', i: message.i, d }).catch(noop);
+          const cleanupFn = processingStreamCleanups.get(message.i);
           processingStreamCleanups.delete(message.i);
+          cleanupFn && cleanupFn();
         }
 
         // sending again means "unsubscribe"
         if (processingStreamCleanups.has(message.i)) {
-          terminate({ complete: false });
+          safelyTerminate({ complete: false });
           break;
         }
 
         const observer: Observer<any> = {
           next(value) {
-            reply({ t: 'S', i: message.i, d: { next: value } });
+            reply({ t: 'S', i: message.i, d: { next: value } }).catch((error) => {
+              safelyTerminate({ error });
+            });
           },
           error(error) {
-            terminate({ error });
+            safelyTerminate({ error });
           },
           complete() {
-            terminate({ complete: true });
+            safelyTerminate({ complete: true });
           },
         };
 
@@ -141,7 +171,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
           processingStreamCleanups.set(message.i, cleanup);
         } catch (error) {
           // Error is not serializable in `chrome.runtime.Port`
-          terminate({ error: error instanceof Error ? error.message : error });
+          safelyTerminate({ error: error instanceof Error ? error.message : error });
         }
         break;
       }
@@ -152,11 +182,11 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
         if ('next' in data) {
           observer.next?.(data.next);
         } else if ('error' in data) {
+          ongoingStreamObservers.delete(message.i);
           observer.error?.(data.error);
-          ongoingStreamObservers.delete(message.i);
         } else if ('complete' in data) {
-          data.complete && observer.complete?.();
           ongoingStreamObservers.delete(message.i);
+          data.complete && observer.complete?.();
         }
         break;
       }
@@ -171,28 +201,23 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
       const resolvers = withResolvers<T>();
       const id = randomID();
       ongoingRequestResolvers.set(id, resolvers);
-      try {
-        port.send({ t: 'r', i: id, d: data } satisfies Packet);
-      } catch (err) {
+      port.send({ t: 'r', i: id, d: data } satisfies Packet).catch((err) => {
         resolvers.reject(err);
-      }
+      });
       return resolvers.promise;
     },
     stream(data, observer) {
       const id = randomID();
       ongoingStreamObservers.set(id, observer);
-      try {
-        port.send({ t: 's', i: id, d: data } satisfies Packet);
-        return () => {
-          if (!ongoingStreamObservers.has(id)) return;
-          port.send({ t: 's', i: id, d: null } satisfies Packet);
-        };
-      } catch (err) {
+      port.send({ t: 's', i: id, d: data } satisfies Packet).catch((err) => {
         queueMicrotask(() => {
           observer.error?.(err);
         });
-        return noop;
-      }
+      });
+      return () => {
+        if (!ongoingStreamObservers.has(id)) return;
+        port.send({ t: 's', i: id, d: null } satisfies Packet).catch(noop);
+      };
     },
     dispose() {
       offMessage();
