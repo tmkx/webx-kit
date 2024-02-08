@@ -9,7 +9,11 @@ const genAIAtom = atom(async (get) => {
   return apiKey ? new GoogleGenerativeAI(apiKey) : null;
 });
 
-export let genAI: GoogleGenerativeAI | null = null;
-const updateGenAIInstance = () => store.get(genAIAtom).then((instance) => (genAI = instance));
+let genAI: Promise<GoogleGenerativeAI | null> = Promise.resolve(null);
+const updateGenAIInstance = () => (genAI = store.get(genAIAtom));
 updateGenAIInstance();
 store.sub(genAIAtom, updateGenAIInstance);
+
+export function getGenAI() {
+  return genAI;
+}

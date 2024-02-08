@@ -166,9 +166,9 @@ export const App = () => {
               <Tooltip>Summarize</Tooltip>
             </TooltipTrigger>
           </div>
-          <Popover className="w-96 p-4">
+          <Popover className="w-[512px] p-4">
             <div>{selectedText}</div>
-            <div className="h-[1px] my-3 bg-slate-200/20" />
+            <div className="h-[1px] my-3 bg-slate-300/40 dark:bg-slate-200/20" />
             <div>{content}</div>
           </Popover>
         </DialogTrigger>
