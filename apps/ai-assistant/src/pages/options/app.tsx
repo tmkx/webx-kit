@@ -21,7 +21,7 @@ export const App = () => {
 
   return (
     <div className="h-full text-slate-700 flex-center flex-col">
-      <Form className="w-96 flex flex-col gap-2" onSubmit={handleSubmit}>
+      <Form className="w-96 px-2 py-4 flex flex-col gap-2" onSubmit={handleSubmit}>
         <TextField
           name="apiKey"
           label="API Key"

@@ -11,7 +11,10 @@ export const appRouter = t.router({
       let isUnsubscribed = false;
 
       getGenAI().then((genAI) => {
-        if (!genAI) return observer.error('GenAI is not initialized');
+        if (!genAI) {
+          chrome.runtime.openOptionsPage();
+          return observer.error('GenAI is not initialized');
+        }
         genAI
           .getGenerativeModel({ model: 'gemini-pro' })
           .generateContentStream({
