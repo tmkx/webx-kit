@@ -29,9 +29,6 @@
     "prepack": "pnpm build",
     "lint:type": "tsc --noEmit"
   },
-  "dependencies": {
-    "bundle-require": "^4.0.2"
-  },
   "devDependencies": {
     "@modern-js/app-tools": "^2.46.1",
     "@modern-js/utils": "^2.46.1",

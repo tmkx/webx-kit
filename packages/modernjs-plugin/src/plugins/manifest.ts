@@ -23,9 +23,7 @@ export const manifestPlugin = (options: ManifestOptions): RsbuildPlugin => {
       const outputPath = path.join(distPath, 'manifest.json');
 
       async function generateManifest() {
-        const {
-          mod: { default: manifest },
-        } = await evalFile<{ default: unknown }>(sourcePath);
+        const manifest = await evalFile<unknown>(sourcePath);
         const content = isDev() ? JSON.stringify(manifest, null, 2) : JSON.stringify(manifest);
         await fs.writeFile(outputPath, content);
       }

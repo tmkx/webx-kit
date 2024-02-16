@@ -1,5 +1,6 @@
-import { bundleRequire } from 'bundle-require';
+// @ts-ignore ts source check
+import createJITI from '@rsbuild/shared/jiti';
 
-export async function evalFile<T>(filepath: string) {
-  return await bundleRequire<T>({ filepath });
+export async function evalFile<T>(filepath: string): Promise<T> {
+  return await createJITI(__filename, { requireCache: false, interopDefault: true })(filepath);
 }
