@@ -61,10 +61,20 @@ interface StreamDataPacket extends AnyPacket {
  */
 type Packet = RequestPacket | ResponsePacket | StreamPacket | StreamDataPacket;
 
-export type RequestHandler = (message: any) => Promisable<any>;
+export type RequestHandler = (message: any, context: { signal: AbortSignal }) => Promisable<any>;
 export type StreamHandler = (message: any, subscriber: Observer<any>) => Promisable<CleanupFunction | void>;
 
 const INTERCEPT_ABORT = Symbol();
+
+const ABORT_MESSAGE = '__INTERNAL_ABORT__';
+
+function createAbortPacket(t: 'r' | 's', i: string): Packet {
+  return { t, i, d: { [ABORT_MESSAGE]: true } };
+}
+
+function isAbortPacket({ d }: RequestPacket | StreamPacket): boolean {
+  return !!d && ABORT_MESSAGE in d;
+}
 
 export interface CreateMessagingOptions {
   intercept?(data: unknown, abort: symbol): unknown | symbol;
@@ -84,9 +94,13 @@ function noop() {}
 
 type PromiseResolvers<T> = ReturnType<typeof withResolvers<T>>;
 
+export interface RequestOptions {
+  signal?: AbortSignal;
+}
+
 export interface Messaging {
   name?: string;
-  request(data: unknown): Promise<unknown>;
+  request(data: unknown, options?: RequestOptions): Promise<unknown>;
   stream(data: unknown, observer: Partial<Observer<any>>): VoidCallback;
   dispose(): void;
 }
@@ -97,6 +111,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
   const ongoingRequestResolvers = new Map<string, PromiseResolvers<any>>();
   const ongoingStreamObservers = new Map<string, Partial<Observer<any>>>();
   // receiver side
+  const processingRequestControllers = new Map<string, AbortController>();
   const processingStreamCleanups = new Map<string, CleanupFunction | void>();
 
   async function handleMessage(...originMessage: [message: any, ...rest: unknown[]]) {
@@ -111,16 +126,30 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
     switch (message.t) {
       case 'r': {
         if (!onRequest) return;
+        const { i: messageId } = message;
+        if (isAbortPacket(message)) {
+          const ac = processingRequestControllers.get(messageId);
+          if (ac) {
+            processingRequestControllers.delete(messageId);
+            ac.abort();
+          }
+          break;
+        }
         const data = intercept(message.d, INTERCEPT_ABORT);
         if (data === INTERCEPT_ABORT) return;
         let d: ResponsePacket['d'];
         try {
-          const response = await onRequest(data);
+          const ac = new AbortController();
+          processingRequestControllers.set(messageId, ac);
+          const response = await onRequest(data, { signal: ac.signal });
           d = { data: response };
         } catch (err) {
           d = { error: err };
+          processingRequestControllers.delete(messageId);
         }
-        reply({ t: 'R', i: message.i, d }).catch(noop);
+        reply({ t: 'R', i: messageId, d }).finally(() => {
+          processingRequestControllers.delete(messageId);
+        });
         break;
       }
       case 'R': {
@@ -146,8 +175,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
           cleanupFn && cleanupFn();
         }
 
-        // sending again means "unsubscribe"
-        if (processingStreamCleanups.has(message.i)) {
+        if (isAbortPacket(message)) {
           safelyTerminate({ complete: false });
           break;
         }
@@ -197,10 +225,20 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
 
   const messaging: Messaging = {
     name: port.name,
-    request<T>(data: unknown) {
+    request<T>(data: unknown, options?: RequestOptions) {
+      const { signal } = options || {};
       const resolvers = withResolvers<T>();
       const id = randomID();
       ongoingRequestResolvers.set(id, resolvers);
+      if (signal) {
+        if (signal.aborted) return Promise.reject(signal.reason);
+        signal.addEventListener('abort', () => {
+          if (!ongoingRequestResolvers.has(id)) return;
+          ongoingRequestResolvers.delete(id);
+          resolvers.reject(signal.reason);
+          port.send(createAbortPacket('r', id)).catch(noop);
+        });
+      }
       port.send({ t: 'r', i: id, d: data } satisfies Packet).catch((err) => {
         resolvers.reject(err);
       });
@@ -216,7 +254,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
       });
       return () => {
         if (!ongoingStreamObservers.has(id)) return;
-        port.send({ t: 's', i: id, d: null } satisfies Packet).catch(noop);
+        port.send(createAbortPacket('s', id)).catch(noop);
       };
     },
     dispose() {
