@@ -174,3 +174,27 @@ it('should cleanup after sending error', async () => {
 
   expectMessagingIsNotLeaked(receiver);
 });
+
+it('should support abort request', async () => {
+  const { port1, port2 } = new MessageChannel();
+
+  const receivedResolvers = withResolvers<void>();
+  const abortedResolvers = withResolvers();
+  const receiver = createMessaging(fromMessagePort(port1), {
+    async onRequest(_message, { signal }) {
+      receivedResolvers.resolve();
+      signal.addEventListener('abort', abortedResolvers.resolve);
+      return withResolvers().promise; // never
+    },
+  });
+  const sender = createMessaging(fromMessagePort(port2));
+
+  const ac = new AbortController();
+  sender.request({ name: 'hello', user: 'Tmk' }, { signal: ac.signal }).catch(() => {});
+  await receivedResolvers.promise;
+  ac.abort();
+  await abortedResolvers.promise;
+
+  expectMessagingIsNotLeaked(receiver);
+  expectMessagingIsNotLeaked(sender);
+});
