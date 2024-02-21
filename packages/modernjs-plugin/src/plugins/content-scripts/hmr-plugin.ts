@@ -22,14 +22,10 @@ function patchLoadScriptRuntimeModule(
   module.generate = function (this: webpackNS.RuntimeModule) {
     return webpack.Template.asString([
       // jsonp will cause cross-context issues in the isolated content-script environment
-      `${RuntimeGlobals.loadScript} = async function (url, done, key, chunkId) {
+      `${RuntimeGlobals.loadScript} = async function (url, done) {
         await import(url);
         done(null);
       };`,
-
-      `
-      window.location.reload = () => { debugger; }
-      `,
     ]);
   };
 }

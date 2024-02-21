@@ -1,4 +1,3 @@
-import { WebpackChain, isDev } from '@modern-js/utils';
 import { RsbuildPlugin } from '@rsbuild/shared';
 import { ContentScriptHMRPlugin } from './hmr-plugin';
 import { ContentScriptPublicPathPlugin } from './public-path-plugin';
@@ -33,11 +32,11 @@ export const contentScriptsPlugin = ({ contentScripts }: ContentScriptsOptions):
         ? contentScripts
         : [{ name: DEFAULT_CONTENT_SCRIPT_NAME, import: contentScripts }];
 
-      api.modifyWebpackChain((chain: WebpackChain) => {
+      api.modifyWebpackChain((chain, { isProd }) => {
         entries.forEach((entry) => chain.entry(entry.name).add(entry.import));
 
         const contentScriptNames = new Set(getContentScriptEntryNames({ contentScripts }));
-        if (isDev()) {
+        if (!isProd) {
           chain.plugin('ContentScriptHMRPlugin').use(ContentScriptHMRPlugin, [contentScriptNames]);
           chain.plugin('ContentScriptShadowRootPlugin').use(ContentScriptShadowRootPlugin, [contentScriptNames]);
         } else {
