@@ -1,5 +1,3 @@
-import type { webpack as webpackNS } from '@modern-js/app-tools';
-import { isDev, type WebpackChain } from '@modern-js/utils';
 import { RsbuildPlugin } from '@rsbuild/shared';
 import { BackgroundReloadPlugin } from './live-reload-plugin';
 
@@ -38,16 +36,12 @@ export const backgroundPlugin = ({ background, backgroundLiveReload = true }: Ba
       const entry: BackgroundEntry =
         typeof background === 'string' ? { name: DEFAULT_BACKGROUND_NAME, import: background } : background;
 
-      api.modifyWebpackChain((chain: WebpackChain) => {
-        chain.entryPoints.set(entry.name, {
-          values: () =>
-            ({
-              import: entry.import,
-              library: { type: 'module' },
-            } satisfies webpackNS.EntryObject[string]),
-        } as any);
-
-        if (isDev())
+      api.modifyWebpackChain((chain, { isProd }) => {
+        chain.entry(entry.name).add({
+          import: entry.import,
+          library: { type: 'module' },
+        });
+        if (!isProd)
           chain.plugin('BackgroundReloadPlugin').use(BackgroundReloadPlugin, [entry.name, backgroundLiveReload]);
       });
     },
