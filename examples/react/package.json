@@ -13,12 +13,12 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.46.1",
-    "@playwright/test": "^1.41.1",
-    "@types/chrome": "^0.0.259",
-    "@types/node": "^20.11.14",
-    "@types/react": "^18.2.48",
-    "@types/react-dom": "^18.2.18",
+    "@modern-js/app-tools": "^2.47.0",
+    "@playwright/test": "^1.41.2",
+    "@types/chrome": "^0.0.260",
+    "@types/node": "^20.11.19",
+    "@types/react": "^18.2.57",
+    "@types/react-dom": "^18.2.19",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
     "tailwindcss": "^3.4.1",

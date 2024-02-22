@@ -5,9 +5,9 @@
     "test": "playwright test"
   },
   "devDependencies": {
-    "@modern-js/utils": "^2.46.1",
-    "@playwright/test": "^1.41.1",
-    "@types/node": "^20.11.14",
+    "@modern-js/utils": "^2.47.0",
+    "@playwright/test": "^1.41.2",
+    "@types/node": "^20.11.19",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/example-react": "workspace:^",
     "@webx-kit/example-solid": "workspace:^",

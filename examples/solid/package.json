@@ -9,13 +9,13 @@
   },
   "dependencies": {
     "@webx-kit/runtime": "workspace:^",
-    "solid-js": "^1.8.12"
+    "solid-js": "^1.8.15"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.46.1",
-    "@playwright/test": "^1.41.1",
-    "@types/chrome": "^0.0.259",
-    "@types/node": "^20.11.14",
+    "@modern-js/app-tools": "^2.47.0",
+    "@playwright/test": "^1.41.2",
+    "@types/chrome": "^0.0.260",
+    "@types/node": "^20.11.19",
     "@webx-kit/modernjs-builder-plugin-solid": "workspace:^",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",

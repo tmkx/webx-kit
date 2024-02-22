@@ -30,15 +30,15 @@
     "lint:type": "tsc --noEmit"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.46.1",
-    "@modern-js/utils": "^2.46.1",
-    "@rsbuild/shared": "^0.3.11",
-    "tsup": "^8.0.1",
+    "@modern-js/app-tools": "^2.47.0",
+    "@modern-js/utils": "^2.47.0",
+    "@rsbuild/shared": "^0.4.4",
+    "tsup": "^8.0.2",
     "typescript": "^5.3.3"
   },
   "peerDependencies": {
     "@modern-js/app-tools": "^2.40.0",
     "@modern-js/utils": "^2.40.0",
-    "@rsbuild/shared": "^0.2.0"
+    "@rsbuild/shared": "^0.3.0"
   }
 }

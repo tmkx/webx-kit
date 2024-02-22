@@ -1,6 +1,6 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { webxPlugin } from '@webx-kit/modernjs-plugin';
-import { builderPluginVue } from '@modern-js/builder-plugin-vue';
+import { pluginVue } from '@rsbuild/plugin-vue';
 
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig({
@@ -11,8 +11,9 @@ export default defineConfig({
       contentScripts: './src/content-scripts/index.tsx',
     }),
   ],
-  builderPlugins: [builderPluginVue()],
+  builderPlugins: [pluginVue()],
   output: {
+    disableSvgr: true,
     copy: [
       {
         from: './public',

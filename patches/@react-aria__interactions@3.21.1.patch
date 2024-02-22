@@ -1,8 +1,8 @@
 diff --git a/dist/import.mjs b/dist/import.mjs
-index 11a22b9d558b6e9acf59763ca70ab634dc800f57..49259945016ffb1c53690201556c855666b65227 100644
+index d86edf1f194e0495ed4e11f3814f52efbaefe8c7..62f891f3b81d7fd47950c2100ade3700d39700e3 100644
 --- a/dist/import.mjs
 +++ b/dist/import.mjs
-@@ -1348,14 +1348,15 @@ function $e0b6e0b68ec7f50f$export$872b660ac5a1ff98(props) {
+@@ -1396,14 +1396,15 @@ function $e0b6e0b68ec7f50f$export$872b660ac5a1ff98(props) {
  }
  function $e0b6e0b68ec7f50f$var$isValidEvent(event, ref) {
      if (event.button > 0) return false;
