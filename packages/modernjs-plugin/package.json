@@ -5,6 +5,10 @@
     ".": {
       "types": "./src/index.ts",
       "default": "./src/index.ts"
+    },
+    "./manifest": {
+      "types": "./src/manifest/index.ts",
+      "default": "./src/manifest/index.ts"
     }
   },
   "types": "./src/index.ts",
@@ -13,6 +17,10 @@
       ".": {
         "types": "./dist/index.d.ts",
         "default": "./dist/index.js"
+      },
+      "./manifest": {
+        "types": "./dist/manifest.d.ts",
+        "default": "./dist/manifest.js"
       }
     },
     "types": "./dist/index.d.ts"
@@ -28,6 +36,9 @@
     "build": "tsup",
     "prepack": "pnpm build",
     "lint:type": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@types/chrome": "^0.0.260"
   },
   "devDependencies": {
     "@modern-js/app-tools": "^2.47.0",

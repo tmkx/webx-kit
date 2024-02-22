@@ -310,6 +310,10 @@ importers:
         version: 3.22.4
 
   packages/modernjs-plugin:
+    dependencies:
+      '@types/chrome':
+        specifier: ^0.0.260
+        version: 0.0.260
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.47.0
