@@ -9,14 +9,14 @@
   },
   "dependencies": {
     "@webx-kit/runtime": "workspace:^",
-    "vue": "^3.4.15"
+    "vue": "^3.4.19"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.46.1",
-    "@modern-js/builder-plugin-vue": "^2.46.1",
-    "@playwright/test": "^1.41.1",
-    "@types/chrome": "^0.0.259",
-    "@types/node": "^20.11.14",
+    "@modern-js/app-tools": "^2.47.0",
+    "@playwright/test": "^1.41.2",
+    "@rsbuild/plugin-vue": "^0.4.4",
+    "@types/chrome": "^0.0.260",
+    "@types/node": "^20.11.19",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
     "tailwindcss": "^3.4.1",

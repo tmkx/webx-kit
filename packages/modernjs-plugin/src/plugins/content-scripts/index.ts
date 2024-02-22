@@ -32,11 +32,11 @@ export const contentScriptsPlugin = ({ contentScripts }: ContentScriptsOptions):
         ? contentScripts
         : [{ name: DEFAULT_CONTENT_SCRIPT_NAME, import: contentScripts }];
 
-      api.modifyWebpackChain((chain, { isProd }) => {
+      api.modifyWebpackChain((chain, { isDev }) => {
         entries.forEach((entry) => chain.entry(entry.name).add(entry.import));
 
         const contentScriptNames = new Set(getContentScriptEntryNames({ contentScripts }));
-        if (!isProd) {
+        if (isDev) {
           chain.plugin('ContentScriptHMRPlugin').use(ContentScriptHMRPlugin, [contentScriptNames]);
           chain.plugin('ContentScriptShadowRootPlugin').use(ContentScriptShadowRootPlugin, [contentScriptNames]);
         } else {

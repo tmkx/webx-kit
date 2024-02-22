@@ -1,5 +1,4 @@
 import path from 'node:path';
-import { PLUGIN_BABEL_NAME } from '@rsbuild/core';
 import { RsbuildPlugin } from '@rsbuild/shared';
 import { modifyBabelLoaderOptions } from '@rsbuild/plugin-babel';
 
@@ -9,7 +8,6 @@ export const builderPluginSolid = ({}: PluginSolidOptions = {}): RsbuildPlugin =
   return {
     name: '@webx-kit/modernjs-builder-plugin-solid',
     remove: ['builder-plugin-react', 'builder-plugin-antd', 'builder-plugin-arco'],
-    pre: [PLUGIN_BABEL_NAME],
     setup(api) {
       api.modifyBundlerChain((chain, { CHAIN_ID, isProd }) => {
         const config = api.getNormalizedConfig();

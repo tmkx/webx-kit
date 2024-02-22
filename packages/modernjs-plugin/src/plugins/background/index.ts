@@ -36,12 +36,12 @@ export const backgroundPlugin = ({ background, backgroundLiveReload = true }: Ba
       const entry: BackgroundEntry =
         typeof background === 'string' ? { name: DEFAULT_BACKGROUND_NAME, import: background } : background;
 
-      api.modifyWebpackChain((chain, { isProd }) => {
+      api.modifyWebpackChain((chain, { isDev }) => {
         chain.entry(entry.name).add({
           import: entry.import,
           library: { type: 'module' },
         });
-        if (!isProd)
+        if (isDev)
           chain.plugin('BackgroundReloadPlugin').use(BackgroundReloadPlugin, [entry.name, backgroundLiveReload]);
       });
     },
