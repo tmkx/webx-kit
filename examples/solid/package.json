@@ -14,9 +14,9 @@
   "devDependencies": {
     "@modern-js/app-tools": "^2.47.0",
     "@playwright/test": "^1.41.2",
+    "@rsbuild/plugin-solid": "^0.4.4",
     "@types/chrome": "^0.0.260",
     "@types/node": "^20.11.19",
-    "@webx-kit/modernjs-builder-plugin-solid": "workspace:^",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
     "tailwindcss": "^3.4.1",
