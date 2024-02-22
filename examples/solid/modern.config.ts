@@ -1,5 +1,5 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { builderPluginSolid } from '@webx-kit/modernjs-builder-plugin-solid';
+import { pluginSolid } from '@rsbuild/plugin-solid';
 import { webxPlugin } from '@webx-kit/modernjs-plugin';
 
 // https://modernjs.dev/en/configure/app/usage
@@ -11,8 +11,9 @@ export default defineConfig({
       contentScripts: './src/content-scripts/index.tsx',
     }),
   ],
-  builderPlugins: [builderPluginSolid()],
+  builderPlugins: [pluginSolid()],
   output: {
+    disableSvgr: true,
     copy: [
       {
         from: './public',
