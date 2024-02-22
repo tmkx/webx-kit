@@ -17,6 +17,7 @@
     "tailwindcss",
     "testid",
     "trpc",
+    "tsup",
     "webx"
   ]
 }

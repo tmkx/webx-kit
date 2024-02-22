@@ -1,6 +1,6 @@
-const isDev = process.env.NODE_ENV === 'development';
+import { defineManifest } from '@webx-kit/modernjs-plugin/manifest';
 
-const manifest: chrome.runtime.ManifestV3 = {
+export default defineManifest(() => ({
   manifest_version: 3,
   name: 'WebX Kit Svelte Demo',
   version: '0.0.0',
@@ -32,14 +32,4 @@ const manifest: chrome.runtime.ManifestV3 = {
       resources: ['static/css/*', 'static/svg/*'],
     },
   ],
-
-  ...(isDev
-    ? {
-        content_security_policy: {
-          extension_pages: `script-src 'self' http://localhost:${process.env.PORT}/; object-src 'self' http://localhost:${process.env.PORT}/`,
-        },
-      }
-    : {}),
-};
-
-export default manifest;
+}));
