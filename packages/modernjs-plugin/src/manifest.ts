@@ -1,10 +1,9 @@
 import { isDev } from '@rsbuild/shared';
+import type { Manifest } from './plugins/manifest';
 
 export interface ManifestContext {
   isDev: boolean;
 }
-
-export type Manifest = chrome.runtime.ManifestV3;
 
 export async function defineManifest(
   options: Manifest | ((context: ManifestContext) => Manifest | Promise<Manifest>)

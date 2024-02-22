@@ -7,8 +7,8 @@
       "default": "./src/index.ts"
     },
     "./manifest": {
-      "types": "./src/manifest/index.ts",
-      "default": "./src/manifest/index.ts"
+      "types": "./src/manifest.ts",
+      "default": "./src/manifest.ts"
     }
   },
   "types": "./src/index.ts",
