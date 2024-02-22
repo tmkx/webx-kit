@@ -7,10 +7,6 @@ export default defineManifest(() => ({
   icons: {
     512: 'public/logo.png',
   },
-  background: {
-    service_worker: 'static/js/background.js',
-    type: 'module',
-  },
   action: {
     default_popup: 'popup.html',
   },
