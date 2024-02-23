@@ -10,7 +10,7 @@ import {
   SeparatorProps,
   composeRenderProps,
 } from 'react-aria-components';
-import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 import { DropdownSection, DropdownSectionProps, dropdownItemStyles } from '../list-box';
 
 interface MenuProps<T> extends AriaMenuProps<T> {}
@@ -19,7 +19,7 @@ export function Menu<T extends object>(props: MenuProps<T>) {
   return (
     <AriaMenu
       {...props}
-      className={clsx(
+      className={twMerge(
         'p-1 outline outline-0 max-h-[inherit] overflow-auto [clip-path:inset(0_0_0_0_round_.75rem)]',
         props.className
       )}
@@ -29,7 +29,11 @@ export function Menu<T extends object>(props: MenuProps<T>) {
 
 export function MenuItem(props: MenuItemProps) {
   const classNameProp = useCallback(
-    (values: MenuItemRenderProps) => clsx(dropdownItemStyles(values), props.className),
+    (values: MenuItemRenderProps) =>
+      twMerge(
+        dropdownItemStyles(values),
+        typeof props.className === 'function' ? props.className(values) : props.className
+      ),
     [props.className]
   );
 
@@ -50,7 +54,12 @@ export function MenuItem(props: MenuItemProps) {
 }
 
 export function MenuSeparator(props: SeparatorProps) {
-  return <Separator {...props} className="mx-3 my-1 border-b border-gray-300 dark:border-zinc-700" />;
+  return (
+    <Separator
+      {...props}
+      className={twMerge('mx-3 my-1 border-b border-gray-300 dark:border-zinc-700', props.className)}
+    />
+  );
 }
 
 export function MenuSection<T extends object>(props: DropdownSectionProps<T>) {
