@@ -137,6 +137,9 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
+      react-router-dom:
+        specifier: ^6.22.1
+        version: 6.22.1(react-dom@18.2.0)(react@18.2.0)
       zod:
         specifier: ^3.22.4
         version: 3.22.4
@@ -4864,6 +4867,11 @@ packages:
     resolution: {integrity: sha512-HOil5aFtme37dVQTB6M34G95kPM3MMuqSmIRVCC52eKV+Y/tGSqw9P3rWhlAx6A+mz+MoX+XxsGsNJbaI5qCgQ==}
     engines: {node: '>=14.0.0'}
     dev: true
+
+  /@remix-run/router@1.15.1:
+    resolution: {integrity: sha512-zcU0gM3z+3iqj8UX45AmWY810l3oUmXM7uH4dt5xtzvMhRtYVhKGOmgOd1877dOPPepfCjUv57w+syamWIYe7w==}
+    engines: {node: '>=14.0.0'}
+    dev: false
 
   /@remix-run/router@1.7.2:
     resolution: {integrity: sha512-7Lcn7IqGMV+vizMPoEl5F0XDshcdDYtMI6uJLQdQz5CfZAwy3vvGKYSUk789qndt5dEC4HfSjviSYlSoHGL2+A==}
@@ -10915,6 +10923,19 @@ packages:
       react-router: 6.22.0(react@18.2.0)
     dev: true
 
+  /react-router-dom@6.22.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-iwMyyyrbL7zkKY7MRjOVRy+TMnS/OPusaFVxM2P11x9dzSzGmLsebkCvYirGq0DWB9K9hOspHYYtDz33gE5Duw==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.15.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-router: 6.22.1(react@18.2.0)
+    dev: false
+
   /react-router@6.22.0(react@18.2.0):
     resolution: {integrity: sha512-q2yemJeg6gw/YixRlRnVx6IRJWZD6fonnfZhN1JIOhV2iJCPeRNSH3V1ISwHf+JWcESzLC3BOLD1T07tmO5dmg==}
     engines: {node: '>=14.0.0'}
@@ -10924,6 +10945,16 @@ packages:
       '@remix-run/router': 1.15.0
       react: 18.2.0
     dev: true
+
+  /react-router@6.22.1(react@18.2.0):
+    resolution: {integrity: sha512-0pdoRGwLtemnJqn1K0XHUbnKiX0S4X8CgvVVmHGOWmofESj31msHo/1YiqcJWK7Wxfq2a4uvvtS01KAQyWK/CQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.15.1
+      react: 18.2.0
+    dev: false
 
   /react-stately@3.30.1(react@18.2.0):
     resolution: {integrity: sha512-IEhKHMT7wijtczA5vtw/kdq9CZuOIF+ReoSimydTFiABRQxWO9ESAl/fToXOUM9qmCdhdqjGJgMAhqTnmheh8g==}

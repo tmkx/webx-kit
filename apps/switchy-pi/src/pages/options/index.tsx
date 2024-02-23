@@ -1,6 +1,10 @@
 import { createRoot } from 'react-dom/client';
-import { App } from './app';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './app';
 import '../global.less';
 import './style.less';
 
-createRoot(document.getElementById('root')!).render(<App />);
+if (matchMedia('(prefers-color-scheme: dark)').matches) {
+  document.body.classList.add('dark');
+}
+createRoot(document.getElementById('root')!).render(<RouterProvider router={router} />);

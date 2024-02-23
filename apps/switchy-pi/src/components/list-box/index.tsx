@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { Check } from 'lucide-react';
 import {
   ListBox as AriaListBox,
@@ -6,10 +7,12 @@ import {
   Collection,
   Header,
   ListBoxItemProps,
+  ListBoxItemRenderProps,
   Section,
   SectionProps,
   composeRenderProps,
 } from 'react-aria-components';
+import { clsx } from 'clsx';
 import { tv } from 'tailwind-variants';
 import { composeTailwindRenderProps, focusRing } from '../shared/utils';
 
@@ -31,7 +34,7 @@ export function ListBox<T extends object>({ children, ...props }: ListBoxProps<T
 
 export const itemStyles = tv({
   extend: focusRing,
-  base: 'group relative flex items-center gap-2 m-0.5 cursor-default select-none py-1.5 px-2.5 rounded-md will-change-transform text-sm forced-color-adjust-none',
+  base: 'group relative flex items-center gap-2 my-1 cursor-default select-none py-1.5 px-2.5 rounded-md will-change-transform text-sm forced-color-adjust-none',
   variants: {
     isSelected: {
       false: 'text-slate-700 dark:text-zinc-300 hover:bg-slate-200 dark:hover:bg-zinc-700 -outline-offset-2',
@@ -45,8 +48,14 @@ export const itemStyles = tv({
 
 export function ListBoxItem(props: ListBoxItemProps) {
   let textValue = props.textValue || (typeof props.children === 'string' ? props.children : undefined);
+
+  const classNameProp = useCallback(
+    (values: ListBoxItemRenderProps) => clsx(itemStyles(values), props.className),
+    [props.className]
+  );
+
   return (
-    <AriaListBoxItem {...props} textValue={textValue} className={itemStyles}>
+    <AriaListBoxItem {...props} textValue={textValue} className={classNameProp}>
       {composeRenderProps(props.children, (children) => (
         <>
           {children}
@@ -93,7 +102,12 @@ export interface DropdownSectionProps<T> extends SectionProps<T> {
 export function DropdownSection<T extends object>(props: DropdownSectionProps<T>) {
   return (
     <Section className="first:-mt-[5px] after:content-[''] after:block after:h-[5px]">
-      <Header className="text-sm font-semibold text-gray-500 dark:text-zinc-300 px-4 py-1 truncate sticky -top-[5px] -mt-px -mx-1 z-10 bg-gray-100/60 dark:bg-zinc-700/60 backdrop-blur-md supports-[-moz-appearance:none]:bg-gray-100 border-y dark:border-y-zinc-700 [&+*]:mt-1">
+      <Header
+        className={clsx(
+          'text-sm font-semibold text-gray-500 dark:text-zinc-300 px-4 py-1 truncate sticky -top-[5px] -mt-px -mx-1 z-10 bg-gray-100/60 dark:bg-zinc-700/60 backdrop-blur-md supports-[-moz-appearance:none]:bg-gray-100 border-y dark:border-y-zinc-700 [&+*]:mt-1',
+          props.className
+        )}
+      >
         {props.title}
       </Header>
       <Collection items={props.items}>{props.children}</Collection>

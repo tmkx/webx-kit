@@ -11,6 +11,7 @@ export const App = () => {
       aria-label="Proxy profiles"
       defaultSelectedKeys={defaultSelectedKeys}
       onAction={selectProfile}
+      onClose={window.close}
     >
       <MenuItem id="direct" textValue="Direct">
         <ArrowRightLeftIcon size={16} />
@@ -32,7 +33,7 @@ export const App = () => {
   );
 };
 
-const selectProfile = (key: Key) => {
+function selectProfile(key: Key) {
   switch (key) {
     case 'options':
       return chrome.runtime.openOptionsPage();
@@ -52,4 +53,4 @@ const selectProfile = (key: Key) => {
     }
     default:
   }
-};
+}
