@@ -2,11 +2,12 @@ import { Outlet, createHashRouter, redirect, useNavigate, useLocation, NonIndexR
 import { RouterProvider } from 'react-aria-components';
 import { CableIcon, PlusIcon, SaveIcon, ServerIcon, SettingsIcon, WrenchIcon } from 'lucide-react';
 import { DropdownSection, Link, ListBox, ListBoxItem } from '@/components';
+import { useBodyThemeClass } from '@/hooks/config';
 import { About } from './routes/about';
 import { General } from './routes/general';
 import { IO } from './routes/io';
 import { Profile } from './routes/profile';
-import { UI } from './routes/ui';
+import { UISettings } from './routes/ui';
 
 interface SettingRoute extends NonIndexRouteObject {
   path: string;
@@ -19,7 +20,7 @@ const settingsRoutes: SettingRoute[] = [
     path: 'ui',
     icon: <WrenchIcon size={16} />,
     name: 'Interface',
-    element: <UI />,
+    element: <UISettings />,
   },
   {
     path: 'general',
@@ -58,6 +59,7 @@ export const router = createHashRouter([
 ]);
 
 function RootLayout() {
+  useBodyThemeClass();
   const navigate = useNavigate();
   return (
     <div className="w-full h-full flex">

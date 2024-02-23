@@ -13,7 +13,7 @@ body {
 }
 
 @media (prefers-color-scheme: dark) {
-  body {
+  body:not([class~='light']) {
     @apply bg-zinc-900;
   }
 }

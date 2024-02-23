@@ -1,10 +1,12 @@
 import type { Key } from 'react-aria-components';
 import { ArrowRightLeftIcon, PowerIcon, WrenchIcon } from 'lucide-react';
 import { Menu, MenuItem, MenuSeparator } from '@/components';
+import { useBodyThemeClass } from '@/hooks/config';
 
 const defaultSelectedKeys = ['system'];
 
 export const App = () => {
+  useBodyThemeClass();
   return (
     <Menu
       className="[clip-path:none]"
