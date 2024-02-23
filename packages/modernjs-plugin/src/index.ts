@@ -48,7 +48,9 @@ const getDefaultConfig = ({ allInOneEntries }: { allInOneEntries: Set<string> })
     },
     output: {
       disableInlineRuntimeChunk: true, // inline scripts are not allowed in MV3
+      /** @deprecated */
       disableFilenameHash: true,
+      filenameHash: false,
       disableSourceMap: !isDev(),
       distPath: {
         ...(process.env.WEBX_DIST ? { root: process.env.WEBX_DIST } : null),

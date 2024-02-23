@@ -4,6 +4,14 @@ body,
   height: 100%;
 }
 
+body {
+  @apply text-slate-900;
+
+  &.dark {
+    @apply text-slate-200;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     @apply bg-zinc-900;

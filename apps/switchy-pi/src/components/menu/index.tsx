@@ -1,9 +1,11 @@
+import { useCallback } from 'react';
 import { Check } from 'lucide-react';
 import {
   Menu as AriaMenu,
   MenuItem as AriaMenuItem,
   MenuProps as AriaMenuProps,
   MenuItemProps,
+  MenuItemRenderProps,
   Separator,
   SeparatorProps,
   composeRenderProps,
@@ -26,12 +28,17 @@ export function Menu<T extends object>(props: MenuProps<T>) {
 }
 
 export function MenuItem(props: MenuItemProps) {
+  const classNameProp = useCallback(
+    (values: MenuItemRenderProps) => clsx(dropdownItemStyles(values), props.className),
+    [props.className]
+  );
+
   return (
-    <AriaMenuItem {...props} className={dropdownItemStyles}>
+    <AriaMenuItem {...props} className={classNameProp}>
       {composeRenderProps(props.children, (children, { selectionMode, isSelected }) => (
         <>
           {selectionMode !== 'none' && (
-            <span className="flex items-center w-4">{isSelected && <Check aria-hidden className="w-4 h-4" />}</span>
+            <span className="flex items-center w-4">{isSelected && <Check aria-hidden size={16} />}</span>
           )}
           <span className="flex items-center flex-1 gap-2 font-normal truncate group-selected:font-semibold">
             {children}
