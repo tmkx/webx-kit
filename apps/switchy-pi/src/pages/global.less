@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 body {
-  @apply bg-white dark:bg-zinc-900;
+  @apply bg-white;
   color-scheme: dark light;
+
+  &.dark {
+    @apply bg-zinc-900;
+  }
 }
