@@ -102,6 +102,82 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
 
+  apps/switchy-pi:
+    dependencies:
+      '@trpc/client':
+        specifier: 11.0.0-next-beta.248
+        version: 11.0.0-next-beta.248(@trpc/server@11.0.0-next-beta.248)
+      '@trpc/server':
+        specifier: 11.0.0-next-beta.248
+        version: 11.0.0-next-beta.248
+      '@webx-kit/messaging':
+        specifier: workspace:^
+        version: link:../../packages/messaging
+      '@webx-kit/runtime':
+        specifier: workspace:^
+        version: link:../../packages/runtime
+      '@webx-kit/storage':
+        specifier: workspace:^
+        version: link:../../packages/storage
+      clsx:
+        specifier: ^2.1.0
+        version: 2.1.0
+      jotai:
+        specifier: ^2.7.0
+        version: 2.7.0(@types/react@18.2.61)(react@18.2.0)
+      lucide-react:
+        specifier: ^0.336.0
+        version: 0.336.0(react@18.2.0)
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-aria-components:
+        specifier: ^1.1.1
+        version: 1.1.1(react-dom@18.2.0)(react@18.2.0)
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: ^2.47.0
+        version: 2.48.0(react-dom@18.2.0)(react@18.2.0)(type-fest@4.10.3)(typescript@5.3.3)
+      '@types/chrome':
+        specifier: ^0.0.262
+        version: 0.0.262
+      '@types/node':
+        specifier: ^20.11.24
+        version: 20.11.24
+      '@types/react':
+        specifier: ^18.2.61
+        version: 18.2.61
+      '@types/react-dom':
+        specifier: ^18.2.19
+        version: 18.2.19
+      '@webx-kit/modernjs-plugin':
+        specifier: workspace:^
+        version: link:../../packages/modernjs-plugin
+      tailwind-merge:
+        specifier: ^2.2.1
+        version: 2.2.1
+      tailwind-variants:
+        specifier: ^0.2.0
+        version: 0.2.0(tailwindcss@3.4.1)
+      tailwindcss:
+        specifier: ^3.4.1
+        version: 3.4.1
+      tailwindcss-animate:
+        specifier: ^1.0.7
+        version: 1.0.7(tailwindcss@3.4.1)
+      tailwindcss-react-aria-components:
+        specifier: ^1.1.1
+        version: 1.1.1(tailwindcss@3.4.1)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.3.3
+
   examples/react:
     dependencies:
       '@webx-kit/runtime':
@@ -328,11 +404,11 @@ importers:
         specifier: ^1.42.1
         version: 1.42.1
       '@trpc/client':
-        specifier: 11.0.0-next-beta.242
-        version: 11.0.0-next-beta.242(@trpc/server@11.0.0-next-beta.242)
+        specifier: 11.0.0-next-beta.248
+        version: 11.0.0-next-beta.248(@trpc/server@11.0.0-next-beta.248)
       '@trpc/server':
-        specifier: 11.0.0-next-beta.242
-        version: 11.0.0-next-beta.242
+        specifier: 11.0.0-next-beta.248
+        version: 11.0.0-next-beta.248
       '@types/node':
         specifier: ^20.11.24
         version: 20.11.24
@@ -5630,29 +5706,15 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@trpc/client@11.0.0-next-beta.242(@trpc/server@11.0.0-next-beta.242):
-    resolution: {integrity: sha512-TyT5tZX5bUYNmlIPQqbzJ5XP6U8rUhpaauYUzQdXF1OKN7QqVrGe7pRUL0qvO/3hRwoJw9DqUS4slbh6EZrMYg==}
-    peerDependencies:
-      '@trpc/server': 11.0.0-next-beta.242+4377b3cf6
-    dependencies:
-      '@trpc/server': 11.0.0-next-beta.242
-    dev: true
-
   /@trpc/client@11.0.0-next-beta.248(@trpc/server@11.0.0-next-beta.248):
     resolution: {integrity: sha512-5b6ARBTyjzQoefjoOrDJSWEsbyBTt/yCeRJLo4llBQZqynM3KHTW7DFmSznv9SA8t/Rbvc91AXwLVys1Q7DefQ==}
     peerDependencies:
       '@trpc/server': 11.0.0-next-beta.248+05798dd78
     dependencies:
       '@trpc/server': 11.0.0-next-beta.248
-    dev: false
-
-  /@trpc/server@11.0.0-next-beta.242:
-    resolution: {integrity: sha512-Aj49nseCZwCev3HYrdSgtetHZ4qqr2HvQhLGvzipHF9KkFy2bacKMPzxXpGJQqON9QC0Lgmdv7S0S/UqWm5otg==}
-    dev: true
 
   /@trpc/server@11.0.0-next-beta.248:
     resolution: {integrity: sha512-Z3HChG8FkpaWwAjrg6R7n1OOgoipWOOay8GIGcs4w7w2UROL1EZD2ZbhOL3/20rRZcUSE0O8pFK74D8z0tKDog==}
-    dev: false
 
   /@trysound/sax@0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
@@ -9306,6 +9368,14 @@ packages:
     dependencies:
       yallist: 4.0.0
     dev: true
+
+  /lucide-react@0.336.0(react@18.2.0):
+    resolution: {integrity: sha512-e06J4Qrdrk3BP/hf3MnkW3LnymdthfyEtVbdEg0xPQ/olTEKfOfTv03DYmdRm1+XpaNQdCpiHT7Vi6regbxDCQ==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /lucide-react@0.344.0(react@18.2.0):
     resolution: {integrity: sha512-6YyBnn91GB45VuVT96bYCOKElbJzUHqp65vX8cDcu55MQL9T969v4dhGClpljamuI/+KMO9P6w9Acq1CVQGvIQ==}

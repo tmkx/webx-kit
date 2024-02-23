@@ -8,6 +8,7 @@
     "*.snap"
   ],
   "words": [
+    "clsx",
     "execa",
     "jiti",
     "lucide",
@@ -16,6 +17,7 @@
     "rsbuild",
     "rspack",
     "svgr",
+    "switchy",
     "tailwindcss",
     "testid",
     "trpc",
