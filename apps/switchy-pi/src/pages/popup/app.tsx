@@ -2,34 +2,33 @@ import type { Key } from 'react-aria-components';
 import { ArrowRightLeftIcon, PowerIcon, WrenchIcon } from 'lucide-react';
 import { Menu, MenuItem, MenuSeparator } from '@/components';
 import { useBodyThemeClass } from '@/hooks/config';
-
-const defaultSelectedKeys = ['system'];
+import { useProxySettingValue } from '@/hooks/proxy';
 
 export const App = () => {
   useBodyThemeClass();
+  const proxySettingValue = useProxySettingValue();
+
   return (
     <Menu
       className="[clip-path:none]"
       aria-label="Proxy profiles"
-      defaultSelectedKeys={defaultSelectedKeys}
+      selectionMode="multiple"
+      selectedKeys={proxySettingValue ? [proxySettingValue.mode] : []}
       onAction={selectProfile}
       onClose={window.close}
     >
-      <MenuItem id="direct" textValue="Direct">
-        <ArrowRightLeftIcon size={16} />
-        <span>[Direct]</span>
+      <MenuItem id="direct" icon={<ArrowRightLeftIcon size={16} />}>
+        [Direct]
       </MenuItem>
-      <MenuItem id="system" textValue="System Proxy">
-        <PowerIcon size={16} />
-        <span>[System Proxy]</span>
+      <MenuItem id="system" icon={<PowerIcon size={16} />} textValue="System Proxy">
+        [System Proxy]
       </MenuItem>
       <MenuSeparator />
       <MenuItem id="user-profile1">Whistle</MenuItem>
       <MenuItem id="user-profile2">Auto switch</MenuItem>
       <MenuSeparator />
-      <MenuItem id="options" textValue="Options">
-        <WrenchIcon size={16} />
-        <span>Options</span>
+      <MenuItem id="options" icon={<WrenchIcon size={16} />}>
+        Options
       </MenuItem>
     </Menu>
   );

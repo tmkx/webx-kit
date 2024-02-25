@@ -1,11 +1,9 @@
-import { useCallback } from 'react';
 import { Check } from 'lucide-react';
 import {
   Menu as AriaMenu,
   MenuItem as AriaMenuItem,
   MenuProps as AriaMenuProps,
-  MenuItemProps,
-  MenuItemRenderProps,
+  MenuItemProps as AriaMenuItemProps,
   Separator,
   SeparatorProps,
   composeRenderProps,
@@ -27,23 +25,21 @@ export function Menu<T extends object>(props: MenuProps<T>) {
   );
 }
 
-export function MenuItem(props: MenuItemProps) {
-  const classNameProp = useCallback(
-    (values: MenuItemRenderProps) =>
-      twMerge(
-        dropdownItemStyles(values),
-        typeof props.className === 'function' ? props.className(values) : props.className
-      ),
-    [props.className]
-  );
+interface MenuItemProps<T> extends AriaMenuItemProps<T> {
+  icon?: React.ReactNode;
+}
 
+export function MenuItem<T extends object>(props: MenuItemProps<T>) {
   return (
-    <AriaMenuItem {...props} className={classNameProp}>
-      {composeRenderProps(props.children, (children, { selectionMode, isSelected }) => (
+    <AriaMenuItem<T>
+      {...props}
+      className={composeRenderProps(props.className, (className, menuProps) =>
+        twMerge(className, dropdownItemStyles(menuProps))
+      )}
+    >
+      {composeRenderProps(props.children, (children, { isSelected }) => (
         <>
-          {selectionMode !== 'none' && (
-            <span className="flex items-center w-4">{isSelected && <Check aria-hidden size={16} />}</span>
-          )}
+          <span className="flex items-center w-4">{isSelected ? <Check aria-hidden size={16} /> : props.icon}</span>
           <span className="flex items-center flex-1 gap-2 font-normal truncate group-selected:font-semibold">
             {children}
           </span>
