@@ -34,6 +34,7 @@ const getDefaultConfig = ({ allInOneEntries }: { allInOneEntries: Set<string> })
     },
     html: {
       disableHtmlFolder: true,
+      title: ({ entryName }) => titleCase(entryName),
     },
     bff: {
       proxy: {
@@ -97,3 +98,11 @@ export const webxPlugin = (options: WebxPluginOptions = {}): CliPlugin<AppTools<
     },
   };
 };
+
+function titleCase(str: string) {
+  return str
+    .split(/[-_ ]/)
+    .map((seg) => seg.replace(/^[a-z]/, (char) => char.toUpperCase()))
+    .filter(Boolean)
+    .join(' ');
+}

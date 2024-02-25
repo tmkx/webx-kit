@@ -34,7 +34,7 @@ export function ListBox<T extends object>({ children, ...props }: ListBoxProps<T
 
 export const itemStyles = tv({
   extend: focusRing,
-  base: 'group relative flex items-center gap-2 my-1 cursor-default select-none py-1.5 px-2.5 rounded-md will-change-transform text-sm forced-color-adjust-none',
+  base: 'group relative flex items-center gap-2 my-1 cursor-default select-none py-1.5 px-2.5 rounded-md will-change-transform text-sm forced-color-adjust-none transition-colors',
   variants: {
     isSelected: {
       false: 'text-slate-700 dark:text-zinc-300 hover:bg-slate-200 dark:hover:bg-zinc-700 -outline-offset-2',
@@ -67,14 +67,17 @@ export function ListBoxItem(props: ListBoxItemProps) {
 }
 
 export const dropdownItemStyles = tv({
-  base: 'group flex items-center gap-4 cursor-default select-none py-2 pl-3 pr-1 rounded-lg outline outline-0 text-sm forced-color-adjust-none',
+  base: 'group flex items-center gap-2 cursor-default select-none my-1 py-2 pl-3 pr-1 rounded-lg outline outline-0 text-sm forced-color-adjust-none',
   variants: {
     isDisabled: {
-      false: 'text-gray-900 dark:text-zinc-100',
+      false: 'text-slate-700 dark:text-zinc-100',
       true: 'text-gray-300 dark:text-zinc-600 forced-colors:text-[GrayText]',
     },
     isFocused: {
       true: 'bg-blue-600 text-white forced-colors:bg-[Highlight] forced-colors:text-[HighlightText]',
+    },
+    isSelected: {
+      true: 'bg-blue-600 text-white',
     },
   },
 });
