@@ -35,6 +35,17 @@ const getDefaultConfig = ({ allInOneEntries }: { allInOneEntries: Set<string> })
     html: {
       disableHtmlFolder: true,
     },
+    bff: {
+      proxy: {
+        '/': {
+          target: 'https://www.example.com/',
+          onProxyReq(_proxyReq, req, res) {
+            // @ts-expect-error suppress 404 for hot-update files
+            if (req.url.includes('.hot-update.')) res.end('');
+          },
+        },
+      },
+    },
     output: {
       disableInlineRuntimeChunk: true, // inline scripts are not allowed in MV3
       disableFilenameHash: true,
