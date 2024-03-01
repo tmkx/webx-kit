@@ -1,8 +1,13 @@
 import { atom } from 'jotai';
+import { BuiltinProfile } from '@/schemas/proxy';
+
+export const proxySetting = chrome.proxy.settings;
 
 export const proxySettingDetailsAtom = atom<chrome.types.ChromeSettingGetResultDetails | null>(null);
 proxySettingDetailsAtom.onMount = (set) => {
-  chrome.proxy.settings.get({}, set);
+  proxySetting.get({}, set);
+  proxySetting.onChange.addListener(set);
+  return () => proxySetting.onChange.removeListener(set);
 };
 
 export const notControllableReasonAtom = atom<'not_controllable' | 'controlled_by_other_extensions' | null>((get) => {
@@ -17,8 +22,18 @@ export const notControllableReasonAtom = atom<'not_controllable' | 'controlled_b
   }
 });
 
-export const proxySettingValue = atom((get) => {
+export const proxySettingValueAtom = atom<chrome.proxy.ProxyConfig | null>((get) => {
   const settingDetails = get(proxySettingDetailsAtom);
   if (!settingDetails) return null;
-  return settingDetails.value as chrome.proxy.ProxyConfig;
+  return settingDetails.value;
+});
+
+export const proxyModeAtom = atom((get) => {
+  const proxySettingValue = get(proxySettingValueAtom);
+  if (!proxySettingValue) return null;
+  const mode = proxySettingValue.mode as BuiltinProfile;
+
+  if (BuiltinProfile.safeParse(mode).success) return mode;
+
+  return null;
 });

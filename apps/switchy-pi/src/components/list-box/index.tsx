@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Check } from 'lucide-react';
+import { CheckIcon } from 'lucide-react';
 import {
   ListBox as AriaListBox,
   ListBoxItem as AriaListBoxItem,
@@ -67,7 +67,7 @@ export function ListBoxItem(props: ListBoxItemProps) {
 }
 
 export const dropdownItemStyles = tv({
-  base: 'group flex items-center gap-2 cursor-default select-none my-1 py-2 pl-3 pr-1 rounded-lg outline outline-0 text-sm forced-color-adjust-none',
+  base: 'group flex items-center gap-2 cursor-default select-none my-1 first:mt-0 last:mb-0 py-2 pl-3 pr-1 rounded-lg outline outline-0 text-sm forced-color-adjust-none',
   variants: {
     isDisabled: {
       false: 'text-slate-700 dark:text-zinc-100',
@@ -91,7 +91,7 @@ export function DropdownItem(props: ListBoxItemProps) {
           <span className="flex items-center flex-1 gap-2 font-normal truncate group-selected:font-semibold">
             {children}
           </span>
-          <span className="flex items-center w-5">{isSelected && <Check className="w-4 h-4" />}</span>
+          <span className="flex items-center w-5">{isSelected && <CheckIcon className="w-4 h-4" />}</span>
         </>
       ))}
     </AriaListBoxItem>

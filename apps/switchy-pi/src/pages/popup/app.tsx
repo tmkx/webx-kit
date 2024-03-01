@@ -2,18 +2,24 @@ import type { Key } from 'react-aria-components';
 import { ArrowRightLeftIcon, PowerIcon, WrenchIcon } from 'lucide-react';
 import { Menu, MenuItem, MenuSeparator } from '@/components';
 import { useBodyThemeClass } from '@/hooks/config';
-import { useProxySettingValue } from '@/hooks/proxy';
+import { useActiveProfileId, useProfileList } from '@/hooks';
 
 export const App = () => {
   useBodyThemeClass();
-  const proxySettingValue = useProxySettingValue();
+  const [activeProfileId, setActiveProfileId] = useActiveProfileId();
+  const profileList = useProfileList();
+
+  function selectProfile(key: Key) {
+    if (key === 'options') return chrome.runtime.openOptionsPage();
+    if (typeof key === 'string') setActiveProfileId(key).then(chrome.tabs.reload);
+  }
 
   return (
     <Menu
-      className="[clip-path:none]"
+      className="[clip-path:none] min-w-48"
       aria-label="Proxy profiles"
-      selectionMode="multiple"
-      selectedKeys={proxySettingValue ? [proxySettingValue.mode] : []}
+      selectionMode="single"
+      selectedKeys={activeProfileId ? [activeProfileId] : []}
       onAction={selectProfile}
       onClose={window.close}
     >
@@ -23,9 +29,16 @@ export const App = () => {
       <MenuItem id="system" icon={<PowerIcon size={16} />} textValue="System Proxy">
         [System Proxy]
       </MenuItem>
-      <MenuSeparator />
-      <MenuItem id="user-profile1">Whistle</MenuItem>
-      <MenuItem id="user-profile2">Auto switch</MenuItem>
+      {profileList.length ? (
+        <>
+          <MenuSeparator />
+          {profileList.map((profileId) => (
+            <MenuItem key={profileId} id={profileId}>
+              {profileId}
+            </MenuItem>
+          ))}
+        </>
+      ) : null}
       <MenuSeparator />
       <MenuItem id="options" icon={<WrenchIcon size={16} />}>
         Options
@@ -33,25 +46,3 @@ export const App = () => {
     </Menu>
   );
 };
-
-function selectProfile(key: Key) {
-  switch (key) {
-    case 'options':
-      return chrome.runtime.openOptionsPage();
-    case 'direct':
-    case 'system': {
-      chrome.proxy.settings.set(
-        {
-          value: {
-            mode: key,
-          } satisfies chrome.proxy.ProxyConfig,
-        },
-        () => {
-          chrome.tabs.reload();
-        }
-      );
-      break;
-    }
-    default:
-  }
-}

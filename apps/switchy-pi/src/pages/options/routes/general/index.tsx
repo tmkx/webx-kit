@@ -1,3 +1,13 @@
+import { useProxySettingValue } from '@/hooks';
+import { NormalLayout } from '../layout';
+
 export function General() {
-  return <span>General</span>;
+  const value = useProxySettingValue();
+  return (
+    <NormalLayout title="General">
+      <pre>
+        <code>{JSON.stringify(value)}</code>
+      </pre>
+    </NormalLayout>
+  );
 }
