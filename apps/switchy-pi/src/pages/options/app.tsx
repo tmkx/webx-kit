@@ -1,8 +1,12 @@
+import { useEffect } from 'react';
 import { Outlet, createHashRouter, redirect, useNavigate, useLocation, NonIndexRouteObject } from 'react-router-dom';
-import { RouterProvider } from 'react-aria-components';
+import { RouterProvider, Selection } from 'react-aria-components';
 import { CableIcon, PlusIcon, SaveIcon, ServerIcon, SettingsIcon, WrenchIcon } from 'lucide-react';
+import { useSetAtom } from 'jotai';
+import { profileListAtom } from '@/atoms/profile';
 import { DropdownSection, Link, ListBox, ListBoxItem } from '@/components';
-import { useBodyThemeClass } from '@/hooks/config';
+import { useBodyThemeClass, useProfileList, useProfileValue } from '@/hooks';
+import type { Profile as ProfileType } from '@/schemas';
 import { About } from './routes/about';
 import { General } from './routes/general';
 import { IO } from './routes/io';
@@ -43,7 +47,7 @@ export const router = createHashRouter([
     children: [
       {
         path: '/',
-        loader: () => redirect('/about'),
+        loader: () => redirect(localStorage.getItem('prev-pathname') || '/about'),
       },
       {
         path: 'about',
@@ -60,11 +64,17 @@ export const router = createHashRouter([
 
 function RootLayout() {
   useBodyThemeClass();
+  const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.setItem('prev-pathname', location.pathname);
+  }, [location.pathname]);
+
   return (
     <div className="w-full h-full flex">
       <RouterProvider navigate={navigate}>
-        <div className="w-72">
+        <div className="w-72 flex-shrink-0">
           <Navbar />
         </div>
         <div className="flex-1">
@@ -77,6 +87,18 @@ function RootLayout() {
 
 function Navbar() {
   const location = useLocation();
+  const setProfileList = useSetAtom(profileListAtom);
+
+  const handleSelectionChange = (selection: Selection) => {
+    if (selection === 'all') return;
+    const selectedKey = selection.values().next().value;
+    if (!selectedKey) return;
+    switch (selectedKey) {
+      case 'new-profile': {
+        setProfileList(async (profileList) => [...(await profileList), Math.random().toString(36).slice(2)]);
+      }
+    }
+  };
 
   const dropdownSectionClassName = '!bg-transparent border-none backdrop-filter-none';
 
@@ -88,6 +110,7 @@ function Navbar() {
         aria-label="Navbar"
         selectionMode="single"
         selectedKeys={[location.pathname]}
+        onSelectionChange={handleSelectionChange}
       >
         <DropdownSection className={dropdownSectionClassName} title="Settings">
           {settingsRoutes.map(({ path, icon, name }) => {
@@ -101,14 +124,7 @@ function Navbar() {
           })}
         </DropdownSection>
         <DropdownSection className={dropdownSectionClassName} title="Profiles">
-          <ListBoxItem id="/profiles/whistle" textValue="Profile: Whistle" href="/profiles/whistle">
-            <ServerIcon size={16} />
-            <span>Whistle</span>
-          </ListBoxItem>
-          <ListBoxItem id="/profiles/auto-switch" textValue="Profile: Auto switch" href="/profiles/auto-switch">
-            <CableIcon size={16} />
-            <span>Auto switch</span>
-          </ListBoxItem>
+          <ProfilesList />
           <ListBoxItem id="new-profile" textValue="New Profile...">
             <PlusIcon size={16} />
             <span>New Profile...</span>
@@ -125,5 +141,27 @@ function Logo() {
       <img className="w-8 h-8" src="/public/logo.png" alt="Logo" />
       <div className="text-xl font-bold">Switchy Pi</div>
     </Link>
+  );
+}
+
+const profileIcons: Record<ProfileType['profileType'], React.JSX.Element> = {
+  FixedProfile: <ServerIcon size={16} />,
+  SwitchProfile: <CableIcon size={16} />,
+};
+
+function ProfilesList() {
+  const profiles = useProfileList();
+  return profiles.map((profile) => <ProfileListItem key={profile} id={profile} />);
+}
+
+function ProfileListItem({ id }: { id: string }) {
+  const href = `/profiles/${id}`;
+  const profile = useProfileValue(id);
+  if (!profile) return null;
+  return (
+    <ListBoxItem id={href} textValue={`Profile: ${profile.name}`} href={href}>
+      {profileIcons[profile.profileType]}
+      <span>{profile.name}</span>
+    </ListBoxItem>
   );
 }

@@ -1,4 +1,4 @@
-import { Check } from 'lucide-react';
+import { CheckIcon } from 'lucide-react';
 import {
   Menu as AriaMenu,
   MenuItem as AriaMenuItem,
@@ -33,13 +33,13 @@ export function MenuItem<T extends object>(props: MenuItemProps<T>) {
   return (
     <AriaMenuItem<T>
       {...props}
-      className={composeRenderProps(props.className, (className, menuProps) =>
-        twMerge(className, dropdownItemStyles(menuProps))
+      className={composeRenderProps(props.className, (className, renderProps) =>
+        twMerge(className, dropdownItemStyles(renderProps))
       )}
     >
       {composeRenderProps(props.children, (children, { isSelected }) => (
         <>
-          <span className="flex items-center w-4">{isSelected ? <Check aria-hidden size={16} /> : props.icon}</span>
+          <span className="flex items-center w-4">{isSelected ? <CheckIcon aria-hidden size={16} /> : props.icon}</span>
           <span className="flex items-center flex-1 gap-2 font-normal truncate group-selected:font-semibold">
             {children}
           </span>

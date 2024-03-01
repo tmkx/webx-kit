@@ -1,3 +1,5 @@
+import { NormalLayout } from '../layout';
+
 export function IO() {
-  return <span>IO</span>;
+  return <NormalLayout title="IO">IO</NormalLayout>;
 }

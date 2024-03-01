@@ -9,7 +9,7 @@ export interface NormalLayoutProps {
 export function NormalLayout(props: NormalLayoutProps) {
   return (
     <div>
-      <div className="flex items-center my-4 justify-between pr-4 min-h-10">
+      <div className="flex items-center gap-2 my-4 justify-between pr-4 min-h-10">
         <div className="text-2xl">{props.title}</div>
         <div>{props.action}</div>
       </div>

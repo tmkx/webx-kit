@@ -1,6 +1,6 @@
 import { Label, Radio, RadioGroup } from '@/components';
 import { useAtom } from 'jotai';
-import { colorSchemeAtom } from '@/hooks/atoms/config';
+import { colorSchemeAtom } from '@/atoms/config';
 import { NormalLayout } from '../layout';
 
 export function UISettings() {

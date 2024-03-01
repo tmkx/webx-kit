@@ -1,6 +1,8 @@
 import { useAtomValue } from 'jotai';
-import { notControllableReasonAtom, proxySettingValue } from './atoms/proxy';
+import { notControllableReasonAtom, proxyModeAtom, proxySettingValueAtom } from '@/atoms/proxy';
 
 export const useNotControllableReason = () => useAtomValue(notControllableReasonAtom);
 
-export const useProxySettingValue = () => useAtomValue(proxySettingValue);
+export const useProxySettingValue = () => useAtomValue(proxySettingValueAtom);
+
+export const useProxyMode = () => useAtomValue(proxyModeAtom);

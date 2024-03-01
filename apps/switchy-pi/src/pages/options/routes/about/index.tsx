@@ -1,3 +1,5 @@
+import { NormalLayout } from '../layout';
+
 export function About() {
-  return <span>About</span>;
+  return <NormalLayout title="About">About</NormalLayout>;
 }
