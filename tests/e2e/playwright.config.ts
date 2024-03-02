@@ -6,13 +6,20 @@ import { createLaunchOptions } from './tests/webx-test';
 
 export default defineConfig({
   testDir: './tests',
-  retries: 2,
+  retries: 0,
   projects: [
     {
       name: 'React',
-      grep: /react/,
+      grep: /react\.spec/,
       use: {
         launchOptions: createLaunchOptions('@webx-kit/example-react'),
+      },
+    },
+    {
+      name: 'ReactRsbuild',
+      grep: /react-rsbuild/,
+      use: {
+        launchOptions: createLaunchOptions('@webx-kit/example-react-rsbuild'),
       },
     },
     {

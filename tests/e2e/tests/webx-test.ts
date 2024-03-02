@@ -41,7 +41,8 @@ export function startDev({ beforeAll, afterAll, afterEach }: typeof test) {
   let baseDir: string;
   let childProcess: execa.ExecaChildProcess<string>;
 
-  beforeAll(async ({ packageDir }) => {
+  beforeAll(async ({ packageDir }, testInfo) => {
+    testInfo.setTimeout(30 * 1000);
     baseDir = packageDir;
     const { stdout: dirtyFiles } = await execa('git', ['ls-files', '--modified'], { cwd: packageDir });
     if (!!dirtyFiles) throw new Error('make sure all modifications have been staged');
@@ -55,7 +56,7 @@ export function startDev({ beforeAll, afterAll, afterEach }: typeof test) {
         const handler = (chunk: unknown) => {
           const message = stripAnsi(String(chunk));
           !process.env.CI && console.log(message);
-          if (message.includes('client-side renders as static HTML')) {
+          if (message.includes('client-side renders as static HTML') || message.includes('Client compiled in')) {
             childProcess.stdout?.removeListener('data', handler);
             resolve();
           }

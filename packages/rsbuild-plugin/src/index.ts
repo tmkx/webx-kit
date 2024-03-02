@@ -21,10 +21,14 @@ function getDefaultConfig({ allInOneEntries }: { allInOneEntries: Set<string> })
       writeToDisk: (filename) => !filename.includes('.hot-update.'),
     },
     output: {
+      distPath: {
+        ...(process.env.WEBX_DIST ? { root: process.env.WEBX_DIST } : null),
+      },
       filenameHash: false,
     },
     server: {
       publicDir: false,
+      port: process.env.PORT ? Number(process.env.PORT) : undefined,
     },
     tools: {
       bundlerChain(chain) {
