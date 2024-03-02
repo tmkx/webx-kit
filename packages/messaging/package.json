@@ -26,12 +26,12 @@
     "type-fest": "^4.10.3"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.47.0",
-    "@modern-js/utils": "^2.47.0",
-    "@playwright/test": "^1.41.2",
+    "@modern-js/app-tools": "^2.48.0",
+    "@modern-js/utils": "^2.48.0",
+    "@playwright/test": "^1.42.1",
     "@trpc/client": "11.0.0-next-beta.242",
     "@trpc/server": "11.0.0-next-beta.242",
-    "@types/node": "^20.11.19",
+    "@types/node": "^20.11.24",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
