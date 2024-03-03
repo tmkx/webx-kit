@@ -1,6 +1,5 @@
 import path from 'node:path';
 import { RsbuildPluginAPI, isDev, fse } from '@rsbuild/shared';
-// @ts-ignore ts source
 import { FSWatcher, watch } from '@rsbuild/shared/chokidar';
 import { evalFile } from '../utils';
 
@@ -34,7 +33,6 @@ export const applyManifestSupport = (api: RsbuildPluginAPI, options: ManifestOpt
 
   api.onAfterStartDevServer(({ port }) => {
     process.env.PORT = String(port);
-    // @ts-ignore ts source
     watcher = watch(sourcePath).on('change', (changedFilePath) => {
       if (changedFilePath !== sourcePath) return;
       generateManifest();

@@ -11,6 +11,11 @@ concurrency:
   group: ci-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+# Needed for nx-set-shas when run on the main branch
+permissions:
+  actions: read
+  contents: read
+
 jobs:
   test:
     timeout-minutes: 15
@@ -23,12 +28,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/cache@v3
+        with:
+          path: .nx
+          key: nx-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            nx-${{ runner.os }}-
+
       - uses: pnpm/action-setup@v3
 
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
+
+      - uses: nrwl/nx-set-shas@v3
+      # This line is needed for nx affected to work when CI is running on a PR
+      - run: git fetch --all
 
       - name: Install deps
         run: |
