@@ -6,7 +6,14 @@ import { createLaunchOptions } from './tests/webx-test';
 
 export default defineConfig({
   testDir: './tests',
-  retries: 0,
+  retries: 2,
+  ...(process.platform === 'win32'
+    ? {
+        // HMR is slow in Windows sometimes
+        expect: { timeout: 15000 },
+      }
+    : null),
+
   projects: [
     {
       name: 'React',

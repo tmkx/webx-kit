@@ -7,6 +7,10 @@ on:
     branches: [main]
     types: [opened, synchronize]
 
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     timeout-minutes: 15
@@ -15,20 +19,11 @@ jobs:
         os: [ubuntu-latest, windows-latest]
         node-version: [18.x]
     runs-on: ${{ matrix.os }}
-    env:
-      TURBO_FORCE: ${{ vars.TURBO_FORCE }}
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/cache@v3
-        with:
-          path: node_modules/.cache/turbo
-          key: turbo-${{ runner.os }}-${{ github.sha }}
-          restore-keys: |
-            turbo-${{ runner.os }}-
-
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v3
 
       - uses: actions/setup-node@v4
         with:

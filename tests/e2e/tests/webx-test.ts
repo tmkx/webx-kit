@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 import path from 'node:path';
-import { dynamicImport, fs, execa, stripAnsi, wait } from '@modern-js/utils';
+import { dynamicImport, fs, execa, stripAnsi } from '@modern-js/utils';
 import { createWebxTest, getRandomPort } from '@webx-kit/test-utils/playwright';
 import { LaunchOptions } from '@playwright/test';
 
@@ -45,7 +45,7 @@ export function startDev({ beforeAll, afterAll, afterEach }: typeof test) {
     testInfo.setTimeout(30 * 1000);
     baseDir = packageDir;
     const { stdout: dirtyFiles } = await execa('git', ['ls-files', '--modified'], { cwd: packageDir });
-    if (!!dirtyFiles) throw new Error('make sure all modifications have been staged');
+    if (!!dirtyFiles) throw new Error('Make sure all modifications have been staged');
     const PORT = String(await getRandomPort());
     childProcess = execa('pnpm', ['dev'], {
       cwd: packageDir,
@@ -55,8 +55,8 @@ export function startDev({ beforeAll, afterAll, afterEach }: typeof test) {
       new Promise<void>((resolve) => {
         const handler = (chunk: unknown) => {
           const message = stripAnsi(String(chunk));
-          !process.env.CI && console.log(message);
-          if (message.includes('client-side renders as static HTML') || message.includes('Client compiled in')) {
+          !process.env.CI && message && console.log(message);
+          if (message.includes('Client compiled in')) {
             childProcess.stdout?.removeListener('data', handler);
             resolve();
           }
@@ -64,7 +64,6 @@ export function startDev({ beforeAll, afterAll, afterEach }: typeof test) {
         childProcess.stdout?.addListener('data', handler);
       }),
       childProcess.catch((reason): Promise<void> => Promise.reject(reason.message)),
-      wait(20 * 1000).then((): Promise<void> => Promise.reject('Timeout')),
     ]);
   });
   afterEach(async () => {
