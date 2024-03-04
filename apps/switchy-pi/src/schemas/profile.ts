@@ -29,3 +29,17 @@ const Profile = z.union([FixedProfile, SwitchProfile]);
 export interface FixedProfile extends z.infer<typeof FixedProfile> {}
 export interface SwitchProfile extends z.infer<typeof SwitchProfile> {}
 export type Profile = FixedProfile | SwitchProfile;
+
+export function createDefaultProfile(name: string): FixedProfile {
+  return {
+    profileType: 'FixedProfile',
+    name,
+    color: '#000',
+    bypassList: [],
+    fallbackProxy: {
+      scheme: 'http',
+      host: 'example.com',
+      port: 80,
+    },
+  };
+}
