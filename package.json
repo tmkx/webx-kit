@@ -6,9 +6,9 @@
   },
   "packageManager": "pnpm@8.15.4",
   "scripts": {
-    "lint:type": "nx affected -t lint:type",
-    "build": "nx affected -t build",
-    "test": "nx affected -t test"
+    "lint:type": "nx run-many -t lint:type",
+    "build": "nx run-many -t build",
+    "test": "nx run-many -t test"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",

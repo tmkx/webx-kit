@@ -11,11 +11,6 @@ concurrency:
   group: ci-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
-# Needed for nx-set-shas when run on the main branch
-permissions:
-  actions: read
-  contents: read
-
 jobs:
   test:
     timeout-minutes: 15
@@ -24,9 +19,13 @@ jobs:
         os: [ubuntu-latest, windows-latest]
         node-version: [18.x]
     runs-on: ${{ matrix.os }}
+    env:
+      NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/cache@v3
         with:
@@ -42,20 +41,21 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
 
-      - uses: nrwl/nx-set-shas@v3
+      - uses: nrwl/nx-set-shas@v4
       # This line is needed for nx affected to work when CI is running on a PR
-      - run: git fetch --all
+      - name: Fetch NX base
+        run: |
+          git fetch --all
 
       - name: Install deps
         run: |
           pnpm i --frozen-lockfile
           pnpm playwright install
 
-      - name: Build
-        run: pnpm build
+      - if: ${{ github.event_name == 'pull_request' }}
+        name: On pull request
+        run: pnpm nx affected -t build,lint:type,test
 
-      - name: Lint
-        run: pnpm lint:type
-
-      - name: Test
-        run: pnpm test
+      - if: ${{ github.event_name == 'push' }}
+        name: On push
+        run: pnpm nx run-many -t build,lint:type,test
