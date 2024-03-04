@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { Outlet, createHashRouter, redirect, useNavigate, useLocation, NonIndexRouteObject } from 'react-router-dom';
 import { RouterProvider, Selection } from 'react-aria-components';
 import { CableIcon, PlusIcon, SaveIcon, ServerIcon, SettingsIcon, WrenchIcon } from 'lucide-react';
@@ -78,7 +78,9 @@ function RootLayout() {
           <Navbar />
         </div>
         <div className="flex-1">
-          <Outlet />
+          <Suspense fallback="Loading...">
+            <Outlet />
+          </Suspense>
         </div>
       </RouterProvider>
     </div>
@@ -87,6 +89,7 @@ function RootLayout() {
 
 function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const store = useStore();
 
   const handleSelectionChange = async (selection: Selection) => {
@@ -98,6 +101,7 @@ function Navbar() {
         const profileName = Math.random().toString(36).slice(2);
         await store.set(profileFamily(profileName), createDefaultProfile(profileName));
         await store.set(profileListAtom, async (profileList) => [...(await profileList), profileName]);
+        navigate(`/profiles/${profileName}`);
       }
     }
   };
