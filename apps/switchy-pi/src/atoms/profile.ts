@@ -21,7 +21,7 @@ type ActiveProfile = LiteralUnion<BuiltinProfile, string>;
 
 const customModes: ActiveProfile[] = ['fixed_servers', 'pac_script'];
 
-const baseActiveProfileIdAtom = atomWithStorage<string | null>('active-profile', null, configStorage);
+const baseActiveProfileIdAtom = atomWithStorage<string | null>('active-profile', null);
 export const activeProfileIdAtom = atom(
   async (get): Promise<ActiveProfile | null> => {
     const mode = get(proxyModeAtom);

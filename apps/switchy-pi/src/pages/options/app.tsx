@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { Outlet, createHashRouter, redirect, useNavigate, useLocation, NonIndexRouteObject } from 'react-router-dom';
 import { RouterProvider, Selection } from 'react-aria-components';
 import { CableIcon, PlusIcon, SaveIcon, ServerIcon, SettingsIcon, WrenchIcon } from 'lucide-react';
-import { useSetAtom } from 'jotai';
-import { profileListAtom } from '@/atoms/profile';
+import { useStore } from 'jotai';
+import { profileFamily, profileListAtom } from '@/atoms/profile';
 import { DropdownSection, Link, ListBox, ListBoxItem } from '@/components';
 import { useBodyThemeClass, useProfileList, useProfileValue } from '@/hooks';
-import type { Profile as ProfileType } from '@/schemas';
+import { createDefaultProfile, type Profile as ProfileType } from '@/schemas';
 import { About } from './routes/about';
 import { General } from './routes/general';
 import { IO } from './routes/io';
@@ -87,15 +87,17 @@ function RootLayout() {
 
 function Navbar() {
   const location = useLocation();
-  const setProfileList = useSetAtom(profileListAtom);
+  const store = useStore();
 
-  const handleSelectionChange = (selection: Selection) => {
+  const handleSelectionChange = async (selection: Selection) => {
     if (selection === 'all') return;
     const selectedKey = selection.values().next().value;
     if (!selectedKey) return;
     switch (selectedKey) {
       case 'new-profile': {
-        setProfileList(async (profileList) => [...(await profileList), Math.random().toString(36).slice(2)]);
+        const profileName = Math.random().toString(36).slice(2);
+        await store.set(profileFamily(profileName), createDefaultProfile(profileName));
+        await store.set(profileListAtom, async (profileList) => [...(await profileList), profileName]);
       }
     }
   };
