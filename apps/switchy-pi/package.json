@@ -16,6 +16,7 @@
     "jotai": "^2.7.0",
     "lucide-react": "^0.336.0",
     "react": "^18.2.0",
+    "react-aria": "^3.32.1",
     "react-aria-components": "^1.1.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.1",

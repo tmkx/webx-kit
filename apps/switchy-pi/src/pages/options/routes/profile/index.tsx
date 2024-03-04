@@ -1,7 +1,10 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { DownloadIcon, FilePenLineIcon, TrashIcon } from 'lucide-react';
-import { Button, Toolbar } from '@/components';
-import { useProfile } from '@/hooks';
+import { AlertDialog, Button, Modal, Toolbar } from '@/components';
+import { DialogTrigger } from 'react-aria-components';
+import { useStore } from 'jotai';
+import { profileFamily, profileListAtom, profileStorage } from '@/atoms/profile';
+import { useActiveProfileId, useProfile } from '@/hooks';
 import type { FixedProfile } from '@/schemas';
 import { NormalLayout } from '../layout';
 import { FixedServers } from './fixed-servers';
@@ -15,6 +18,20 @@ export function Profile() {
   const params = useParams<ProfileRouteParams>();
   const profileId = params.id!;
   const [profile, setProfile] = useProfile(profileId);
+  const [activeProfileId, setActiveProfileId] = useActiveProfileId();
+  const store = useStore();
+  const navigate = useNavigate();
+
+  const handleDelete = async () => {
+    if (!profile) return;
+    await store.set(profileListAtom, async (list) => (await list).filter((item) => item !== profileId));
+    await store.set(profileFamily(profileId), null);
+    await profileStorage.removeItem(profileId);
+    const profileList = await store.get(profileListAtom);
+    if (profileId === activeProfileId) await setActiveProfileId('system');
+    if (profileList[0]) navigate(`/profiles/${profileList[0]}`);
+    else navigate('/ui');
+  };
 
   if (!profile) return <NormalLayout title={404}>Not Found</NormalLayout>;
 
@@ -34,9 +51,16 @@ export function Profile() {
           <Button variant="secondary" icon={<FilePenLineIcon size={16} />}>
             Rename
           </Button>
-          <Button variant="destructive" icon={<TrashIcon size={16} />}>
-            Delete
-          </Button>
+          <DialogTrigger>
+            <Button variant="destructive" icon={<TrashIcon size={16} />}>
+              Delete
+            </Button>
+            <Modal>
+              <AlertDialog variant="destructive" title="Delete Profile" actionLabel="Delete" onAction={handleDelete}>
+                {`Are you sure you want to delete "${profile.name}"? All contents will be permanently destroyed.`}
+              </AlertDialog>
+            </Modal>
+          </DialogTrigger>
         </Toolbar>
       }
     >

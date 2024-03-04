@@ -8,7 +8,7 @@ import { withResolvers } from '@/utils/promise';
 import { configStorage } from './config';
 import { proxyModeAtom, proxySetting } from './proxy';
 
-const profileStorage = createStorage({ prefix: 'profile:' });
+export const profileStorage = createStorage({ prefix: 'profile:' });
 
 export const profileListAtom = unwrap(
   atomWithStorage<string[]>('profiles-list', [], configStorage),
