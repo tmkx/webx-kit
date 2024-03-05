@@ -41,3 +41,13 @@ test('Cross pages', async ({ getURL, context }) => {
   await expect(jotai2Page.getByTestId('apiKey')).toHaveText('Changed');
   await expect(webPage.getByTestId('apiKey')).toHaveText('Changed');
 });
+
+test('Clear', async ({ getURL, page }) => {
+  await page.goto(await getURL('jotai-clear.html'));
+
+  await expect(page.getByTestId('apiKey')).toHaveText('DEFAULT');
+  await page.getByTestId('change').click();
+  await expect(page.getByTestId('apiKey')).toHaveText('Changed');
+  await page.getByTestId('clear').click();
+  await expect(page.getByTestId('apiKey')).toHaveText('DEFAULT');
+});

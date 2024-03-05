@@ -3,7 +3,8 @@ import { DownloadIcon, FilePenLineIcon, TrashIcon } from 'lucide-react';
 import { AlertDialog, Button, Modal, Toolbar } from '@/components';
 import { DialogTrigger } from 'react-aria-components';
 import { useStore } from 'jotai';
-import { profileFamily, profileListAtom, profileStorage } from '@/atoms/profile';
+import { RESET } from 'jotai/utils';
+import { profileFamily, profileListAtom } from '@/atoms/profile';
 import { useActiveProfileId, useProfile } from '@/hooks';
 import type { FixedProfile } from '@/schemas';
 import { NormalLayout } from '../layout';
@@ -25,8 +26,7 @@ export function Profile() {
   const handleDelete = async () => {
     if (!profile) return;
     await store.set(profileListAtom, async (list) => (await list).filter((item) => item !== profileId));
-    await store.set(profileFamily(profileId), null);
-    await profileStorage.removeItem(profileId);
+    await store.set(profileFamily(profileId), RESET);
     const profileList = await store.get(profileListAtom);
     if (profileId === activeProfileId) await setActiveProfileId('system');
     if (profileList[0]) navigate(`/profiles/${profileList[0]}`);

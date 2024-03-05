@@ -8,6 +8,7 @@ const App = () => {
     <div>
       <div data-testid="apiKey">{apiKey}</div>
       <button data-testid="change" onClick={() => setAPIKey('Changed')} />
+      <button data-testid="clear" onClick={() => chrome.storage.local.clear()} />
     </div>
   );
 };
