@@ -7,7 +7,11 @@ export interface ChromeStorage<T extends Record<string, any> = Record<string, an
   getKeys: () => Promise<string[]>;
   removeItem: (key: StringKeyOf<T> | StringKeyOf<T>[]) => Promise<void>;
   clear: () => Promise<void>;
-  subscribe: <K extends StringKeyOf<T>>(key: K, callback: (value: T[K] | null) => void) => VoidFunction;
+  subscribe: <K extends StringKeyOf<T>>(
+    key: K,
+    callback: (value: T[K] | null) => void,
+    defaultValue?: T[K]
+  ) => VoidFunction;
   watch: (callback: (event: 'update' | 'remove', key: string) => void) => VoidFunction;
 }
 
@@ -62,19 +66,25 @@ export function createStorage<T extends Record<string, any> = Record<string, any
   type OnChangedListener = Parameters<(typeof storage)['onChanged']['addListener']>[0];
 
   let onChangedActive = false;
-  const onChangedCallbacks = new Map<string, Set<(value: any) => void>>();
+  type SubscribeCallback = (value: any) => void;
+  const onChangedCallbacks = new Map<string, Set<SubscribeCallback>>();
+  const callbackDefaultValues = new WeakMap<SubscribeCallback, unknown>();
   const onChangedListener: OnChangedListener = (changes) => {
     for (const [key, value] of Object.entries(changes)) {
       const changedCallback = onChangedCallbacks.get(key);
       if (!changedCallback) continue;
-      const newValue = 'newValue' in value ? value.newValue : null;
-      changedCallback.forEach((callback) => callback(newValue));
+      const IS_REMOVE_SYMBOL = Symbol();
+      const newValue = 'newValue' in value ? value.newValue : IS_REMOVE_SYMBOL;
+      changedCallback.forEach((callback) =>
+        newValue === IS_REMOVE_SYMBOL ? callback(callbackDefaultValues.get(callback) ?? null) : callback(newValue)
+      );
     }
   };
 
-  function addCallback(key: string, callback: (value: any) => void) {
+  function addCallback(key: string, callback: (value: any) => void, defaultValue?: unknown) {
     if (onChangedCallbacks.has(key)) onChangedCallbacks.get(key)!.add(callback);
     else onChangedCallbacks.set(key, new Set([callback]));
+    callbackDefaultValues.set(callback, defaultValue);
     if (!onChangedActive) {
       storage.onChanged.addListener(onChangedListener);
       onChangedActive = true;
@@ -85,6 +95,7 @@ export function createStorage<T extends Record<string, any> = Record<string, any
     const callbackSet = onChangedCallbacks.get(key);
     if (!callbackSet) return;
     callbackSet.delete(callback);
+    callbackDefaultValues.delete(callback);
     if (!callbackSet.size) onChangedCallbacks.delete(key);
     if (!onChangedCallbacks.size) {
       storage.onChanged.removeListener(onChangedListener);
@@ -92,9 +103,13 @@ export function createStorage<T extends Record<string, any> = Record<string, any
     }
   }
 
-  function subscribe<K extends StringKeyOf<T>>(key: K, callback: (value: T[K] | null) => void): VoidFunction {
+  function subscribe<K extends StringKeyOf<T>>(
+    key: K,
+    callback: (value: T[K] | null) => void,
+    defaultValue?: T[K]
+  ): VoidFunction {
     const prefixedKey = addPrefix(key);
-    addCallback(prefixedKey, callback);
+    addCallback(prefixedKey, callback, defaultValue);
     return () => {
       removeCallback(prefixedKey, callback);
     };
