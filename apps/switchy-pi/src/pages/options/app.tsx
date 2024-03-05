@@ -118,8 +118,8 @@ function Navbar() {
         selectedKeys={[location.pathname]}
         onSelectionChange={handleSelectionChange}
       >
-        <DropdownSection className={dropdownSectionClassName} title="Settings">
-          {settingsRoutes.map(({ path, icon, name }) => {
+        <DropdownSection className={dropdownSectionClassName} title="Settings" items={settingsRoutes}>
+          {({ path, icon, name }) => {
             const href = `/${path}`;
             return (
               <ListBoxItem key={path} id={href} textValue={name} href={href}>
@@ -127,7 +127,7 @@ function Navbar() {
                 <span>{name}</span>
               </ListBoxItem>
             );
-          })}
+          }}
         </DropdownSection>
         <DropdownSection className={dropdownSectionClassName} title="Profiles">
           <ProfilesList />

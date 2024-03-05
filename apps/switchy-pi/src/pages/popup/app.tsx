@@ -2,7 +2,7 @@ import type { Key } from 'react-aria-components';
 import { ArrowRightLeftIcon, PowerIcon, WrenchIcon } from 'lucide-react';
 import { Menu, MenuItem, MenuSeparator } from '@/components';
 import { useBodyThemeClass } from '@/hooks/config';
-import { useActiveProfileId, useProfileList } from '@/hooks';
+import { useActiveProfileId, useProfile, useProfileList, useProfileValue } from '@/hooks';
 
 export const App = () => {
   useBodyThemeClass();
@@ -33,9 +33,7 @@ export const App = () => {
         <>
           <MenuSeparator />
           {profileList.map((profileId) => (
-            <MenuItem key={profileId} id={profileId}>
-              {profileId}
-            </MenuItem>
+            <CustomProfile key={profileId} profileId={profileId} />
           ))}
         </>
       ) : null}
@@ -46,3 +44,9 @@ export const App = () => {
     </Menu>
   );
 };
+
+function CustomProfile({ profileId }: { profileId: string }) {
+  const profile = useProfileValue(profileId);
+  if (!profile) return null;
+  return <MenuItem id={profileId}>{profile.name}</MenuItem>;
+}
