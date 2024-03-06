@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import { atomFamily, atomWithStorage, unwrap } from 'jotai/utils';
+import { atomFamily, atomWithStorage, loadable, unwrap } from 'jotai/utils';
 import type { LiteralUnion } from 'react-hook-form';
 import type { Profile } from '@/schemas';
 import { createStorage } from '@webx-kit/storage';
@@ -70,3 +70,4 @@ export const activeProfileIdAtom = atom(
     return promise;
   }
 );
+export const loadableActiveProfileIdAtom = loadable(activeProfileIdAtom);

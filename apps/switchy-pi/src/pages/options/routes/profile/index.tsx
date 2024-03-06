@@ -1,12 +1,11 @@
-import { Suspense } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DownloadIcon, FilePenLineIcon, TrashIcon } from 'lucide-react';
 import { AlertDialog, Button, Dialog, Modal, TextField, Toolbar } from '@/components';
 import { DialogTrigger, Form, Heading } from 'react-aria-components';
 import { useStore } from 'jotai';
 import { RESET } from 'jotai/utils';
-import { profileFamily, profileListAtom } from '@/atoms/profile';
-import { useActiveProfileId, useProfile } from '@/hooks';
+import { activeProfileIdAtom, profileFamily, profileListAtom } from '@/atoms/profile';
+import { useLoadableActiveProfileId, useProfile } from '@/hooks';
 import type { FixedProfile, Profile as ProfileType } from '@/schemas';
 import { NormalLayout } from '../layout';
 import { FixedServers } from './fixed-servers';
@@ -37,15 +36,7 @@ export function Profile() {
             Export PAC
           </Button>
           <RenameProfile profile={profile} onProfileChange={setProfile} />
-          <Suspense
-            fallback={
-              <Button variant="destructive" icon={<TrashIcon size={16} />}>
-                Delete
-              </Button>
-            }
-          >
-            <DeleteProfile profileId={profileId} profile={profile} />
-          </Suspense>
+          <DeleteProfile profileId={profileId} profile={profile} />
         </Toolbar>
       }
     >
@@ -72,7 +63,7 @@ function RenameProfile({
       <Button variant="secondary" icon={<FilePenLineIcon size={16} />}>
         Rename
       </Button>
-      <Modal>
+      <Modal isDismissable>
         <Dialog>
           {({ close }) => (
             <Form
@@ -108,15 +99,16 @@ function RenameProfile({
 }
 
 function DeleteProfile({ profileId, profile }: { profileId: string; profile: ProfileType }) {
-  const [activeProfileId, setActiveProfileId] = useActiveProfileId();
+  const activeProfileId = useLoadableActiveProfileId();
   const store = useStore();
   const navigate = useNavigate();
 
   const handleDelete = async () => {
+    if (activeProfileId.state !== 'hasData') return;
     await store.set(profileListAtom, async (list) => (await list).filter((item) => item !== profileId));
     await store.set(profileFamily(profileId), RESET);
     const profileList = await store.get(profileListAtom);
-    if (profileId === activeProfileId) await setActiveProfileId('system');
+    if (profileId === activeProfileId.data) await store.set(activeProfileIdAtom, 'system');
     if (profileList[0]) navigate(`/profiles/${profileList[0]}`);
     else navigate('/ui');
   };
@@ -126,7 +118,7 @@ function DeleteProfile({ profileId, profile }: { profileId: string; profile: Pro
       <Button variant="destructive" icon={<TrashIcon size={16} />}>
         Delete
       </Button>
-      <Modal>
+      <Modal isDismissable>
         <AlertDialog variant="destructive" title="Delete Profile" actionLabel="Delete" onAction={handleDelete}>
           {`Are you sure you want to delete "${profile.name}"? All contents will be permanently destroyed.`}
         </AlertDialog>
