@@ -2,10 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { DownloadIcon, FilePenLineIcon, TrashIcon } from 'lucide-react';
 import { AlertDialog, Button, Dialog, Modal, TextField, Toolbar } from '@/components';
 import { DialogTrigger, Form, Heading } from 'react-aria-components';
-import { useStore } from 'jotai';
-import { RESET } from 'jotai/utils';
-import { activeProfileIdAtom, profileFamily, profileListAtom } from '@/atoms/profile';
-import { useLoadableActiveProfileId, useProfile } from '@/hooks';
+import { useDeleteProfile, useProfile } from '@/hooks';
 import type { FixedProfile, Profile as ProfileType } from '@/schemas';
 import { NormalLayout } from '../layout';
 import { FixedServers } from './fixed-servers';
@@ -99,18 +96,14 @@ function RenameProfile({
 }
 
 function DeleteProfile({ profileId, profile }: { profileId: string; profile: ProfileType }) {
-  const activeProfileId = useLoadableActiveProfileId();
-  const store = useStore();
   const navigate = useNavigate();
+  const deleteProfile = useDeleteProfile();
 
   const handleDelete = async () => {
-    if (activeProfileId.state !== 'hasData') return;
-    await store.set(profileListAtom, async (list) => (await list).filter((item) => item !== profileId));
-    await store.set(profileFamily(profileId), RESET);
-    const profileList = await store.get(profileListAtom);
-    if (profileId === activeProfileId.data) await store.set(activeProfileIdAtom, 'system');
-    if (profileList[0]) navigate(`/profiles/${profileList[0]}`);
-    else navigate('/ui');
+    deleteProfile(profileId).then((profileList) => {
+      if (profileList[0]) navigate(`/profiles/${profileList[0]}`);
+      else navigate('/ui');
+    });
   };
 
   return (

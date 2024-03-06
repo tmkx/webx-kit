@@ -1,11 +1,9 @@
 import type { Key } from 'react-aria-components';
 import { ArrowRightLeftIcon, PowerIcon, WrenchIcon } from 'lucide-react';
 import { Menu, MenuItem, MenuSeparator } from '@/components';
-import { useBodyThemeClass } from '@/hooks/config';
 import { useActiveProfileId, useProfileList, useProfileValue } from '@/hooks';
 
 export const App = () => {
-  useBodyThemeClass();
   const [activeProfileId, setActiveProfileId] = useActiveProfileId();
   const profileList = useProfileList();
 

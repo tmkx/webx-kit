@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import { atomFamily, atomWithStorage, loadable, unwrap } from 'jotai/utils';
+import { RESET, atomFamily, atomWithStorage, loadable, unwrap } from 'jotai/utils';
 import type { LiteralUnion } from 'react-hook-form';
 import type { Profile } from '@/schemas';
 import { createStorage } from '@webx-kit/storage';
@@ -71,3 +71,14 @@ export const activeProfileIdAtom = atom(
   }
 );
 export const loadableActiveProfileIdAtom = loadable(activeProfileIdAtom);
+
+export const deleteProfileAtom = atom(null, async function (get, set, profileId: string): Promise<string[]> {
+  const activeProfileId = await get(activeProfileIdAtom);
+  if (!activeProfileId) throw new Error(`Unknown active profile`);
+  const profileList = await get(profileListAtom);
+  const newProfileList = profileList.filter((item) => item !== profileId);
+  await set(profileListAtom, newProfileList);
+  await set(profileFamily(profileId), RESET);
+  if (profileId === activeProfileId) await set(activeProfileIdAtom, 'system');
+  return newProfileList;
+});

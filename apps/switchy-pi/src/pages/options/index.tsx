@@ -1,10 +1,17 @@
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
+import { getDefaultStore } from 'jotai';
+import { isDarkAtom } from '@/atoms/config';
+import { Provider } from '@/features/provider';
 import { router } from './app';
 import '../global.less';
 import './style.less';
 
-if (matchMedia('(prefers-color-scheme: dark)').matches) {
+if (getDefaultStore().get(isDarkAtom)) {
   document.body.classList.add('dark');
 }
-createRoot(document.getElementById('root')!).render(<RouterProvider router={router} />);
+createRoot(document.getElementById('root')!).render(
+  <Provider>
+    <RouterProvider router={router} />
+  </Provider>
+);
