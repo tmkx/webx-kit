@@ -5,7 +5,7 @@ import { CableIcon, PlusIcon, SaveIcon, ServerIcon, SettingsIcon, WrenchIcon } f
 import { useStore } from 'jotai';
 import { profileFamily, profileListAtom } from '@/atoms/profile';
 import { DropdownSection, Link, ListBox, ListBoxItem } from '@/components';
-import { useBodyThemeClass, useProfileList, useProfileValue } from '@/hooks';
+import { useProfileList, useProfileValue } from '@/hooks';
 import { createDefaultProfile, type Profile as ProfileType } from '@/schemas';
 import { About } from './routes/about';
 import { General } from './routes/general';
@@ -63,7 +63,6 @@ export const router = createHashRouter([
 ]);
 
 function RootLayout() {
-  useBodyThemeClass();
   const location = useLocation();
   const navigate = useNavigate();
 

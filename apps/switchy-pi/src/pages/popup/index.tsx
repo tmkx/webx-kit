@@ -1,8 +1,15 @@
 import { createRoot } from 'react-dom/client';
+import { getDefaultStore } from 'jotai';
+import { isDarkAtom } from '@/atoms/config';
+import { Provider } from '@/features/provider';
 import { App } from './app';
 import '../global.less';
 
-if (matchMedia('(prefers-color-scheme: dark)').matches) {
+if (getDefaultStore().get(isDarkAtom)) {
   document.body.classList.add('dark');
 }
-createRoot(document.getElementById('root')!).render(<App />);
+createRoot(document.getElementById('root')!).render(
+  <Provider>
+    <App />
+  </Provider>
+);
