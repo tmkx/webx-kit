@@ -100,8 +100,8 @@ function DeleteProfile({ profileId, profile }: { profileId: string; profile: Pro
   const deleteProfile = useDeleteProfile();
 
   const handleDelete = async () => {
-    deleteProfile(profileId).then((profileList) => {
-      if (profileList[0]) navigate(`/profiles/${profileList[0]}`);
+    deleteProfile(profileId).then((nearestId) => {
+      if (nearestId) navigate(`/profiles/${nearestId}`);
       else navigate('/ui');
     });
   };

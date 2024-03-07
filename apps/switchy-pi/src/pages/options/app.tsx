@@ -1,17 +1,16 @@
-import { Suspense, useEffect } from 'react';
+import { Suspense, createElement, useEffect, useState } from 'react';
 import { Outlet, createHashRouter, redirect, useNavigate, useLocation, NonIndexRouteObject } from 'react-router-dom';
 import { RouterProvider, Selection } from 'react-aria-components';
-import { CableIcon, PlusIcon, SaveIcon, ServerIcon, SettingsIcon, WrenchIcon } from 'lucide-react';
-import { useStore } from 'jotai';
-import { profileFamily, profileListAtom } from '@/atoms/profile';
+import { PlusIcon, SaveIcon, SettingsIcon, WrenchIcon } from 'lucide-react';
 import { DropdownSection, Link, ListBox, ListBoxItem } from '@/components';
 import { useProfileList, useProfileValue } from '@/hooks';
-import { createDefaultProfile, type Profile as ProfileType } from '@/schemas';
 import { About } from './routes/about';
 import { General } from './routes/general';
 import { IO } from './routes/io';
 import { Profile } from './routes/profile';
+import { NewProfileModal } from './routes/profile/new-modal';
 import { UISettings } from './routes/ui';
+import { profileIcons } from './routes/profile/shared';
 
 interface SettingRoute extends NonIndexRouteObject {
   path: string;
@@ -89,7 +88,7 @@ function RootLayout() {
 function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const store = useStore();
+  const [newProfileVisible, setNewProfileVisible] = useState(false);
 
   const handleSelectionChange = async (selection: Selection) => {
     if (selection === 'all') return;
@@ -97,12 +96,14 @@ function Navbar() {
     if (!selectedKey) return;
     switch (selectedKey) {
       case 'new-profile': {
-        const profileName = Math.random().toString(36).slice(2);
-        await store.set(profileFamily(profileName), createDefaultProfile(profileName));
-        await store.set(profileListAtom, async (profileList) => [...(await profileList), profileName]);
-        navigate(`/profiles/${profileName}`);
+        setNewProfileVisible(true);
       }
     }
+  };
+
+  const handleCreate = (profileId: string) => {
+    setNewProfileVisible(false);
+    navigate(`/profiles/${profileId}`);
   };
 
   const dropdownSectionClassName = '!bg-transparent border-none backdrop-filter-none';
@@ -130,11 +131,12 @@ function Navbar() {
         </DropdownSection>
         <DropdownSection className={dropdownSectionClassName} title="Profiles">
           <ProfilesList />
-          <ListBoxItem id="new-profile" textValue="New Profile...">
-            <PlusIcon size={16} />
-            <span>New Profile...</span>
-          </ListBoxItem>
         </DropdownSection>
+        <ListBoxItem id="new-profile" textValue="New Profile...">
+          <PlusIcon size={16} />
+          <span>New Profile...</span>
+          <NewProfileModal isOpen={newProfileVisible} onOpenChange={setNewProfileVisible} onCreate={handleCreate} />
+        </ListBoxItem>
       </ListBox>
     </div>
   );
@@ -149,11 +151,6 @@ function Logo() {
   );
 }
 
-const profileIcons: Record<ProfileType['profileType'], React.JSX.Element> = {
-  FixedProfile: <ServerIcon size={16} />,
-  SwitchProfile: <CableIcon size={16} />,
-};
-
 function ProfilesList() {
   const profiles = useProfileList();
   return profiles.map((profile) => <ProfileListItem key={profile} id={profile} />);
@@ -165,7 +162,7 @@ function ProfileListItem({ id }: { id: string }) {
   if (!profile) return null;
   return (
     <ListBoxItem id={href} textValue={`Profile: ${profile.name}`} href={href}>
-      {profileIcons[profile.profileType]}
+      {createElement(profileIcons[profile.profileType], { size: 16 })}
       <span>{profile.name}</span>
     </ListBoxItem>
   );

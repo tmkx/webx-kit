@@ -72,13 +72,14 @@ export const activeProfileIdAtom = atom(
 );
 export const loadableActiveProfileIdAtom = loadable(activeProfileIdAtom);
 
-export const deleteProfileAtom = atom(null, async function (get, set, profileId: string): Promise<string[]> {
+export const deleteProfileAtom = atom(null, async function (get, set, profileId: string): Promise<string | undefined> {
   const activeProfileId = await get(activeProfileIdAtom);
   if (!activeProfileId) throw new Error(`Unknown active profile`);
   const profileList = await get(profileListAtom);
+  const prevIndex = profileList.indexOf(profileId);
   const newProfileList = profileList.filter((item) => item !== profileId);
   await set(profileListAtom, newProfileList);
   await set(profileFamily(profileId), RESET);
   if (profileId === activeProfileId) await set(activeProfileIdAtom, 'system');
-  return newProfileList;
+  return newProfileList[prevIndex] || newProfileList[newProfileList.length - 1];
 });
