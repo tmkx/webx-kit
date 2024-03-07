@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { Outlet, createHashRouter, redirect, useNavigate, useLocation, NonIndexRouteObject } from 'react-router-dom';
 import { RouterProvider, Selection } from 'react-aria-components';
 import { CableIcon, PlusIcon, SaveIcon, ServerIcon, SettingsIcon, WrenchIcon } from 'lucide-react';
@@ -77,7 +77,9 @@ function RootLayout() {
           <Navbar />
         </div>
         <div className="flex-1">
-          <Outlet />
+          <Suspense fallback="Loading...">
+            <Outlet />
+          </Suspense>
         </div>
       </RouterProvider>
     </div>

@@ -14,6 +14,7 @@
     "@webx-kit/storage": "workspace:^",
     "clsx": "^2.1.0",
     "jotai": "^2.7.0",
+    "jotai-effect": "^0.6.0",
     "lucide-react": "^0.336.0",
     "react": "^18.2.0",
     "react-aria": "^3.32.1",
