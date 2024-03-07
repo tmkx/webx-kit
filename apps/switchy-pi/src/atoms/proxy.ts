@@ -1,17 +1,19 @@
 import { atom } from 'jotai';
 import { BuiltinProfile } from '@/schemas/proxy';
+import { syncExternalStateAtom } from '@/utils/atom';
 
 export const proxySetting = chrome.proxy.settings;
 
-export const proxySettingDetailsAtom = atom<chrome.types.ChromeSettingGetResultDetails | null>(null);
-proxySettingDetailsAtom.onMount = (set) => {
-  proxySetting.get({}, set);
-  proxySetting.onChange.addListener(set);
-  return () => proxySetting.onChange.removeListener(set);
-};
+export const proxySettingDetailsAtom = syncExternalStateAtom(
+  () => new Promise<chrome.types.ChromeSettingGetResultDetails>((resolve) => proxySetting.get({}, resolve)),
+  (setSelf) => {
+    proxySetting.onChange.addListener(setSelf);
+    return () => proxySetting.onChange.removeListener(setSelf);
+  }
+);
 
-export const notControllableReasonAtom = atom<'not_controllable' | 'controlled_by_other_extensions' | null>((get) => {
-  const settingDetails = get(proxySettingDetailsAtom);
+export const notControllableReasonAtom = atom(async (get) => {
+  const settingDetails = await get(proxySettingDetailsAtom);
   const levelOfControl = settingDetails?.levelOfControl;
   switch (levelOfControl) {
     case 'not_controllable':
@@ -22,14 +24,14 @@ export const notControllableReasonAtom = atom<'not_controllable' | 'controlled_b
   }
 });
 
-export const proxySettingValueAtom = atom<chrome.proxy.ProxyConfig | null>((get) => {
-  const settingDetails = get(proxySettingDetailsAtom);
+export const proxySettingValueAtom = atom(async (get) => {
+  const settingDetails = await get(proxySettingDetailsAtom);
   if (!settingDetails) return null;
-  return settingDetails.value;
+  return settingDetails.value as chrome.proxy.ProxyConfig;
 });
 
-export const proxyModeAtom = atom((get) => {
-  const proxySettingValue = get(proxySettingValueAtom);
+export const proxyModeAtom = atom(async (get) => {
+  const proxySettingValue = await get(proxySettingValueAtom);
   if (!proxySettingValue) return null;
   const mode = proxySettingValue.mode as BuiltinProfile;
 
