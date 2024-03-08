@@ -25,18 +25,18 @@ const settingsRoutes: SettingRoute[] = [
     name: 'Interface',
     element: <UISettings />,
   },
-  {
-    path: 'general',
-    icon: <SettingsIcon size={16} />,
-    name: 'General',
-    element: <General />,
-  },
-  {
-    path: 'io',
-    icon: <SaveIcon size={16} />,
-    name: 'Import / Export',
-    element: <IO />,
-  },
+  // {
+  //   path: 'general',
+  //   icon: <SettingsIcon size={16} />,
+  //   name: 'General',
+  //   element: <General />,
+  // },
+  // {
+  //   path: 'io',
+  //   icon: <SaveIcon size={16} />,
+  //   name: 'Import / Export',
+  //   element: <IO />,
+  // },
 ];
 
 export const router = createHashRouter([

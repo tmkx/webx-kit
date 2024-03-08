@@ -29,9 +29,9 @@ export function Profile() {
       }
       action={
         <Toolbar aria-label="Profile toolbar">
-          <Button variant="secondary" icon={<DownloadIcon size={16} />}>
+          {/* <Button variant="secondary" icon={<DownloadIcon size={16} />}>
             Export PAC
-          </Button>
+          </Button> */}
           <RenameProfile profile={profile} onProfileChange={setProfile} />
           <DeleteProfile profileId={profileId} profile={profile} />
         </Toolbar>

@@ -1,5 +1,5 @@
 import { NormalLayout } from '../layout';
 
 export function About() {
-  return <NormalLayout title="About">About</NormalLayout>;
+  return <NormalLayout title="About">Another proxy configuration tool</NormalLayout>;
 }

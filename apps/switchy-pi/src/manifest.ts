@@ -3,7 +3,7 @@ import { defineManifest } from '@webx-kit/modernjs-plugin/manifest';
 export default defineManifest(() => ({
   manifest_version: 3,
   name: 'Proxy Switchy Pi',
-  version: '0.0.0',
+  version: '0.0.2',
   permissions: ['storage', 'proxy'],
   icons: {
     256: 'public/logo.png',
