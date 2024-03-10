@@ -7,6 +7,7 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
+    "@react-aria/interactions": "^3.21.1",
     "@trpc/client": "11.0.0-next-beta.248",
     "@trpc/server": "11.0.0-next-beta.248",
     "@webx-kit/messaging": "workspace:^",

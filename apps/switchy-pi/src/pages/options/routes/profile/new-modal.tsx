@@ -3,7 +3,7 @@ import { DialogTrigger, DialogTriggerProps, Form, Heading } from 'react-aria-com
 import { Button, Dialog, Label, Modal, Radio, RadioGroup, TextField } from '@/components';
 import { profileIcons } from './shared';
 import { profileFamily, profileListAtom } from '@/atoms/profile';
-import { FixedProfile, createDefaultProfile } from '@/schemas';
+import { createDefaultProfile } from '@/schemas';
 import { createElement } from 'react';
 
 interface NewProfileModalProps extends Pick<DialogTriggerProps, 'isOpen' | 'onOpenChange'> {

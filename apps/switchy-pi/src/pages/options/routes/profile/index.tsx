@@ -38,6 +38,7 @@ export function Profile() {
       }
     >
       <FixedServers
+        className="pb-4"
         profile={profile as FixedProfile}
         onSave={(newProfile) => {
           console.log(newProfile);
