@@ -35,11 +35,15 @@ export function createDefaultProfile(name: string): FixedProfile {
     profileType: 'FixedProfile',
     name,
     color: '#000',
-    bypassList: [],
     fallbackProxy: {
       scheme: 'http',
       host: 'example.com',
       port: 80,
     },
+    bypassList: [
+      { conditionType: '', pattern: '127.0.0.1' },
+      { conditionType: '', pattern: '[::1]' },
+      { conditionType: '', pattern: 'localhost' },
+    ],
   };
 }

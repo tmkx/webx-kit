@@ -104,6 +104,9 @@ importers:
 
   apps/switchy-pi:
     dependencies:
+      '@react-aria/interactions':
+        specifier: ^3.21.1
+        version: 3.21.1(patch_hash=zh3ezbyzkcsiy3qb6pb6hucutm)(react@18.2.0)
       '@trpc/client':
         specifier: 11.0.0-next-beta.248
         version: 11.0.0-next-beta.248(@trpc/server@11.0.0-next-beta.248)

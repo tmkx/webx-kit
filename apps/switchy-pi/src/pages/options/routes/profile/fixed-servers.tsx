@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Form, TableBody } from 'react-aria-components';
 import { Control, Controller, useController, useForm } from 'react-hook-form';
 import {
@@ -14,17 +14,19 @@ import {
   TableHeader,
   TextField,
   Toolbar,
+  TextAreaField,
 } from '@/components';
 import { FixedProfile } from '@/schemas';
 
 interface FixedServersProps {
+  className?: string;
   profile: FixedProfile;
   onSave: (values: FixedProfile) => void;
 }
 
-export function FixedServers({ profile, onSave }: FixedServersProps) {
+export function FixedServers({ className, profile, onSave }: FixedServersProps) {
   return (
-    <div>
+    <div className={className}>
       <div>
         <h2 className="text-2xl">Proxy Servers</h2>
         <ProxyServerForm
@@ -37,6 +39,7 @@ export function FixedServers({ profile, onSave }: FixedServersProps) {
       </div>
       <div>
         <h2 className="text-2xl">Bypass List</h2>
+        <ProxyBypassForm className="m-4" profile={profile} onSubmit={onSave} />
       </div>
     </div>
   );
@@ -54,7 +57,7 @@ const advancedSchemes = ['proxyForHttp', 'proxyForHttps', 'proxyForFtp'] as cons
 interface ProxyServerFormProps {
   className?: string;
   profile: FixedProfile;
-  onSubmit: (formValues: FixedProfile, ev?: React.BaseSyntheticEvent) => void;
+  onSubmit: (formValues: Partial<FixedProfile>, ev?: React.BaseSyntheticEvent) => void;
 }
 
 function ProxyServerForm({ className, profile, onSubmit }: ProxyServerFormProps) {
@@ -141,6 +144,49 @@ function ProxyServerForm({ className, profile, onSubmit }: ProxyServerFormProps)
     </Form>
   );
 }
+interface ProxyProxyFormProps {
+  className?: string;
+  profile: FixedProfile;
+  onSubmit: (formValues: FixedProfile, ev?: React.BaseSyntheticEvent) => void;
+}
+
+function ProxyBypassForm({ className, profile, onSubmit }: ProxyProxyFormProps) {
+  const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
+    ev.preventDefault();
+    const { bypassList } = Object.fromEntries(new FormData(ev.currentTarget));
+    onSubmit(
+      {
+        ...profile,
+        bypassList: String(bypassList)
+          .split('\n')
+          .map((row) => row.trim())
+          .filter((row) => row)
+          .map((row) => ({ conditionType: '', pattern: row })),
+      },
+      ev
+    );
+  };
+
+  const defaultValue = useMemo(() => profile.bypassList.map((item) => item.pattern).join('\n'), [profile]);
+
+  return (
+    <Form className={className} onSubmit={handleSubmit}>
+      <TextAreaField
+        className="font-mono"
+        name="bypassList"
+        aria-label="Bypass list"
+        rows={10}
+        defaultValue={defaultValue}
+      />
+      <Toolbar className="mt-2 justify-end">
+        <Button type="reset" variant="secondary">
+          Reset
+        </Button>
+        <Button type="submit">Save</Button>
+      </Toolbar>
+    </Form>
+  );
+}
 
 function AdvancedSchemeRow({
   control,
@@ -217,7 +263,9 @@ function ProtocolSelect<T extends object>({
   );
 }
 
-export function computeProxyRulesFromFormValues(formValues: FixedProfile): Omit<chrome.proxy.ProxyRules, 'bypassList'> {
+export function computeProxyRulesFromFormValues(
+  formValues: Partial<FixedProfile>
+): Omit<chrome.proxy.ProxyRules, 'bypassList'> {
   const { fallbackProxy, proxyForHttp, proxyForHttps, proxyForFtp } = formValues;
   const rules: chrome.proxy.ProxyRules = {};
   if ([proxyForHttp, proxyForHttps, proxyForFtp].some((type) => type && type.scheme === 'DEFAULT')) {
