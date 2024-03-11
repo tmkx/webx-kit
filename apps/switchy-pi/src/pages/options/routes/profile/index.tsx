@@ -6,6 +6,8 @@ import { useDeleteProfile, useProfile } from '@/hooks';
 import type { FixedProfile, Profile as ProfileType } from '@/schemas';
 import { NormalLayout } from '../layout';
 import { FixedServers } from './fixed-servers';
+import { generatePACFromFixedProfile } from '@/utils/pac';
+import { downloadTextAsFile } from '@/utils/misc';
 
 interface ProfileRouteParams {
   [key: string]: string | undefined;
@@ -29,9 +31,7 @@ export function Profile() {
       }
       action={
         <Toolbar aria-label="Profile toolbar">
-          <Button variant="secondary" icon={<DownloadIcon size={16} />}>
-            Export PAC
-          </Button>
+          <ExportProfile profile={profile} />
           <RenameProfile profile={profile} onProfileChange={setProfile} />
           <DeleteProfile profileId={profileId} profile={profile} />
         </Toolbar>
@@ -46,6 +46,19 @@ export function Profile() {
         }}
       />
     </NormalLayout>
+  );
+}
+
+function ExportProfile({ profile }: { profile: ProfileType }) {
+  const handleExport = () => {
+    if (profile.profileType !== 'FixedProfile') return;
+    const pacContent = generatePACFromFixedProfile(profile);
+    downloadTextAsFile(pacContent, `SwitchyPiProfile_${profile.name}.pac`);
+  };
+  return (
+    <Button variant="secondary" icon={<DownloadIcon size={16} />} onPress={handleExport}>
+      Export PAC
+    </Button>
   );
 }
 
