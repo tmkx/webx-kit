@@ -1,36 +1,31 @@
 {
-  "name": "@webx-kit/rsbuild-plugin",
+  "name": "@webx-kit/core-plugin",
   "version": "0.0.0",
   "exports": {
-    ".": {
-      "types": "./src/index.ts",
-      "default": "./src/index.ts"
-    },
     "./manifest": {
       "types": "./src/manifest.ts",
       "default": "./src/manifest.ts"
+    },
+    "./utils": {
+      "types": "./src/utils.ts",
+      "default": "./src/utils.ts"
     }
   },
-  "types": "./src/index.ts",
   "publishConfig": {
     "exports": {
-      ".": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
       "./manifest": {
         "types": "./dist/manifest.d.ts",
         "default": "./dist/manifest.js"
+      },
+      "./utils": {
+        "types": "./dist/utils.d.ts",
+        "default": "./dist/utils.js"
       }
-    },
-    "types": "./dist/index.d.ts"
+    }
   },
-  "files": [
-    "dist"
-  ],
   "repository": {
     "url": "https://github.com/tmkx/webx-kit.git",
-    "directory": "packages/rsbuild-plugin"
+    "directory": "packages/core-plugin"
   },
   "scripts": {
     "build": "tsup",
@@ -38,17 +33,14 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@types/chrome": "^0.0.262",
-    "@webx-kit/core-plugin": "workspace:^"
+    "@types/chrome": "^0.0.262"
   },
   "devDependencies": {
-    "@modern-js/utils": "^2.48.0",
-    "@rsbuild/shared": "^0.4.8",
+    "@rsbuild/shared": "^0.4.9",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3"
   },
   "peerDependencies": {
-    "@modern-js/utils": "^2.40.0",
     "@rsbuild/shared": "^0.3.0"
   }
 }

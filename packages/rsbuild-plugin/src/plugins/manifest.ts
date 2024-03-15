@@ -1,7 +1,8 @@
 import path from 'node:path';
-import { RsbuildPluginAPI, isDev, fse } from '@rsbuild/shared';
-import { FSWatcher, watch } from '@rsbuild/shared/chokidar';
-import { evalFile } from '../utils';
+import { RsbuildPluginAPI, fse } from '@rsbuild/shared';
+import { DEFAULT_MANIFEST_SRC, ManifestTransformer, createManifestGenerator } from '@webx-kit/core-plugin/manifest';
+
+export { type ManifestTransformer, registerManifestTransformer } from '@webx-kit/core-plugin/manifest';
 
 export type ManifestOptions = {
   /**
@@ -10,37 +11,34 @@ export type ManifestOptions = {
    * @default `./src/manifest.ts`
    */
   manifest?: string;
-};
 
-const DEFAULT_MANIFEST_SRC = './src/manifest.ts';
+  /**
+   * The final phase of modifying manifest content
+   */
+  transformManifest?: ManifestTransformer;
+};
 
 export const applyManifestSupport = (api: RsbuildPluginAPI, options: ManifestOptions) => {
   const { rootPath } = api.context;
   const sourcePath = path.join(rootPath, options.manifest || DEFAULT_MANIFEST_SRC);
 
-  async function generateManifest() {
-    await fse.ensureDir(api.context.distPath);
-    const outputPath = path.join(api.context.distPath, 'manifest.json');
-
-    const {
-      mod: { default: manifest },
-    } = await evalFile<{ default: unknown }>(sourcePath);
-    const content = isDev() ? JSON.stringify(manifest, null, 2) : JSON.stringify(manifest);
-    await fse.writeFile(outputPath, content);
-  }
-
-  let watcher: FSWatcher | undefined;
-
-  api.onAfterStartDevServer(({ port }) => {
-    process.env.PORT = String(port);
-    watcher = watch(sourcePath).on('change', (changedFilePath) => {
-      if (changedFilePath !== sourcePath) return;
-      generateManifest();
-    });
-    return generateManifest();
+  const { context, generate, watch, close } = createManifestGenerator({
+    sourcePath,
+    transformManifest: options.transformManifest,
   });
 
-  api.onAfterBuild(() => generateManifest());
+  api.onBeforeCreateCompiler(async () => {
+    context.outputPath = path.join(api.context.distPath, 'manifest.json');
+    await fse.ensureDir(api.context.distPath);
+  });
 
-  api.onExit(() => watcher?.close());
+  api.onAfterStartDevServer(async ({ port }) => {
+    process.env.PORT = String(port);
+    watch();
+    await generate();
+  });
+
+  api.onAfterBuild(async () => void (await generate()));
+
+  api.onExit(() => close());
 };

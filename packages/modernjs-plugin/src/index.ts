@@ -1,13 +1,15 @@
 import path from 'node:path';
 import { AppTools, CliPlugin, UserConfig, mergeConfig } from '@modern-js/app-tools';
-import { WebpackChain, isDev, pkgUp, lodash } from '@modern-js/utils';
+import { WebpackChain, pkgUp, lodash } from '@modern-js/utils';
+import { isDev } from '@rsbuild/shared';
+import { titleCase } from '@webx-kit/core-plugin/utils';
 import { BackgroundOptions, backgroundPlugin, getBackgroundEntryNames } from './plugins/background';
 import { ContentScriptsOptions, contentScriptsPlugin, getContentScriptEntryNames } from './plugins/content-scripts';
 import { CleanOptions, cleanPlugin } from './plugins/clean';
 import { hmrCorsPlugin } from './plugins/hmr-cors';
 import { ManifestOptions, manifestPlugin } from './plugins/manifest';
 
-export { isDev, isProd } from '@modern-js/utils';
+export { isDev, isProd } from '@rsbuild/shared';
 
 export type { BackgroundEntry } from './plugins/background';
 export type { ContentScriptEntry } from './plugins/content-scripts';
@@ -98,11 +100,3 @@ export const webxPlugin = (options: WebxPluginOptions = {}): CliPlugin<AppTools<
     },
   };
 };
-
-function titleCase(str: string) {
-  return str
-    .split(/[-_ ]/)
-    .map((seg) => seg.replace(/^[a-z]/, (char) => char.toUpperCase()))
-    .filter(Boolean)
-    .join(' ');
-}

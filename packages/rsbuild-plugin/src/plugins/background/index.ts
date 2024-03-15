@@ -1,5 +1,6 @@
 import { RsbuildEntry, RsbuildPluginAPI, isDev } from '@rsbuild/shared';
 import { BackgroundReloadPlugin } from './live-reload-plugin';
+import { registerManifestTransformer } from '../manifest';
 
 export type BackgroundEntry = {
   name: string;
@@ -36,12 +37,21 @@ export const applyBackgroundSupport = (
   const entry: BackgroundEntry =
     typeof background === 'string' ? { name: DEFAULT_BACKGROUND_NAME, import: background } : background;
 
+  const backgroundFilename = 'background.mjs';
+  registerManifestTransformer(function background(manifest) {
+    manifest.background = {
+      service_worker: backgroundFilename,
+      type: 'module',
+    };
+  });
+
   api.modifyBundlerChain((chain) => {
     chain.entryPoints.set(entry.name, {
       values: () =>
         ({
           import: entry.import,
           library: { type: 'module' },
+          filename: backgroundFilename,
         } satisfies RsbuildEntry[string]),
     } as any);
 

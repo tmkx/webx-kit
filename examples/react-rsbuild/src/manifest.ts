@@ -1,15 +1,11 @@
-const isDev = process.env.NODE_ENV === 'development';
+import { defineManifest } from '@webx-kit/rsbuild-plugin/manifest';
 
-const manifest: chrome.runtime.ManifestV3 = {
+export default defineManifest(() => ({
   manifest_version: 3,
   name: 'WebX Kit React Rsbuild Demo',
   version: '0.0.0',
   icons: {
     512: 'public/logo.png',
-  },
-  background: {
-    service_worker: 'static/js/background.js',
-    type: 'module',
   },
   action: {
     default_popup: 'popup.html',
@@ -32,14 +28,4 @@ const manifest: chrome.runtime.ManifestV3 = {
       resources: ['static/css/*', 'static/svg/*'],
     },
   ],
-
-  ...(isDev
-    ? {
-        content_security_policy: {
-          extension_pages: `script-src 'self' http://localhost:${process.env.PORT}/; object-src 'self' http://localhost:${process.env.PORT}/`,
-        },
-      }
-    : {}),
-};
-
-export default manifest;
+}));
