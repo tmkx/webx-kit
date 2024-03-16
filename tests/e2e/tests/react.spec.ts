@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { expect } from '@playwright/test';
 import { startDev, test } from './webx-test';
-import { setupStaticServer } from '@webx-kit/test-utils/playwright';
+import { gotoDevPage, setupStaticServer } from '@webx-kit/test-utils/playwright';
 
 const { updateFile } = startDev(test);
 const getWebpageURL = setupStaticServer(test);
@@ -32,7 +32,7 @@ test('Background', async ({ background, context, extensionId }) => {
 });
 
 test('Options Page', async ({ getURL, page }) => {
-  await page.goto(await getURL('options.html'));
+  await gotoDevPage(page, await getURL('options.html'));
   await expect(page.locator('#root')).toHaveText('Options Page');
 
   const randomID = randomUUID();
