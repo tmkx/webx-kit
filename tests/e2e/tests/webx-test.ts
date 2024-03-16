@@ -37,7 +37,7 @@ export const test = webxTest.extend<{
 
 export const expect = test.expect;
 
-export function startDev({ beforeAll, afterAll, afterEach }: typeof test) {
+export function startDev({ beforeAll, afterAll, beforeEach, afterEach }: typeof test) {
   let baseDir: string;
   let childProcess: execa.ExecaChildProcess<string>;
 
@@ -45,7 +45,7 @@ export function startDev({ beforeAll, afterAll, afterEach }: typeof test) {
     testInfo.setTimeout(30 * 1000);
     baseDir = packageDir;
     const { stdout: dirtyFiles } = await execa('git', ['ls-files', '--modified'], { cwd: packageDir });
-    if (!!dirtyFiles) throw new Error('Make sure all modifications have been staged');
+    if (!!dirtyFiles) throw new Error(`Make sure all modifications have been staged:\n${dirtyFiles}`);
     const PORT = String(await getRandomPort());
     childProcess = execa('pnpm', ['dev'], {
       cwd: packageDir,
@@ -55,7 +55,7 @@ export function startDev({ beforeAll, afterAll, afterEach }: typeof test) {
       new Promise<void>((resolve) => {
         const handler = (chunk: unknown) => {
           const message = stripAnsi(String(chunk));
-          !process.env.CI && message && console.log(message);
+          !process.env.CI && message && console.log(message.trim());
           if (message.includes('Client compiled in')) {
             childProcess.stdout?.removeListener('data', handler);
             resolve();
@@ -65,6 +65,23 @@ export function startDev({ beforeAll, afterAll, afterEach }: typeof test) {
       }),
       childProcess.catch((reason): Promise<void> => Promise.reject(reason.message)),
     ]);
+  });
+  beforeEach(async ({ context }, { title }) => {
+    if (title !== 'Background') return;
+    const page = await context.newPage();
+    await page.goto('chrome://extensions/');
+    await page.evaluate(async () => {
+      const extensions = await chrome.developerPrivate.getExtensionsInfo();
+      for (const view of extensions
+        .flatMap((ext) => ext.views)
+        .filter((view) => view.type === chrome.developerPrivate.ViewType.EXTENSION_SERVICE_WORKER_BACKGROUND)) {
+        try {
+          // keep background alive
+          await chrome.developerPrivate.openDevTools(view);
+        } catch {}
+      }
+    });
+    await page.close();
   });
   afterEach(async () => {
     const { default: pRetry } = (await dynamicImport('p-retry')) as typeof import('p-retry');

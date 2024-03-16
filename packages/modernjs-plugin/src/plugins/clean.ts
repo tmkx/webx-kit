@@ -1,6 +1,5 @@
 import path from 'node:path';
-import { fs } from '@modern-js/utils';
-import { RsbuildPlugin } from '@rsbuild/shared';
+import { RsbuildPlugin, fse } from '@rsbuild/shared';
 
 export type CleanOptions = {
   /**
@@ -22,7 +21,7 @@ export const cleanPlugin = ({ clean = DEFAULT_CLEAN_FILES }: CleanOptions): Rsbu
       api.onAfterBuild(async () => {
         for (const file of clean) {
           const filePath = path.resolve(distPath, file);
-          if (fs.existsSync(filePath)) await fs.unlink(filePath);
+          if (fse.existsSync(filePath)) await fse.unlink(filePath);
         }
       });
     },

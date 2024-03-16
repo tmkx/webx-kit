@@ -1,5 +1,5 @@
 /// <reference types="@webx-kit/chrome-types" />
-import { BrowserType, TestType, Worker, test as base, chromium } from '@playwright/test';
+import { BrowserType, Page, TestType, Worker, test as base, chromium } from '@playwright/test';
 import { CreateStaticServerOptions, createStaticServer, sleep } from './shared';
 
 export * from './shared';
@@ -59,4 +59,8 @@ export function setupStaticServer(test: TestType<any, any>, serverOptions?: Crea
   test.afterAll(() => result?.close());
 
   return () => result?.getURL() || 'about:blank';
+}
+
+export async function gotoDevPage(page: Page, ...args: Parameters<Page['goto']>) {
+  return (await Promise.all([page.goto(...args), page.waitForEvent('websocket').catch(() => {})]))[0];
 }
