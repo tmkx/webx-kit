@@ -9,5 +9,6 @@
     "declaration": true,
     "isolatedModules": true,
     "allowJs": true
-  }
+  },
+  "exclude": ["dist"]
 }

@@ -440,6 +440,9 @@ importers:
       '@trpc/server':
         specifier: 11.0.0-next-beta.248
         version: 11.0.0-next-beta.248
+      '@types/chrome':
+        specifier: ^0.0.262
+        version: 0.0.262
       '@types/node':
         specifier: ^20.11.24
         version: 20.11.24
@@ -452,6 +455,9 @@ importers:
       '@webx-kit/test-utils':
         specifier: workspace:^
         version: link:../test-utils
+      tsup:
+        specifier: ^8.0.2
+        version: 8.0.2(typescript@5.3.3)
       typescript:
         specifier: ^5.3.3
         version: 5.3.3
@@ -518,6 +524,9 @@ importers:
       '@playwright/test':
         specifier: ^1.42.1
         version: 1.42.1
+      tsup:
+        specifier: ^8.0.2
+        version: 8.0.2(typescript@5.3.3)
       typescript:
         specifier: ^5.3.3
         version: 5.3.3

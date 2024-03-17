@@ -5,12 +5,15 @@
     "webx-launch": "bin/webx-launch.mjs"
   },
   "exports": {
-    "./*": {
-      "types": "./src/*.ts",
-      "default": "./src/*.ts"
+    "./playwright": {
+      "types": "./src/playwright.ts",
+      "default": "./src/playwright.ts"
+    },
+    "./shared": {
+      "types": "./src/shared.ts",
+      "default": "./src/shared.ts"
     }
   },
-  "types": "./src/index.ts",
   "typesVersions": {
     "*": {
       "*": [
@@ -20,12 +23,15 @@
   },
   "publishConfig": {
     "exports": {
-      "./*": {
-        "types": "./dist/*.d.ts",
-        "default": "./dist/*.js"
+      "./playwright": {
+        "types": "./dist/playwright.d.ts",
+        "default": "./dist/playwright.js"
+      },
+      "./shared": {
+        "types": "./dist/shared.d.ts",
+        "default": "./dist/shared.js"
       }
     },
-    "types": "./dist/index.d.ts",
     "typesVersions": {
       "*": {
         "*": [
@@ -38,7 +44,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc -p ./tsconfig.build.json",
+    "prepack": "tsc -p ./tsconfig.build.json",
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
