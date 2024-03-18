@@ -1,5 +1,5 @@
 import { PortalContainerContext } from '@/components/shared';
-import { isPageInDark } from '@webx-kit/runtime/content-scripts/env';
+import { isPageInDark } from '@webx-kit/runtime/content-scripts';
 import { useContext } from 'react';
 import { createPortal } from 'react-dom';
 

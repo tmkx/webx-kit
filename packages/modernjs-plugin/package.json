@@ -33,8 +33,7 @@
     "directory": "packages/modernjs-plugin"
   },
   "scripts": {
-    "build": "tsup",
-    "prepack": "pnpm build",
+    "prepack": "tsup",
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {

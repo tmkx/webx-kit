@@ -52,6 +52,24 @@ jobs:
           pnpm i --frozen-lockfile
           pnpm playwright install
 
+      - if: ${{ matrix.os == 'ubuntu-latest' }}
+        name: Replace with tarball
+        run: |
+          pnpm --filter "./packages/*" exec pnpm pack
+          tmp=$(mktemp)
+
+          find packages -name 'package.json' | while read file
+          do
+            name=$(cat $file | jq --raw-output .name)
+            version=$(cat $file | jq --raw-output .version)
+            path="$(pwd)/$(echo $file | sed -E 's/package.json$//g')$(echo $name | sed -E 's/@//g' | sed -E 's/\//-/g')-$version.tgz"
+            echo "$(cat package.json | jq ".pnpm.overrides[\"$name\"] = \"$path\"")" > "$tmp"
+            mv "$tmp" package.json
+          done
+
+          echo "$(cat package.json | jq ".pnpm.peerDependencyRules.ignoreMissing = [\"*\"]")" > "$tmp" && mv "$tmp" package.json
+          pnpm i --no-frozen-lockfile
+
       - if: ${{ github.event_name == 'pull_request' }}
         name: On pull request
         run: pnpm nx affected -t build,lint:type,test

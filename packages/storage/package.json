@@ -30,7 +30,7 @@
   ],
   "scripts": {
     "dev": "modern dev",
-    "build": "tsup",
+    "prepack": "tsup",
     "pretest": "modern build",
     "test": "playwright test",
     "lint:type": "tsc --noEmit"

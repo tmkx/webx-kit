@@ -28,8 +28,7 @@
     "directory": "packages/core-plugin"
   },
   "scripts": {
-    "build": "tsup",
-    "prepack": "pnpm build",
+    "prepack": "tsup",
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {

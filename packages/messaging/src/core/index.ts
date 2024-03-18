@@ -101,7 +101,7 @@ export interface RequestOptions {
 export interface Messaging {
   name?: string;
   request(data: unknown, options?: RequestOptions): Promise<unknown>;
-  stream(data: unknown, observer: Partial<Observer<any>>): VoidCallback;
+  stream(data: unknown, observer: Partial<Observer<any>>): VoidFunction;
   dispose(): void;
 }
 
