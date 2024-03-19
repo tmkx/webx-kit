@@ -1,14 +1,18 @@
 import { Rspack } from '@rsbuild/shared';
+import { ROOT_NAME, STYLE_ROOT_NAME } from '@webx-kit/core-plugin/constants';
 import { ContentScriptBasePlugin } from './base-plugin';
-import { ROOT_NAME, STYLE_ROOT_NAME } from './constants.mjs';
 import type { JsRuntimeModule } from '../../utils/types';
 
+export const PLUGIN_NAME = 'ContentScriptShadowRootPlugin';
+
 export class ContentScriptShadowRootPlugin extends ContentScriptBasePlugin {
+  name = PLUGIN_NAME;
+
   apply(compiler: Rspack.Compiler) {
     const { isEnabledForChunk } = this;
 
-    compiler.hooks.thisCompilation.tap('ContentScriptShadowRootPlugin', (compilation) => {
-      compilation.hooks.runtimeModule.tap('ContentScriptShadowRootPlugin', (module, chunk) => {
+    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation) => {
+      compilation.hooks.runtimeModule.tap(PLUGIN_NAME, (module, chunk) => {
         if (!isEnabledForChunk(chunk)) return;
         if (module.name === 'css_loading') patchCSSLoadingRuntimeModule(module);
       });

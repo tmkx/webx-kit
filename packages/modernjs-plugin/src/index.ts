@@ -1,18 +1,26 @@
 import path from 'node:path';
 import { AppTools, CliPlugin, UserConfig, mergeConfig } from '@modern-js/app-tools';
 import { WebpackChain, pkgUp, lodash } from '@modern-js/utils';
-import { isDev } from '@rsbuild/shared';
+import { RsbuildPlugin, isDev } from '@rsbuild/shared';
+import { BackgroundOptions, applyBackgroundSupport, getBackgroundEntryNames } from '@webx-kit/core-plugin/background';
+import {
+  ContentScriptsOptions,
+  applyContentScriptsSupport,
+  getContentScriptEntryNames,
+} from '@webx-kit/core-plugin/content-script';
+import { ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
 import { titleCase } from '@webx-kit/core-plugin/utils';
-import { BackgroundOptions, backgroundPlugin, getBackgroundEntryNames } from './plugins/background';
-import { ContentScriptsOptions, contentScriptsPlugin, getContentScriptEntryNames } from './plugins/content-scripts';
-import { CleanOptions, cleanPlugin } from './plugins/clean';
-import { hmrCorsPlugin } from './plugins/hmr-cors';
-import { ManifestOptions, manifestPlugin } from './plugins/manifest';
+import { BackgroundReloadPlugin } from './plugins/background/live-reload-plugin';
+import { CleanOptions, applyCleanSupport } from './plugins/clean';
+import { applyHMRCorsSupport } from './plugins/hmr-cors';
+import { ContentScriptHMRPlugin } from './plugins/content-scripts/hmr-plugin';
+import { ContentScriptPublicPathPlugin } from './plugins/content-scripts/public-path-plugin';
+import { ContentScriptShadowRootPlugin } from './plugins/content-scripts/shadow-root-plugin';
 
 export { isDev, isProd } from '@rsbuild/shared';
 
-export type { BackgroundEntry } from './plugins/background';
-export type { ContentScriptEntry } from './plugins/content-scripts';
+export type { BackgroundEntry } from '@webx-kit/core-plugin/background';
+export type { ContentScriptEntry } from '@webx-kit/core-plugin/content-script';
 
 export interface WebxPluginOptions extends BackgroundOptions, ContentScriptsOptions, CleanOptions, ManifestOptions {}
 
@@ -90,13 +98,26 @@ export const webxPlugin = (options: WebxPluginOptions = {}): CliPlugin<AppTools<
       const defaultConfig = getDefaultConfig({ allInOneEntries });
       Object.assign(config, mergeConfig([defaultConfig, config]));
 
-      (config.builderPlugins ??= []).push(
-        backgroundPlugin(options),
-        contentScriptsPlugin(options),
-        cleanPlugin(options),
-        hmrCorsPlugin(),
-        manifestPlugin(options)
-      );
+      (config.builderPlugins ??= []).push(webxBuilderPlugin(options));
     },
   };
 };
+
+function webxBuilderPlugin(options: WebxPluginOptions): RsbuildPlugin {
+  return {
+    name: '@webx-kit/modernjs-plugin/builder',
+    setup(api) {
+      applyBackgroundSupport(api, options, ({ entryName, backgroundLiveReload }) =>
+        isDev() ? [new BackgroundReloadPlugin(entryName, backgroundLiveReload)] : []
+      );
+      applyContentScriptsSupport(api, options, ({ contentScriptNames }) =>
+        isDev()
+          ? [new ContentScriptHMRPlugin(contentScriptNames), new ContentScriptShadowRootPlugin(contentScriptNames)]
+          : [new ContentScriptPublicPathPlugin(contentScriptNames)]
+      );
+      applyManifestSupport(api, options);
+      applyCleanSupport(api, options);
+      applyHMRCorsSupport(api);
+    },
+  };
+}

@@ -1,17 +1,21 @@
 import type { Rspack } from '@rsbuild/shared';
+import { generateLoadScriptCode } from '@webx-kit/core-plugin/background';
 import type { JsChunk, JsRuntimeModule } from '../../utils/types';
 
+export const PLUGIN_NAME = 'BackgroundReloadPlugin';
+
 export class BackgroundReloadPlugin {
+  name = PLUGIN_NAME;
+
   constructor(readonly backgroundEntryName: string, readonly autoReload: boolean) {}
 
   apply(compiler: Rspack.Compiler) {
     const autoReload = this.autoReload;
 
-    compiler.hooks.thisCompilation.tap('BackgroundReloadPlugin', (compilation) => {
-      compilation;
+    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation) => {
       const isEnabledForChunk = (chunk: JsChunk) => chunk.chunkReasons.includes('Entrypoint(background)');
 
-      compilation.hooks.runtimeModule.tap('BackgroundReloadPlugin', (module, chunk) => {
+      compilation.hooks.runtimeModule.tap(PLUGIN_NAME, (module, chunk) => {
         if (!isEnabledForChunk(chunk)) return;
         if (module.name === 'load_script')
           patchLoadScriptRuntimeModule(module, chunk, compiler, compilation, autoReload);
@@ -25,45 +29,16 @@ function patchLoadScriptRuntimeModule(
   module: JsRuntimeModule,
   chunk: JsChunk,
   { webpack: { RuntimeGlobals } }: Rspack.Compiler,
-  { outputOptions: { hotUpdateGlobal } }: Rspack.Compilation,
+  { outputOptions }: Rspack.Compilation,
   autoReload: boolean
 ) {
   if (!module.source) return;
   module.name = 'background load script';
 
-  // shim window.location.reload() behavior
-  const windowReloadShim = autoReload
-    ? `self.window = { location: { reload: () => { chrome.runtime.reload(); } } };`
-    : `self.window = { location: { reload: () => { /* noop */ } } };`;
-
-  // jsonp is not working in the ServiceWorker environment, and dynamic scripts are NOT supported
-  const loadScript = [
-    // jsonp is not working in the ServiceWorker environment, and dynamic scripts are NOT supported
-    `${RuntimeGlobals.loadScript} = async function (url, done, key, chunkId) {
-    const code = await fetch(url).then((res) => res.text());`,
-    // __webpack_require__.h = function() { return "xxxxxxxx"; }
-    // __webpack_require__.h = function() {
-    //  return "xxxxxxxx";
-    // }
-    // __webpack_require__.h = () => ("xxxxxxxx")
-    `const [, hash] = /__webpack_require__\\.h =[\\s\\S]+?"(\\w+)"/.exec(code) || [];`,
-
-    autoReload
-      ? // /**** "moduleId":
-        // "moduleId":
-        `const hasUpdate = /^[\/*\\s]*".+":/m.test(code);
-       if (hasUpdate) { chrome.runtime.reload(); }`
-      : ``,
-
-    // update the full hash, tell HMR client that we are done
-    `self[${JSON.stringify(hotUpdateGlobal)}](${JSON.stringify(chunk.id)},
-        {}, (__webpack_require__) => { __webpack_require__.h = () => hash; }
-      );
-      done(null);
-    };`,
-  ].join(';\n');
-
-  module.source.source = Buffer.from([windowReloadShim, loadScript].join(';'), 'utf-8');
+  module.source.source = Buffer.from(
+    generateLoadScriptCode({ RuntimeGlobals, outputOptions, chunkId: chunk.id, autoReload }).join(';'),
+    'utf-8'
+  );
 }
 
 function clearRuntimeModule(module: JsRuntimeModule) {
