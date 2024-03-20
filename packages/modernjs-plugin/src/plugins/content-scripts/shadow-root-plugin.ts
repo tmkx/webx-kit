@@ -1,14 +1,18 @@
 import path from 'node:path';
 import type { webpack as webpackNS } from '@modern-js/app-tools';
+import { ROOT_NAME, STYLE_ROOT_NAME } from '@webx-kit/core-plugin/constants';
 import { ContentScriptBasePlugin } from './base-plugin';
-import { ROOT_NAME, STYLE_ROOT_NAME } from './constants.mjs';
+
+export const PLUGIN_NAME = 'ContentScriptShadowRootPlugin';
 
 export class ContentScriptShadowRootPlugin extends ContentScriptBasePlugin {
+  name = PLUGIN_NAME;
+
   apply(compiler: webpackNS.Compiler) {
     const { isEnabledForChunk } = this;
 
-    compiler.hooks.thisCompilation.tap('ContentScriptShadowRootPlugin', (compilation) => {
-      compilation.hooks.runtimeModule.tap('ContentScriptShadowRootPlugin', (module, chunk) => {
+    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation) => {
+      compilation.hooks.runtimeModule.tap(PLUGIN_NAME, (module, chunk) => {
         if (!isEnabledForChunk(chunk)) return;
         if (module.name === 'css loading') patchCSSLoadingRuntimeModule(module);
       });
@@ -17,7 +21,10 @@ export class ContentScriptShadowRootPlugin extends ContentScriptBasePlugin {
     new compiler.webpack.NormalModuleReplacementPlugin(
       /mini-css-extract-plugin\/dist\/hmr\/hotModuleReplacement\.js$/,
       (resolveData) => {
-        const shadowRootLoader = path.resolve(__dirname, 'shadow-root-loader.js');
+        const shadowRootLoader = path.resolve(
+          __dirname,
+          process.env.NODE_ENV === 'development' ? 'shadow-root-loader-dev.js' : 'shadow-root-loader.js'
+        );
         resolveData.request = `${shadowRootLoader}!${resolveData.request}`;
       }
     ).apply(compiler);

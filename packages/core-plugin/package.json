@@ -2,6 +2,18 @@
   "name": "@webx-kit/core-plugin",
   "version": "0.0.0",
   "exports": {
+    "./background": {
+      "types": "./src/background.ts",
+      "default": "./src/background.ts"
+    },
+    "./constants": {
+      "types": "./src/constants.ts",
+      "default": "./src/constants.ts"
+    },
+    "./content-script": {
+      "types": "./src/content-script.ts",
+      "default": "./src/content-script.ts"
+    },
     "./manifest": {
       "types": "./src/manifest.ts",
       "default": "./src/manifest.ts"
@@ -13,6 +25,18 @@
   },
   "publishConfig": {
     "exports": {
+      "./background": {
+        "types": "./dist/background.d.ts",
+        "default": "./dist/background.js"
+      },
+      "./constants": {
+        "types": "./dist/constants.d.ts",
+        "default": "./dist/constants.js"
+      },
+      "./content-script": {
+        "types": "./dist/content-script.d.ts",
+        "default": "./dist/content-script.js"
+      },
       "./manifest": {
         "types": "./dist/manifest.d.ts",
         "default": "./dist/manifest.js"

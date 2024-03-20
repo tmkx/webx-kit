@@ -2,12 +2,16 @@ import type { Rspack } from '@rsbuild/shared';
 import { ContentScriptBasePlugin } from './base-plugin';
 import type { JsRuntimeModule } from '../../utils/types';
 
+export const PLUGIN_NAME = 'ContentScriptPublicPathPlugin';
+
 export class ContentScriptPublicPathPlugin extends ContentScriptBasePlugin {
+  name = PLUGIN_NAME;
+
   apply(compiler: Rspack.Compiler) {
     const { isEnabledForChunk } = this;
 
-    compiler.hooks.thisCompilation.tap('ContentScriptPublicPathPlugin', (compilation) => {
-      compilation.hooks.runtimeModule.tap('ContentScriptPublicPathPlugin', (module, chunk) => {
+    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation) => {
+      compilation.hooks.runtimeModule.tap(PLUGIN_NAME, (module, chunk) => {
         if (!isEnabledForChunk(chunk)) return;
         if (module.name === 'public_path') patchPublicPathRuntimeModule(module, compiler);
       });
