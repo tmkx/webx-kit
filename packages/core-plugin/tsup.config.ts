@@ -1,10 +1,18 @@
-import { defineConfig } from 'tsup';
+import { Options, defineConfig } from 'tsup';
 
-export default defineConfig({
-  entry: ['./src/*.ts'],
+export const sharedConfig: Options = {
+  define: {
+    'process.env.NODE_ENV': JSON.stringify('production'),
+  },
   outDir: './dist',
   format: 'cjs',
-  bundle: false,
   clean: true,
   dts: true,
+  minifySyntax: true,
+};
+
+export default defineConfig({
+  ...sharedConfig,
+  entry: ['./src/*.ts'],
+  bundle: false,
 });

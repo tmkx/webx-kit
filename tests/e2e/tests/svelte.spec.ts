@@ -46,7 +46,7 @@ test('Options Page', async ({ getURL, page }) => {
   expect(secret).toBe(randomID);
 });
 
-test('Content Scripts', async ({ page }) => {
+test('Content Scripts', async ({ page, background: _background }) => {
   await page.goto(getWebpageURL());
 
   await expect(page.locator('webx-root')).toBeInViewport();

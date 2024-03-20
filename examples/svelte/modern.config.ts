@@ -8,7 +8,10 @@ export default defineConfig({
     appTools(),
     webxPlugin({
       background: './src/background/index.ts',
-      contentScripts: './src/content-scripts/index.ts',
+      contentScripts: {
+        import: './src/content-scripts/index.ts',
+        matches: ['<all_urls>'],
+      },
     }),
   ],
   builderPlugins: [pluginSvelte()],

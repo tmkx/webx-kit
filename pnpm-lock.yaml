@@ -408,6 +408,9 @@ importers:
       '@types/chrome':
         specifier: ^0.0.262
         version: 0.0.262
+      type-fest:
+        specifier: ^4.10.3
+        version: 4.10.3
     devDependencies:
       '@rsbuild/shared':
         specifier: ^0.4.9
@@ -418,6 +421,9 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.3.3
+      webpack:
+        specifier: ^5.90.3
+        version: 5.90.3
 
   packages/messaging:
     dependencies:
