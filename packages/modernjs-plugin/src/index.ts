@@ -5,8 +5,10 @@ import { RsbuildPlugin, isDev } from '@rsbuild/shared';
 import { BackgroundOptions, applyBackgroundSupport, getBackgroundEntryNames } from '@webx-kit/core-plugin/background';
 import {
   ContentScriptsOptions,
+  NormalizeContentScriptsOptions,
   applyContentScriptsSupport,
   getContentScriptEntryNames,
+  normalizeContentScriptsOptions,
 } from '@webx-kit/core-plugin/content-script';
 import { ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
 import { titleCase } from '@webx-kit/core-plugin/utils';
@@ -94,16 +96,20 @@ export const webxPlugin = (options: WebxPluginOptions = {}): CliPlugin<AppTools<
     setup(api) {
       const config = api.useConfigContext();
 
-      const allInOneEntries = new Set([...getBackgroundEntryNames(options), ...getContentScriptEntryNames(options)]);
+      const normalizedOptions = normalizeContentScriptsOptions(options);
+      const allInOneEntries = new Set([
+        ...getBackgroundEntryNames(normalizedOptions),
+        ...getContentScriptEntryNames(normalizedOptions),
+      ]);
       const defaultConfig = getDefaultConfig({ allInOneEntries });
       Object.assign(config, mergeConfig([defaultConfig, config]));
 
-      (config.builderPlugins ??= []).push(webxBuilderPlugin(options));
+      (config.builderPlugins ??= []).push(webxBuilderPlugin(normalizedOptions));
     },
   };
 };
 
-function webxBuilderPlugin(options: WebxPluginOptions): RsbuildPlugin {
+function webxBuilderPlugin(options: NormalizeContentScriptsOptions<WebxPluginOptions>): RsbuildPlugin {
   return {
     name: '@webx-kit/modernjs-plugin/builder',
     setup(api) {

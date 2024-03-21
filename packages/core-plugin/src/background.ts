@@ -1,4 +1,7 @@
-import type { BundlerChain, RsbuildPluginAPI, Rspack, WebpackChain, WebpackConfig } from '@rsbuild/shared';
+import path from 'node:path';
+import querystring from 'node:querystring';
+import { BundlerChain, RsbuildPluginAPI, Rspack, WebpackChain, WebpackConfig, isDev } from '@rsbuild/shared';
+import { NormalizeContentScriptsOptions } from './content-script';
 import { registerManifestTransformer } from './manifest';
 
 const DEFAULT_BACKGROUND_NAME = 'background';
@@ -29,14 +32,15 @@ export function getBackgroundEntryNames({ background }: BackgroundOptions): stri
 
 export function applyBackgroundSupport(
   api: RsbuildPluginAPI,
-  options: BackgroundOptions,
+  options: BackgroundOptions & NormalizeContentScriptsOptions,
   getPlugins: (context: {
     entryName: string;
     backgroundLiveReload: boolean;
   }) => Rspack.Plugins | WebpackConfig['plugins'] | void
 ) {
-  const { background, backgroundLiveReload = true } = options;
+  const { background, backgroundLiveReload = true, autoRefreshContentScripts } = options;
   if (!background) return;
+  const enableAutoRefreshContentScripts = autoRefreshContentScripts && isDev();
 
   const entry: BackgroundEntry =
     typeof background === 'string' ? { name: DEFAULT_BACKGROUND_NAME, import: background } : background;
@@ -47,11 +51,26 @@ export function applyBackgroundSupport(
       service_worker: backgroundFilename,
       type: 'module',
     };
+    if (enableAutoRefreshContentScripts) {
+      manifest.permissions ??= [];
+      if (!manifest.permissions.includes('scripting')) manifest.permissions.push('scripting');
+    }
   });
 
   function modifyChain(chain: WebpackChain | BundlerChain) {
     chain.entry(entry.name).add({
-      import: entry.import,
+      import: enableAutoRefreshContentScripts
+        ? [
+            `${path.resolve(
+              __dirname,
+              process.env.NODE_ENV === 'development' ? 'background-runtime.ts' : 'background-runtime.js'
+            )}?${querystring.stringify({
+              cs: JSON.stringify(options.contentScripts),
+              module: true,
+            })}`,
+            entry.import,
+          ]
+        : [entry.import],
       library: { type: 'module' },
       filename: backgroundFilename,
     });
@@ -88,7 +107,7 @@ export function generateLoadScriptCode(options: {
     options.autoReload
       ? // /**** "moduleId":
         // "moduleId":
-        `const hasUpdate = /^[\/*\\s]*".+":/m.test(code);
+        `const hasUpdate = /^[\\/*\\s]*".+":/m.test(code);
          if (hasUpdate) { chrome.runtime.reload(); }`
       : ``,
 

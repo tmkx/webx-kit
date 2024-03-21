@@ -4,6 +4,7 @@ import {
   ContentScriptsOptions,
   applyContentScriptsSupport,
   getContentScriptEntryNames,
+  normalizeContentScriptsOptions,
 } from '@webx-kit/core-plugin/content-script';
 import { ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
 import type { JsChunk } from './utils/types';
@@ -57,20 +58,24 @@ export const webxPlugin = (options: WebxPluginOptions = {}): RsbuildPlugin => {
   return {
     name: '@webx-kit/rsbuild-plugin',
     setup(api) {
-      const allInOneEntries = new Set([...getBackgroundEntryNames(options), ...getContentScriptEntryNames(options)]);
+      const normalizedOptions = normalizeContentScriptsOptions(options);
+      const allInOneEntries = new Set([
+        ...getBackgroundEntryNames(normalizedOptions),
+        ...getContentScriptEntryNames(normalizedOptions),
+      ]);
       api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
         const originalConfig = api.getRsbuildConfig('original');
         return mergeRsbuildConfig(config, getDefaultConfig({ allInOneEntries }), originalConfig);
       });
-      applyBackgroundSupport(api, options, ({ entryName, backgroundLiveReload }) =>
+      applyBackgroundSupport(api, normalizedOptions, ({ entryName, backgroundLiveReload }) =>
         isDev() ? [new BackgroundReloadPlugin(entryName, backgroundLiveReload)] : []
       );
-      applyContentScriptsSupport(api, options, ({ contentScriptNames }) =>
+      applyContentScriptsSupport(api, normalizedOptions, ({ contentScriptNames }) =>
         isDev()
           ? [new ContentScriptHMRPlugin(contentScriptNames), new ContentScriptShadowRootPlugin(contentScriptNames)]
           : [new ContentScriptPublicPathPlugin(contentScriptNames)]
       );
-      applyManifestSupport(api, options);
+      applyManifestSupport(api, normalizedOptions);
     },
   };
 };

@@ -14,13 +14,6 @@ export default defineManifest(() => ({
     page: 'options.html',
     open_in_tab: true,
   },
-  content_scripts: [
-    {
-      matches: ['<all_urls>'],
-      js: ['static/js/content-script.js'],
-      run_at: 'document_idle',
-    },
-  ],
   host_permissions: ['<all_urls>'],
   web_accessible_resources: [
     {
