@@ -1,6 +1,6 @@
 {
   "name": "@webx-kit/test-utils",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "bin": {
     "webx-launch": "bin/webx-launch.mjs"
   },

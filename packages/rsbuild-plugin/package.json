@@ -1,6 +1,6 @@
 {
   "name": "@webx-kit/rsbuild-plugin",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "exports": {
     ".": {
       "types": "./src/index.ts",
@@ -48,6 +48,6 @@
   },
   "peerDependencies": {
     "@modern-js/utils": "^2.40.0",
-    "@rsbuild/shared": "^0.3.0"
+    "@rsbuild/shared": "^0.4.0"
   }
 }

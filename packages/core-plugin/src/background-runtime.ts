@@ -28,7 +28,7 @@ chrome.scripting.getRegisteredContentScripts(async (registered) => {
   );
 });
 
-import.meta.webpackHot.addStatusHandler(async (status) => {
+module.hot.addStatusHandler(async (status) => {
   if (status !== 'check') return;
   await Promise.all(
     contentScripts.map(async (cs) => {

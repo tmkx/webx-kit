@@ -66,7 +66,7 @@ export function applyBackgroundSupport(
               process.env.NODE_ENV === 'development' ? 'background-runtime.ts' : 'background-runtime.js'
             )}?${querystring.stringify({
               cs: JSON.stringify(options.contentScripts),
-              module: true,
+              module: api.context.bundlerType === 'webpack',
             })}`,
             entry.import,
           ]
