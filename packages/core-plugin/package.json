@@ -1,6 +1,6 @@
 {
   "name": "@webx-kit/core-plugin",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "exports": {
     "./background": {
       "types": "./src/background.ts",
@@ -66,6 +66,6 @@
     "webpack": "^5.90.3"
   },
   "peerDependencies": {
-    "@rsbuild/shared": "^0.3.0"
+    "@rsbuild/shared": "^0.4.0"
   }
 }

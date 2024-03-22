@@ -1,5 +1,5 @@
 {
-  "name": "@webx-kit/tests-e2e",
+  "name": "@webx-kit/test-hmr",
   "private": true,
   "scripts": {
     "test": "playwright test"
