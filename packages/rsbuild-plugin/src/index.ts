@@ -1,4 +1,5 @@
-import { RsbuildConfig, RsbuildPlugin, isDev } from '@rsbuild/shared';
+import type { RsbuildConfig, RsbuildPlugin } from '@rsbuild/core';
+import { isDev } from '@rsbuild/shared';
 import { BackgroundOptions, applyBackgroundSupport, getBackgroundEntryNames } from '@webx-kit/core-plugin/background';
 import {
   ContentScriptsOptions,
