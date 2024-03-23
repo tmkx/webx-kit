@@ -14,7 +14,7 @@
   "devDependencies": {
     "@modern-js/app-tools": "^2.48.0",
     "@playwright/test": "^1.42.1",
-    "@rsbuild/plugin-svelte": "^0.4.9",
+    "@rsbuild/plugin-svelte": "^0.4.8",
     "@types/chrome": "^0.0.262",
     "@types/node": "^20.11.24",
     "@webx-kit/modernjs-plugin": "workspace:^",

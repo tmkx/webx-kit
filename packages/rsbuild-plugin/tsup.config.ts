@@ -7,4 +7,5 @@ export default defineConfig({
     index: './src/index.ts',
     manifest: './src/manifest.ts',
   },
+  external: ['@rsbuild/shared'],
 });
