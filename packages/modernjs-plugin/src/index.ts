@@ -26,7 +26,7 @@ export type { ContentScriptEntry } from '@webx-kit/core-plugin/content-script';
 
 export interface WebxPluginOptions extends BackgroundOptions, ContentScriptsOptions, CleanOptions, ManifestOptions {}
 
-const getDefaultConfig = ({ allInOneEntries }: { allInOneEntries: Set<string> }): UserConfig<AppTools<'webpack'>> => {
+const getDefaultConfig = ({ allInOneEntries }: { allInOneEntries: Set<string> }): UserConfig<AppTools<'shared'>> => {
   const webxRuntimePackageJsonPath = lodash.attempt(() =>
     pkgUp.sync({
       cwd: require.resolve('@webx-kit/runtime', { paths: [process.cwd()] }),

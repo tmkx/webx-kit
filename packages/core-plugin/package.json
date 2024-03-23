@@ -56,16 +56,16 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@types/chrome": "^0.0.262",
-    "type-fest": "^4.10.3"
+    "@types/chrome": "^0.0.263",
+    "type-fest": "^4.13.1"
   },
   "devDependencies": {
-    "@rsbuild/shared": "^0.4.8",
+    "@rsbuild/shared": "^0.5.1",
     "tsup": "^8.0.2",
-    "typescript": "^5.3.3",
-    "webpack": "^5.90.3"
+    "typescript": "^5.4.3",
+    "webpack": "^5.91.0"
   },
   "peerDependencies": {
-    "@rsbuild/shared": "^0.4.0"
+    "@rsbuild/shared": "^0.5.0"
   }
 }

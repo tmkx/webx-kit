@@ -12,14 +12,14 @@
     "vue": "^3.4.21"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.48.0",
+    "@modern-js/app-tools": "^2.48.3",
     "@playwright/test": "^1.42.1",
-    "@rsbuild/plugin-vue": "^0.4.8",
-    "@types/chrome": "^0.0.262",
-    "@types/node": "^20.11.24",
+    "@rsbuild/plugin-vue": "^0.5.1",
+    "@types/chrome": "^0.0.263",
+    "@types/node": "^20.11.30",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.3"
   }
 }
