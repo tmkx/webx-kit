@@ -7,6 +7,16 @@
   <a href="https://github.com/tmkx/webx-kit/actions/workflows/ci.yml" target="_blank"><img alt="CI" src="https://github.com/tmkx/webx-kit/actions/workflows/ci.yml/badge.svg" /></a>
 </p>
 
+## Getting started
+
+```bash
+npm create webx
+
+yarn create webx
+
+pnpm create webx
+```
+
 ## Features
 
 - 💅 Fully customizable, take control of any details
