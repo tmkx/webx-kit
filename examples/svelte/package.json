@@ -9,17 +9,17 @@
   },
   "dependencies": {
     "@webx-kit/runtime": "workspace:^",
-    "svelte": "^4.2.12"
+    "svelte": "^4.2.14"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.48.3",
-    "@playwright/test": "^1.42.1",
-    "@rsbuild/plugin-svelte": "^0.5.1",
-    "@types/chrome": "^0.0.263",
-    "@types/node": "^20.11.30",
+    "@modern-js/app-tools": "^2.48.6",
+    "@playwright/test": "^1.43.1",
+    "@rsbuild/plugin-svelte": "^0.6.1",
+    "@types/chrome": "^0.0.266",
+    "@types/node": "^20.12.7",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5.4.3"
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.4.5"
   }
 }

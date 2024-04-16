@@ -13,16 +13,16 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.42.1",
-    "@rsbuild/core": "^0.5.1",
-    "@rsbuild/plugin-react": "^0.5.1",
-    "@types/chrome": "^0.0.263",
-    "@types/node": "^20.11.30",
-    "@types/react": "^18.2.69",
-    "@types/react-dom": "^18.2.22",
+    "@playwright/test": "^1.43.1",
+    "@rsbuild/core": "^0.6.1",
+    "@rsbuild/plugin-react": "^0.6.1",
+    "@types/chrome": "^0.0.266",
+    "@types/node": "^20.12.7",
+    "@types/react": "^18.2.79",
+    "@types/react-dom": "^18.2.25",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5.4.3"
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.4.5"
   }
 }
