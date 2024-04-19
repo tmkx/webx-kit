@@ -9,7 +9,7 @@ import {
 import { TRPCResponseMessage, transformResult } from '@trpc/server/unstable-core-do-not-import';
 import { isObservable, observable } from '@trpc/server/observable';
 import { Operation, TRPCClientError, TRPCLink } from '@trpc/client';
-import { CreateMessagingOptions, Messaging, Port, createMessaging } from './index';
+import { Messaging, Port, createMessaging } from './index';
 
 export interface MessagingHandlerOptions<TRouter extends AnyTRPCRouter> {
   port: Port;

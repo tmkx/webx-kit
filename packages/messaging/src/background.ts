@@ -1,4 +1,4 @@
-import { AnyTRPCRouter } from '@trpc/server';
+import type { AnyTRPCRouter } from '@trpc/server';
 import { Port, RequestHandler, StreamHandler, createMessaging } from './core';
 import { applyMessagingHandler } from './core/trpc';
 import { WebxMessage, isWebxMessage } from './shared';

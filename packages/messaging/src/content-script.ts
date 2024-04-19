@@ -1,5 +1,5 @@
-import { AnyTRPCRouter } from '@trpc/server';
-import { SetOptional } from 'type-fest';
+import type { AnyTRPCRouter } from '@trpc/server';
+import type { SetOptional } from 'type-fest';
 import {
   CustomHandlerOptions,
   TrpcClientOptions,
