@@ -15,13 +15,13 @@ hero:
 
 features:
   - icon: 💅
-    title: Flexile
+    title: Flexible
     details: Fully customizable, take control of any details
   - icon: 🔥
-    title: Powerful
+    title: Productive
     details: Support HMR for popup/options/content-scripts/...
   - icon: ♻️
-    title: Productive
+    title: Powerful
     details: Live reload for background
   - icon: 📃
     title: Modern

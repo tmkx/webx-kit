@@ -1,10 +1,10 @@
 # Messaging
 
-## Recommend
+## Recommendation
 
-We recommend communicating using [tRPC](https://trpc.io/), it's type-safe and supports streaming.
+We recommend using [tRPC](https://trpc.io/) for communication. It is type-safe and supports streaming.
 
-Add dependencies:
+1. Add dependencies:
 
 ::: code-group
 
@@ -22,7 +22,9 @@ $ yarn add @webx-kit/messaging @trpc/server@next @trpc/client@next zod
 
 :::
 
-Server(background):
+2. Server(background):
+
+> [Define Routers | tRPC](https://trpc.io/docs/server/routers)
 
 ::: code-group
 
@@ -52,7 +54,9 @@ export type AppRouter = typeof appRouter;
 
 :::
 
-Client(popup/options/content-scripts...):
+3. Client(popup/options/content-scripts...):
+
+> [Set up a tRPC Client | tRPC](https://trpc.io/docs/client/vanilla/setup)
 
 ::: code-group
 
@@ -72,6 +76,7 @@ client.hello.query({ name: 'WebX Kit' }).then((value) => alert(value));
 
 We don't bundle sale specific libraries, you can choose your favorites.
 
-- [webext-bridge](https://github.com/serversideup/webext-bridge) - 💬 Messaging in Web Extensions made easy. Batteries included.
+- [webext-bridge](https://github.com/serversideup/webext-bridge) - Messaging in Web Extensions made easy. Batteries included.
 - [Web Ext Core Messaging](https://webext-core.aklinker1.io/guide/messaging/) - A simpler, type-safe API for sending and recieving messages.
-- [Add a new suggestion](https://github.com/tmkx/webx-kit/issues/new)
+
+[Add suggestions](https://github.com/tmkx/webx-kit/issues/new)
