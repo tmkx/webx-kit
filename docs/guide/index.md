@@ -22,6 +22,6 @@ Then follow the prompts!
 
 ::: tip
 
-WebX Kit supports [React](https://react.dev/)/[Vue](https://vuejs.org/)/[Solid](https://www.solidjs.com/)/[Svelte](https://svelte.dev/) officially, but it's also works for other frameworks.
+WebX Kit supports [React](https://react.dev/)/[Vue](https://vuejs.org/)/[Solid](https://www.solidjs.com/)/[Svelte](https://svelte.dev/) officially, but it also works for other frameworks.
 
 :::

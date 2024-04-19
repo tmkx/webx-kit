@@ -15,13 +15,18 @@ hero:
 
 features:
   - icon: 💅
+    title: Flexile
     details: Fully customizable, take control of any details
   - icon: 🔥
+    title: Powerful
     details: Support HMR for popup/options/content-scripts/...
   - icon: ♻️
+    title: Productive
     details: Live reload for background
   - icon: 📃
+    title: Modern
     details: Support Chrome Manifest V3, and generating manifest.json with TypeScript
   - icon: 🎭
+    title: Robust
     details: Support E2E test, based on Playwright
 ---

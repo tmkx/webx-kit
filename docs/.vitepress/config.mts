@@ -4,6 +4,8 @@ import { defineConfig } from 'vitepress';
 export default defineConfig({
   title: 'WebX Kit',
   description: 'A tool set for Web eXtension development',
+  cleanUrls: true,
+  head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: {
@@ -19,10 +21,18 @@ export default defineConfig({
     sidebar: [
       {
         text: 'Guide',
-        items: [{ text: 'Getting Started', link: '/guide/' }],
+        items: [
+          { text: 'Getting Started', link: '/guide/' },
+          { text: 'Messaging', link: '/guide/messaging' },
+        ],
       },
     ],
 
     socialLinks: [{ icon: 'github', link: 'https://github.com/tmkx/webx-kit' }],
+
+    footer: {
+      message: '🚧 Still under construction 🚧',
+      copyright: 'Copyright © 2024-present Tmk',
+    },
   },
 });
