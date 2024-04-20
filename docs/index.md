@@ -20,9 +20,6 @@ features:
   - icon: 🔥
     title: Productive
     details: Support HMR for popup/options/content-scripts/...
-  - icon: ♻️
-    title: Powerful
-    details: Live reload for background
   - icon: 📃
     title: Modern
     details: Support Chrome Manifest V3, and generating manifest.json with TypeScript

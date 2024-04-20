@@ -78,5 +78,3 @@ We don't bundle sale specific libraries, you can choose your favorites.
 
 - [webext-bridge](https://github.com/serversideup/webext-bridge) - Messaging in Web Extensions made easy. Batteries included.
 - [Web Ext Core Messaging](https://webext-core.aklinker1.io/guide/messaging/) - A simpler, type-safe API for sending and recieving messages.
-
-[Add suggestions](https://github.com/tmkx/webx-kit/issues/new)

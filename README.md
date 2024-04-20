@@ -21,7 +21,6 @@ yarn create webx
 
 - 💅 Fully customizable, take control of any details
 - 🔥 Support **HMR** for popup/options/**content-scripts**/...
-- ♻️ Live reload for background
 - 📃 Support [Chrome Manifest V3](https://developer.chrome.com/docs/extensions/develop/migrate/what-is-mv3), and generating `manifest.json` with TypeScript
 - 🎭 Support E2E test, based on [Playwright](https://playwright.dev/)
 

@@ -25,6 +25,7 @@ export default defineConfig({
           { text: 'Introduction', link: '/guide/introduction' },
           { text: 'Getting Started', link: '/guide/' },
           { text: 'Messaging', link: '/guide/messaging' },
+          { text: 'Storage', link: '/guide/storage' },
         ],
       },
     ],
@@ -34,6 +35,11 @@ export default defineConfig({
     footer: {
       message: '🚧 Still under construction 🚧',
       copyright: 'Copyright © 2024-present Tmk',
+    },
+
+    editLink: {
+      pattern: 'https://github.com/tmkx/webx-kit/edit/main/docs/:path',
+      text: 'Edit this page on GitHub',
     },
   },
 });
