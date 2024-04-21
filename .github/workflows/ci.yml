@@ -50,7 +50,7 @@ jobs:
       - name: Install deps
         run: |
           pnpm i --frozen-lockfile
-          pnpm playwright install
+          pnpm playwright install chromium
 
       - if: ${{ matrix.os == 'ubuntu-latest' }}
         name: Replace with tarball
