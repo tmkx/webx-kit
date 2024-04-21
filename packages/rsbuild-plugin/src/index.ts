@@ -8,6 +8,7 @@ import {
   normalizeContentScriptsOptions,
 } from '@webx-kit/core-plugin/content-script';
 import { ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
+import { titleCase } from '@webx-kit/core-plugin/utils';
 import type { JsChunk } from './utils/types';
 import { BackgroundReloadPlugin } from './plugins/background/live-reload-plugin';
 import { ContentScriptHMRPlugin } from './plugins/content-script/hmr-plugin';
@@ -36,6 +37,9 @@ function getDefaultConfig({ allInOneEntries }: { allInOneEntries: Set<string> })
         ...(process.env.WEBX_DIST ? { root: process.env.WEBX_DIST } : null),
       },
       filenameHash: false,
+    },
+    html: {
+      title: ({ entryName }) => titleCase(entryName),
     },
     server: {
       publicDir: false,
