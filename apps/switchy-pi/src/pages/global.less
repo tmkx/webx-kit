@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  &:has(body.dark) {
+    color-scheme: dark;
+  }
+}
+
 body {
   @apply bg-white transition-colors;
 
