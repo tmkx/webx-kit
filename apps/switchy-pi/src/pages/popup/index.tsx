@@ -6,7 +6,7 @@ import { App } from './app';
 import '../global.less';
 
 if (getDefaultStore().get(isDarkAtom)) {
-  document.body.classList.add('dark');
+  document.documentElement.classList.add('dark');
 }
 createRoot(document.getElementById('root')!).render(
   <Provider>

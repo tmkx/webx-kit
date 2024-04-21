@@ -13,6 +13,7 @@ import {
   composeRenderProps,
 } from 'react-aria-components';
 import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 import { tv } from 'tailwind-variants';
 import { composeTailwindRenderProps, focusRing } from '../shared/utils';
 
@@ -106,8 +107,8 @@ export function DropdownSection<T extends object>(props: DropdownSectionProps<T>
   return (
     <Section className="first:-mt-[5px] after:content-[''] after:block after:h-[5px]">
       <Header
-        className={clsx(
-          'text-sm font-semibold text-gray-500 dark:text-zinc-300 px-4 py-1 truncate sticky -top-[5px] -mt-px -mx-1 z-10 bg-gray-100/60 dark:bg-zinc-700/60 backdrop-blur-md supports-[-moz-appearance:none]:bg-gray-100 border-y dark:border-y-zinc-700 [&+*]:mt-1',
+        className={twMerge(
+          'text-sm font-semibold text-gray-500 dark:text-zinc-300 px-4 py-1 truncate -mx-1 bg-gray-100/60 dark:bg-zinc-700/60 border-y dark:border-y-zinc-700 [&+*]:mt-1',
           props.className
         )}
       >
