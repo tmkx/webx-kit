@@ -60,7 +60,7 @@
     "type-fest": "^4.15.0"
   },
   "devDependencies": {
-    "@rsbuild/shared": "^0.6.1",
+    "@rsbuild/shared": "^0.6.3",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5",
     "webpack": "^5.91.0"

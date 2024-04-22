@@ -1,5 +1,11 @@
 {
   "files.associations": {
     "manifest.json": "jsonc"
-  }
+  },
+  "json.schemas": [
+    {
+      "fileMatch": ["project.json"],
+      "url": "./node_modules/nx/schemas/project-schema.json"
+    }
+  ]
 }

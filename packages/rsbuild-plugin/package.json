@@ -41,8 +41,8 @@
     "@webx-kit/core-plugin": "workspace:^"
   },
   "devDependencies": {
-    "@rsbuild/core": "^0.6.1",
-    "@rsbuild/shared": "^0.6.1",
+    "@rsbuild/core": "^0.6.3",
+    "@rsbuild/shared": "^0.6.3",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"
   },
