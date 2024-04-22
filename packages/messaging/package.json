@@ -54,8 +54,8 @@
     "type-fest": "^4.15.0"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.48.6",
-    "@modern-js/utils": "^2.48.6",
+    "@modern-js/app-tools": "^2.49.0",
+    "@modern-js/utils": "^2.49.0",
     "@playwright/test": "^1.43.1",
     "@trpc/client": "11.0.0-next-beta.248",
     "@trpc/server": "11.0.0-next-beta.248",
@@ -67,7 +67,7 @@
     "tsup": "^8.0.2",
     "typescript": "^5.4.5",
     "vitest": "^1.5.0",
-    "zod": "^3.22.4"
+    "zod": "^3.23.0"
   },
   "peerDependencies": {
     "@types/chrome": "^0.0.262"

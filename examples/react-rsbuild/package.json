@@ -14,8 +14,8 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.43.1",
-    "@rsbuild/core": "^0.6.1",
-    "@rsbuild/plugin-react": "^0.6.1",
+    "@rsbuild/core": "^0.6.3",
+    "@rsbuild/plugin-react": "^0.6.3",
     "@types/chrome": "^0.0.266",
     "@types/node": "^20.12.7",
     "@types/react": "^18.2.79",

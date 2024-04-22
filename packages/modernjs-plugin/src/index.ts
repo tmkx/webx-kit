@@ -52,8 +52,8 @@ const getDefaultConfig = ({ allInOneEntries }: { allInOneEntries: Set<string> })
       proxy: {
         '/': {
           target: 'https://www.example.com/',
+          // @ts-expect-error suppress 404 for hot-update files
           onProxyReq(_proxyReq, req, res) {
-            // @ts-expect-error suppress 404 for hot-update files
             if (req.url.includes('.hot-update.')) res.end('');
           },
         },
