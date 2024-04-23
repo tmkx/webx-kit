@@ -1,4 +1,4 @@
-import { createCustomHandler } from '@/content-script';
+import { createCustomHandler } from '@/client';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 

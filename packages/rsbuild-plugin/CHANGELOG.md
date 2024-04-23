@@ -1,5 +1,11 @@
 # @webx-kit/rsbuild-plugin
 
+## 0.0.3
+
+### Patch Changes
+
+- 25081ff: feat: auto set html title by entry name
+
 ## 0.0.1
 
 ### Patch Changes

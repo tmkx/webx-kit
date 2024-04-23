@@ -1,5 +1,11 @@
 # @webx-kit/messaging
 
+## 0.0.3
+
+### Patch Changes
+
+- refactor: simplify export paths
+
 ## 0.0.2
 
 ### Patch Changes

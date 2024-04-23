@@ -1,7 +1,7 @@
 import type { LiteralUnion, Observer } from 'type-fest';
 import type { Messaging } from './core';
 
-export type ClientType = 'devtools' | 'popup' | 'options' | 'content-script';
+export type ClientType = 'default' | 'devtools' | 'popup' | 'options' | 'content-script';
 
 export type MessageTarget = LiteralUnion<ClientType, string> | number;
 

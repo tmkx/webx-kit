@@ -7,7 +7,7 @@ import {
   isSelectionValid,
   rangeToReference,
 } from '@webx-kit/runtime/content-scripts';
-import { createTrpcClient } from '@webx-kit/messaging/content-script';
+import { createTrpcClient } from '@webx-kit/messaging/client';
 import clsx from 'clsx';
 import type { AppRouter } from '@/background/router';
 import { DialogTrigger, TooltipTrigger } from 'react-aria-components';
