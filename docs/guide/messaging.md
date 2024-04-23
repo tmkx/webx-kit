@@ -29,10 +29,10 @@ $ yarn add @webx-kit/messaging @trpc/server@next @trpc/client@next zod
 ::: code-group
 
 ```ts [background/index.ts]
-import { createTrpcHandler } from '@webx-kit/messaging/background';
+import { createTrpcServer } from '@webx-kit/messaging/server';
 import { appRouter } from './router';
 
-createTrpcHandler({
+createTrpcServer({
   router: appRouter,
 });
 ```
@@ -61,7 +61,7 @@ export type AppRouter = typeof appRouter;
 ::: code-group
 
 ```ts [popup/index.ts]
-import { createTrpcClient } from '@webx-kit/messaging/popup';
+import { createTrpcClient } from '@webx-kit/messaging/client';
 import type { AppRouter } from '@/background/router';
 
 const { client } = createTrpcClient<AppRouter>({});

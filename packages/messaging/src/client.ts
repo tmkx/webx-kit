@@ -1,9 +1,10 @@
-import { Port, RequestHandler, StreamHandler, createMessaging } from './core';
-import { randomID } from './core/utils';
 import { createTRPCClient } from '@trpc/client';
-import { ClientType, MessageTarget, WebxMessage, isWebxMessage, wrapMessaging } from './shared';
 import type { AnyTRPCRouter } from '@trpc/server';
+import type { SetOptional } from 'type-fest';
+import { Port, RequestHandler, StreamHandler, createMessaging } from './core';
 import { messagingLink } from './core/trpc';
+import { randomID } from './core/utils';
+import { ClientType, MessageTarget, WebxMessage, isWebxMessage, wrapMessaging } from './shared';
 
 const clientPort: Port = {
   onMessage(listener) {
@@ -33,7 +34,7 @@ export interface CustomHandlerOptions {
   streamHandler?: StreamHandler;
 }
 
-export function createCustomHandler({ type, requestHandler, streamHandler }: CustomHandlerOptions) {
+function internalCreateCustomHandler({ type, requestHandler, streamHandler }: CustomHandlerOptions) {
   const id = randomID();
   const name = `${type}@${id}`;
 
@@ -65,7 +66,7 @@ export interface TrpcClientOptions {
   to?: MessageTarget;
 }
 
-export function createTrpcClient<TRouter extends AnyTRPCRouter>({ type, to = 'background' }: TrpcClientOptions) {
+function internalCreateTrpcClient<TRouter extends AnyTRPCRouter>({ type, to = 'background' }: TrpcClientOptions) {
   const id = randomID();
   const name = `${type}@${id}`;
 
@@ -94,3 +95,9 @@ export function createTrpcClient<TRouter extends AnyTRPCRouter>({ type, to = 'ba
     },
   };
 }
+
+export const createCustomHandler = (options: SetOptional<CustomHandlerOptions, 'type'>) =>
+  internalCreateCustomHandler({ type: 'default', ...options });
+
+export const createTrpcClient = <TRouter extends AnyTRPCRouter>(options: SetOptional<TrpcClientOptions, 'type'>) =>
+  internalCreateTrpcClient<TRouter>({ type: 'default', ...options });

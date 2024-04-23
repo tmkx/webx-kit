@@ -1,9 +1,10 @@
-import { createCustomHandler } from '@/options';
+import { createCustomHandler } from '@/client';
 import '../../global.css';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const { messaging } = createCustomHandler({
+  type: 'options',
   requestHandler(message) {
     return {
       reply: 'options',

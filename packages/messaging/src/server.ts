@@ -8,9 +8,9 @@ export interface CustomHandlerOptions {
   streamHandler?: StreamHandler;
 }
 
-const NAME = 'background';
+const NAME = 'server';
 
-const backgroundPort: Port = {
+const serverPort: Port = {
   name: NAME,
   onMessage(listener) {
     chrome.runtime.onMessage.addListener(listener);
@@ -32,7 +32,7 @@ function shouldSkip(data: unknown) {
 }
 
 export function createCustomHandler({ requestHandler, streamHandler }: CustomHandlerOptions) {
-  return createMessaging(backgroundPort, {
+  return createMessaging(serverPort, {
     intercept: (data: WebxMessage, abort) => (shouldSkip(data) ? abort : data.data),
     onRequest: requestHandler || (() => Promise.reject()),
     onStream:
@@ -47,9 +47,9 @@ export interface TrpcHandlerOptions<TRouter extends AnyTRPCRouter> {
   router: TRouter;
 }
 
-export function createTrpcHandler<TRouter extends AnyTRPCRouter>({ router }: TrpcHandlerOptions<TRouter>) {
+export function createTrpcServer<TRouter extends AnyTRPCRouter>({ router }: TrpcHandlerOptions<TRouter>) {
   return applyMessagingHandler({
-    port: backgroundPort,
+    port: serverPort,
     router,
     intercept: (data: WebxMessage, abort) => (shouldSkip(data) ? abort : data.data),
   });
