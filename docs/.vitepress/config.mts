@@ -32,6 +32,10 @@ export default defineConfig({
         text: 'Recipes',
         items: [{ text: 'Google Analytics', link: '/recipes/google-analytics' }],
       },
+      {
+        text: 'Miscellaneous',
+        items: [{ text: 'Tips', link: '/misc/tips' }],
+      },
     ],
 
     socialLinks: [{ icon: 'github', link: 'https://github.com/tmkx/webx-kit' }],
