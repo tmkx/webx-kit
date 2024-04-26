@@ -59,11 +59,11 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "type-fest": "^4.15.0"
+    "type-fest": "^4.17.0"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.49.0",
-    "@modern-js/utils": "^2.49.0",
+    "@modern-js/app-tools": "^2.49.1",
+    "@modern-js/utils": "^2.49.1",
     "@playwright/test": "^1.43.1",
     "@trpc/client": "11.0.0-next-beta.248",
     "@trpc/server": "11.0.0-next-beta.248",
@@ -74,8 +74,8 @@
     "@webx-kit/test-utils": "workspace:^",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5",
-    "vitest": "^1.5.0",
-    "zod": "^3.23.0"
+    "vitest": "^1.5.2",
+    "zod": "^3.23.4"
   },
   "peerDependencies": {
     "@types/chrome": "^0.0.262"
