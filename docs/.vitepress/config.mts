@@ -28,6 +28,10 @@ export default defineConfig({
           { text: 'Storage', link: '/guide/storage' },
         ],
       },
+      {
+        text: 'Recipes',
+        items: [{ text: 'Google Analytics', link: '/recipes/google-analytics' }],
+      },
     ],
 
     socialLinks: [{ icon: 'github', link: 'https://github.com/tmkx/webx-kit' }],

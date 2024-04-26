@@ -559,6 +559,9 @@ importers:
       '@rsbuild/shared':
         specifier: ^0.6.6
         version: 0.6.6(@swc/helpers@0.5.11)
+      '@rspack/core':
+        specifier: ^0.6.3
+        version: 0.6.3(@swc/helpers@0.5.11)
       tsup:
         specifier: ^8.0.2
         version: 8.0.2(postcss@8.4.38)(typescript@5.4.5)
@@ -11805,7 +11808,7 @@ snapshots:
 
   enhanced-resolve@5.12.0:
     dependencies:
-      graceful-fs: 4.2.10
+      graceful-fs: 4.2.11
       tapable: 2.2.1
 
   enhanced-resolve@5.16.0:

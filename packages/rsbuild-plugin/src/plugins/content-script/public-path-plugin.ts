@@ -2,7 +2,7 @@ import type { Rspack } from '@rsbuild/shared';
 import { ContentScriptBasePlugin } from './base-plugin';
 import type { JsRuntimeModule } from '../../utils/types';
 
-export const PLUGIN_NAME = 'ContentScriptPublicPathPlugin';
+export const PLUGIN_NAME = 'webx:content-script-public-path';
 
 export class ContentScriptPublicPathPlugin extends ContentScriptBasePlugin {
   name = PLUGIN_NAME;

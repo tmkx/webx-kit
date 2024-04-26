@@ -11,6 +11,7 @@ import { ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/man
 import { titleCase } from '@webx-kit/core-plugin/utils';
 import type { JsChunk } from './utils/types';
 import { BackgroundReloadPlugin } from './plugins/background/live-reload-plugin';
+import { applyBuildHttpSupport } from './plugins/build-http';
 import { ContentScriptHMRPlugin } from './plugins/content-script/hmr-plugin';
 import { ContentScriptPublicPathPlugin } from './plugins/content-script/public-path-plugin';
 import { ContentScriptShadowRootPlugin } from './plugins/content-script/shadow-root-plugin';
@@ -81,6 +82,7 @@ export const webxPlugin = (options: WebxPluginOptions = {}): RsbuildPlugin => {
           : [new ContentScriptPublicPathPlugin(contentScriptNames)]
       );
       applyManifestSupport(api, normalizedOptions);
+      applyBuildHttpSupport(api);
     },
   };
 };

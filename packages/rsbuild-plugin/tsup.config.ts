@@ -6,6 +6,7 @@ export default defineConfig({
   entry: {
     index: './src/index.ts',
     manifest: './src/manifest.ts',
+    'build-http-loader': './src/plugins/build-http/build-http-loader.ts',
   },
   external: ['@rsbuild/shared'],
 });

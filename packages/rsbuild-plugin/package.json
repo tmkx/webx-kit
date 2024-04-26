@@ -43,6 +43,7 @@
   "devDependencies": {
     "@rsbuild/core": "^0.6.6",
     "@rsbuild/shared": "^0.6.6",
+    "@rspack/core": "^0.6.3",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"
   },
