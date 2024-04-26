@@ -1,11 +1,29 @@
-import { defineConfig } from 'vitepress';
+import { HeadConfig, defineConfig } from 'vitepress';
+
+const CLARITY_CODE = process.env.CLARITY_CODE;
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'WebX Kit',
   description: 'A tool set for Web eXtension development',
   cleanUrls: true,
-  head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
+  head: [
+    ['link', { rel: 'icon', href: '/favicon.ico' }],
+    ...(CLARITY_CODE
+      ? [
+          [
+            'script',
+            {},
+            `
+(function(c,l,a,r,i,t,y){
+  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "${CLARITY_CODE}");`.trim(),
+          ] satisfies HeadConfig,
+        ]
+      : []),
+  ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: {
