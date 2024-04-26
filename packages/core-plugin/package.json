@@ -57,10 +57,10 @@
   },
   "dependencies": {
     "@types/chrome": "^0.0.266",
-    "type-fest": "^4.15.0"
+    "type-fest": "^4.17.0"
   },
   "devDependencies": {
-    "@rsbuild/shared": "^0.6.3",
+    "@rsbuild/shared": "^0.6.6",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5",
     "webpack": "^5.91.0"

@@ -1,7 +1,7 @@
 import type { webpack as webpackNS } from '@modern-js/app-tools';
 import { ContentScriptBasePlugin } from './base-plugin';
 
-export const PLUGIN_NAME = 'ContentScriptPublicPathPlugin';
+export const PLUGIN_NAME = 'webx:content-script-public-path';
 
 export class ContentScriptPublicPathPlugin extends ContentScriptBasePlugin {
   name = PLUGIN_NAME;

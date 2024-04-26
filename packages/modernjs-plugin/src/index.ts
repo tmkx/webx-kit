@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { AppTools, CliPlugin, UserConfig, mergeConfig } from '@modern-js/app-tools';
 import { WebpackChain, pkgUp, lodash } from '@modern-js/utils';
-import { RsbuildPlugin, isDev } from '@rsbuild/shared';
+import { RsbuildPlugin, findUp, isDev } from '@rsbuild/shared';
 import { BackgroundOptions, applyBackgroundSupport, getBackgroundEntryNames } from '@webx-kit/core-plugin/background';
 import {
   ContentScriptsOptions,
@@ -26,7 +26,15 @@ export type { ContentScriptEntry } from '@webx-kit/core-plugin/content-script';
 
 export interface WebxPluginOptions extends BackgroundOptions, ContentScriptsOptions, CleanOptions, ManifestOptions {}
 
-const getDefaultConfig = ({ allInOneEntries }: { allInOneEntries: Set<string> }): UserConfig<AppTools<'shared'>> => {
+const getDefaultConfig = async ({
+  allInOneEntries,
+}: {
+  allInOneEntries: Set<string>;
+}): Promise<UserConfig<AppTools<'shared'>>> => {
+  const packageJsonFilePath = await findUp({ filename: 'package.json' });
+  if (!packageJsonFilePath) throw new Error(`Can not find package.json`);
+  const nodeModulesDir = path.resolve(path.dirname(packageJsonFilePath), 'node_modules');
+
   const webxRuntimePackageJsonPath = lodash.attempt(() =>
     pkgUp.sync({
       cwd: require.resolve('@webx-kit/runtime', { paths: [process.cwd()] }),
@@ -79,7 +87,15 @@ const getDefaultConfig = ({ allInOneEntries }: { allInOneEntries: Set<string> })
         },
       },
       webpackChain(chain: WebpackChain) {
-        chain.experiments({ outputModule: true });
+        chain.experiments({
+          outputModule: true,
+          buildHttp: {
+            allowedUris: [(_url) => true],
+            frozen: false,
+            cacheLocation: path.resolve(nodeModulesDir, '.cache/client.webpack.lock.data'),
+            lockfileLocation: path.resolve(nodeModulesDir, '.cache/client.webpack.lock'),
+          },
+        });
         // DO NOT split chunks when the entry is background/content-scripts
         chain.optimization.runtimeChunk(false).splitChunks({
           chunks: (chunk) => !allInOneEntries.has(chunk.getEntryOptions()?.name!),
@@ -93,7 +109,7 @@ export const webxPlugin = (options: WebxPluginOptions = {}): CliPlugin<AppTools<
   return {
     name: '@webx-kit/modernjs-plugin',
     post: ['@modern-js/app-tools'],
-    setup(api) {
+    async setup(api) {
       const config = api.useConfigContext();
 
       const normalizedOptions = normalizeContentScriptsOptions(options);
@@ -101,7 +117,7 @@ export const webxPlugin = (options: WebxPluginOptions = {}): CliPlugin<AppTools<
         ...getBackgroundEntryNames(normalizedOptions),
         ...getContentScriptEntryNames(normalizedOptions),
       ]);
-      const defaultConfig = getDefaultConfig({ allInOneEntries });
+      const defaultConfig = await getDefaultConfig({ allInOneEntries });
       Object.assign(config, mergeConfig([defaultConfig, config]));
 
       (config.builderPlugins ??= []).push(webxBuilderPlugin(normalizedOptions));

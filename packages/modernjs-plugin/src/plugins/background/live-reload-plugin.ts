@@ -1,7 +1,7 @@
 import type { webpack as webpackNS } from '@modern-js/app-tools';
 import { generateLoadScriptCode } from '@webx-kit/core-plugin/background';
 
-export const PLUGIN_NAME = 'BackgroundReloadPlugin';
+export const PLUGIN_NAME = 'webx:background-reload';
 
 export class BackgroundReloadPlugin {
   name = PLUGIN_NAME;

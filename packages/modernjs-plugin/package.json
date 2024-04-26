@@ -41,9 +41,9 @@
     "@webx-kit/core-plugin": "workspace:^"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.49.0",
-    "@modern-js/utils": "^2.49.0",
-    "@rsbuild/shared": "^0.6.3",
+    "@modern-js/app-tools": "^2.49.1",
+    "@modern-js/utils": "^2.49.1",
+    "@rsbuild/shared": "^0.6.6",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"
   },

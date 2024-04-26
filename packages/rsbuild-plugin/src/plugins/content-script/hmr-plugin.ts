@@ -3,7 +3,7 @@ import { generateLoadScriptCode } from '@webx-kit/core-plugin/content-script';
 import { ContentScriptBasePlugin } from './base-plugin';
 import type { JsRuntimeModule } from '../../utils/types';
 
-export const PLUGIN_NAME = 'ContentScriptHMRPlugin';
+export const PLUGIN_NAME = 'webx:content-script-hmr';
 
 export class ContentScriptHMRPlugin extends ContentScriptBasePlugin {
   name = PLUGIN_NAME;

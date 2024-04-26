@@ -2,7 +2,7 @@ import type { webpack as webpackNS } from '@modern-js/app-tools';
 import { generateLoadScriptCode } from '@webx-kit/core-plugin/content-script';
 import { ContentScriptBasePlugin } from './base-plugin';
 
-export const PLUGIN_NAME = 'ContentScriptHMRPlugin';
+export const PLUGIN_NAME = 'webx:content-script-hmr';
 
 export class ContentScriptHMRPlugin extends ContentScriptBasePlugin {
   name = PLUGIN_NAME;

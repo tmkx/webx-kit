@@ -3,7 +3,7 @@ import { ROOT_NAME, STYLE_ROOT_NAME } from '@webx-kit/core-plugin/constants';
 import { ContentScriptBasePlugin } from './base-plugin';
 import type { JsRuntimeModule } from '../../utils/types';
 
-export const PLUGIN_NAME = 'ContentScriptShadowRootPlugin';
+export const PLUGIN_NAME = 'webx:content-script-shadow-root';
 
 export class ContentScriptShadowRootPlugin extends ContentScriptBasePlugin {
   name = PLUGIN_NAME;

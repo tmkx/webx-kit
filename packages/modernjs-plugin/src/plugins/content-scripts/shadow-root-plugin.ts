@@ -3,7 +3,12 @@ import type { webpack as webpackNS } from '@modern-js/app-tools';
 import { ROOT_NAME, STYLE_ROOT_NAME } from '@webx-kit/core-plugin/constants';
 import { ContentScriptBasePlugin } from './base-plugin';
 
-export const PLUGIN_NAME = 'ContentScriptShadowRootPlugin';
+export const PLUGIN_NAME = 'webx:content-script-shadow-root';
+
+const shadowRootLoader = path.resolve(
+  __dirname,
+  process.env.NODE_ENV === 'development' ? 'shadow-root-loader-dev.js' : 'shadow-root-loader.js'
+);
 
 export class ContentScriptShadowRootPlugin extends ContentScriptBasePlugin {
   name = PLUGIN_NAME;
@@ -21,10 +26,6 @@ export class ContentScriptShadowRootPlugin extends ContentScriptBasePlugin {
     new compiler.webpack.NormalModuleReplacementPlugin(
       /mini-css-extract-plugin\/dist\/hmr\/hotModuleReplacement\.js$/,
       (resolveData) => {
-        const shadowRootLoader = path.resolve(
-          __dirname,
-          process.env.NODE_ENV === 'development' ? 'shadow-root-loader-dev.js' : 'shadow-root-loader.js'
-        );
         resolveData.request = `${shadowRootLoader}!${resolveData.request}`;
       }
     ).apply(compiler);

@@ -2,7 +2,7 @@ import type { Rspack } from '@rsbuild/shared';
 import { generateLoadScriptCode } from '@webx-kit/core-plugin/background';
 import type { JsChunk, JsRuntimeModule } from '../../utils/types';
 
-export const PLUGIN_NAME = 'BackgroundReloadPlugin';
+export const PLUGIN_NAME = 'webx:background-reload';
 
 export class BackgroundReloadPlugin {
   name = PLUGIN_NAME;
