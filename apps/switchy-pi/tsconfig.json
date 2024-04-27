@@ -11,6 +11,7 @@
     "jsx": "preserve",
     "experimentalDecorators": true,
     "resolveJsonModule": true,
+    "isolatedModules": true,
     "moduleResolution": "Bundler",
     "noEmit": true,
     "baseUrl": "./",

@@ -12,6 +12,7 @@
     "jsx": "preserve",
     "experimentalDecorators": true,
     "resolveJsonModule": true,
+    "isolatedModules": true,
     "moduleResolution": "Bundler",
     "jsxImportSource": "solid-js",
     "baseUrl": "./",

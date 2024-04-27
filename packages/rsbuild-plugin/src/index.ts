@@ -45,6 +45,7 @@ function getDefaultConfig({ allInOneEntries }: { allInOneEntries: Set<string> })
     server: {
       publicDir: false,
       port: process.env.PORT ? Number(process.env.PORT) : undefined,
+      printUrls: false,
     },
     tools: {
       bundlerChain(chain) {
