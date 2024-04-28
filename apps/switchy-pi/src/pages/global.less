@@ -2,17 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  &:has(body.dark) {
+:root {
+  &.dark {
     color-scheme: dark;
+
+    body {
+      @apply bg-zinc-900;
+    }
   }
 }
 
 body {
-  @apply bg-white transition-colors;
-
-  &.dark {
-    @apply bg-zinc-900;
-    color-scheme: dark;
-  }
+  @apply bg-white transition-colors text-sm;
 }

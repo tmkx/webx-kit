@@ -28,7 +28,8 @@ function useBodyThemeClass() {
   const isDark = useAtomValue(isDarkAtom);
 
   useLayoutEffect(() => {
-    document.body.classList.remove('light', 'dark');
-    document.body.classList.add(isDark ? 'dark' : 'light');
+    const root = document.documentElement;
+    root.classList.remove('light', 'dark');
+    root.classList.add(isDark ? 'dark' : 'light');
   }, [isDark]);
 }

@@ -1,6 +1,6 @@
 import { HeadConfig, defineConfig } from 'vitepress';
 
-const CLARITY_CODE = process.env.CLARITY_CODE;
+const { CLARITY_PROJECT_ID } = process.env;
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -9,7 +9,7 @@ export default defineConfig({
   cleanUrls: true,
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
-    ...(CLARITY_CODE
+    ...(CLARITY_PROJECT_ID
       ? [
           [
             'script',
@@ -19,7 +19,7 @@ export default defineConfig({
   c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
   t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
   y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-})(window, document, "clarity", "script", "${CLARITY_CODE}");`.trim(),
+})(window, document, "clarity", "script", "${CLARITY_PROJECT_ID}");`.trim(),
           ] satisfies HeadConfig,
         ]
       : []),

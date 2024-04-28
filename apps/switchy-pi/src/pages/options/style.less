@@ -4,16 +4,22 @@ body,
   height: 100%;
 }
 
-body {
-  @apply text-slate-700;
-
+:root {
   &.dark {
-    @apply text-slate-200;
+    body {
+      @apply text-slate-200;
+    }
   }
 }
 
+body {
+  @apply text-slate-700;
+}
+
 @media (prefers-color-scheme: dark) {
-  body:not([class~='light']) {
-    @apply bg-zinc-900;
+  :root:not([class~='light']) {
+    body {
+      @apply bg-zinc-900;
+    }
   }
 }
