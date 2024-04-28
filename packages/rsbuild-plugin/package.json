@@ -9,6 +9,10 @@
     "./manifest": {
       "types": "./src/manifest.ts",
       "default": "./src/manifest.ts"
+    },
+    "./tailwind": {
+      "types": "./src/tailwind.ts",
+      "default": "./src/tailwind.ts"
     }
   },
   "types": "./src/index.ts",
@@ -21,6 +25,10 @@
       "./manifest": {
         "types": "./dist/manifest.d.ts",
         "default": "./dist/manifest.js"
+      },
+      "./tailwind": {
+        "types": "./dist/tailwind.d.ts",
+        "default": "./dist/tailwind.js"
       }
     },
     "types": "./dist/index.d.ts"

@@ -18,6 +18,10 @@
       "types": "./src/manifest.ts",
       "default": "./src/manifest.ts"
     },
+    "./tailwind": {
+      "types": "./src/tailwind.ts",
+      "default": "./src/tailwind.ts"
+    },
     "./utils": {
       "types": "./src/utils.ts",
       "default": "./src/utils.ts"
@@ -41,6 +45,10 @@
         "types": "./dist/manifest.d.ts",
         "default": "./dist/manifest.js"
       },
+      "./tailwind": {
+        "types": "./dist/tailwind.d.ts",
+        "default": "./dist/tailwind.js"
+      },
       "./utils": {
         "types": "./dist/utils.d.ts",
         "default": "./dist/utils.js"
@@ -61,11 +69,13 @@
   },
   "devDependencies": {
     "@rsbuild/shared": "^0.6.6",
+    "tailwindcss": "^3.4.3",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5",
     "webpack": "^5.91.0"
   },
   "peerDependencies": {
-    "@rsbuild/shared": "^0.5.0"
+    "@rsbuild/shared": "^0.5.0",
+    "tailwindcss": "^3.0.0"
   }
 }

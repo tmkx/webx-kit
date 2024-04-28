@@ -7,5 +7,6 @@ export default defineConfig({
     index: './src/index.ts',
     'shadow-root-loader': './src/plugins/content-scripts/shadow-root-loader.ts',
     manifest: './src/manifest.ts',
+    tailwind: './src/tailwind.ts',
   },
 });
