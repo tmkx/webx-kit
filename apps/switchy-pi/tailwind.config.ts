@@ -1,12 +1,11 @@
+import { getPixelUnitDefaultTheme } from '@webx-kit/modernjs-plugin/tailwind';
 import type { Config } from 'tailwindcss';
 import plugin from 'tailwindcss/plugin';
 
 const config: Config = {
   content: ['./src/**/*.{ts,tsx}'],
   darkMode: 'class',
-  theme: {
-    extend: {},
-  },
+  theme: getPixelUnitDefaultTheme(),
   plugins: [
     require('tailwindcss-react-aria-components'),
     require('tailwindcss-animate'),
