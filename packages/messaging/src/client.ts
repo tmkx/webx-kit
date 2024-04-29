@@ -66,7 +66,7 @@ export interface TrpcClientOptions {
   to?: MessageTarget;
 }
 
-function internalCreateTrpcClient<TRouter extends AnyTRPCRouter>({ type, to = 'background' }: TrpcClientOptions) {
+function internalCreateTrpcClient<TRouter extends AnyTRPCRouter>({ type, to = 'server' }: TrpcClientOptions) {
   const id = randomID();
   const name = `${type}@${id}`;
 

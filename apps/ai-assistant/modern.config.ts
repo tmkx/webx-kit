@@ -11,6 +11,7 @@ export default defineConfig(() => ({
         import: './src/content-scripts/index.tsx',
         matches: ['<all_urls>'],
       },
+      autoRefreshContentScripts: true,
     }),
   ],
   output: {
