@@ -3,6 +3,7 @@
 node_modules
 dist
 output
+test-results
 
 .nx/cache
 
