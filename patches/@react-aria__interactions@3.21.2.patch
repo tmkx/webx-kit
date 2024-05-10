@@ -1,11 +1,12 @@
-diff --git a/dist/import.mjs b/dist/import.mjs
-index d86edf1f194e0495ed4e11f3814f52efbaefe8c7..62f891f3b81d7fd47950c2100ade3700d39700e3 100644
---- a/dist/import.mjs
-+++ b/dist/import.mjs
-@@ -1396,14 +1396,15 @@ function $e0b6e0b68ec7f50f$export$872b660ac5a1ff98(props) {
+diff --git a/dist/useInteractOutside.mjs b/dist/useInteractOutside.mjs
+index b2d08f8b4ffb4561f22c7473130a52381bf61b18..e2dbb06b2945427de5d9b505d827fd148d1d8b0e 100644
+--- a/dist/useInteractOutside.mjs
++++ b/dist/useInteractOutside.mjs
+@@ -81,14 +81,16 @@ function $e0b6e0b68ec7f50f$export$872b660ac5a1ff98(props) {
  }
  function $e0b6e0b68ec7f50f$var$isValidEvent(event, ref) {
      if (event.button > 0) return false;
++    // compat for ShadowDOM
 +    const eventTarget = event.composedPath()[0];
      if (event.target) {
          // if the event target is no longer in the document, ignore
