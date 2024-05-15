@@ -1,7 +1,9 @@
-import type { AnyTRPCRouter } from '@trpc/server';
+import { AnyTRPCRouter, initTRPC } from '@trpc/server';
 import { Port, RequestHandler, StreamHandler, createMessaging } from './core';
-import { applyMessagingHandler } from './core/trpc';
+import { CreateContextFnOptions, applyMessagingHandler } from './core/trpc';
 import { WebxMessage, isWebxMessage } from './shared';
+
+export { observable } from '@trpc/server/observable';
 
 export interface CustomHandlerOptions {
   requestHandler?: RequestHandler;
@@ -52,5 +54,16 @@ export function createTrpcServer<TRouter extends AnyTRPCRouter>({ router }: Trpc
     port: serverPort,
     router,
     intercept: (data: WebxMessage, abort) => (shouldSkip(data) ? abort : data.data),
+    createContext: createSenderContext,
   });
 }
+
+export function createSenderContext({ originMessage }: CreateContextFnOptions) {
+  return {
+    sender: originMessage[1] as chrome.runtime.MessageSender,
+  };
+}
+
+export type CreateSenderContext = Awaited<ReturnType<typeof createSenderContext>>;
+
+export const t = initTRPC.context<CreateSenderContext>().create({ isServer: true });

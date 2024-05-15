@@ -38,13 +38,12 @@ createTrpcServer({
 ```
 
 ```ts [background/router/index.ts]
-import { initTRPC } from '@trpc/server';
+import { t } from '@webx-kit/messaging/server';
 import { z } from 'zod';
 
-const t = initTRPC.create({ isServer: true });
-
 export const appRouter = t.router({
-  hello: t.procedure.input(z.object({ name: z.string() })).query(async ({ input }) => {
+  hello: t.procedure.input(z.object({ name: z.string() })).query(async ({ ctx, input }) => {
+    console.log(ctx.sender);
     return `Hello, ${input.name}`;
   }),
 });

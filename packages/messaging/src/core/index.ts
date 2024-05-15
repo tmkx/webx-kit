@@ -4,10 +4,12 @@ import { randomID, withResolvers } from './utils';
 export type SendMessageFunction = (message: any) => void;
 export type CleanupFunction = VoidFunction;
 
+export type OriginMessage = [message: any, ...rest: unknown[]];
+
 export interface Port {
   name?: string;
   onMessage(listener: (message: any, ...rest: unknown[]) => Promisable<any>): VoidFunction;
-  send(message: any, originMessage?: [message: any, ...unknown[]]): Promise<unknown>;
+  send(message: any, originMessage?: OriginMessage): Promise<unknown>;
 }
 
 interface AnyPacket {
@@ -61,8 +63,20 @@ interface StreamDataPacket extends AnyPacket {
  */
 type Packet = RequestPacket | ResponsePacket | StreamPacket | StreamDataPacket;
 
-export type RequestHandler = (message: any, context: { signal: AbortSignal }) => Promisable<any>;
-export type StreamHandler = (message: any, subscriber: Observer<any>) => Promisable<CleanupFunction | void>;
+export type RequestHandler = (
+  message: any,
+  context: {
+    signal: AbortSignal;
+    originMessage: OriginMessage;
+  }
+) => Promisable<any>;
+export type StreamHandler = (
+  message: any,
+  ubscriber: Observer<any>,
+  context: {
+    originMessage: OriginMessage;
+  }
+) => Promisable<CleanupFunction | void>;
 
 const INTERCEPT_ABORT = Symbol();
 
@@ -114,7 +128,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
   const processingRequestControllers = new Map<string, AbortController>();
   const processingStreamCleanups = new Map<string, CleanupFunction | void>();
 
-  async function handleMessage(...originMessage: [message: any, ...rest: unknown[]]) {
+  async function handleMessage(...originMessage: OriginMessage) {
     const [message] = originMessage;
 
     if (!isPacket(message)) return;
@@ -141,7 +155,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
         try {
           const ac = new AbortController();
           processingRequestControllers.set(messageId, ac);
-          const response = await onRequest(data, { signal: ac.signal });
+          const response = await onRequest(data, { signal: ac.signal, originMessage });
           d = { data: response };
         } catch (err) {
           d = { error: err };
@@ -195,7 +209,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
         };
 
         try {
-          const cleanup = await onStream(data, observer);
+          const cleanup = await onStream(data, observer, { originMessage });
           processingStreamCleanups.set(message.i, cleanup);
         } catch (error) {
           // Error is not serializable in `chrome.runtime.Port`

@@ -6,31 +6,41 @@ import {
   getTRPCErrorFromUnknown,
   transformTRPCResponse,
 } from '@trpc/server';
-import { TRPCResponseMessage, transformResult } from '@trpc/server/unstable-core-do-not-import';
+import {
+  MaybePromise,
+  TRPCResponseMessage,
+  inferRouterContext,
+  transformResult,
+} from '@trpc/server/unstable-core-do-not-import';
 import { isObservable, observable } from '@trpc/server/observable';
 import { Operation, TRPCClientError, TRPCLink } from '@trpc/client';
-import { Messaging, Port, createMessaging } from './index';
+import { Messaging, OriginMessage, Port, createMessaging } from './index';
+
+export type CreateContextFnOptions = {
+  originMessage: OriginMessage;
+};
 
 export interface MessagingHandlerOptions<TRouter extends AnyTRPCRouter> {
   port: Port;
   router: TRouter;
   intercept?(data: unknown, abort: symbol): unknown | symbol;
+  createContext?(opts: CreateContextFnOptions): MaybePromise<inferRouterContext<TRouter>>;
 }
 
 export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: MessagingHandlerOptions<TRouter>) {
-  const { port, router, intercept } = options;
+  const { port, router, intercept, createContext } = options;
   const { procedures, _config: rootConfig } = router._def;
 
   const server = createMessaging(port, {
     intercept,
-    async onRequest(message) {
+    async onRequest(message, context) {
       const { type, path, input, context: ctx } = message as Operation<unknown>;
       try {
         const result = await callTRPCProcedure({
           procedures,
           path,
           getRawInput: () => Promise.resolve(input),
-          ctx,
+          ctx: createContext ? { ...ctx, ...(await createContext(context)) } : ctx,
           type,
         });
         return transformTRPCResponse(rootConfig, { result: { data: result } });
@@ -41,7 +51,7 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
         });
       }
     },
-    async onStream(message, subscriber) {
+    async onStream(message, subscriber, context) {
       const { type, path, input, context: ctx } = message as Operation<unknown>;
 
       try {
@@ -49,7 +59,7 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
           procedures,
           path,
           getRawInput: () => Promise.resolve(input),
-          ctx,
+          ctx: createContext ? { ...ctx, ...(await createContext(context)) } : ctx,
           type,
         });
 
