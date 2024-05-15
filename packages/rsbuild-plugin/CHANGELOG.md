@@ -1,5 +1,14 @@
 # @webx-kit/rsbuild-plugin
 
+## 0.0.4
+
+### Patch Changes
+
+- dbac670: feat: set tailwind unit to px
+- 4ea45b6: feat: support importing remote code
+- Updated dependencies [dbac670]
+  - @webx-kit/core-plugin@0.0.2
+
 ## 0.0.3
 
 ### Patch Changes

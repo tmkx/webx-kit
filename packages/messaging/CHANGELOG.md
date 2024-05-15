@@ -1,5 +1,12 @@
 # @webx-kit/messaging
 
+## 0.0.4
+
+### Patch Changes
+
+- f50f89a: feat(messaging): add sender context
+- 689a898: fix: server is not responding
+
 ## 0.0.3
 
 ### Patch Changes
