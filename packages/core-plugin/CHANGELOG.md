@@ -1,5 +1,11 @@
 # @webx-kit/core-plugin
 
+## 0.0.2
+
+### Patch Changes
+
+- dbac670: feat: set tailwind unit to px
+
 ## 0.0.1
 
 ### Patch Changes
