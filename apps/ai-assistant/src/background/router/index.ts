@@ -1,12 +1,9 @@
-import { initTRPC } from '@trpc/server';
+import { observable, t } from '@webx-kit/messaging/server';
 import { z } from 'zod';
-import { observable } from '@trpc/server/observable';
 import { getGenAI } from '@/background/shared';
 
-const t = initTRPC.create({ isServer: true });
-
 export const appRouter = t.router({
-  generateContentStream: t.procedure.input(z.object({ prompt: z.string() })).subscription(({ input }) => {
+  generateContentStream: t.procedure.input(z.object({ prompt: z.string() })).subscription(({ ctx, input }) => {
     return observable((observer) => {
       let isUnsubscribed = false;
 
