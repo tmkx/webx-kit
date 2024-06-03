@@ -1,5 +1,5 @@
 diff --git a/dist/useInteractOutside.mjs b/dist/useInteractOutside.mjs
-index b2d08f8b4ffb4561f22c7473130a52381bf61b18..e2dbb06b2945427de5d9b505d827fd148d1d8b0e 100644
+index 294e75e5117431f357cbfe57a87233f643b30686..a2794471d2a364fdb4d0f657570a388bc319b138 100644
 --- a/dist/useInteractOutside.mjs
 +++ b/dist/useInteractOutside.mjs
 @@ -81,14 +81,16 @@ function $e0b6e0b68ec7f50f$export$872b660ac5a1ff98(props) {
@@ -13,7 +13,7 @@ index b2d08f8b4ffb4561f22c7473130a52381bf61b18..e2dbb06b2945427de5d9b505d827fd14
          const ownerDocument = event.target.ownerDocument;
          if (!ownerDocument || !ownerDocument.documentElement.contains(event.target)) return false;
          // If the target is within a top layer element (e.g. toasts), ignore.
--        if (event.target.closest("[data-react-aria-top-layer]")) return false;
+-        if (event.target.closest('[data-react-aria-top-layer]')) return false;
 +        if (eventTarget.closest("[data-react-aria-top-layer]")) return false;
      }
 -    return ref.current && !ref.current.contains(event.target);

@@ -11,19 +11,16 @@
     "test": "nx run-many -t test"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.1",
-    "@playwright/test": "^1.44.0",
-    "nx": "^19.0.2"
+    "@changesets/cli": "^2.27.5",
+    "@playwright/test": "^1.44.1",
+    "nx": "^19.1.2"
   },
   "publishConfig": {
     "access": "public"
   },
   "pnpm": {
-    "overrides": {
-      "@rspack/core": "0.6.5"
-    },
     "patchedDependencies": {
-      "@react-aria/interactions@3.21.2": "patches/@react-aria__interactions@3.21.2.patch"
+      "@react-aria/interactions@3.21.3": "patches/@react-aria__interactions@3.21.3.patch"
     }
   }
 }

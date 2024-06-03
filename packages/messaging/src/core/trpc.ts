@@ -9,11 +9,13 @@ import {
 import {
   MaybePromise,
   TRPCResponseMessage,
+  inferClientTypes,
   inferRouterContext,
   transformResult,
 } from '@trpc/server/unstable-core-do-not-import';
 import { isObservable, observable } from '@trpc/server/observable';
 import { Operation, TRPCClientError, TRPCLink } from '@trpc/client';
+import { TransformerOptions, getTransformer } from '@trpc/client/unstable-internals';
 import { Messaging, OriginMessage, Port, createMessaging } from './index';
 
 export type CreateContextFnOptions = {
@@ -112,21 +114,21 @@ export interface MessagingLinkOptions<TRouter extends AnyTRPCRouter> {
 }
 
 export function messagingLink<TRouter extends AnyTRPCRouter>(
-  options: MessagingLinkOptions<TRouter>
+  options: MessagingLinkOptions<TRouter> & TransformerOptions<inferClientTypes<TRouter>>
 ): TRPCLink<TRouter> {
   const { messaging } = options;
-
-  return (runtime) => {
+  const transformer = getTransformer(options.transformer);
+  return () => {
     return ({ op }) => {
       const { type, path, id, context } = op;
-      const input = runtime.transformer.serialize(op.input);
+      const input = transformer.input.serialize(op.input);
 
       if (op.type !== 'subscription') {
         return observable((observer) => {
           messaging
             .request({ type, path, input, id, context })
             .then((response) => {
-              const transformed = transformResult(response as any, runtime.transformer);
+              const transformed = transformResult(response as any, transformer.output);
 
               if (!transformed.ok) {
                 observer.error(TRPCClientError.from(transformed.error));
@@ -153,7 +155,7 @@ export function messagingLink<TRouter extends AnyTRPCRouter>(
               observer.complete();
             },
             next(message) {
-              const transformed = transformResult(message, runtime.transformer);
+              const transformed = transformResult(message, transformer.output);
 
               if (!transformed.ok) {
                 observer.error(TRPCClientError.from(transformed.error));

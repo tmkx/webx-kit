@@ -48,12 +48,12 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@modern-js/utils": "^2.49.3",
+    "@modern-js/utils": "^2.51.0",
     "@webx-kit/chrome-types": "workspace:^"
   },
   "devDependencies": {
-    "@playwright/test": "^1.44.0",
-    "@types/node": "^20.12.11",
+    "@playwright/test": "^1.44.1",
+    "@types/node": "^20.14.0",
     "typescript": "^5.4.5"
   },
   "peerDependencies": {
