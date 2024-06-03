@@ -1,14 +1,18 @@
+import fs from 'node:fs';
 import path from 'node:path';
 import { RsbuildPluginAPI, fse, isDev } from '@rsbuild/shared';
 import { FSWatcher, watch } from '@rsbuild/shared/chokidar';
 import createJITI from '@rsbuild/shared/jiti';
+import semver from '@rsbuild/shared/semver';
+import type { PackageJson, SetOptional } from 'type-fest';
 
 const DEFAULT_MANIFEST_SRC = './src/manifest.ts';
 
-export type Manifest = chrome.runtime.ManifestV3;
+export type Manifest = SetOptional<chrome.runtime.ManifestV3, 'name' | 'version'>;
 
 export type ManifestTransformerContext = {
   isDev: boolean;
+  rootPath: string;
   outputPath?: string;
   port: number;
 };
@@ -22,6 +26,8 @@ export function registerManifestTransformer(name: string, transformer: ManifestT
 }
 
 interface CreateManifestGeneratorParams {
+  /** Project root path */
+  rootPath: string;
   sourcePath: string;
   outputPath?: string;
   /**
@@ -30,9 +36,15 @@ interface CreateManifestGeneratorParams {
   transformManifest?: ManifestTransformer;
 }
 
-function createManifestGenerator({ sourcePath, outputPath, transformManifest }: CreateManifestGeneratorParams) {
+function createManifestGenerator({
+  rootPath,
+  sourcePath,
+  outputPath,
+  transformManifest,
+}: CreateManifestGeneratorParams) {
   let watcher: FSWatcher | undefined;
   const context: ManifestTransformerContext = {
+    rootPath,
     isDev: isDev(),
     outputPath,
     port: 0,
@@ -43,7 +55,8 @@ function createManifestGenerator({ sourcePath, outputPath, transformManifest }: 
     const userManifest: UserManifest = await jiti(sourcePath);
     const manifest = typeof userManifest === 'function' ? await userManifest(context) : userManifest;
 
-    applyCSPPlugin(manifest, context);
+    await applyDefaultValuePlugin(manifest, context);
+    await applyCSPPlugin(manifest, context);
     for (const transform of manifestTransformers.values()) {
       await transform(manifest, context);
     }
@@ -77,6 +90,20 @@ export function defineManifest(options: UserManifest): UserManifest {
   return options;
 }
 
+async function applyDefaultValuePlugin(manifest: Manifest, context: ManifestTransformerContext) {
+  const packageJsonPath = path.resolve(context.rootPath, 'package.json');
+  if (!fs.existsSync(packageJsonPath)) return;
+  try {
+    const packageJson: PackageJson = await fse.readJson(packageJsonPath, { encoding: 'utf8' });
+    manifest.name ??= String(packageJson.displayName || '') || packageJson.name || 'WebX';
+    try {
+      manifest.version ??= semver.coerce(packageJson.version || '0.0.0').version; // '0.0.1-alpha' -> '0.0.1'
+    } catch {}
+    manifest.description ??= packageJson.description;
+    manifest.homepage_url ??= packageJson.homepage;
+  } catch {}
+}
+
 function applyCSPPlugin(manifest: Manifest, context: ManifestTransformerContext) {
   if (!context.isDev || manifest.content_security_policy?.extension_pages) return;
   manifest.content_security_policy ??= {};
@@ -101,6 +128,7 @@ export const applyManifestSupport = (api: RsbuildPluginAPI, options: ManifestOpt
   const { rootPath } = api.context;
 
   const { context, generate, watch, close } = createManifestGenerator({
+    rootPath,
     sourcePath: path.join(rootPath, options.manifest || DEFAULT_MANIFEST_SRC),
     transformManifest: options.transformManifest,
   });
