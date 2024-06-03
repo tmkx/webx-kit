@@ -13,11 +13,11 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.49.3",
-    "@playwright/test": "^1.44.0",
-    "@types/chrome": "^0.0.267",
-    "@types/node": "^20.12.11",
-    "@types/react": "^18.3.1",
+    "@modern-js/app-tools": "^2.51.0",
+    "@playwright/test": "^1.44.1",
+    "@types/chrome": "^0.0.268",
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",

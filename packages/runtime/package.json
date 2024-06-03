@@ -56,8 +56,8 @@
     "@floating-ui/dom": "^1.6.5"
   },
   "devDependencies": {
-    "@playwright/test": "^1.44.0",
-    "tsup": "^8.0.2",
+    "@playwright/test": "^1.44.1",
+    "tsup": "^8.1.0",
     "typescript": "^5.4.5"
   }
 }

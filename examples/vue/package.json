@@ -12,11 +12,11 @@
     "vue": "^3.4.27"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.49.3",
-    "@playwright/test": "^1.44.0",
-    "@rsbuild/plugin-vue": "^0.6.11",
-    "@types/chrome": "^0.0.267",
-    "@types/node": "^20.12.11",
+    "@modern-js/app-tools": "^2.51.0",
+    "@playwright/test": "^1.44.1",
+    "@rsbuild/plugin-vue": "^0.7.1",
+    "@types/chrome": "^0.0.268",
+    "@types/node": "^20.14.0",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
     "tailwindcss": "^3.4.3",

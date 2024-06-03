@@ -45,14 +45,14 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@types/chrome": "^0.0.267",
+    "@types/chrome": "^0.0.268",
     "@webx-kit/core-plugin": "workspace:^"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.49.3",
-    "@modern-js/utils": "^2.49.3",
-    "@rsbuild/shared": "^0.6.11",
-    "tsup": "^8.0.2",
+    "@modern-js/app-tools": "^2.51.0",
+    "@modern-js/utils": "^2.51.0",
+    "@rsbuild/shared": "^0.7.1",
+    "tsup": "^8.1.0",
     "typescript": "^5.4.5"
   },
   "peerDependencies": {

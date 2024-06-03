@@ -17,16 +17,16 @@
     "lint:type": "tsc --noEmit"
   },
   "devDependencies": {
-    "@modern-js/utils": "^2.49.3",
+    "@modern-js/utils": "^2.51.0",
     "@types/debug": "^4.1.12",
     "@types/prompts": "^2.4.9",
-    "debug": "^4.3.4",
-    "execa": "^9.0.0",
+    "debug": "^4.3.5",
+    "execa": "^9.1.0",
     "fast-glob": "^3.3.2",
     "kleur": "^4.1.5",
     "prompts": "^2.4.2",
-    "tsup": "^8.0.2",
-    "type-fest": "^4.18.2",
+    "tsup": "^8.1.0",
+    "type-fest": "^4.18.3",
     "typescript": "^5.4.5",
     "vitest": "^1.6.0"
   }

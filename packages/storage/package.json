@@ -36,21 +36,21 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "type-fest": "^4.18.2"
+    "type-fest": "^4.18.3"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.49.3",
-    "@playwright/test": "^1.44.0",
-    "@types/chrome": "^0.0.267",
-    "@types/node": "^20.12.11",
-    "@types/react": "^18.3.1",
+    "@modern-js/app-tools": "^2.51.0",
+    "@playwright/test": "^1.44.1",
+    "@types/chrome": "^0.0.268",
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "jotai": "^2.8.0",
+    "jotai": "^2.8.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "tsup": "^8.0.2",
+    "tsup": "^8.1.0",
     "typescript": "^5.4.5",
     "unstorage": "^1.10.2"
   },

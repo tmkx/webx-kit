@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { AppTools, CliPlugin, UserConfig, mergeConfig } from '@modern-js/app-tools';
 import { WebpackChain, pkgUp, lodash } from '@modern-js/utils';
-import { RsbuildPlugin, findUp, isDev } from '@rsbuild/shared';
+import { RsbuildPlugin, isDev } from '@rsbuild/shared';
 import { BackgroundOptions, applyBackgroundSupport, getBackgroundEntryNames } from '@webx-kit/core-plugin/background';
 import {
   ContentScriptsOptions,
@@ -11,7 +11,7 @@ import {
   normalizeContentScriptsOptions,
 } from '@webx-kit/core-plugin/content-script';
 import { ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
-import { titleCase } from '@webx-kit/core-plugin/utils';
+import { findUp, titleCase } from '@webx-kit/core-plugin/utils';
 import { BackgroundReloadPlugin } from './plugins/background/live-reload-plugin';
 import { CleanOptions, applyCleanSupport } from './plugins/clean';
 import { applyHMRCorsSupport } from './plugins/hmr-cors';

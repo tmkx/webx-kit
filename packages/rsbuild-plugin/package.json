@@ -45,17 +45,17 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@types/chrome": "^0.0.267",
+    "@types/chrome": "^0.0.268",
     "@webx-kit/core-plugin": "workspace:^"
   },
   "devDependencies": {
-    "@rsbuild/core": "^0.6.11",
-    "@rsbuild/shared": "^0.6.11",
-    "@rspack/core": "^0.6.5",
-    "tsup": "^8.0.2",
+    "@rsbuild/core": "^0.7.1",
+    "@rsbuild/shared": "^0.7.1",
+    "@rspack/core": "^0.7.0",
+    "tsup": "^8.1.0",
     "typescript": "^5.4.5"
   },
   "peerDependencies": {
-    "@rsbuild/core": "^0.5.0"
+    "@rsbuild/core": "^0.7.0"
   }
 }
