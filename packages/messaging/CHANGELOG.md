@@ -1,5 +1,11 @@
 # @webx-kit/messaging
 
+## 0.0.5
+
+### Patch Changes
+
+- 671d2f7: chore: upgrade dependencies
+
 ## 0.0.4
 
 ### Patch Changes

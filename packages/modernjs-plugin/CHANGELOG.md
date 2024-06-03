@@ -1,5 +1,14 @@
 # @webx-kit/modernjs-plugin
 
+## 0.0.7
+
+### Patch Changes
+
+- 671d2f7: chore: upgrade dependencies
+- Updated dependencies [bdf2aee]
+- Updated dependencies [671d2f7]
+  - @webx-kit/core-plugin@0.0.3
+
 ## 0.0.6
 
 ### Patch Changes
