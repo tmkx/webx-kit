@@ -1,5 +1,14 @@
 # @webx-kit/rsbuild-plugin
 
+## 0.0.5
+
+### Patch Changes
+
+- 671d2f7: chore: upgrade dependencies
+- Updated dependencies [bdf2aee]
+- Updated dependencies [671d2f7]
+  - @webx-kit/core-plugin@0.0.3
+
 ## 0.0.4
 
 ### Patch Changes
