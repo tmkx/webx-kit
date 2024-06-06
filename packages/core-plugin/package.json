@@ -68,6 +68,7 @@
     "type-fest": "^4.18.3"
   },
   "devDependencies": {
+    "@rsbuild/core": "^0.7.1",
     "@rsbuild/shared": "^0.7.1",
     "tailwindcss": "^3.4.3",
     "tsup": "^8.1.0",
@@ -75,7 +76,8 @@
     "webpack": "^5.91.0"
   },
   "peerDependencies": {
-    "@rsbuild/shared": "^0.5.0",
+    "@rsbuild/core": "^0.7.0",
+    "@rsbuild/shared": "^0.7.0",
     "tailwindcss": "^3.0.0"
   }
 }
