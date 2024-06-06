@@ -44,6 +44,7 @@ export default defineConfig({
           { text: 'Getting Started', link: '/guide/' },
           { text: 'Messaging', link: '/guide/messaging' },
           { text: 'Storage', link: '/guide/storage' },
+          { text: 'Environment Variables', link: '/guide/env' },
         ],
       },
       {

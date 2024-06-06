@@ -11,7 +11,7 @@ import {
   normalizeContentScriptsOptions,
 } from '@webx-kit/core-plugin/content-script';
 import { ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
-import { findUp, titleCase } from '@webx-kit/core-plugin/utils';
+import { findUp, loadWebxEnv, titleCase } from '@webx-kit/core-plugin/utils';
 import { BackgroundReloadPlugin } from './plugins/background/live-reload-plugin';
 import { CleanOptions, applyCleanSupport } from './plugins/clean';
 import { applyHMRCorsSupport } from './plugins/hmr-cors';
@@ -45,6 +45,7 @@ const getDefaultConfig = async ({
     source: {
       entriesDir: './src/pages',
       define: {
+        ...loadWebxEnv().publicVars,
         __DEV__: isDev(),
       },
       include: typeof webxRuntimePackageJsonPath === 'string' ? [path.dirname(webxRuntimePackageJsonPath)] : [],

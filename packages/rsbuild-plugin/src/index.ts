@@ -8,7 +8,7 @@ import {
   normalizeContentScriptsOptions,
 } from '@webx-kit/core-plugin/content-script';
 import { ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
-import { titleCase } from '@webx-kit/core-plugin/utils';
+import { loadWebxEnv, titleCase } from '@webx-kit/core-plugin/utils';
 import type { JsChunk } from './utils/types';
 import { BackgroundReloadPlugin } from './plugins/background/live-reload-plugin';
 import { applyBuildHttpSupport } from './plugins/build-http';
@@ -22,6 +22,7 @@ function getDefaultConfig({ allInOneEntries }: { allInOneEntries: Set<string> })
   return {
     source: {
       define: {
+        ...loadWebxEnv().publicVars,
         __DEV__: isDev(),
       },
     },
