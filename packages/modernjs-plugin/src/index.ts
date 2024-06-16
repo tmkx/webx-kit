@@ -3,6 +3,7 @@ import { AppTools, CliPlugin, UserConfig, mergeConfig } from '@modern-js/app-too
 import { WebpackChain, pkgUp, lodash } from '@modern-js/utils';
 import { RsbuildPlugin, isDev } from '@rsbuild/shared';
 import { BackgroundOptions, applyBackgroundSupport, getBackgroundEntryNames } from '@webx-kit/core-plugin/background';
+import { applyBuildHttpSupport } from '@webx-kit/core-plugin/build-http';
 import {
   ContentScriptsOptions,
   NormalizeContentScriptsOptions,
@@ -10,8 +11,9 @@ import {
   getContentScriptEntryNames,
   normalizeContentScriptsOptions,
 } from '@webx-kit/core-plugin/content-script';
+import { applyEnvSupport } from '@webx-kit/core-plugin/env';
 import { ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
-import { findUp, loadWebxEnv, titleCase } from '@webx-kit/core-plugin/utils';
+import { findUp, titleCase } from '@webx-kit/core-plugin/utils';
 import { BackgroundReloadPlugin } from './plugins/background/live-reload-plugin';
 import { CleanOptions, applyCleanSupport } from './plugins/clean';
 import { applyHMRCorsSupport } from './plugins/hmr-cors';
@@ -45,7 +47,6 @@ const getDefaultConfig = async ({
     source: {
       entriesDir: './src/pages',
       define: {
-        ...loadWebxEnv().publicVars,
         __DEV__: isDev(),
       },
       include: typeof webxRuntimePackageJsonPath === 'string' ? [path.dirname(webxRuntimePackageJsonPath)] : [],
@@ -90,12 +91,6 @@ const getDefaultConfig = async ({
       webpackChain(chain: WebpackChain) {
         chain.experiments({
           outputModule: true,
-          buildHttp: {
-            allowedUris: [(_url) => true],
-            frozen: false,
-            cacheLocation: path.resolve(nodeModulesDir, '.cache/client.webpack.lock.data'),
-            lockfileLocation: path.resolve(nodeModulesDir, '.cache/client.webpack.lock'),
-          },
         });
         // DO NOT split chunks when the entry is background/content-scripts
         chain.optimization.runtimeChunk(false).splitChunks({
@@ -139,7 +134,9 @@ function webxBuilderPlugin(options: NormalizeContentScriptsOptions<WebxPluginOpt
           : [new ContentScriptPublicPathPlugin(contentScriptNames)]
       );
       applyManifestSupport(api, options);
+      applyBuildHttpSupport(api);
       applyCleanSupport(api, options);
+      applyEnvSupport(api);
       applyHMRCorsSupport(api);
     },
   };

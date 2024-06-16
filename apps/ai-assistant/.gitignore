@@ -12,15 +12,11 @@ node_modules/
 .pnpm-store/
 *.tsbuildinfo
 .eslintcache
-.changeset/pre.json
 
 dist/
 coverage/
 release/
 output/
-output_resource/
 log/
-
-**/*/typings/auto-generated
 
 modern.config.local.*

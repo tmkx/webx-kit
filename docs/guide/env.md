@@ -82,3 +82,9 @@ declare module 'process' {
 ```
 
 :::
+
+### In Remote Code Import
+
+```ts
+import config from 'https://httpbin.org/get?id=$WEBX_PUBLIC_CONFIG_ID';
+```

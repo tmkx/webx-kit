@@ -13,6 +13,6 @@ export const sharedConfig: Options = {
 
 export default defineConfig({
   ...sharedConfig,
-  entry: ['./src/*.ts'],
+  entry: ['./src/**/*.ts'],
   bundle: false,
 });
