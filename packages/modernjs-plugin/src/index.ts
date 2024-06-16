@@ -102,7 +102,7 @@ const getDefaultConfig = async ({
 
 export const webxPlugin = (options: WebxPluginOptions = {}): CliPlugin<AppTools<'shared'>> => {
   return {
-    name: '@webx-kit/modernjs-plugin',
+    name: 'webx:modernjs-plugin',
     post: ['@modern-js/app-tools'],
     async setup(api) {
       const config = api.useConfigContext();
@@ -122,7 +122,7 @@ export const webxPlugin = (options: WebxPluginOptions = {}): CliPlugin<AppTools<
 
 function webxBuilderPlugin(options: NormalizeContentScriptsOptions<WebxPluginOptions>): RsbuildPlugin {
   return {
-    name: '@webx-kit/modernjs-plugin/builder',
+    name: 'webx:modernjs-plugin/builder',
     setup(api) {
       applyBackgroundSupport(api, options, ({ entryName, backgroundLiveReload }) =>
         isDev() ? [new BackgroundReloadPlugin(entryName, backgroundLiveReload)] : []

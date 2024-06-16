@@ -64,7 +64,7 @@ function getDefaultConfig({ allInOneEntries }: { allInOneEntries: Set<string> })
 
 export const webxPlugin = (options: WebxPluginOptions = {}): RsbuildPlugin => {
   return {
-    name: '@webx-kit/rsbuild-plugin',
+    name: 'webx:rsbuild-plugin',
     setup(api) {
       const normalizedOptions = normalizeContentScriptsOptions(options);
       const allInOneEntries = new Set([
