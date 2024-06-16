@@ -3,6 +3,7 @@ import { AppTools, CliPlugin, UserConfig, mergeConfig } from '@modern-js/app-too
 import { WebpackChain, pkgUp, lodash } from '@modern-js/utils';
 import { RsbuildPlugin, isDev } from '@rsbuild/shared';
 import { BackgroundOptions, applyBackgroundSupport, getBackgroundEntryNames } from '@webx-kit/core-plugin/background';
+import { applyBuildHttpSupport } from '@webx-kit/core-plugin/build-http';
 import {
   ContentScriptsOptions,
   NormalizeContentScriptsOptions,
@@ -10,8 +11,9 @@ import {
   getContentScriptEntryNames,
   normalizeContentScriptsOptions,
 } from '@webx-kit/core-plugin/content-script';
+import { applyEnvSupport } from '@webx-kit/core-plugin/env';
 import { ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
-import { findUp, loadWebxEnv, titleCase } from '@webx-kit/core-plugin/utils';
+import { findUp, titleCase } from '@webx-kit/core-plugin/utils';
 import { BackgroundReloadPlugin } from './plugins/background/live-reload-plugin';
 import { CleanOptions, applyCleanSupport } from './plugins/clean';
 import { applyHMRCorsSupport } from './plugins/hmr-cors';
@@ -33,7 +35,6 @@ const getDefaultConfig = async ({
 }): Promise<UserConfig<AppTools<'shared'>>> => {
   const packageJsonFilePath = await findUp({ filename: 'package.json' });
   if (!packageJsonFilePath) throw new Error(`Can not find package.json`);
-  const nodeModulesDir = path.resolve(path.dirname(packageJsonFilePath), 'node_modules');
 
   const webxRuntimePackageJsonPath = lodash.attempt(() =>
     pkgUp.sync({
@@ -45,7 +46,6 @@ const getDefaultConfig = async ({
     source: {
       entriesDir: './src/pages',
       define: {
-        ...loadWebxEnv().publicVars,
         __DEV__: isDev(),
       },
       include: typeof webxRuntimePackageJsonPath === 'string' ? [path.dirname(webxRuntimePackageJsonPath)] : [],
@@ -90,12 +90,6 @@ const getDefaultConfig = async ({
       webpackChain(chain: WebpackChain) {
         chain.experiments({
           outputModule: true,
-          buildHttp: {
-            allowedUris: [(_url) => true],
-            frozen: false,
-            cacheLocation: path.resolve(nodeModulesDir, '.cache/client.webpack.lock.data'),
-            lockfileLocation: path.resolve(nodeModulesDir, '.cache/client.webpack.lock'),
-          },
         });
         // DO NOT split chunks when the entry is background/content-scripts
         chain.optimization.runtimeChunk(false).splitChunks({
@@ -108,7 +102,7 @@ const getDefaultConfig = async ({
 
 export const webxPlugin = (options: WebxPluginOptions = {}): CliPlugin<AppTools<'shared'>> => {
   return {
-    name: '@webx-kit/modernjs-plugin',
+    name: 'webx:modernjs-plugin',
     post: ['@modern-js/app-tools'],
     async setup(api) {
       const config = api.useConfigContext();
@@ -128,7 +122,7 @@ export const webxPlugin = (options: WebxPluginOptions = {}): CliPlugin<AppTools<
 
 function webxBuilderPlugin(options: NormalizeContentScriptsOptions<WebxPluginOptions>): RsbuildPlugin {
   return {
-    name: '@webx-kit/modernjs-plugin/builder',
+    name: 'webx:modernjs-plugin/builder',
     setup(api) {
       applyBackgroundSupport(api, options, ({ entryName, backgroundLiveReload }) =>
         isDev() ? [new BackgroundReloadPlugin(entryName, backgroundLiveReload)] : []
@@ -139,7 +133,9 @@ function webxBuilderPlugin(options: NormalizeContentScriptsOptions<WebxPluginOpt
           : [new ContentScriptPublicPathPlugin(contentScriptNames)]
       );
       applyManifestSupport(api, options);
+      applyBuildHttpSupport(api);
       applyCleanSupport(api, options);
+      applyEnvSupport(api);
       applyHMRCorsSupport(api);
     },
   };

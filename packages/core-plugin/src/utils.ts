@@ -1,6 +1,5 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { loadEnv } from '@rsbuild/core';
 
 export type Override<T, U> = Omit<T, keyof U> & U;
 
@@ -27,10 +26,4 @@ export async function findUp({ filename, cwd = process.cwd() }: { filename: stri
     } catch {}
     dir = path.dirname(dir);
   }
-}
-
-export function loadWebxEnv(): ReturnType<typeof loadEnv> {
-  return loadEnv({
-    prefixes: ['WEBX_PUBLIC_'],
-  });
 }

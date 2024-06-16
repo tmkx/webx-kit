@@ -7,7 +7,6 @@ export default defineConfig({
     index: './src/index.ts',
     manifest: './src/manifest.ts',
     tailwind: './src/tailwind.ts',
-    'build-http-loader': './src/plugins/build-http/build-http-loader.ts',
   },
   external: ['@rsbuild/shared'],
 });

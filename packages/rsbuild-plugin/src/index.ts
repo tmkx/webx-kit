@@ -1,17 +1,18 @@
 import type { RsbuildConfig, RsbuildPlugin } from '@rsbuild/core';
 import { isDev } from '@rsbuild/shared';
 import { BackgroundOptions, applyBackgroundSupport, getBackgroundEntryNames } from '@webx-kit/core-plugin/background';
+import { applyBuildHttpSupport } from '@webx-kit/core-plugin/build-http';
 import {
   ContentScriptsOptions,
   applyContentScriptsSupport,
   getContentScriptEntryNames,
   normalizeContentScriptsOptions,
 } from '@webx-kit/core-plugin/content-script';
+import { applyEnvSupport } from '@webx-kit/core-plugin/env';
 import { ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
-import { loadWebxEnv, titleCase } from '@webx-kit/core-plugin/utils';
+import { titleCase } from '@webx-kit/core-plugin/utils';
 import type { JsChunk } from './utils/types';
 import { BackgroundReloadPlugin } from './plugins/background/live-reload-plugin';
-import { applyBuildHttpSupport } from './plugins/build-http';
 import { ContentScriptHMRPlugin } from './plugins/content-script/hmr-plugin';
 import { ContentScriptPublicPathPlugin } from './plugins/content-script/public-path-plugin';
 import { ContentScriptShadowRootPlugin } from './plugins/content-script/shadow-root-plugin';
@@ -22,7 +23,6 @@ function getDefaultConfig({ allInOneEntries }: { allInOneEntries: Set<string> })
   return {
     source: {
       define: {
-        ...loadWebxEnv().publicVars,
         __DEV__: isDev(),
       },
     },
@@ -64,7 +64,7 @@ function getDefaultConfig({ allInOneEntries }: { allInOneEntries: Set<string> })
 
 export const webxPlugin = (options: WebxPluginOptions = {}): RsbuildPlugin => {
   return {
-    name: '@webx-kit/rsbuild-plugin',
+    name: 'webx:rsbuild-plugin',
     setup(api) {
       const normalizedOptions = normalizeContentScriptsOptions(options);
       const allInOneEntries = new Set([
@@ -78,13 +78,14 @@ export const webxPlugin = (options: WebxPluginOptions = {}): RsbuildPlugin => {
       applyBackgroundSupport(api, normalizedOptions, ({ entryName, backgroundLiveReload }) =>
         isDev() ? [new BackgroundReloadPlugin(entryName, backgroundLiveReload)] : []
       );
+      applyBuildHttpSupport(api);
       applyContentScriptsSupport(api, normalizedOptions, ({ contentScriptNames }) =>
         isDev()
           ? [new ContentScriptHMRPlugin(contentScriptNames), new ContentScriptShadowRootPlugin(contentScriptNames)]
           : [new ContentScriptPublicPathPlugin(contentScriptNames)]
       );
+      applyEnvSupport(api);
       applyManifestSupport(api, normalizedOptions);
-      applyBuildHttpSupport(api);
     },
   };
 };
