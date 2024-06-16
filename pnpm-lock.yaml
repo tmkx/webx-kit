@@ -662,6 +662,36 @@ importers:
         specifier: ^5.4.5
         version: 5.4.5
 
+  tests/env-vars:
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: ^2.51.0
+        version: 2.51.0(@rspack/core@0.7.0(@swc/helpers@0.5.11))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.4.5)
+      '@modern-js/utils':
+        specifier: ^2.51.0
+        version: 2.51.0
+      '@rsbuild/core':
+        specifier: ^0.7.1
+        version: 0.7.1
+      '@types/node':
+        specifier: ^20.14.0
+        version: 20.14.0
+      '@webx-kit/chrome-types':
+        specifier: workspace:^
+        version: link:../../packages/chrome-types
+      '@webx-kit/modernjs-plugin':
+        specifier: workspace:^
+        version: link:../../packages/modernjs-plugin
+      '@webx-kit/rsbuild-plugin':
+        specifier: workspace:^
+        version: link:../../packages/rsbuild-plugin
+      typescript:
+        specifier: ^5.4.5
+        version: 5.4.5
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.0(@types/node@20.14.0)(terser@5.31.0)
+
   tests/hmr:
     devDependencies:
       '@modern-js/utils':

@@ -35,7 +35,6 @@ const getDefaultConfig = async ({
 }): Promise<UserConfig<AppTools<'shared'>>> => {
   const packageJsonFilePath = await findUp({ filename: 'package.json' });
   if (!packageJsonFilePath) throw new Error(`Can not find package.json`);
-  const nodeModulesDir = path.resolve(path.dirname(packageJsonFilePath), 'node_modules');
 
   const webxRuntimePackageJsonPath = lodash.attempt(() =>
     pkgUp.sync({
