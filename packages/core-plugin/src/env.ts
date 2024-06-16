@@ -1,8 +1,10 @@
 import { loadEnv } from '@rsbuild/core';
 import { RsbuildPluginAPI } from '@rsbuild/shared';
 
+export const ENV_PREFIX = 'WEBX_PUBLIC_';
+
 export const { publicVars } = loadEnv({
-  prefixes: ['WEBX_PUBLIC_'],
+  prefixes: [ENV_PREFIX],
 });
 
 export function applyEnvSupport(api: RsbuildPluginAPI) {

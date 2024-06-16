@@ -1,5 +1,5 @@
 import type { Rspack } from '@rsbuild/shared';
-import { publicVars } from '../env';
+import { ENV_PREFIX, publicVars } from '../env';
 
 const loader: Rspack.LoaderDefinition = function (_code, _sourceMap, _additionalData) {
   const query = new URLSearchParams(this.resourceQuery);
@@ -22,10 +22,14 @@ const loader: Rspack.LoaderDefinition = function (_code, _sourceMap, _additional
 };
 
 function evalURL(url: URL | string) {
-  return url.toString().replace(/\$(\w+)/g, (match, env) => {
-    const fullEnv = `process.env.${env}`;
-    return fullEnv in publicVars ? publicVars[fullEnv].slice(1, -1) : match;
-  });
+  const urlObj = new URL(url);
+  for (const [key, value] of urlObj.searchParams.entries()) {
+    if (!value.startsWith(`$${ENV_PREFIX}`)) continue;
+    const fullEnv = `process.env.${value.slice(1)}`;
+    if (!(fullEnv in publicVars)) continue;
+    urlObj.searchParams.set(key, publicVars[fullEnv].slice(1, -1));
+  }
+  return urlObj;
 }
 
 // @ts-expect-error CJS export
