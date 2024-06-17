@@ -1,17 +1,17 @@
 import { execa, fs } from '@modern-js/utils';
+import { loadEnv } from '@rsbuild/core';
 import path from 'node:path';
 import { describe, test, vi } from 'vitest';
 
 vi.setConfig({
-  testTimeout: 30 * 1000,
+  testTimeout: 60 * 1000,
 });
 
 const tempDir = path.resolve(__dirname, '../node_modules/.cache');
 
-const isCI = !!process.env.CI;
-
 describe('Modern.js', () => {
   function build(dist: string, env?: string) {
+    loadEnv({ mode: env }).cleanup(); // NX will automatically load the .env file
     return execa('pnpm', ['modern', 'build'], {
       cwd: process.cwd(),
       env: {
@@ -32,8 +32,7 @@ describe('Modern.js', () => {
     );
   });
 
-  test.concurrent('Custom preset', async ({ expect, skip, onTestFinished }) => {
-    if (isCI) skip(); // FIXME: the env mode is not correct in CI
+  test.concurrent('Custom preset', async ({ expect, onTestFinished }) => {
     const dist = path.resolve(tempDir, 'webx-modern-custom');
     const compiler = build(dist, 'demo');
     onTestFinished(() => void compiler.kill());
@@ -46,6 +45,7 @@ describe('Modern.js', () => {
 
 describe('Rsbuild', () => {
   function build(dist: string, env?: string) {
+    loadEnv({ mode: env }).cleanup(); // NX will automatically load the .env file
     return execa('pnpm', ['rsbuild', 'build', ...(env ? ['--env-mode', env] : [])], {
       cwd: process.cwd(),
       env: {
@@ -65,8 +65,7 @@ describe('Rsbuild', () => {
     );
   });
 
-  test.concurrent('Custom preset', async ({ expect, skip, onTestFinished }) => {
-    if (isCI) skip(); // FIXME: the env mode is not correct in CI
+  test.concurrent('Custom preset', async ({ expect, onTestFinished }) => {
     const dist = path.resolve(tempDir, 'webx-rsbuild-custom');
     const compiler = build(dist, 'demo');
     onTestFinished(() => void compiler.kill());
