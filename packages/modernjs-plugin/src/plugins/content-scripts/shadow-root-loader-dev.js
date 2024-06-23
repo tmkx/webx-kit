@@ -1,5 +1,5 @@
-/** @type {import('@rsbuild/shared/jiti').default} */
-const createJITI = require('@rsbuild/shared/jiti');
+/** @type {import('jiti').default} */
+const createJITI = require('jiti');
 
 const jiti = createJITI(__filename, { requireCache: false });
 

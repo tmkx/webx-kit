@@ -87,12 +87,13 @@ const getDefaultConfig = async ({
           host: 'localhost',
         },
       },
-      webpackChain(chain: WebpackChain) {
+      webpackChain(chain) {
         chain.experiments({
           outputModule: true,
         });
         // DO NOT split chunks when the entry is background/content-scripts
         chain.optimization.runtimeChunk(false).splitChunks({
+          // @ts-expect-error
           chunks: (chunk) => !allInOneEntries.has(chunk.getEntryOptions()?.name!),
         });
       },

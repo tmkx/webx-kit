@@ -1,6 +1,6 @@
 import path from 'node:path';
 import querystring from 'node:querystring';
-import { BundlerChain, RsbuildPluginAPI, Rspack, WebpackChain, WebpackConfig, isDev } from '@rsbuild/shared';
+import { RsbuildPluginAPI, Rspack, RspackChain, WebpackConfig, isDev } from '@rsbuild/shared';
 import { NormalizeContentScriptsOptions } from './content-script';
 import { registerManifestTransformer } from './manifest';
 
@@ -57,7 +57,7 @@ export function applyBackgroundSupport(
     }
   });
 
-  function modifyChain(chain: WebpackChain | BundlerChain) {
+  const modifyChain = (chain: RspackChain) => {
     chain.entry(entry.name).add({
       import: enableAutoRefreshContentScripts
         ? [
@@ -76,7 +76,7 @@ export function applyBackgroundSupport(
     });
     const plugins = getPlugins({ entryName: entry.name, backgroundLiveReload });
     if (plugins) plugins.forEach((plugin) => plugin && chain.plugin(plugin.name).use(plugin as any));
-  }
+  };
 
   if (api.context.bundlerType === 'webpack') api.modifyWebpackChain(modifyChain);
   else api.modifyBundlerChain(modifyChain);

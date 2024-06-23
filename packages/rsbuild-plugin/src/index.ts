@@ -11,7 +11,6 @@ import {
 import { applyEnvSupport } from '@webx-kit/core-plugin/env';
 import { ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
 import { titleCase } from '@webx-kit/core-plugin/utils';
-import type { JsChunk } from './utils/types';
 import { BackgroundReloadPlugin } from './plugins/background/live-reload-plugin';
 import { ContentScriptHMRPlugin } from './plugins/content-script/hmr-plugin';
 import { ContentScriptPublicPathPlugin } from './plugins/content-script/public-path-plugin';
@@ -52,10 +51,7 @@ function getDefaultConfig({ allInOneEntries }: { allInOneEntries: Set<string> })
       bundlerChain(chain) {
         // DO NOT split chunks when the entry is background/content-scripts
         chain.optimization.runtimeChunk(false).splitChunks({
-          chunks: (chunk) => {
-            const jsChunk = chunk as unknown as JsChunk;
-            return jsChunk.runtime.every((runtime) => !allInOneEntries.has(runtime));
-          },
+          chunks: (chunk) => chunk.runtime.every((runtime) => !allInOneEntries.has(runtime)),
         });
       },
     },

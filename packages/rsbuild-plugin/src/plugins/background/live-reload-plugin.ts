@@ -1,6 +1,6 @@
 import type { Rspack } from '@rsbuild/shared';
 import { generateLoadScriptCode } from '@webx-kit/core-plugin/background';
-import type { JsChunk, JsRuntimeModule } from '../../utils/types';
+import type { JsRuntimeModule } from '../../utils/types';
 
 export const PLUGIN_NAME = 'webx:background-reload';
 
@@ -13,7 +13,7 @@ export class BackgroundReloadPlugin {
     const autoReload = this.autoReload;
 
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation) => {
-      const isEnabledForChunk = (chunk: JsChunk) => chunk.chunkReasons.includes('Entrypoint(background)');
+      const isEnabledForChunk = (chunk: Rspack.Chunk) => chunk.chunkReasons.includes('Entrypoint(background)');
 
       compilation.hooks.runtimeModule.tap(PLUGIN_NAME, (module, chunk) => {
         if (!isEnabledForChunk(chunk)) return;
@@ -27,7 +27,7 @@ export class BackgroundReloadPlugin {
 
 function patchLoadScriptRuntimeModule(
   module: JsRuntimeModule,
-  chunk: JsChunk,
+  chunk: Rspack.Chunk,
   { webpack: { RuntimeGlobals } }: Rspack.Compiler,
   { outputOptions }: Rspack.Compilation,
   autoReload: boolean
