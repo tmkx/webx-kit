@@ -1,9 +1,9 @@
-import type { JsChunk } from '../../utils/types';
+import type { Rspack } from '@rsbuild/shared';
 
 export class ContentScriptBasePlugin {
   constructor(readonly contentScriptEntries: Set<string>) {}
 
-  isEnabledForChunk = (chunk: JsChunk) => {
+  isEnabledForChunk = (chunk: Rspack.Chunk) => {
     return chunk.runtime.some((runtime) => this.contentScriptEntries.has(runtime));
   };
 }

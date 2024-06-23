@@ -1,4 +1,4 @@
-import { BundlerChain, RsbuildPluginAPI, Rspack, WebpackChain, WebpackConfig, isProd } from '@rsbuild/shared';
+import { RsbuildPluginAPI, Rspack, RspackChain, WebpackConfig, isProd } from '@rsbuild/shared';
 import type { SetRequired } from 'type-fest';
 import { registerManifestTransformer } from './manifest';
 import { Override, castArray } from './utils';
@@ -75,7 +75,7 @@ export function applyContentScriptsSupport(
     }
   });
 
-  function modifyChain(chain: WebpackChain | BundlerChain) {
+  function modifyChain(chain: RspackChain) {
     contentScripts.forEach((cs) => chain.entry(cs.name).add(cs.import));
     const plugins = getPlugins({ contentScriptNames });
     if (plugins) plugins.forEach((plugin) => plugin && chain.plugin(plugin.name).use(plugin as any));

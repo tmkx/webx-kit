@@ -2,8 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { RsbuildPluginAPI, fse, isDev } from '@rsbuild/shared';
 import { FSWatcher, watch } from '@rsbuild/shared/chokidar';
-import createJITI from '@rsbuild/shared/jiti';
-import semver from '@rsbuild/shared/semver';
+import createJITI from 'jiti';
 import type { PackageJson, SetOptional } from 'type-fest';
 
 const DEFAULT_MANIFEST_SRC = './src/manifest.ts';
@@ -97,7 +96,7 @@ async function applyDefaultValuePlugin(manifest: Manifest, context: ManifestTran
     const packageJson: PackageJson = await fse.readJson(packageJsonPath, { encoding: 'utf8' });
     manifest.name ??= String(packageJson.displayName || '') || packageJson.name || 'WebX';
     try {
-      manifest.version ??= semver.coerce(packageJson.version || '0.0.0').version; // '0.0.1-alpha' -> '0.0.1'
+      manifest.version ??= packageJson.version?.replace(/-.+$/, ''); // '0.0.1-alpha' -> '0.0.1'
     } catch {}
     manifest.description ??= packageJson.description;
     manifest.homepage_url ??= packageJson.homepage;

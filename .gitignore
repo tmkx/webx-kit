@@ -5,6 +5,6 @@ dist
 output
 test-results
 
-.nx/cache
+.nx
 
 docs/.vitepress/cache

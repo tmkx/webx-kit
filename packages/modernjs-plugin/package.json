@@ -46,14 +46,15 @@
   },
   "dependencies": {
     "@types/chrome": "^0.0.268",
-    "@webx-kit/core-plugin": "workspace:^"
+    "@webx-kit/core-plugin": "workspace:^",
+    "jiti": "^1.21.6"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.51.0",
-    "@modern-js/utils": "^2.51.0",
-    "@rsbuild/shared": "^0.7.1",
+    "@modern-js/app-tools": "^2.54.1",
+    "@modern-js/utils": "^2.54.1",
+    "@rsbuild/shared": "^0.7.9",
     "tsup": "^8.1.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.5.2"
   },
   "peerDependencies": {
     "@modern-js/app-tools": "^2.40.0",
