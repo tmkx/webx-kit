@@ -67,7 +67,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.54.1
-        version: 2.54.1(@rspack/core@0.7.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)
+        version: 2.54.1(@rspack/core@0.7.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.20.1)(typescript@5.5.2)
       '@types/chrome':
         specifier: ^0.0.268
         version: 0.0.268
@@ -158,7 +158,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.54.1
-        version: 2.54.1(@rspack/core@0.7.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)
+        version: 2.54.1(@rspack/core@0.7.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.20.1)(typescript@5.5.2)
       '@types/chrome':
         specifier: ^0.0.268
         version: 0.0.268
@@ -213,7 +213,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.54.1
-        version: 2.54.1(@rspack/core@0.7.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)
+        version: 2.54.1(@rspack/core@0.7.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.20.1)(typescript@5.5.2)
       '@playwright/test':
         specifier: ^1.44.1
         version: 1.44.1
@@ -302,7 +302,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.54.1
-        version: 2.54.1(@rspack/core@0.7.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)
+        version: 2.54.1(@rspack/core@0.7.4)(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.20.1)(typescript@5.5.2)
       '@playwright/test':
         specifier: ^1.44.1
         version: 1.44.1
@@ -339,7 +339,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.54.1
-        version: 2.54.1(@rspack/core@0.7.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)
+        version: 2.54.1(@rspack/core@0.7.4)(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.20.1)(typescript@5.5.2)
       '@playwright/test':
         specifier: ^1.44.1
         version: 1.44.1
@@ -376,7 +376,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.54.1
-        version: 2.54.1(@rspack/core@0.7.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)
+        version: 2.54.1(@rspack/core@0.7.4)(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.20.1)(typescript@5.5.2)
       '@playwright/test':
         specifier: ^1.44.1
         version: 1.44.1
@@ -490,7 +490,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.54.1
-        version: 2.54.1(@rspack/core@0.7.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.20.1)(typescript@5.5.2)
+        version: 2.54.1(@rspack/core@0.7.4)(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.20.1)(typescript@5.5.2)
       '@modern-js/utils':
         specifier: ^2.54.1
         version: 2.54.1
@@ -545,7 +545,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.54.1
-        version: 2.54.1(@rspack/core@0.7.4(@swc/helpers@0.5.11))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)
+        version: 2.54.1(@rspack/core@0.7.4(@swc/helpers@0.5.11))(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)
       '@modern-js/utils':
         specifier: ^2.54.1
         version: 2.54.1
@@ -589,6 +589,9 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.6.5
         version: 1.6.5
+      '@types/chrome':
+        specifier: ^0.0.268
+        version: 0.0.268
     devDependencies:
       '@playwright/test':
         specifier: ^1.44.1
@@ -672,7 +675,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.54.1
-        version: 2.54.1(@rspack/core@0.7.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)
+        version: 2.54.1(@rspack/core@0.7.4)(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.20.1)(typescript@5.5.2)
       '@modern-js/utils':
         specifier: ^2.54.1
         version: 2.54.1
@@ -8923,7 +8926,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@modern-js/app-tools@2.54.1(@rspack/core@0.7.4(@swc/helpers@0.5.11))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)':
+  '@modern-js/app-tools@2.54.1(@rspack/core@0.7.4(@swc/helpers@0.5.11))(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)':
     dependencies:
       '@babel/parser': 7.24.7
       '@babel/traverse': 7.24.7
@@ -8940,7 +8943,7 @@ snapshots:
       '@modern-js/server-core': 2.54.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@modern-js/server-utils': 2.54.1(@babel/traverse@7.24.7)(@rsbuild/core@0.7.9)
       '@modern-js/types': 2.54.1
-      '@modern-js/uni-builder': 2.54.1(@babel/traverse@7.24.7)(@rspack/core@0.7.4(@swc/helpers@0.5.11))(esbuild@0.17.19)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)
+      '@modern-js/uni-builder': 2.54.1(@babel/traverse@7.24.7)(@rspack/core@0.7.4(@swc/helpers@0.5.11))(esbuild@0.17.19)(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)
       '@modern-js/utils': 2.54.1
       '@rsbuild/core': 0.7.9
       '@rsbuild/plugin-node-polyfill': 0.7.9(@rsbuild/core@0.7.9)
@@ -9043,7 +9046,7 @@ snapshots:
       - webpack-hot-middleware
       - webpack-plugin-serve
 
-  '@modern-js/app-tools@2.54.1(@rspack/core@0.7.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)':
+  '@modern-js/app-tools@2.54.1(@rspack/core@0.7.4)(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.20.1)(typescript@5.5.2)':
     dependencies:
       '@babel/parser': 7.24.7
       '@babel/traverse': 7.24.7
@@ -9060,7 +9063,7 @@ snapshots:
       '@modern-js/server-core': 2.54.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@modern-js/server-utils': 2.54.1(@babel/traverse@7.24.7)(@rsbuild/core@0.7.9)
       '@modern-js/types': 2.54.1
-      '@modern-js/uni-builder': 2.54.1(@babel/traverse@7.24.7)(@rspack/core@0.7.4)(esbuild@0.17.19)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)
+      '@modern-js/uni-builder': 2.54.1(@babel/traverse@7.24.7)(@rspack/core@0.7.4)(esbuild@0.17.19)(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.20.1)(typescript@5.5.2)
       '@modern-js/utils': 2.54.1
       '@rsbuild/core': 0.7.9
       '@rsbuild/plugin-node-polyfill': 0.7.9(@rsbuild/core@0.7.9)
@@ -9261,7 +9264,7 @@ snapshots:
 
   '@modern-js/types@2.54.1': {}
 
-  '@modern-js/uni-builder@2.54.1(@babel/traverse@7.24.7)(@rspack/core@0.7.4(@swc/helpers@0.5.11))(esbuild@0.17.19)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)':
+  '@modern-js/uni-builder@2.54.1(@babel/traverse@7.24.7)(@rspack/core@0.7.4(@swc/helpers@0.5.11))(esbuild@0.17.19)(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)':
     dependencies:
       '@babel/core': 7.24.7
       '@babel/preset-react': 7.24.7(@babel/core@7.24.7)
@@ -9390,7 +9393,7 @@ snapshots:
       postcss-nesting: 12.0.1(postcss@8.4.38)
       postcss-page-break: 3.0.4(postcss@8.4.38)
       react-refresh: 0.14.2
-      rspack-manifest-plugin: 5.0.0(@rspack/core@0.7.4)
+      rspack-manifest-plugin: 5.0.0(@rspack/core@0.7.4(@swc/helpers@0.5.11))
       terser-webpack-plugin: 5.3.10(esbuild@0.17.19)(webpack@5.92.1(esbuild@0.17.19))
       ts-loader: 9.4.4(typescript@5.5.2)(webpack@5.92.1(esbuild@0.17.19))
       webpack: 5.92.1(esbuild@0.17.19)
@@ -9425,7 +9428,7 @@ snapshots:
       - webpack-hot-middleware
       - webpack-plugin-serve
 
-  '@modern-js/uni-builder@2.54.1(@babel/traverse@7.24.7)(@rspack/core@0.7.4)(esbuild@0.17.19)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(typescript@5.5.2)':
+  '@modern-js/uni-builder@2.54.1(@babel/traverse@7.24.7)(@rspack/core@0.7.4)(esbuild@0.17.19)(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.20.1)(typescript@5.5.2)':
     dependencies:
       '@babel/core': 7.24.7
       '@babel/preset-react': 7.24.7(@babel/core@7.24.7)
@@ -9472,7 +9475,7 @@ snapshots:
       postcss-nesting: 12.0.1(postcss@8.4.38)
       postcss-page-break: 3.0.4(postcss@8.4.38)
       react-refresh: 0.14.2
-      rspack-manifest-plugin: 5.0.0(@rspack/core@0.7.4)
+      rspack-manifest-plugin: 5.0.0(@rspack/core@0.7.4(@swc/helpers@0.5.11))
       terser-webpack-plugin: 5.3.10(esbuild@0.17.19)(webpack@5.92.1(esbuild@0.17.19))
       ts-loader: 9.4.4(typescript@5.5.2)(webpack@5.92.1(esbuild@0.17.19))
       webpack: 5.92.1(esbuild@0.17.19)
@@ -10675,7 +10678,7 @@ snapshots:
       '@babel/plugin-transform-class-properties': 7.24.7(@babel/core@7.24.7)
       '@babel/preset-typescript': 7.24.7(@babel/core@7.24.7)
       '@rsbuild/core': 0.7.9
-      '@rsbuild/shared': 0.7.9
+      '@rsbuild/shared': 0.7.9(@swc/helpers@0.5.11)
       '@types/babel__core': 7.20.5
       upath: 2.0.1
     transitivePeerDependencies:
@@ -10724,7 +10727,7 @@ snapshots:
   '@rsbuild/plugin-less@0.7.9(@rsbuild/core@0.7.9)':
     dependencies:
       '@rsbuild/core': 0.7.9
-      '@rsbuild/shared': 0.7.9
+      '@rsbuild/shared': 0.7.9(@swc/helpers@0.5.11)
     transitivePeerDependencies:
       - '@swc/helpers'
 
@@ -10774,7 +10777,7 @@ snapshots:
   '@rsbuild/plugin-react@0.7.9(@rsbuild/core@0.7.9)':
     dependencies:
       '@rsbuild/core': 0.7.9
-      '@rsbuild/shared': 0.7.9
+      '@rsbuild/shared': 0.7.9(@swc/helpers@0.5.11)
       '@rspack/plugin-react-refresh': 0.7.4(react-refresh@0.14.2)
       react-refresh: 0.14.2
     transitivePeerDependencies:
@@ -10811,7 +10814,7 @@ snapshots:
     dependencies:
       '@rsbuild/core': 0.7.9
       '@rsbuild/plugin-babel': 0.7.9(@rsbuild/core@0.7.9)
-      '@rsbuild/shared': 0.7.9
+      '@rsbuild/shared': 0.7.9(@swc/helpers@0.5.11)
       babel-preset-solid: 1.8.17(@babel/core@7.24.7)
       solid-refresh: 0.6.3(solid-js@1.8.17)
     transitivePeerDependencies:
@@ -10839,7 +10842,7 @@ snapshots:
   '@rsbuild/plugin-svelte@0.7.9(@babel/core@7.24.7)(@rsbuild/core@0.7.9)(postcss-load-config@4.0.2(postcss@8.4.38))(postcss@8.4.38)(pug@3.0.3)(svelte@4.2.18)(typescript@5.5.2)':
     dependencies:
       '@rsbuild/core': 0.7.9
-      '@rsbuild/shared': 0.7.9
+      '@rsbuild/shared': 0.7.9(@swc/helpers@0.5.11)
       svelte-loader: 3.2.3(svelte@4.2.18)
       svelte-preprocess: 5.1.4(@babel/core@7.24.7)(postcss-load-config@4.0.2(postcss@8.4.38))(postcss@8.4.38)(pug@3.0.3)(svelte@4.2.18)(typescript@5.5.2)
     transitivePeerDependencies:
@@ -10900,7 +10903,7 @@ snapshots:
   '@rsbuild/plugin-vue@0.7.9(@rsbuild/core@0.7.9)(vue@3.4.30(typescript@5.5.2))':
     dependencies:
       '@rsbuild/core': 0.7.9
-      '@rsbuild/shared': 0.7.9
+      '@rsbuild/shared': 0.7.9(@swc/helpers@0.5.11)
       vue-loader: 17.4.2(vue@3.4.30(typescript@5.5.2))(webpack@5.92.1)
       webpack: 5.92.1
     transitivePeerDependencies:
@@ -10915,17 +10918,6 @@ snapshots:
   '@rsbuild/plugin-yaml@0.7.9(@rsbuild/core@0.7.9)':
     dependencies:
       '@rsbuild/core': 0.7.9
-
-  '@rsbuild/shared@0.7.9':
-    dependencies:
-      '@rspack/core': 0.7.4(@swc/helpers@0.5.3)
-      caniuse-lite: 1.0.30001636
-      html-webpack-plugin: html-rspack-plugin@5.7.2(@rspack/core@0.7.4)
-      postcss: 8.4.38
-    optionalDependencies:
-      fsevents: 2.3.3
-    transitivePeerDependencies:
-      - '@swc/helpers'
 
   '@rsbuild/shared@0.7.9(@swc/helpers@0.5.11)':
     dependencies:
@@ -13089,10 +13081,6 @@ snapshots:
     optionalDependencies:
       '@rspack/core': 0.7.4(@swc/helpers@0.5.3)
 
-  html-rspack-plugin@5.7.2(@rspack/core@0.7.4):
-    optionalDependencies:
-      '@rspack/core': 0.7.4(@swc/helpers@0.5.3)
-
   html-webpack-plugin@5.5.3(webpack@5.92.1(esbuild@0.17.19)):
     dependencies:
       '@types/html-minifier-terser': 6.1.0
@@ -14730,13 +14718,6 @@ snapshots:
       webpack-sources: 2.3.1
     optionalDependencies:
       '@rspack/core': 0.7.4(@swc/helpers@0.5.11)
-
-  rspack-manifest-plugin@5.0.0(@rspack/core@0.7.4):
-    dependencies:
-      tapable: 2.2.1
-      webpack-sources: 2.3.1
-    optionalDependencies:
-      '@rspack/core': 0.7.4(@swc/helpers@0.5.3)
 
   run-parallel@1.2.0:
     dependencies:
