@@ -32,3 +32,32 @@ export function setWebxRoot(options: SetWebxRootOptions) {
   }
   if (options.styleRoot !== undefined) window.__webxStyleRoot = options.styleRoot;
 }
+
+export interface CreateShadowRootUIOptions {
+  styles?: string | string[];
+  render(context: { root: HTMLElement }): void;
+}
+
+export function createShadowRootUI({ styles = [], render }: CreateShadowRootUIOptions) {
+  const container = document.createElement('webx-root');
+  const shadowRoot = container.attachShadow({ mode: 'open' });
+
+  setWebxRoot({ root: shadowRoot });
+
+  const styleElements = ([] as string[]).concat(styles).map((style) => {
+    const styleEl = document.createElement('link');
+    styleEl.rel = 'stylesheet';
+    styleEl.href = style;
+    return styleEl;
+  });
+
+  const appRoot = document.createElement('div');
+  render({ root: appRoot });
+
+  Promise.all(styleElements.map((el) => new Promise((resolve) => el.addEventListener('load', resolve))))
+    // render the app after the style has been loaded
+    .then(() => shadowRoot.append(appRoot));
+
+  styleElements.forEach((styleEl) => shadowRoot.append(styleEl));
+  document.body.prepend(container);
+}
