@@ -1,12 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { LanguagesIcon, ListTreeIcon, Loader2Icon } from 'lucide-react';
-import {
-  autoUpdatePosition,
-  computePosition,
-  isPageInDark,
-  isSelectionValid,
-  rangeToReference,
-} from '@webx-kit/runtime/content-scripts';
+import { unstable_createSelectionMenu as createSelectionMenu, isPageInDark } from '@webx-kit/runtime/content-scripts';
 import { createTrpcClient } from '@webx-kit/messaging/client';
 import clsx from 'clsx';
 import type { AppRouter } from '@/background/router';
@@ -19,7 +13,6 @@ const { client } = createTrpcClient<AppRouter>({});
 
 export const App = () => {
   const [visible, setVisible] = useState(false);
-  const [selectedRange, setSelectedRange] = useState<Range>();
   const [rootStyle, setRootStyle] = useState<React.CSSProperties>();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedText, setSelectedText] = useState('');
@@ -28,52 +21,28 @@ export const App = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ac = new AbortController();
-    document.addEventListener(
-      'mouseup',
-      async (ev) => {
-        if (ev.composedPath().some((target) => target === window.__webxRoot)) return;
-        // getSelection after a tick, because the selection may be cleared after "mouseup"
-        await new Promise((resolve) => setTimeout(resolve));
-        const selection = getSelection();
-        if (!isSelectionValid(selection)) return setVisible(false);
-        const range = selection.getRangeAt(0);
-        const newSelectedText = range.cloneContents().textContent?.trim() || '';
-        setSelectedText(newSelectedText);
-        setVisible(!!newSelectedText);
-        setSelectedRange(range);
+    return createSelectionMenu({
+      ignore: window.__webxRoot,
+      positionOptions: {
+        strategy: 'absolute',
+        placement: 'top',
       },
-      { signal: ac.signal }
-    );
-    document.addEventListener(
-      'contextmenu',
-      () => {
-        setSelectedText('');
-        setVisible(false);
-        setSelectedRange(undefined);
+      getFloating: () => containerRef.current,
+      onVisibleChange(visible) {
+        setVisible(visible);
+        if (!visible) {
+          setSelectedText('');
+          setContent('');
+        }
       },
-      { signal: ac.signal }
-    );
-    return () => ac.abort();
+      onRangeChange(range) {
+        setSelectedText(range.toString().trim());
+      },
+      onPositionChange(position) {
+        setRootStyle({ transform: `translate(${position.x}px, ${position.y}px)` });
+      },
+    });
   }, []);
-
-  useEffect(() => {
-    if (visible && selectedRange && selectedText) {
-      const floatingElement = containerRef.current;
-      if (!floatingElement) return;
-      return autoUpdatePosition(rangeToReference(selectedRange), floatingElement, () => {
-        computePosition(selectedRange, floatingElement, {
-          strategy: 'absolute',
-          placement: 'top',
-        }).then((result) => {
-          setRootStyle({ transform: `translate(${result.x}px, ${result.y}px)` });
-        });
-      });
-    } else {
-      setSelectedText('');
-      setContent('');
-    }
-  }, [visible, selectedRange, selectedText]);
 
   const handleTranslate = async (text: string) => {
     if (!text) {
