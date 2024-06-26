@@ -19,6 +19,7 @@ const { client } = createTrpcClient<AppRouter>({});
 
 export const App = () => {
   const [visible, setVisible] = useState(false);
+  const [selectedRange, setSelectedRange] = useState<Range>();
   const [rootStyle, setRootStyle] = useState<React.CSSProperties>();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedText, setSelectedText] = useState('');
@@ -36,8 +37,20 @@ export const App = () => {
         await new Promise((resolve) => setTimeout(resolve));
         const selection = getSelection();
         if (!isSelectionValid(selection)) return setVisible(false);
-        setSelectedText(selection.getRangeAt(0).cloneContents().textContent?.trim() || '');
-        setVisible(true);
+        const range = selection.getRangeAt(0);
+        const newSelectedText = range.cloneContents().textContent?.trim() || '';
+        setSelectedText(newSelectedText);
+        setVisible(!!newSelectedText);
+        setSelectedRange(range);
+      },
+      { signal: ac.signal }
+    );
+    document.addEventListener(
+      'contextmenu',
+      () => {
+        setSelectedText('');
+        setVisible(false);
+        setSelectedRange(undefined);
       },
       { signal: ac.signal }
     );
@@ -45,35 +58,22 @@ export const App = () => {
   }, []);
 
   useEffect(() => {
-    if (visible) {
+    if (visible && selectedRange && selectedText) {
       const floatingElement = containerRef.current;
       if (!floatingElement) return;
-      const selection = getSelection();
-      if (!isSelectionValid(selection)) return;
-      const range = selection.getRangeAt(0);
-
-      // TODO: throttle
-      const handleUpdatePosition = () => {
-        computePosition(range, floatingElement, {
-          strategy: 'fixed',
+      return autoUpdatePosition(rangeToReference(selectedRange), floatingElement, () => {
+        computePosition(selectedRange, floatingElement, {
+          strategy: 'absolute',
           placement: 'top',
         }).then((result) => {
           setRootStyle({ transform: `translate(${result.x}px, ${result.y}px)` });
         });
-      };
-      const ac = new AbortController();
-      addEventListener('wheel', handleUpdatePosition, { signal: ac.signal });
-      addEventListener('scroll', handleUpdatePosition, { signal: ac.signal });
-      const cleanup = autoUpdatePosition(rangeToReference(range), floatingElement, handleUpdatePosition);
-      return () => {
-        cleanup();
-        ac.abort();
-      };
+      });
     } else {
       setSelectedText('');
       setContent('');
     }
-  }, [visible]);
+  }, [visible, selectedRange, selectedText]);
 
   const handleTranslate = async (text: string) => {
     if (!text) {
@@ -133,7 +133,7 @@ export const App = () => {
         ref={containerRef}
         tabIndex={visible ? undefined : -1}
         className={clsx(
-          'absolute transition-opacity',
+          'absolute transition-opacity z-[2147483647]',
           isDarkMode && 'dark',
           visible ? 'opacity-100' : 'opacity-0 pointer-events-none'
         )}
