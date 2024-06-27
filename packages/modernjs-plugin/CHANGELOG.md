@@ -1,5 +1,13 @@
 # @webx-kit/modernjs-plugin
 
+## 0.0.8
+
+### Patch Changes
+
+- 2c65b7b: feat: support custom env vars
+- Updated dependencies [2c65b7b]
+  - @webx-kit/core-plugin@0.0.4
+
 ## 0.0.7
 
 ### Patch Changes

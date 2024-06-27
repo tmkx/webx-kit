@@ -1,5 +1,13 @@
 # @webx-kit/rsbuild-plugin
 
+## 0.0.6
+
+### Patch Changes
+
+- 2c65b7b: feat: support custom env vars
+- Updated dependencies [2c65b7b]
+  - @webx-kit/core-plugin@0.0.4
+
 ## 0.0.5
 
 ### Patch Changes
