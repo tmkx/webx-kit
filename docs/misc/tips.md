@@ -2,12 +2,14 @@
 
 ## Get extensions' code
 
+> `Default` maybe `Profile 1` / ...
+
 Chrome
 
 ::: code-group
 
 ```bash [macOS]
-$ cd ~/Library/Application\ Support/Google/Chrome/Profile\ 1/Extensions/
+$ cd ~/Library/Application\ Support/Google/Chrome/Default/Extensions/
 ```
 
 :::
