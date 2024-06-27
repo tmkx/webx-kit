@@ -1,5 +1,11 @@
 # @webx-kit/core-plugin
 
+## 0.0.4
+
+### Patch Changes
+
+- 2c65b7b: feat: support custom env vars
+
 ## 0.0.3
 
 ### Patch Changes
