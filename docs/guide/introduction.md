@@ -20,4 +20,4 @@ There are several key differences I want to emphasize:
 - WebX Kit has a first-class support for Chrome MV3 only (I have limited energy). If your product requires MV2 or Firefox compatibility, you may need to consider alternative solutions.
 - WebX Kit is still under development. Please report any issues you encounter.
 
-https://wxt.dev/guide/compare.html
+https://wxt.dev/get-started/compare.html
