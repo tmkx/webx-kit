@@ -1,5 +1,13 @@
 # @webx-kit/modernjs-plugin
 
+## 0.0.9
+
+### Patch Changes
+
+- 1c01d34: feat: add cors for rsbuild dev server
+- Updated dependencies [1c01d34]
+  - @webx-kit/core-plugin@0.0.5
+
 ## 0.0.8
 
 ### Patch Changes
