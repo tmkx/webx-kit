@@ -18,6 +18,10 @@
       "types": "./src/content-script.ts",
       "default": "./src/content-script.ts"
     },
+    "./cors": {
+      "types": "./src/cors.ts",
+      "default": "./src/cors.ts"
+    },
     "./env": {
       "types": "./src/env.ts",
       "default": "./src/env.ts"
@@ -52,6 +56,10 @@
       "./content-script": {
         "types": "./dist/content-script.d.ts",
         "default": "./dist/content-script.js"
+      },
+      "./cors": {
+        "types": "./dist/cors.d.ts",
+        "default": "./dist/cors.js"
       },
       "./env": {
         "types": "./dist/env.d.ts",
