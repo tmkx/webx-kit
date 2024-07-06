@@ -1,0 +1,63 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    env:
+      NPM_CONFIG_PROVENANCE: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/cache@v3
+        with:
+          path: .nx
+          key: nx-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            nx-${{ runner.os }}-
+
+      - uses: pnpm/action-setup@v3
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: pnpm
+
+      - uses: nrwl/nx-set-shas@v4
+      # This line is needed for nx affected to work when CI is running on a PR
+      - name: Fetch NX base
+        run: |
+          git fetch --all
+
+      - name: Install deps
+        run: |
+          pnpm i --frozen-lockfile
+
+      - id: prepare
+        name: Prepare release
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          cat << EOF > "$HOME/.npmrc"
+            //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          EOF
+          echo "title=chore: $(date +'%Y-%m-%d') release" >> $GITHUB_OUTPUT
+
+      - id: changesets
+        uses: changesets/action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
+        with:
+          commit: ${{ steps.prepare.outputs.title }}
+          title: ${{ steps.prepare.outputs.title }}
+          publish: pnpm publish
