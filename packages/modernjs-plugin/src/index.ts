@@ -11,12 +11,12 @@ import {
   getContentScriptEntryNames,
   normalizeContentScriptsOptions,
 } from '@webx-kit/core-plugin/content-script';
+import { applyCorsSupport } from '@webx-kit/core-plugin/cors';
 import { applyEnvSupport } from '@webx-kit/core-plugin/env';
 import { ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
 import { findUp, titleCase } from '@webx-kit/core-plugin/utils';
 import { BackgroundReloadPlugin } from './plugins/background/live-reload-plugin';
 import { CleanOptions, applyCleanSupport } from './plugins/clean';
-import { applyHMRCorsSupport } from './plugins/hmr-cors';
 import { ContentScriptHMRPlugin } from './plugins/content-scripts/hmr-plugin';
 import { ContentScriptPublicPathPlugin } from './plugins/content-scripts/public-path-plugin';
 import { ContentScriptShadowRootPlugin } from './plugins/content-scripts/shadow-root-plugin';
@@ -137,7 +137,7 @@ function webxBuilderPlugin(options: NormalizeContentScriptsOptions<WebxPluginOpt
       applyBuildHttpSupport(api);
       applyCleanSupport(api, options);
       applyEnvSupport(api);
-      applyHMRCorsSupport(api);
+      applyCorsSupport(api);
     },
   };
 }

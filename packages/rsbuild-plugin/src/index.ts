@@ -8,6 +8,7 @@ import {
   getContentScriptEntryNames,
   normalizeContentScriptsOptions,
 } from '@webx-kit/core-plugin/content-script';
+import { applyCorsSupport } from '@webx-kit/core-plugin/cors';
 import { applyEnvSupport } from '@webx-kit/core-plugin/env';
 import { ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
 import { titleCase } from '@webx-kit/core-plugin/utils';
@@ -80,6 +81,7 @@ export const webxPlugin = (options: WebxPluginOptions = {}): RsbuildPlugin => {
           ? [new ContentScriptHMRPlugin(contentScriptNames), new ContentScriptShadowRootPlugin(contentScriptNames)]
           : [new ContentScriptPublicPathPlugin(contentScriptNames)]
       );
+      applyCorsSupport(api);
       applyEnvSupport(api);
       applyManifestSupport(api, normalizedOptions);
     },
