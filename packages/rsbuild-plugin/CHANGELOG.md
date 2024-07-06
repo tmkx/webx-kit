@@ -1,5 +1,13 @@
 # @webx-kit/rsbuild-plugin
 
+## 0.0.7
+
+### Patch Changes
+
+- 1c01d34: feat: add cors for rsbuild dev server
+- Updated dependencies [1c01d34]
+  - @webx-kit/core-plugin@0.0.5
+
 ## 0.0.6
 
 ### Patch Changes
