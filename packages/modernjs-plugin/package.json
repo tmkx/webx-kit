@@ -46,8 +46,7 @@
   },
   "dependencies": {
     "@types/chrome": "^0.0.268",
-    "@webx-kit/core-plugin": "workspace:^",
-    "jiti": "^1.21.6"
+    "@webx-kit/core-plugin": "workspace:^"
   },
   "devDependencies": {
     "@modern-js/app-tools": "^2.54.1",
