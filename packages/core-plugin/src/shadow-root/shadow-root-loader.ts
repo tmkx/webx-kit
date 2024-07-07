@@ -1,7 +1,7 @@
-import type { webpack as webpackNS } from '@modern-js/app-tools';
-import { ROOT_NAME } from '@webx-kit/core-plugin/constants';
+import type { Rspack } from '@rsbuild/core';
+import { ROOT_NAME } from '../constants';
 
-const loader: webpackNS.LoaderDefinition = function (code, sourceMap, additionalData) {
+const loader: Rspack.LoaderDefinition = function (code, sourceMap, additionalData) {
   this.callback(
     null,
     code.replace(/document\.querySelectorAll/g, `(globalThis.${ROOT_NAME}||document).querySelectorAll`),

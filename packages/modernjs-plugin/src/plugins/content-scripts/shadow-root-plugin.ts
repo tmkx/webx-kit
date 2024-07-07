@@ -1,14 +1,8 @@
-import path from 'node:path';
-import type { webpack as webpackNS } from '@modern-js/app-tools';
-import { ROOT_NAME, STYLE_ROOT_NAME } from '@webx-kit/core-plugin/constants';
+import type { Rspack, webpack as webpackNS } from '@modern-js/app-tools';
+import { PLUGIN_NAME, CSSExtractPatchPlugin, patchCSSLoadingCode } from '@webx-kit/core-plugin/shadow-root';
 import { ContentScriptBasePlugin } from './base-plugin';
 
-export const PLUGIN_NAME = 'webx:content-script-shadow-root';
-
-const shadowRootLoader = path.resolve(
-  __dirname,
-  process.env.NODE_ENV === 'development' ? 'shadow-root-loader-dev.js' : 'shadow-root-loader.js'
-);
+export { PLUGIN_NAME };
 
 export class ContentScriptShadowRootPlugin extends ContentScriptBasePlugin {
   name = PLUGIN_NAME;
@@ -23,12 +17,9 @@ export class ContentScriptShadowRootPlugin extends ContentScriptBasePlugin {
       });
     });
 
-    new compiler.webpack.NormalModuleReplacementPlugin(
-      /mini-css-extract-plugin\/dist\/hmr\/hotModuleReplacement\.js$/,
-      (resolveData) => {
-        resolveData.request = `${shadowRootLoader}!${resolveData.request}`;
-      }
-    ).apply(compiler);
+    new CSSExtractPatchPlugin(/mini-css-extract-plugin\/dist\/hmr\/hotModuleReplacement\.js$/).apply(
+      compiler as unknown as Rspack.Compiler
+    );
   }
 }
 
@@ -37,8 +28,6 @@ function patchCSSLoadingRuntimeModule(module: webpackNS.RuntimeModule) {
   module.generate = function (this: webpackNS.RuntimeModule) {
     const originalCode = originalGenerate.call(this);
     if (originalCode === null) return originalCode;
-    return originalCode
-      .replace(/document\.querySelectorAll/g, `(globalThis.${ROOT_NAME}||document).querySelectorAll`)
-      .replace(/document\.head/g, `(globalThis.${STYLE_ROOT_NAME}||document.head)`);
+    return patchCSSLoadingCode(originalCode);
   };
 }

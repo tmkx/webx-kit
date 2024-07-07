@@ -539,9 +539,6 @@ importers:
       '@webx-kit/core-plugin':
         specifier: workspace:^
         version: link:../core-plugin
-      jiti:
-        specifier: ^1.21.6
-        version: 1.21.6
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.54.1
