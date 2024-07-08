@@ -1,12 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { LanguagesIcon, ListTreeIcon, Loader2Icon } from 'lucide-react';
-import {
-  autoUpdatePosition,
-  computePosition,
-  isPageInDark,
-  isSelectionValid,
-  rangeToReference,
-} from '@webx-kit/runtime/content-scripts';
+import { unstable_createSelectionMenu as createSelectionMenu, isPageInDark } from '@webx-kit/runtime/content-scripts';
 import { createTrpcClient } from '@webx-kit/messaging/client';
 import clsx from 'clsx';
 import type { AppRouter } from '@/background/router';
@@ -27,53 +21,28 @@ export const App = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ac = new AbortController();
-    document.addEventListener(
-      'mouseup',
-      async (ev) => {
-        if (ev.composedPath().some((target) => target === window.__webxRoot)) return;
-        // getSelection after a tick, because the selection may be cleared after "mouseup"
-        await new Promise((resolve) => setTimeout(resolve));
-        const selection = getSelection();
-        if (!isSelectionValid(selection)) return setVisible(false);
-        setSelectedText(selection.getRangeAt(0).cloneContents().textContent?.trim() || '');
-        setVisible(true);
+    return createSelectionMenu({
+      ignore: window.__webxRoot,
+      positionOptions: {
+        strategy: 'absolute',
+        placement: 'top',
       },
-      { signal: ac.signal }
-    );
-    return () => ac.abort();
+      getFloating: () => containerRef.current,
+      onVisibleChange(visible) {
+        setVisible(visible);
+        if (!visible) {
+          setSelectedText('');
+          setContent('');
+        }
+      },
+      onRangeChange(range) {
+        setSelectedText(range.toString().trim());
+      },
+      onPositionChange(position) {
+        setRootStyle({ transform: `translate(${position.x}px, ${position.y}px)` });
+      },
+    });
   }, []);
-
-  useEffect(() => {
-    if (visible) {
-      const floatingElement = containerRef.current;
-      if (!floatingElement) return;
-      const selection = getSelection();
-      if (!isSelectionValid(selection)) return;
-      const range = selection.getRangeAt(0);
-
-      // TODO: throttle
-      const handleUpdatePosition = () => {
-        computePosition(range, floatingElement, {
-          strategy: 'fixed',
-          placement: 'top',
-        }).then((result) => {
-          setRootStyle({ transform: `translate(${result.x}px, ${result.y}px)` });
-        });
-      };
-      const ac = new AbortController();
-      addEventListener('wheel', handleUpdatePosition, { signal: ac.signal });
-      addEventListener('scroll', handleUpdatePosition, { signal: ac.signal });
-      const cleanup = autoUpdatePosition(rangeToReference(range), floatingElement, handleUpdatePosition);
-      return () => {
-        cleanup();
-        ac.abort();
-      };
-    } else {
-      setSelectedText('');
-      setContent('');
-    }
-  }, [visible]);
 
   const handleTranslate = async (text: string) => {
     if (!text) {
@@ -133,7 +102,7 @@ export const App = () => {
         ref={containerRef}
         tabIndex={visible ? undefined : -1}
         className={clsx(
-          'absolute transition-opacity',
+          'absolute transition-opacity z-[2147483647]',
           isDarkMode && 'dark',
           visible ? 'opacity-100' : 'opacity-0 pointer-events-none'
         )}
