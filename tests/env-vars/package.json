@@ -5,14 +5,14 @@
     "test": "vitest"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.54.1",
-    "@modern-js/utils": "^2.54.1",
-    "@rsbuild/core": "^0.7.9",
-    "@types/node": "^20.14.8",
+    "@modern-js/app-tools": "^2.54.6",
+    "@modern-js/utils": "^2.54.6",
+    "@rsbuild/core": "^0.7.10",
+    "@types/node": "^20.14.10",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "@webx-kit/rsbuild-plugin": "workspace:^",
-    "typescript": "^5.5.2",
-    "vitest": "^1.6.0"
+    "typescript": "^5.5.3",
+    "vitest": "^2.0.1"
   }
 }
