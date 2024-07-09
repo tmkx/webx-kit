@@ -9,17 +9,17 @@
   },
   "dependencies": {
     "@webx-kit/runtime": "workspace:^",
-    "solid-js": "^1.8.17"
+    "solid-js": "^1.8.18"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.54.1",
-    "@playwright/test": "^1.44.1",
-    "@rsbuild/plugin-solid": "^0.7.9",
+    "@modern-js/app-tools": "^2.54.6",
+    "@playwright/test": "^1.45.1",
+    "@rsbuild/plugin-solid": "^0.7.10",
     "@types/chrome": "^0.0.268",
-    "@types/node": "^20.14.8",
+    "@types/node": "^20.14.10",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
     "tailwindcss": "^3.4.4",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.3"
   }
 }
