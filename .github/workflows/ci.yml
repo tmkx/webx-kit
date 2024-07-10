@@ -3,13 +3,14 @@ name: CI
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - '**/CHANGELOG.md'
+    paths:
+      - '**/*'
+      - '!**/.changeset/*.md'
+      - '!**/CHANGELOG.md'
+      - '!**/package.json'
   pull_request:
     branches: [main]
     types: [opened, synchronize]
-    paths-ignore:
-      - '**/CHANGELOG.md'
 
 concurrency:
   group: ci-${{ github.event.pull_request.number || github.ref }}
@@ -22,7 +23,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        node-version: [18.x]
+        node-version: [20.x]
     runs-on: ${{ matrix.os }}
     env:
       NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
@@ -32,7 +33,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: .nx
           key: nx-${{ runner.os }}-${{ github.sha }}
