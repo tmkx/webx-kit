@@ -1,5 +1,13 @@
 # @webx-kit/modernjs-plugin
 
+## 0.0.10
+
+### Patch Changes
+
+- a9ef2de: feat: add css hmr for rsbuild
+- Updated dependencies [a9ef2de]
+  - @webx-kit/core-plugin@0.0.6
+
 ## 0.0.9
 
 ### Patch Changes

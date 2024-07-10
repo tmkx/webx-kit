@@ -1,5 +1,11 @@
 # @webx-kit/core-plugin
 
+## 0.0.6
+
+### Patch Changes
+
+- a9ef2de: feat: add css hmr for rsbuild
+
 ## 0.0.5
 
 ### Patch Changes
