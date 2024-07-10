@@ -1,5 +1,11 @@
 # @webx-kit/runtime
 
+## 0.0.4
+
+### Patch Changes
+
+- 69c62e0: feat: abstract agnostic selection menu
+
 ## 0.0.3
 
 ### Patch Changes

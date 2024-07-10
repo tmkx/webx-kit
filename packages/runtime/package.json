@@ -1,6 +1,6 @@
 {
   "name": "@webx-kit/runtime",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "exports": {
     ".": {
       "types": "./src/index.ts",
