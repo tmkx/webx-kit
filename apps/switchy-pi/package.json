@@ -8,15 +8,15 @@
   },
   "dependencies": {
     "@react-aria/interactions": "^3.21.3",
-    "@trpc/client": "11.0.0-rc.390",
-    "@trpc/server": "11.0.0-rc.390",
+    "@trpc/client": "11.0.0-rc.461",
+    "@trpc/server": "11.0.0-rc.461",
     "@webx-kit/messaging": "workspace:^",
     "@webx-kit/runtime": "workspace:^",
     "@webx-kit/storage": "workspace:^",
     "clsx": "^2.1.1",
     "jotai": "^2.9.0",
     "jotai-effect": "^1.0.0",
-    "lucide-react": "^0.406.0",
+    "lucide-react": "^0.408.0",
     "react": "^18.3.1",
     "react-aria": "^3.33.1",
     "react-aria-components": "^1.2.1",
@@ -26,7 +26,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.54.6",
+    "@modern-js/app-tools": "^2.55.0",
     "@types/chrome": "^0.0.268",
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",

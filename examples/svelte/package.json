@@ -12,7 +12,7 @@
     "svelte": "^4.2.18"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.54.6",
+    "@modern-js/app-tools": "^2.55.0",
     "@playwright/test": "^1.45.1",
     "@rsbuild/plugin-svelte": "catalog:",
     "@types/chrome": "^0.0.268",

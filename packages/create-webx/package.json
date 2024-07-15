@@ -17,7 +17,7 @@
     "lint:type": "tsc --noEmit"
   },
   "devDependencies": {
-    "@modern-js/utils": "^2.54.6",
+    "@modern-js/utils": "^2.55.0",
     "@types/debug": "^4.1.12",
     "@types/prompts": "^2.4.9",
     "debug": "^4.3.5",
@@ -28,6 +28,6 @@
     "tsup": "^8.1.0",
     "type-fest": "^4.21.0",
     "typescript": "^5.5.3",
-    "vitest": "^2.0.1"
+    "vitest": "^2.0.2"
   }
 }

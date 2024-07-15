@@ -39,7 +39,7 @@
     "type-fest": "^4.21.0"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.54.6",
+    "@modern-js/app-tools": "^2.55.0",
     "@playwright/test": "^1.45.1",
     "@types/chrome": "^0.0.268",
     "@types/node": "^20.14.10",

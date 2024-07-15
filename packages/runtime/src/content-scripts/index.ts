@@ -56,6 +56,7 @@ export function createShadowRootUI({ styles = [], render }: CreateShadowRootUIOp
 
   Promise.all(styleElements.map((el) => new Promise((resolve) => el.addEventListener('load', resolve))))
     // render the app after the style has been loaded
+    // https://en.wikipedia.org/wiki/Flash_of_unstyled_content
     .then(() => shadowRoot.append(appRoot));
 
   styleElements.forEach((styleEl) => shadowRoot.append(styleEl));

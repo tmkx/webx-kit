@@ -12,7 +12,7 @@
     "vue": "^3.4.31"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.54.6",
+    "@modern-js/app-tools": "^2.55.0",
     "@playwright/test": "^1.45.1",
     "@rsbuild/plugin-vue": "catalog:",
     "@types/chrome": "^0.0.268",
