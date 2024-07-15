@@ -4,6 +4,33 @@ settings:
   autoInstallPeers: false
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    '@rsbuild/core':
+      specifier: ^0.7.10
+      version: 0.7.10
+    '@rsbuild/plugin-less':
+      specifier: ^0.7.10
+      version: 0.7.10
+    '@rsbuild/plugin-react':
+      specifier: ^0.7.10
+      version: 0.7.10
+    '@rsbuild/plugin-solid':
+      specifier: ^0.7.10
+      version: 0.7.10
+    '@rsbuild/plugin-svelte':
+      specifier: ^0.7.10
+      version: 0.7.10
+    '@rsbuild/plugin-vue':
+      specifier: ^0.7.10
+      version: 0.7.10
+    '@rsbuild/shared':
+      specifier: ^0.7.10
+      version: 0.7.10
+    '@rspack/core':
+      specifier: ^0.7.5
+      version: 0.7.5
+
 patchedDependencies:
   '@react-aria/interactions@3.21.3':
     hash: z67fhpf5jgomy3v6axowpcjciu
@@ -258,13 +285,13 @@ importers:
         specifier: ^1.45.1
         version: 1.45.1
       '@rsbuild/core':
-        specifier: ^0.7.10
+        specifier: 'catalog:'
         version: 0.7.10
       '@rsbuild/plugin-less':
-        specifier: ^0.7.10
+        specifier: 'catalog:'
         version: 0.7.10(@rsbuild/core@0.7.10)
       '@rsbuild/plugin-react':
-        specifier: ^0.7.10
+        specifier: 'catalog:'
         version: 0.7.10(@rsbuild/core@0.7.10)
       '@types/chrome':
         specifier: ^0.0.268
@@ -307,7 +334,7 @@ importers:
         specifier: ^1.45.1
         version: 1.45.1
       '@rsbuild/plugin-solid':
-        specifier: ^0.7.10
+        specifier: 'catalog:'
         version: 0.7.10(@babel/core@7.24.7)(@rsbuild/core@0.7.10)(@swc/helpers@0.5.11)(solid-js@1.8.18)
       '@types/chrome':
         specifier: ^0.0.268
@@ -344,7 +371,7 @@ importers:
         specifier: ^1.45.1
         version: 1.45.1
       '@rsbuild/plugin-svelte':
-        specifier: ^0.7.10
+        specifier: 'catalog:'
         version: 0.7.10(@babel/core@7.24.7)(@rsbuild/core@0.7.10)(postcss-load-config@4.0.2(postcss@8.4.39))(postcss@8.4.39)(pug@3.0.3)(svelte@4.2.18)(typescript@5.5.3)
       '@types/chrome':
         specifier: ^0.0.268
@@ -381,7 +408,7 @@ importers:
         specifier: ^1.45.1
         version: 1.45.1
       '@rsbuild/plugin-vue':
-        specifier: ^0.7.10
+        specifier: 'catalog:'
         version: 0.7.10(@rsbuild/core@0.7.10)(vue@3.4.31(typescript@5.5.3))
       '@types/chrome':
         specifier: ^0.0.268
@@ -425,10 +452,10 @@ importers:
         version: 4.21.0
     devDependencies:
       '@rsbuild/core':
-        specifier: ^0.7.10
+        specifier: 'catalog:'
         version: 0.7.10
       '@rsbuild/shared':
-        specifier: ^0.7.10
+        specifier: 'catalog:'
         version: 0.7.10(@swc/helpers@0.5.11)
       tailwindcss:
         specifier: ^3.4.4
@@ -547,7 +574,7 @@ importers:
         specifier: ^2.54.6
         version: 2.54.6
       '@rsbuild/shared':
-        specifier: ^0.7.10
+        specifier: 'catalog:'
         version: 0.7.10(@swc/helpers@0.5.11)
       tsup:
         specifier: ^8.1.0
@@ -566,13 +593,13 @@ importers:
         version: link:../core-plugin
     devDependencies:
       '@rsbuild/core':
-        specifier: ^0.7.10
+        specifier: 'catalog:'
         version: 0.7.10
       '@rsbuild/shared':
-        specifier: ^0.7.10
+        specifier: 'catalog:'
         version: 0.7.10(@swc/helpers@0.5.11)
       '@rspack/core':
-        specifier: ^0.7.5
+        specifier: 'catalog:'
         version: 0.7.5(@swc/helpers@0.5.11)
       tsup:
         specifier: ^8.1.0
@@ -677,7 +704,7 @@ importers:
         specifier: ^2.54.6
         version: 2.54.6
       '@rsbuild/core':
-        specifier: ^0.7.10
+        specifier: 'catalog:'
         version: 0.7.10
       '@types/node':
         specifier: ^20.14.10
