@@ -12,9 +12,9 @@
     "solid-js": "^1.8.18"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.54.6",
+    "@modern-js/app-tools": "^2.55.0",
     "@playwright/test": "^1.45.1",
-    "@rsbuild/plugin-solid": "^0.7.10",
+    "@rsbuild/plugin-solid": "catalog:",
     "@types/chrome": "^0.0.268",
     "@types/node": "^20.14.10",
     "@webx-kit/modernjs-plugin": "workspace:^",
