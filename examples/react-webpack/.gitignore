@@ -19,4 +19,6 @@ release/
 output/
 log/
 
+modern.config.local.*
+
 .env

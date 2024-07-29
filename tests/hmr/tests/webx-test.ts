@@ -56,7 +56,7 @@ export function startDev({ beforeAll, afterAll, beforeEach, afterEach }: typeof 
         const handler = (chunk: unknown) => {
           const message = stripAnsi(String(chunk));
           !process.env.CI && message && console.log(message.trim());
-          if (message.includes('Client compiled in')) {
+          if (message.startsWith('ready')) {
             childProcess.stdout?.removeListener('data', handler);
             resolve();
           }
@@ -72,13 +72,19 @@ export function startDev({ beforeAll, afterAll, beforeEach, afterEach }: typeof 
     await page.goto('chrome://extensions/');
     await page.evaluate(async () => {
       const extensions = await chrome.developerPrivate.getExtensionsInfo();
-      for (const view of extensions
-        .flatMap((ext) => ext.views)
-        .filter((view) => view.type === chrome.developerPrivate.ViewType.EXTENSION_SERVICE_WORKER_BACKGROUND)) {
-        try {
+      for (const extension of extensions) {
+        for (const view of extension.views.filter(
+          (view) => view.type === chrome.developerPrivate.ViewType.EXTENSION_SERVICE_WORKER_BACKGROUND
+        )) {
           // keep background alive
-          await chrome.developerPrivate.openDevTools(view);
-        } catch {}
+          await chrome.developerPrivate.openDevTools({
+            extensionId: extension.id,
+            incognito: view.incognito,
+            renderProcessId: view.renderProcessId,
+            renderViewId: view.renderViewId,
+            isServiceWorker: true,
+          });
+        }
       }
     });
     await page.close();
