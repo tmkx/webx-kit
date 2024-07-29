@@ -1,25 +1,25 @@
 {
-  "name": "@webx-kit/example-solid",
+  "name": "@webx-kit/example-react-webpack",
   "private": true,
   "scripts": {
-    "dev": "rsbuild dev",
-    "build": "rsbuild build",
+    "dev": "modern dev",
+    "build": "modern build",
     "test": "playwright test",
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
     "@webx-kit/runtime": "workspace:^",
-    "solid-js": "^1.8.20"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@modern-js/app-tools": "^2.58.0",
     "@playwright/test": "^1.46.0",
-    "@rsbuild/core": "catalog:",
-    "@rsbuild/plugin-babel": "catalog:",
-    "@rsbuild/plugin-less": "catalog:",
-    "@rsbuild/plugin-solid": "catalog:",
     "@types/chrome": "^0.0.269",
     "@types/node": "^22.1.0",
-    "@webx-kit/rsbuild-plugin": "workspace:^",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@webx-kit/modernjs-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
     "tailwindcss": "^3.4.9",
     "typescript": "^5.5.4"

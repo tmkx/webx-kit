@@ -1,8 +1,10 @@
 import path from 'node:path';
 import querystring from 'node:querystring';
-import { RsbuildPluginAPI, Rspack, RspackChain, WebpackConfig, isDev } from '@rsbuild/shared';
-import { NormalizeContentScriptsOptions } from './content-script';
+import type { RsbuildPluginAPI, Rspack, RspackChain } from '@rsbuild/core';
+import type { NormalizeContentScriptsOptions } from './content-script';
+import { isDev } from './env';
 import { registerManifestTransformer } from './manifest';
+import type { WebpackConfig } from './utils';
 
 const DEFAULT_BACKGROUND_NAME = 'background';
 

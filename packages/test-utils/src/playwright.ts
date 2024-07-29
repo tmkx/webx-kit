@@ -1,6 +1,6 @@
 /// <reference types="@webx-kit/chrome-types" />
-import { BrowserType, Page, TestType, Worker, test as base, chromium } from '@playwright/test';
-import { CreateStaticServerOptions, createStaticServer, sleep } from './shared';
+import { type BrowserType, type Page, type TestType, type Worker, test as base, chromium } from '@playwright/test';
+import { type CreateStaticServerOptions, createStaticServer, sleep } from './shared';
 
 export * from './shared';
 

@@ -1,4 +1,9 @@
-import { IncomingMessage, RequestListener, ServerResponse, createServer as createHttpServer } from 'node:http';
+import {
+  type IncomingMessage,
+  type RequestListener,
+  type ServerResponse,
+  createServer as createHttpServer,
+} from 'node:http';
 import { createServer as createNetServer } from 'node:net';
 
 export function sleep(ms = 0) {

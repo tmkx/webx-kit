@@ -11,6 +11,10 @@ export default defineConfig({
     ? {
         // HMR is slow in Windows sometimes
         expect: { timeout: 15000 },
+        workers: 1,
+        use: {
+          headless: false,
+        },
       }
     : null),
 
@@ -23,10 +27,10 @@ export default defineConfig({
       },
     },
     {
-      name: 'ReactRsbuild',
-      grep: /react-rsbuild/,
+      name: 'ReactWebpack',
+      grep: /react-webpack/,
       use: {
-        launchOptions: createLaunchOptions('@webx-kit/example-react-rsbuild'),
+        launchOptions: createLaunchOptions('@webx-kit/example-react-webpack'),
       },
     },
     {
