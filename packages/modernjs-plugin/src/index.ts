@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { type AppTools, type CliPlugin, type UserConfig, mergeConfig } from '@modern-js/app-tools';
 import { pkgUp, lodash } from '@modern-js/utils';
-import { type RsbuildPlugin, isDev } from '@rsbuild/shared';
+import type { RsbuildPlugin } from '@rsbuild/core';
 import {
   type BackgroundOptions,
   applyBackgroundSupport,
@@ -16,7 +16,7 @@ import {
   normalizeContentScriptsOptions,
 } from '@webx-kit/core-plugin/content-script';
 import { applyCorsSupport } from '@webx-kit/core-plugin/cors';
-import { applyEnvSupport } from '@webx-kit/core-plugin/env';
+import { applyEnvSupport, isDev } from '@webx-kit/core-plugin/env';
 import { type ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
 import { findUp, titleCase } from '@webx-kit/core-plugin/utils';
 import { BackgroundReloadPlugin } from './plugins/background/live-reload-plugin';
@@ -25,7 +25,7 @@ import { ContentScriptHMRPlugin } from './plugins/content-scripts/hmr-plugin';
 import { ContentScriptPublicPathPlugin } from './plugins/content-scripts/public-path-plugin';
 import { ContentScriptShadowRootPlugin } from './plugins/content-scripts/shadow-root-plugin';
 
-export { isDev, isProd } from '@rsbuild/shared';
+export { isDev, isProd } from '@webx-kit/core-plugin/env';
 
 export type { BackgroundEntry } from '@webx-kit/core-plugin/background';
 export type { ContentScriptEntry } from '@webx-kit/core-plugin/content-script';

@@ -50,7 +50,6 @@
   },
   "devDependencies": {
     "@rsbuild/core": "catalog:",
-    "@rsbuild/shared": "catalog:",
     "@rspack/core": "catalog:",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"

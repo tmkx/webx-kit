@@ -2,7 +2,7 @@ import { defineManifest } from '@webx-kit/rsbuild-plugin/manifest';
 
 export default defineManifest(() => ({
   manifest_version: 3,
-  name: 'WebX Kit React Demo',
+  name: 'WebX Kit React Rsbuild Demo',
   version: '0.0.0',
   icons: {
     512: 'public/logo.png',

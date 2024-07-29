@@ -1,4 +1,4 @@
-import type { RequestHandler, RsbuildPluginAPI } from '@rsbuild/shared';
+import type { RequestHandler, RsbuildPluginAPI } from '@rsbuild/core';
 
 export function applyCorsSupport(api: RsbuildPluginAPI) {
   if (api.modifyRsbuildConfig) {

@@ -1,9 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { type RsbuildPluginAPI, fse, isDev } from '@rsbuild/shared';
-import { type FSWatcher, watch } from '@rsbuild/shared/chokidar';
+import type { RsbuildPluginAPI } from '@rsbuild/core';
+import { FSWatcher, watch } from 'chokidar';
 import createJITI from 'jiti';
 import type { PackageJson, SetOptional } from 'type-fest';
+import { isDev } from './env';
 
 const DEFAULT_MANIFEST_SRC = './src/manifest.ts';
 
@@ -61,7 +62,9 @@ function createManifestGenerator({
     }
     await transformManifest?.(manifest, context);
 
-    context.outputPath && (await fse.writeJson(context.outputPath, manifest, { spaces: context.isDev ? 2 : 0 }));
+    if (context.outputPath) {
+      fs.writeFileSync(context.outputPath, JSON.stringify(manifest, null, context.isDev ? 2 : 0));
+    }
     return manifest;
   }
 
@@ -93,7 +96,7 @@ async function applyDefaultValuePlugin(manifest: Manifest, context: ManifestTran
   const packageJsonPath = path.resolve(context.rootPath, 'package.json');
   if (!fs.existsSync(packageJsonPath)) return;
   try {
-    const packageJson: PackageJson = await fse.readJson(packageJsonPath, { encoding: 'utf8' });
+    const packageJson: PackageJson = JSON.parse(fs.readFileSync(packageJsonPath, { encoding: 'utf8' }));
     manifest.name ??= String(packageJson.displayName || '') || packageJson.name || 'WebX';
     try {
       manifest.version ??= packageJson.version?.replace(/-.+$/, ''); // '0.0.1-alpha' -> '0.0.1'
@@ -134,12 +137,20 @@ export const applyManifestSupport = (api: RsbuildPluginAPI, options: ManifestOpt
 
   api.onBeforeCreateCompiler(async () => {
     context.outputPath = path.join(api.context.distPath, 'manifest.json');
-    await fse.ensureDir(api.context.distPath);
+    if (!fs.existsSync(api.context.distPath)) {
+      fs.mkdirSync(api.context.distPath, { recursive: true });
+    }
   });
 
-  api.onAfterStartDevServer(async ({ port }) => {
-    context.port = port;
-    watch();
+  // FIXME: modern.js doesn't trigger `onAfterBuild`
+  api.onAfterCreateCompiler(async () => {
+    const {
+      server: { port },
+    } = api.getNormalizedConfig();
+    if (isDev()) {
+      context.port = port;
+      watch();
+    }
     await generate();
   });
 

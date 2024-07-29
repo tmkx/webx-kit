@@ -87,6 +87,9 @@
       }
     }
   },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "url": "https://github.com/tmkx/webx-kit.git",
     "directory": "packages/core-plugin"
@@ -97,20 +100,19 @@
   },
   "dependencies": {
     "@types/chrome": "^0.0.269",
+    "chokidar": "^3.6.0",
     "jiti": "^1.21.6",
     "type-fest": "^4.24.0"
   },
   "devDependencies": {
     "@rsbuild/core": "catalog:",
-    "@rsbuild/shared": "catalog:",
     "tailwindcss": "^3.4.9",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4",
     "webpack": "^5.93.0"
   },
   "peerDependencies": {
-    "@rsbuild/core": "^0.7.0",
-    "@rsbuild/shared": "^0.7.0",
+    "@rsbuild/core": "^1.0.0",
     "tailwindcss": "^3.0.0"
   }
 }

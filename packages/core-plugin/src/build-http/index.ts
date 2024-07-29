@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import type { RsbuildPluginAPI, Rspack } from '@rsbuild/shared';
+import type { RsbuildPluginAPI, Rspack } from '@rsbuild/core';
 
 const buildHttpLoader = (function () {
   const devLoader = path.resolve(__dirname, 'build-http-loader-dev.js');
