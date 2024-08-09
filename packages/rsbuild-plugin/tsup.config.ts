@@ -8,5 +8,4 @@ export default defineConfig({
     manifest: './src/manifest.ts',
     tailwind: './src/tailwind.ts',
   },
-  external: ['@rsbuild/shared'],
 });

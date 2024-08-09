@@ -12,8 +12,8 @@ interface TemplateItem extends Choice {
 }
 
 export const templateLists: TemplateItem[] = [
-  { title: 'React', value: 'react', color: 'cyan' },
-  { title: 'React Rsbuild', value: 'react-rsbuild', color: 'magenta' },
+  { title: 'React', value: 'react', color: 'magenta' },
+  { title: 'React Webpack', value: 'react-webpack', color: 'cyan' },
   { title: 'Vue', value: 'vue', color: 'green' },
   { title: 'Solid', value: 'solid', color: 'blue' },
   { title: 'Svelte', value: 'svelte', color: 'yellow' },

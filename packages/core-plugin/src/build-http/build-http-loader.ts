@@ -1,4 +1,4 @@
-import type { Rspack } from '@rsbuild/shared';
+import type { Rspack } from '@rsbuild/core';
 import { ENV_PREFIX, publicVars } from '../env';
 
 const loader: Rspack.LoaderDefinition = function (_code, _sourceMap, _additionalData) {
