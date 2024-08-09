@@ -65,12 +65,16 @@ test('Background', async ({ background, context, extensionId, packageName }) => 
     updateFile('src/background/index.ts', (content) => content.replace('hello', randomID)),
     new Promise<void>(async (resolve) => {
       const start = Date.now();
+      let count = 0;
       while (Date.now() - start < 25 * 1000) {
         const workers = context.serviceWorkers();
         // @ts-expect-error 123
         const newWorkers = workers.map((worker) => worker._guid);
         console.log(newWorkers);
         if (newWorkers.some((worker) => worker !== origBackgroundGuid)) break;
+        if (count >= 2) {
+          await background.evaluate(() => chrome.runtime.reload());
+        }
         await new Promise((resolve) => setTimeout(resolve, 5000));
       }
       resolve();
