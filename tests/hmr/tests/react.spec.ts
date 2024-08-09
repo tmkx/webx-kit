@@ -72,6 +72,7 @@ test('Background', async ({ background, context, extensionId, packageName }) => 
         const newWorkers = workers.map((worker) => worker._guid);
         console.log(newWorkers);
         if (newWorkers.some((worker) => worker !== origBackgroundGuid)) break;
+        count++;
         if (count >= 2) {
           console.log('TRY RELOAD');
           await background.evaluate(() => chrome.runtime.reload());
