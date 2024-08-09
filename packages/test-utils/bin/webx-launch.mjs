@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { chalk, fs, findMonorepoRoot } from '@modern-js/utils';
 import commander from '@modern-js/utils/commander';
 import { chromium } from '@playwright/test';
+import { getChromePath } from 'chrome-launcher';
 
 commander.program.option('--path [path]', 'extension path').option('--no-pin', 'pin extension to toolbar');
 
@@ -30,9 +31,16 @@ const userDataDir = path.resolve(
   'node_modules/.cache/webx-browser-user-dir'
 );
 
+/** @type {string | undefined} */
+let executablePath;
+try {
+  executablePath = getChromePath();
+} catch (_err) {}
+
 // it must be "persisted", otherwise the browser will enable incognito mode
 chromium
   .launchPersistentContext(userDataDir, {
+    ...(executablePath ? { executablePath } : {}),
     headless: false,
     colorScheme: 'no-preference',
     viewport: null,

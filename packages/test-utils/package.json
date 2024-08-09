@@ -49,7 +49,8 @@
   },
   "dependencies": {
     "@modern-js/utils": "^2.55.0",
-    "@webx-kit/chrome-types": "workspace:^"
+    "@webx-kit/chrome-types": "workspace:^",
+    "chrome-launcher": "^1.1.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.45.1",
