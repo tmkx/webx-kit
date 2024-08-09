@@ -77,6 +77,10 @@ jobs:
           echo "$(cat package.json | jq ".pnpm.peerDependencyRules.ignoreMissing = [\"*\"]")" > "$tmp" && mv "$tmp" package.json
           pnpm i --no-frozen-lockfile
 
+      - if: ${{ matrix.os == 'windows-latest' }}
+        name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+
       - if: ${{ github.event_name == 'pull_request' }}
         name: On pull request
         run: pnpm nx affected -t build,lint:type,test
