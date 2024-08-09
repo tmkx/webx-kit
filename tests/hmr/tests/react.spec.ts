@@ -18,13 +18,12 @@ declare global {
   }
 }
 
-test.only('Background', async ({ background, context, extensionId }, testInfo) => {
-  testInfo.setTimeout(30 * 60 * 1000);
+test('Background', async ({ background, context, extensionId, packageName }) => {
   const randomID = randomUUID();
 
   const port = getPort()!;
 
-  const ws = new WebSocket(`ws://localhost:${port}/rsbuild-hmr?compilationName=web_%40webx-kit%2Fexample-react`);
+  const ws = new WebSocket(`ws://localhost:${port}/rsbuild-hmr?compilationName=web_${encodeURIComponent(packageName)}`);
 
   let prevId = '';
   ws.addEventListener('message', async (ev) => {
@@ -38,7 +37,6 @@ test.only('Background', async ({ background, context, extensionId }, testInfo) =
     let updatedModules: string[] = [];
     const mod = {
       webpackHotUpdate_webx_kit_example_react: (moduleId: string, chunks: Record<string, Function>) => {
-        console.log({ moduleId });
         updatedModules = Object.keys(chunks);
         updatedModules.unshift(moduleId);
       },
