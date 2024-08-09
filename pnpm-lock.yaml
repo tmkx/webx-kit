@@ -529,7 +529,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.58.0
-        version: 2.58.0(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.24.0)(typescript@5.5.4)
+        version: 2.58.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.24.0)(typescript@5.5.4)
       '@modern-js/utils':
         specifier: ^2.58.0
         version: 2.58.0
@@ -581,7 +581,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.58.0
-        version: 2.58.0(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.24.0)(typescript@5.5.4)
+        version: 2.58.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.24.0)(typescript@5.5.4)
       '@modern-js/utils':
         specifier: ^2.58.0
         version: 2.58.0
@@ -708,7 +708,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: ^2.58.0
-        version: 2.58.0(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.24.0)(typescript@5.5.4)
+        version: 2.58.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.24.0)(typescript@5.5.4)
       '@modern-js/utils':
         specifier: ^2.58.0
         version: 2.58.0
@@ -735,6 +735,10 @@ importers:
         version: 2.0.5(@types/node@22.1.0)(sass-embedded@1.77.8)(terser@5.31.5)
 
   tests/hmr:
+    dependencies:
+      ws:
+        specifier: ^8.18.0
+        version: 8.18.0
     devDependencies:
       '@modern-js/utils':
         specifier: ^2.58.0
@@ -745,6 +749,9 @@ importers:
       '@types/node':
         specifier: ^22.1.0
         version: 22.1.0
+      '@types/ws':
+        specifier: ^8.5.12
+        version: 8.5.12
       '@webx-kit/chrome-types':
         specifier: workspace:^
         version: link:../../packages/chrome-types
@@ -3470,6 +3477,9 @@ packages:
 
   '@types/web-bluetooth@0.0.20':
     resolution: {integrity: sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow==}
+
+  '@types/ws@8.5.12':
+    resolution: {integrity: sha512-3tPRkv1EtkDpzlgyKyI8pGsGZAGPEaXeu0DOj5DI25Ja91bdAYddYHbADRYVrZMRbfW+1l5YwXVDKohDJNQxkQ==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -8998,65 +9008,6 @@ snapshots:
       - webpack-hot-middleware
       - webpack-plugin-serve
 
-  '@modern-js/app-tools@2.58.0(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.24.0)(typescript@5.5.4)':
-    dependencies:
-      '@babel/parser': 7.25.3
-      '@babel/traverse': 7.25.3
-      '@babel/types': 7.25.2
-      '@modern-js/core': 2.58.0
-      '@modern-js/node-bundle-require': 2.58.0
-      '@modern-js/plugin': 2.58.0
-      '@modern-js/plugin-data-loader': 2.58.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@modern-js/plugin-i18n': 2.58.0
-      '@modern-js/plugin-lint': 2.58.0
-      '@modern-js/prod-server': 2.58.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@modern-js/rsbuild-plugin-esbuild': 2.58.0
-      '@modern-js/server': 2.58.0(@babel/traverse@7.25.3)(@rsbuild/core@1.0.1-beta.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)
-      '@modern-js/server-core': 2.58.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@modern-js/server-utils': 2.58.0(@babel/traverse@7.25.3)(@rsbuild/core@1.0.1-beta.9)
-      '@modern-js/types': 2.58.0
-      '@modern-js/uni-builder': 2.58.0(esbuild@0.17.19)(type-fest@4.24.0)(typescript@5.5.4)
-      '@modern-js/utils': 2.58.0
-      '@rsbuild/core': 1.0.1-beta.9
-      '@rsbuild/plugin-node-polyfill': 1.0.3(@rsbuild/core@1.0.1-beta.9)
-      '@swc/helpers': 0.5.3
-      '@vercel/nft': 0.26.5
-      es-module-lexer: 1.5.4
-      esbuild: 0.17.19
-      esbuild-register: 3.6.0(esbuild@0.17.19)
-      mlly: 1.7.1
-      pkg-types: 1.1.3
-      std-env: 3.7.0
-    transitivePeerDependencies:
-      - '@parcel/css'
-      - '@rspack/core'
-      - '@swc/core'
-      - '@swc/css'
-      - '@types/webpack'
-      - bufferutil
-      - clean-css
-      - csso
-      - debug
-      - devcert
-      - encoding
-      - eslint
-      - lightningcss
-      - react
-      - react-dom
-      - sockjs-client
-      - styled-components
-      - supports-color
-      - ts-node
-      - tsconfig-paths
-      - type-fest
-      - typescript
-      - uglify-js
-      - utf-8-validate
-      - webpack-cli
-      - webpack-dev-server
-      - webpack-hot-middleware
-      - webpack-plugin-serve
-
   '@modern-js/babel-compiler@2.58.0':
     dependencies:
       '@babel/core': 7.25.2
@@ -10997,6 +10948,10 @@ snapshots:
   '@types/unist@3.0.2': {}
 
   '@types/web-bluetooth@0.0.20': {}
+
+  '@types/ws@8.5.12':
+    dependencies:
+      '@types/node': 22.1.0
 
   '@types/yargs-parser@21.0.3': {}
 

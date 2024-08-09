@@ -1,9 +1,11 @@
 import { randomUUID } from 'node:crypto';
+import { runInNewContext } from 'node:vm';
 import { expect } from '@playwright/test';
+import { WebSocket } from 'ws';
 import { startDev, test } from './webx-test';
 import { gotoDevPage, setupStaticServer } from '@webx-kit/test-utils/playwright';
 
-const { updateFile } = startDev(test);
+const { updateFile, getPort } = startDev(test);
 const getWebpageURL = setupStaticServer(test);
 
 declare module globalThis {
@@ -16,21 +18,75 @@ declare global {
   }
 }
 
-test('Background', async ({ background, context, extensionId }) => {
+test.only('Background', async ({ background, context, extensionId }, testInfo) => {
+  testInfo.setTimeout(30 * 60 * 1000);
   const randomID = randomUUID();
+
+  const port = getPort()!;
+
+  const ws = new WebSocket(`ws://localhost:${port}/rsbuild-hmr?compilationName=web_%40webx-kit%2Fexample-react`);
+
+  let prevId = '';
+  ws.addEventListener('message', async (ev) => {
+    const data = JSON.parse(String(ev.data));
+    console.log('===> HMR Message', data);
+    if (data.type !== 'hash') return;
+    const id = prevId;
+    prevId = data.data;
+    if (!id) return;
+    const code = await fetch(`http://localhost:${port}/background.${id}.hot-update.js`).then((res) => res.text());
+    let updatedModules: string[] = [];
+    const mod = {
+      webpackHotUpdate_webx_kit_example_react: (moduleId: string, chunks: Record<string, Function>) => {
+        console.log({ moduleId });
+        updatedModules = Object.keys(chunks);
+        updatedModules.unshift(moduleId);
+      },
+    };
+    runInNewContext(code, { self: mod });
+    console.log({ updatedModules });
+  });
 
   await background.evaluate((secret) => (globalThis.__secret = secret), randomID);
   await expect(background.evaluate(() => globalThis.__secret)).resolves.toBe(randomID);
 
+  // @ts-expect-error
+  const origBackgroundGuid = background._guid;
+  const workers = context.serviceWorkers();
+  console.log(
+    'INIT',
+    { origBackgroundGuid },
+    // @ts-expect-error 123
+    workers.map((worker) => worker._guid)
+  );
+
+  // await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
+
   const [newBackground] = await Promise.all([
     context.waitForEvent('serviceworker'),
     updateFile('src/background/index.ts', (content) => content.replace('hello', randomID)),
+    new Promise<void>(async (resolve) => {
+      const start = Date.now();
+      while (Date.now() - start < 25 * 1000) {
+        const workers = context.serviceWorkers();
+        // @ts-expect-error 123
+        const newWorkers = workers.map((worker) => worker._guid);
+        console.log(newWorkers);
+        if (newWorkers.some((worker) => worker !== origBackgroundGuid)) break;
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+      }
+      resolve();
+    }),
   ]);
+
+  // await new Promise((resolve) => setTimeout(resolve, 10 * 60 * 1000));
 
   expect(newBackground.url().startsWith(`chrome-extension://${extensionId}`)).toBeTruthy();
   await expect(background.evaluate(() => globalThis.__secret)).rejects.toThrowError(
     'Target page, context or browser has been closed'
   );
+
+  await ws.close();
 });
 
 test('Options Page', async ({ getURL, page }) => {

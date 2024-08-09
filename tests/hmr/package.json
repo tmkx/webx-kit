@@ -8,6 +8,7 @@
     "@modern-js/utils": "^2.58.0",
     "@playwright/test": "^1.46.0",
     "@types/node": "^22.1.0",
+    "@types/ws": "^8.5.12",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/example-react": "workspace:^",
     "@webx-kit/example-react-webpack": "workspace:^",
@@ -17,5 +18,8 @@
     "@webx-kit/test-utils": "workspace:^",
     "p-retry": "^6.2.0",
     "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
   }
 }

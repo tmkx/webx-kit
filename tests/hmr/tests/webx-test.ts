@@ -41,15 +41,17 @@ export function startDev({ beforeAll, afterAll, beforeEach, afterEach }: typeof 
   let baseDir: string;
   let childProcess: execa.ExecaChildProcess<string>;
 
+  let port: number | undefined;
+
   beforeAll(async ({ packageDir }, testInfo) => {
     testInfo.setTimeout(30 * 1000);
     baseDir = packageDir;
     const { stdout: dirtyFiles } = await execa('git', ['ls-files', '--modified'], { cwd: packageDir });
     if (!!dirtyFiles) throw new Error(`Make sure all modifications have been staged:\n${dirtyFiles}`);
-    const PORT = String(await getRandomPort());
+    port = await getRandomPort();
     childProcess = execa('pnpm', ['dev'], {
       cwd: packageDir,
-      env: { PORT, WEBX_DIST: DEV_DIST_DIR },
+      env: { PORT: String(port), WEBX_DIST: DEV_DIST_DIR },
     });
     await Promise.race([
       new Promise<void>((resolve) => {
@@ -63,7 +65,7 @@ export function startDev({ beforeAll, afterAll, beforeEach, afterEach }: typeof 
         };
         childProcess.stdout?.addListener('data', handler);
       }),
-      childProcess.catch((reason): Promise<void> => Promise.reject(reason.message)),
+      childProcess.catch((reason) => Promise.reject(reason.message)),
     ]);
   });
   beforeEach(async ({ context }, { title }) => {
@@ -100,6 +102,7 @@ export function startDev({ beforeAll, afterAll, beforeEach, afterEach }: typeof 
 
   return {
     getBaseDir: () => baseDir,
+    getPort: () => port,
     async updateFile(file: string, updater: (content: string) => string) {
       const content = await fs.readFile(resolvePath(file), 'utf8');
       await fs.writeFile(resolvePath(file), updater(content));
