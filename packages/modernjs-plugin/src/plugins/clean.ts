@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { RsbuildPluginAPI, fse } from '@rsbuild/shared';
+import { type RsbuildPluginAPI, fse } from '@rsbuild/shared';
 
 export type CleanOptions = {
   /**

@@ -27,6 +27,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
+      NX_SKIP_NX_CACHE: ${{ vars.NX_SKIP_NX_CACHE }}
 
     steps:
       - uses: actions/checkout@v4
@@ -56,7 +57,7 @@ jobs:
       - name: Install deps
         run: |
           pnpm i --frozen-lockfile
-          pnpm playwright install chromium
+          pnpm playwright install chromium --with-deps
 
       - if: ${{ matrix.os == 'ubuntu-latest' }}
         name: Replace with tarball

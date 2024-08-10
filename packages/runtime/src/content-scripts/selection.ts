@@ -1,5 +1,5 @@
 import type { ComputePositionReturn, FloatingElement } from '@floating-ui/dom';
-import { ComputePositionOptions, autoUpdatePosition, computePosition, rangeToReference } from './position';
+import { type ComputePositionOptions, autoUpdatePosition, computePosition, rangeToReference } from './position';
 
 function isSelectionValid(selection?: Selection | null): selection is Selection {
   return !!selection && !selection.isCollapsed;

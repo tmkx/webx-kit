@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { Rspack } from '@rsbuild/shared';
+import type { Rspack } from '@rsbuild/shared';
 import { ROOT_NAME, STYLE_ROOT_NAME } from '../constants';
 
 export const PLUGIN_NAME = 'webx:content-script-shadow-root';
