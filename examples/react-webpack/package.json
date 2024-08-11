@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "^2.55.0",
-    "@playwright/test": "^1.45.1",
+    "@playwright/test": "^1.46.0",
     "@rsbuild/core": "catalog:",
     "@rsbuild/plugin-less": "catalog:",
     "@rsbuild/plugin-react": "catalog:",

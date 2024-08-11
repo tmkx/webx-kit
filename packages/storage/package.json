@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "^2.55.0",
-    "@playwright/test": "^1.45.1",
+    "@playwright/test": "^1.46.0",
     "@types/chrome": "^0.0.269",
     "@types/node": "^22.2.0",
     "@types/react": "^18.3.3",

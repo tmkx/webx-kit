@@ -12,7 +12,7 @@
     "solid-js": "^1.8.20"
   },
   "devDependencies": {
-    "@playwright/test": "^1.45.1",
+    "@playwright/test": "^1.46.0",
     "@rsbuild/core": "catalog:",
     "@rsbuild/plugin-babel": "catalog:",
     "@rsbuild/plugin-less": "catalog:",
