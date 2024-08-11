@@ -1,4 +1,4 @@
-import type { Rspack } from '@rsbuild/shared';
+import type { Rspack } from '@rsbuild/core';
 import { generateLoadScriptCode } from '@webx-kit/core-plugin/background';
 import type { JsRuntimeModule } from '../../utils/types';
 

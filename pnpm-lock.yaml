@@ -9,6 +9,9 @@ catalogs:
     '@rsbuild/core':
       specifier: ^0.7.10
       version: 0.7.10
+    '@rsbuild/plugin-babel':
+      specifier: ^0.7.10
+      version: 0.7.10
     '@rsbuild/plugin-less':
       specifier: ^0.7.10
       version: 0.7.10
@@ -238,49 +241,6 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
     devDependencies:
-      '@modern-js/app-tools':
-        specifier: ^2.55.0
-        version: 2.55.0(@rspack/core@0.7.5(@swc/helpers@0.5.12))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.24.0)(typescript@5.5.4)
-      '@playwright/test':
-        specifier: ^1.45.1
-        version: 1.45.1
-      '@types/chrome':
-        specifier: ^0.0.269
-        version: 0.0.269
-      '@types/node':
-        specifier: ^22.2.0
-        version: 22.2.0
-      '@types/react':
-        specifier: ^18.3.3
-        version: 18.3.3
-      '@types/react-dom':
-        specifier: ^18.3.0
-        version: 18.3.0
-      '@webx-kit/modernjs-plugin':
-        specifier: workspace:^
-        version: link:../../packages/modernjs-plugin
-      '@webx-kit/test-utils':
-        specifier: workspace:^
-        version: link:../../packages/test-utils
-      tailwindcss:
-        specifier: ^3.4.9
-        version: 3.4.9
-      typescript:
-        specifier: ^5.5.4
-        version: 5.5.4
-
-  examples/react-rsbuild:
-    dependencies:
-      '@webx-kit/runtime':
-        specifier: workspace:^
-        version: link:../../packages/runtime
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
-    devDependencies:
       '@playwright/test':
         specifier: ^1.45.1
         version: 1.45.1
@@ -289,10 +249,10 @@ importers:
         version: 0.7.10
       '@rsbuild/plugin-less':
         specifier: 'catalog:'
-        version: 0.7.10(@rsbuild/core@0.7.10)
+        version: 0.7.10(@rsbuild/core@0.7.10)(@swc/helpers@0.5.12)
       '@rsbuild/plugin-react':
         specifier: 'catalog:'
-        version: 0.7.10(@rsbuild/core@0.7.10)
+        version: 0.7.10(@rsbuild/core@0.7.10)(@swc/helpers@0.5.12)
       '@types/chrome':
         specifier: ^0.0.269
         version: 0.0.269
@@ -318,6 +278,58 @@ importers:
         specifier: ^5.5.4
         version: 5.5.4
 
+  examples/react-webpack:
+    dependencies:
+      '@webx-kit/runtime':
+        specifier: workspace:^
+        version: link:../../packages/runtime
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: ^2.55.0
+        version: 2.55.0(@rspack/core@0.7.5(@swc/helpers@0.5.12))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.24.0)(typescript@5.5.4)
+      '@playwright/test':
+        specifier: ^1.45.1
+        version: 1.45.1
+      '@rsbuild/core':
+        specifier: 'catalog:'
+        version: 0.7.10
+      '@rsbuild/plugin-less':
+        specifier: 'catalog:'
+        version: 0.7.10(@rsbuild/core@0.7.10)(@swc/helpers@0.5.12)
+      '@rsbuild/plugin-react':
+        specifier: 'catalog:'
+        version: 0.7.10(@rsbuild/core@0.7.10)(@swc/helpers@0.5.12)
+      '@types/chrome':
+        specifier: ^0.0.269
+        version: 0.0.269
+      '@types/node':
+        specifier: ^22.2.0
+        version: 22.2.0
+      '@types/react':
+        specifier: ^18.3.3
+        version: 18.3.3
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.0
+      '@webx-kit/modernjs-plugin':
+        specifier: workspace:^
+        version: link:../../packages/modernjs-plugin
+      '@webx-kit/test-utils':
+        specifier: workspace:^
+        version: link:../../packages/test-utils
+      tailwindcss:
+        specifier: ^3.4.9
+        version: 3.4.9
+      typescript:
+        specifier: ^5.5.4
+        version: 5.5.4
+
   examples/solid:
     dependencies:
       '@webx-kit/runtime':
@@ -327,24 +339,30 @@ importers:
         specifier: ^1.8.20
         version: 1.8.20
     devDependencies:
-      '@modern-js/app-tools':
-        specifier: ^2.55.0
-        version: 2.55.0(@rspack/core@0.7.5(@swc/helpers@0.5.12))(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.24.0)(typescript@5.5.4)
       '@playwright/test':
         specifier: ^1.45.1
         version: 1.45.1
+      '@rsbuild/core':
+        specifier: 'catalog:'
+        version: 0.7.10
+      '@rsbuild/plugin-babel':
+        specifier: 'catalog:'
+        version: 0.7.10(@rsbuild/core@0.7.10)
+      '@rsbuild/plugin-less':
+        specifier: 'catalog:'
+        version: 0.7.10(@rsbuild/core@0.7.10)(@swc/helpers@0.5.12)
       '@rsbuild/plugin-solid':
         specifier: 'catalog:'
-        version: 0.7.10(@babel/core@7.24.8)(@rsbuild/core@0.7.10)(@swc/helpers@0.5.12)(solid-js@1.8.20)
+        version: 0.7.10(@babel/core@7.24.8)(@rsbuild/core@0.7.10)(solid-js@1.8.20)
       '@types/chrome':
         specifier: ^0.0.269
         version: 0.0.269
       '@types/node':
-        specifier: ^22.1.0
+        specifier: ^22.2.0
         version: 22.2.0
-      '@webx-kit/modernjs-plugin':
+      '@webx-kit/rsbuild-plugin':
         specifier: workspace:^
-        version: link:../../packages/modernjs-plugin
+        version: link:../../packages/rsbuild-plugin
       '@webx-kit/test-utils':
         specifier: workspace:^
         version: link:../../packages/test-utils
@@ -364,24 +382,27 @@ importers:
         specifier: ^4.2.18
         version: 4.2.18
     devDependencies:
-      '@modern-js/app-tools':
-        specifier: ^2.55.0
-        version: 2.55.0(@rspack/core@0.7.5(@swc/helpers@0.5.12))(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.24.0)(typescript@5.5.4)
       '@playwright/test':
         specifier: ^1.45.1
         version: 1.45.1
+      '@rsbuild/core':
+        specifier: 'catalog:'
+        version: 0.7.10
+      '@rsbuild/plugin-less':
+        specifier: 'catalog:'
+        version: 0.7.10(@rsbuild/core@0.7.10)(@swc/helpers@0.5.12)
       '@rsbuild/plugin-svelte':
         specifier: 'catalog:'
-        version: 0.7.10(@babel/core@7.24.8)(@rsbuild/core@0.7.10)(@swc/helpers@0.5.12)(postcss-load-config@4.0.2(postcss@8.4.41))(postcss@8.4.41)(pug@3.0.3)(svelte@4.2.18)(typescript@5.5.4)
+        version: 0.7.10(@babel/core@7.24.8)(@rsbuild/core@0.7.10)(postcss-load-config@4.0.2(postcss@8.4.41))(postcss@8.4.41)(pug@3.0.3)(svelte@4.2.18)(typescript@5.5.4)
       '@types/chrome':
         specifier: ^0.0.269
         version: 0.0.269
       '@types/node':
         specifier: ^22.2.0
         version: 22.2.0
-      '@webx-kit/modernjs-plugin':
+      '@webx-kit/rsbuild-plugin':
         specifier: workspace:^
-        version: link:../../packages/modernjs-plugin
+        version: link:../../packages/rsbuild-plugin
       '@webx-kit/test-utils':
         specifier: workspace:^
         version: link:../../packages/test-utils
@@ -401,24 +422,27 @@ importers:
         specifier: ^3.4.37
         version: 3.4.37(typescript@5.5.4)
     devDependencies:
-      '@modern-js/app-tools':
-        specifier: ^2.55.0
-        version: 2.55.0(@rspack/core@0.7.5(@swc/helpers@0.5.12))(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.24.0)(typescript@5.5.4)
       '@playwright/test':
         specifier: ^1.45.1
         version: 1.45.1
+      '@rsbuild/core':
+        specifier: 'catalog:'
+        version: 0.7.10
+      '@rsbuild/plugin-less':
+        specifier: 'catalog:'
+        version: 0.7.10(@rsbuild/core@0.7.10)(@swc/helpers@0.5.12)
       '@rsbuild/plugin-vue':
         specifier: 'catalog:'
-        version: 0.7.10(@rsbuild/core@0.7.10)(@swc/helpers@0.5.12)(vue@3.4.37(typescript@5.5.4))
+        version: 0.7.10(@rsbuild/core@0.7.10)(vue@3.4.37(typescript@5.5.4))
       '@types/chrome':
         specifier: ^0.0.269
         version: 0.0.269
       '@types/node':
         specifier: ^22.2.0
         version: 22.2.0
-      '@webx-kit/modernjs-plugin':
+      '@webx-kit/rsbuild-plugin':
         specifier: workspace:^
-        version: link:../../packages/modernjs-plugin
+        version: link:../../packages/rsbuild-plugin
       '@webx-kit/test-utils':
         specifier: workspace:^
         version: link:../../packages/test-utils
@@ -745,9 +769,9 @@ importers:
       '@webx-kit/example-react':
         specifier: workspace:^
         version: link:../../examples/react
-      '@webx-kit/example-react-rsbuild':
+      '@webx-kit/example-react-webpack':
         specifier: workspace:^
-        version: link:../../examples/react-rsbuild
+        version: link:../../examples/react-webpack
       '@webx-kit/example-solid':
         specifier: workspace:^
         version: link:../../examples/solid
@@ -10580,7 +10604,7 @@ snapshots:
       '@swc/helpers': 0.5.3
       core-js: 3.36.1
       html-webpack-plugin: html-rspack-plugin@5.7.2(@rspack/core@0.7.5(@swc/helpers@0.5.3))
-      postcss: 8.4.39
+      postcss: 8.4.41
 
   '@rsbuild/plugin-assets-retry@0.7.10(@rsbuild/core@0.7.10)(@swc/helpers@0.5.3)':
     dependencies:
@@ -10590,7 +10614,7 @@ snapshots:
     transitivePeerDependencies:
       - '@swc/helpers'
 
-  '@rsbuild/plugin-babel@0.7.10(@rsbuild/core@0.7.10)(@swc/helpers@0.5.12)':
+  '@rsbuild/plugin-babel@0.7.10(@rsbuild/core@0.7.10)':
     dependencies:
       '@babel/core': 7.24.8
       '@babel/plugin-proposal-decorators': 7.24.7(@babel/core@7.24.8)
@@ -10643,7 +10667,7 @@ snapshots:
       - lightningcss
       - webpack
 
-  '@rsbuild/plugin-less@0.7.10(@rsbuild/core@0.7.10)':
+  '@rsbuild/plugin-less@0.7.10(@rsbuild/core@0.7.10)(@swc/helpers@0.5.12)':
     dependencies:
       '@rsbuild/core': 0.7.10
       '@rsbuild/shared': 0.7.10(@swc/helpers@0.5.12)
@@ -10693,7 +10717,7 @@ snapshots:
     transitivePeerDependencies:
       - '@swc/helpers'
 
-  '@rsbuild/plugin-react@0.7.10(@rsbuild/core@0.7.10)':
+  '@rsbuild/plugin-react@0.7.10(@rsbuild/core@0.7.10)(@swc/helpers@0.5.12)':
     dependencies:
       '@rsbuild/core': 0.7.10
       '@rsbuild/shared': 0.7.10(@swc/helpers@0.5.12)
@@ -10729,10 +10753,10 @@ snapshots:
     transitivePeerDependencies:
       - '@swc/helpers'
 
-  '@rsbuild/plugin-solid@0.7.10(@babel/core@7.24.8)(@rsbuild/core@0.7.10)(@swc/helpers@0.5.12)(solid-js@1.8.20)':
+  '@rsbuild/plugin-solid@0.7.10(@babel/core@7.24.8)(@rsbuild/core@0.7.10)(solid-js@1.8.20)':
     dependencies:
       '@rsbuild/core': 0.7.10
-      '@rsbuild/plugin-babel': 0.7.10(@rsbuild/core@0.7.10)(@swc/helpers@0.5.12)
+      '@rsbuild/plugin-babel': 0.7.10(@rsbuild/core@0.7.10)
       '@rsbuild/shared': 0.7.10(@swc/helpers@0.5.12)
       babel-preset-solid: 1.8.18(@babel/core@7.24.8)
       solid-refresh: 0.6.3(solid-js@1.8.20)
@@ -10758,7 +10782,7 @@ snapshots:
     transitivePeerDependencies:
       - '@swc/helpers'
 
-  '@rsbuild/plugin-svelte@0.7.10(@babel/core@7.24.8)(@rsbuild/core@0.7.10)(@swc/helpers@0.5.12)(postcss-load-config@4.0.2(postcss@8.4.41))(postcss@8.4.41)(pug@3.0.3)(svelte@4.2.18)(typescript@5.5.4)':
+  '@rsbuild/plugin-svelte@0.7.10(@babel/core@7.24.8)(@rsbuild/core@0.7.10)(postcss-load-config@4.0.2(postcss@8.4.41))(postcss@8.4.41)(pug@3.0.3)(svelte@4.2.18)(typescript@5.5.4)':
     dependencies:
       '@rsbuild/core': 0.7.10
       '@rsbuild/shared': 0.7.10(@swc/helpers@0.5.12)
@@ -10819,7 +10843,7 @@ snapshots:
     transitivePeerDependencies:
       - '@swc/helpers'
 
-  '@rsbuild/plugin-vue@0.7.10(@rsbuild/core@0.7.10)(@swc/helpers@0.5.12)(vue@3.4.37(typescript@5.5.4))':
+  '@rsbuild/plugin-vue@0.7.10(@rsbuild/core@0.7.10)(vue@3.4.37(typescript@5.5.4))':
     dependencies:
       '@rsbuild/core': 0.7.10
       '@rsbuild/shared': 0.7.10(@swc/helpers@0.5.12)

@@ -23,10 +23,10 @@ export default defineConfig({
       },
     },
     {
-      name: 'ReactRsbuild',
-      grep: /react-rsbuild/,
+      name: 'ReactWebpack',
+      grep: /react-webpack/,
       use: {
-        launchOptions: createLaunchOptions('@webx-kit/example-react-rsbuild'),
+        launchOptions: createLaunchOptions('@webx-kit/example-react-webpack'),
       },
     },
     {

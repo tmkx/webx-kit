@@ -10,7 +10,7 @@
     "@types/node": "^22.2.0",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/example-react": "workspace:^",
-    "@webx-kit/example-react-rsbuild": "workspace:^",
+    "@webx-kit/example-react-webpack": "workspace:^",
     "@webx-kit/example-solid": "workspace:^",
     "@webx-kit/example-svelte": "workspace:^",
     "@webx-kit/example-vue": "workspace:^",

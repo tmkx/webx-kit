@@ -1,11 +1,12 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
+import { defineConfig } from '@rsbuild/core';
+import { pluginLess } from '@rsbuild/plugin-less';
 import { pluginSvelte } from '@rsbuild/plugin-svelte';
-import { webxPlugin } from '@webx-kit/modernjs-plugin';
+import { webxPlugin } from '@webx-kit/rsbuild-plugin';
 
-// https://modernjs.dev/en/configure/app/usage
 export default defineConfig({
   plugins: [
-    appTools(),
+    pluginLess(),
+    pluginSvelte(),
     webxPlugin({
       background: './src/background/index.ts',
       contentScripts: {
@@ -14,9 +15,13 @@ export default defineConfig({
       },
     }),
   ],
-  builderPlugins: [pluginSvelte()],
+  source: {
+    entry: {
+      options: './src/pages/options/index.ts',
+      popup: './src/pages/popup/index.ts',
+    },
+  },
   output: {
-    disableSvgr: true,
     copy: [
       {
         from: './public',
