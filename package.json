@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=18.19.0"
   },
-  "packageManager": "pnpm@9.5.0",
+  "packageManager": "pnpm@9.7.0",
   "scripts": {
     "lint:type": "nx run-many -t lint:type",
     "build": "nx run-many -t build",
@@ -13,14 +13,14 @@
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
     "@playwright/test": "^1.45.1",
-    "nx": "^19.4.3"
+    "nx": "^19.5.7"
   },
   "publishConfig": {
     "access": "public"
   },
   "pnpm": {
     "patchedDependencies": {
-      "@react-aria/interactions@3.21.3": "patches/@react-aria__interactions@3.21.3.patch"
+      "@react-aria/interactions@3.22.1": "patches/@react-aria__interactions@3.22.1.patch"
     }
   }
 }

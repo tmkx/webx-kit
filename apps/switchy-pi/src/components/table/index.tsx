@@ -82,13 +82,17 @@ export function Column(props: ColumnProps) {
 export function TableHeader<T extends object>(props: TableHeaderProps<T>) {
   let { selectionBehavior, selectionMode, allowsDragging } = useTableOptions();
 
+  const headerClassnames =
+    'sticky top-0 z-10 bg-gray-100/60 dark:bg-zinc-700/60 backdrop-blur-md supports-[-moz-appearance:none]:bg-gray-100 dark:supports-[-moz-appearance:none]:bg-zinc-700 forced-colors:bg-[Canvas] rounded-t-lg border-b dark:border-b-zinc-700';
+  const className = props.className;
   return (
     <AriaTableHeader
       {...props}
-      className={twMerge(
-        'sticky top-0 z-10 bg-gray-100/60 dark:bg-zinc-700/60 backdrop-blur-md supports-[-moz-appearance:none]:bg-gray-100 dark:supports-[-moz-appearance:none]:bg-zinc-700 forced-colors:bg-[Canvas] rounded-t-lg border-b dark:border-b-zinc-700',
-        props.className
-      )}
+      className={
+        typeof className === 'function'
+          ? (values) => twMerge(headerClassnames, className(values))
+          : twMerge(headerClassnames, className)
+      }
     >
       {/* Add extra columns for drag and drop and selection. */}
       {allowsDragging && <Column />}

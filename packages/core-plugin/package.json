@@ -96,16 +96,16 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@types/chrome": "^0.0.268",
+    "@types/chrome": "^0.0.269",
     "jiti": "^1.21.6",
-    "type-fest": "^4.21.0"
+    "type-fest": "^4.24.0"
   },
   "devDependencies": {
     "@rsbuild/core": "catalog:",
     "@rsbuild/shared": "catalog:",
-    "tailwindcss": "^3.4.4",
-    "tsup": "^8.1.0",
-    "typescript": "^5.5.3",
+    "tailwindcss": "^3.4.9",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4",
     "webpack": "^5.93.0"
   },
   "peerDependencies": {

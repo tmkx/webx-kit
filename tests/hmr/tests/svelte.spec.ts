@@ -22,9 +22,11 @@ test('Background', async ({ background, context, extensionId }) => {
   await background.evaluate((secret) => (globalThis.__secret = secret), randomID);
   await expect(background.evaluate(() => globalThis.__secret)).resolves.toBe(randomID);
 
-  await updateFile('src/background/index.ts', (content) => content.replace('hello', randomID));
+  const [newBackground] = await Promise.all([
+    context.waitForEvent('serviceworker'),
+    updateFile('src/background/index.ts', (content) => content.replace('hello', randomID)),
+  ]);
 
-  const newBackground = await context.waitForEvent('serviceworker');
   expect(newBackground.url().startsWith(`chrome-extension://${extensionId}`)).toBeTruthy();
   await expect(background.evaluate(() => globalThis.__secret)).rejects.toThrowError(
     'Target page, context or browser has been closed'

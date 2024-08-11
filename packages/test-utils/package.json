@@ -54,8 +54,8 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.45.1",
-    "@types/node": "^20.14.10",
-    "typescript": "^5.5.3"
+    "@types/node": "^22.2.0",
+    "typescript": "^5.5.4"
   },
   "peerDependencies": {
     "@playwright/test": "^1.30.0"

@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { RsbuildPluginAPI, fse, isDev } from '@rsbuild/shared';
-import { FSWatcher, watch } from '@rsbuild/shared/chokidar';
+import { type RsbuildPluginAPI, fse, isDev } from '@rsbuild/shared';
+import { type FSWatcher, watch } from '@rsbuild/shared/chokidar';
 import createJITI from 'jiti';
 import type { PackageJson, SetOptional } from 'type-fest';
 

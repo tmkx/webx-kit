@@ -1,5 +1,5 @@
 import { loadEnv } from '@rsbuild/core';
-import { RsbuildPluginAPI, getNodeEnv } from '@rsbuild/shared';
+import { type RsbuildPluginAPI, getNodeEnv } from '@rsbuild/shared';
 
 export const ENV_PREFIX = 'WEBX_PUBLIC_';
 

@@ -1,7 +1,7 @@
-import { RsbuildPluginAPI, Rspack, RspackChain, WebpackConfig, isProd } from '@rsbuild/shared';
+import { type RsbuildPluginAPI, type Rspack, type RspackChain, type WebpackConfig, isProd } from '@rsbuild/shared';
 import type { SetRequired } from 'type-fest';
 import { registerManifestTransformer } from './manifest';
-import { Override, castArray } from './utils';
+import { type Override, castArray } from './utils';
 
 type ContentScriptItem = NonNullable<chrome.runtime.ManifestV3['content_scripts']>[number];
 
