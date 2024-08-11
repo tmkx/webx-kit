@@ -6,7 +6,7 @@
   },
   "devDependencies": {
     "@modern-js/utils": "^2.55.0",
-    "@playwright/test": "^1.45.1",
+    "@playwright/test": "^1.46.0",
     "@types/node": "^22.2.0",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/example-react": "workspace:^",

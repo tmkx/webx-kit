@@ -12,7 +12,7 @@
     "vue": "^3.4.37"
   },
   "devDependencies": {
-    "@playwright/test": "^1.45.1",
+    "@playwright/test": "^1.46.0",
     "@rsbuild/core": "catalog:",
     "@rsbuild/plugin-less": "catalog:",
     "@rsbuild/plugin-vue": "catalog:",

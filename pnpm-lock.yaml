@@ -47,8 +47,8 @@ importers:
         specifier: ^2.27.7
         version: 2.27.7
       '@playwright/test':
-        specifier: ^1.45.1
-        version: 1.45.1
+        specifier: ^1.46.0
+        version: 1.46.0
       nx:
         specifier: ^19.5.7
         version: 19.5.7
@@ -114,8 +114,8 @@ importers:
         specifier: workspace:^
         version: link:../../packages/modernjs-plugin
       tailwind-merge:
-        specifier: ^2.4.0
-        version: 2.4.0
+        specifier: ^2.5.0
+        version: 2.5.0
       tailwind-variants:
         specifier: ^0.2.1
         version: 0.2.1(tailwindcss@3.4.9)
@@ -205,8 +205,8 @@ importers:
         specifier: workspace:^
         version: link:../../packages/modernjs-plugin
       tailwind-merge:
-        specifier: ^2.4.0
-        version: 2.4.0
+        specifier: ^2.5.0
+        version: 2.5.0
       tailwind-variants:
         specifier: ^0.2.1
         version: 0.2.1(tailwindcss@3.4.9)
@@ -242,8 +242,8 @@ importers:
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@playwright/test':
-        specifier: ^1.45.1
-        version: 1.45.1
+        specifier: ^1.46.0
+        version: 1.46.0
       '@rsbuild/core':
         specifier: 'catalog:'
         version: 0.7.10
@@ -294,8 +294,8 @@ importers:
         specifier: ^2.55.0
         version: 2.55.0(@rspack/core@0.7.5(@swc/helpers@0.5.12))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.24.0)(typescript@5.5.4)
       '@playwright/test':
-        specifier: ^1.45.1
-        version: 1.45.1
+        specifier: ^1.46.0
+        version: 1.46.0
       '@rsbuild/core':
         specifier: 'catalog:'
         version: 0.7.10
@@ -340,8 +340,8 @@ importers:
         version: 1.8.20
     devDependencies:
       '@playwright/test':
-        specifier: ^1.45.1
-        version: 1.45.1
+        specifier: ^1.46.0
+        version: 1.46.0
       '@rsbuild/core':
         specifier: 'catalog:'
         version: 0.7.10
@@ -383,8 +383,8 @@ importers:
         version: 4.2.18
     devDependencies:
       '@playwright/test':
-        specifier: ^1.45.1
-        version: 1.45.1
+        specifier: ^1.46.0
+        version: 1.46.0
       '@rsbuild/core':
         specifier: 'catalog:'
         version: 0.7.10
@@ -423,8 +423,8 @@ importers:
         version: 3.4.37(typescript@5.5.4)
     devDependencies:
       '@playwright/test':
-        specifier: ^1.45.1
-        version: 1.45.1
+        specifier: ^1.46.0
+        version: 1.46.0
       '@rsbuild/core':
         specifier: 'catalog:'
         version: 0.7.10
@@ -546,8 +546,8 @@ importers:
         specifier: ^2.55.0
         version: 2.55.0
       '@playwright/test':
-        specifier: ^1.45.1
-        version: 1.45.1
+        specifier: ^1.46.0
+        version: 1.46.0
       '@trpc/client':
         specifier: 11.0.0-rc.477
         version: 11.0.0-rc.477(@trpc/server@11.0.0-rc.477)
@@ -642,8 +642,8 @@ importers:
         version: 0.0.269
     devDependencies:
       '@playwright/test':
-        specifier: ^1.45.1
-        version: 1.45.1
+        specifier: ^1.46.0
+        version: 1.46.0
       tsup:
         specifier: ^8.2.4
         version: 8.2.4(jiti@1.21.6)(postcss@8.4.41)(typescript@5.5.4)(yaml@2.4.5)
@@ -661,8 +661,8 @@ importers:
         specifier: ^2.55.0
         version: 2.55.0(@rspack/core@0.7.5(@swc/helpers@0.5.12))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.24.0)(typescript@5.5.4)
       '@playwright/test':
-        specifier: ^1.45.1
-        version: 1.45.1
+        specifier: ^1.46.0
+        version: 1.46.0
       '@types/chrome':
         specifier: ^0.0.269
         version: 0.0.269
@@ -713,8 +713,8 @@ importers:
         version: 1.1.2
     devDependencies:
       '@playwright/test':
-        specifier: ^1.45.1
-        version: 1.45.1
+        specifier: ^1.46.0
+        version: 1.46.0
       '@types/node':
         specifier: ^22.2.0
         version: 22.2.0
@@ -758,8 +758,8 @@ importers:
         specifier: ^2.55.0
         version: 2.55.0
       '@playwright/test':
-        specifier: ^1.45.1
-        version: 1.45.1
+        specifier: ^1.46.0
+        version: 1.46.0
       '@types/node':
         specifier: ^22.2.0
         version: 22.2.0
@@ -2435,8 +2435,8 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@playwright/test@1.45.1':
-    resolution: {integrity: sha512-Wo1bWTzQvGA7LyKGIZc8nFSTFf2TkthGIFBR+QVNilvwouGzFd4PYukZe3rvf5PSqjHi1+1NyKSDZKcQWETzaA==}
+  '@playwright/test@1.46.0':
+    resolution: {integrity: sha512-/QYft5VArOrGRP5pgkrfKksqsKA6CEFyGQ/gjNe6q0y4tZ1aaPfq4gIjudr1s3D+pXyrPRdsy4opKDrjBabE5w==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -5818,13 +5818,13 @@ packages:
     resolution: {integrity: sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==}
     engines: {node: '>=8'}
 
-  playwright-core@1.45.1:
-    resolution: {integrity: sha512-LF4CUUtrUu2TCpDw4mcrAIuYrEjVDfT1cHbJMfwnE2+1b8PZcFzPNgvZCvq2JfQ4aTjRCCHw5EJ2tmr2NSzdPg==}
+  playwright-core@1.46.0:
+    resolution: {integrity: sha512-9Y/d5UIwuJk8t3+lhmMSAJyNP1BUC/DqP3cQJDQQL/oWqAiuPTLgy7Q5dzglmTLwcBRdetzgNM/gni7ckfTr6A==}
     engines: {node: '>=18'}
     hasBin: true
 
-  playwright@1.45.1:
-    resolution: {integrity: sha512-Hjrgae4kpSQBr98nhCj3IScxVeVUixqj+5oyif8TdIn2opTCPEzqAqNMeK42i3cWDCVu9MI+ZsGWw+gVR4ISBg==}
+  playwright@1.46.0:
+    resolution: {integrity: sha512-XYJ5WvfefWONh1uPAUAi0H2xXV5S3vrtcnXe6uAOgdGi3aSpqOSXX08IAjXW34xitfuOJsvXU5anXZxPSEQiJw==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -6830,8 +6830,8 @@ packages:
   tabbable@6.2.0:
     resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
 
-  tailwind-merge@2.4.0:
-    resolution: {integrity: sha512-49AwoOQNKdqKPd9CViyH5wJoSKsCDjUlzL8DxuGp3P1FsGY36NJDAa18jLZcaHAUUuTj+JB8IAo8zWgBNvBF7A==}
+  tailwind-merge@2.5.0:
+    resolution: {integrity: sha512-a6Q/isR5XAo9IR7Hjh80BQDkn8PG9ONJpSO/U3vGzdKyKG125lPHNXdiPfeQ5X0EOG0qKlS/0qnxdBYkLlD6tA==}
 
   tailwind-variants@0.2.1:
     resolution: {integrity: sha512-2xmhAf4UIc3PijOUcJPA1LP4AbxhpcHuHM2C26xM0k81r0maAO6uoUSHl3APmvHZcY5cZCY/bYuJdfFa4eGoaw==}
@@ -9559,9 +9559,9 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@playwright/test@1.45.1':
+  '@playwright/test@1.46.0':
     dependencies:
-      playwright: 1.45.1
+      playwright: 1.46.0
 
   '@pmmmwh/react-refresh-webpack-plugin@0.5.10(react-refresh@0.14.2)(type-fest@4.24.0)(webpack@5.93.0(esbuild@0.17.19))':
     dependencies:
@@ -13770,11 +13770,11 @@ snapshots:
     dependencies:
       find-up: 3.0.0
 
-  playwright-core@1.45.1: {}
+  playwright-core@1.46.0: {}
 
-  playwright@1.45.1:
+  playwright@1.46.0:
     dependencies:
-      playwright-core: 1.45.1
+      playwright-core: 1.46.0
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -14851,11 +14851,11 @@ snapshots:
 
   tabbable@6.2.0: {}
 
-  tailwind-merge@2.4.0: {}
+  tailwind-merge@2.5.0: {}
 
   tailwind-variants@0.2.1(tailwindcss@3.4.9):
     dependencies:
-      tailwind-merge: 2.4.0
+      tailwind-merge: 2.5.0
       tailwindcss: 3.4.9
 
   tailwindcss-animate@1.0.7(tailwindcss@3.4.9):

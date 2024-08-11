@@ -53,7 +53,7 @@
     "chrome-launcher": "^1.1.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.45.1",
+    "@playwright/test": "^1.46.0",
     "@types/node": "^22.2.0",
     "typescript": "^5.5.4"
   },
