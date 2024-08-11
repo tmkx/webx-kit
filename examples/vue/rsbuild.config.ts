@@ -1,22 +1,27 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
-import { webxPlugin } from '@webx-kit/modernjs-plugin';
+import { defineConfig } from '@rsbuild/core';
+import { pluginLess } from '@rsbuild/plugin-less';
 import { pluginVue } from '@rsbuild/plugin-vue';
+import { webxPlugin } from '@webx-kit/rsbuild-plugin';
 
-// https://modernjs.dev/en/configure/app/usage
 export default defineConfig({
   plugins: [
-    appTools(),
+    pluginLess(),
+    pluginVue(),
     webxPlugin({
       background: './src/background/index.ts',
       contentScripts: {
-        import: './src/content-scripts/index.tsx',
+        import: './src/content-scripts/index.ts',
         matches: ['<all_urls>'],
       },
     }),
   ],
-  builderPlugins: [pluginVue()],
+  source: {
+    entry: {
+      options: './src/pages/options/index.ts',
+      popup: './src/pages/popup/index.ts',
+    },
+  },
   output: {
-    disableSvgr: true,
     copy: [
       {
         from: './public',

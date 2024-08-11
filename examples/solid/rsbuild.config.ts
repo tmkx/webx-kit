@@ -1,11 +1,16 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
+import { defineConfig } from '@rsbuild/core';
+import { pluginBabel } from '@rsbuild/plugin-babel';
+import { pluginLess } from '@rsbuild/plugin-less';
 import { pluginSolid } from '@rsbuild/plugin-solid';
-import { webxPlugin } from '@webx-kit/modernjs-plugin';
+import { webxPlugin } from '@webx-kit/rsbuild-plugin';
 
-// https://modernjs.dev/en/configure/app/usage
 export default defineConfig({
   plugins: [
-    appTools(),
+    pluginBabel({
+      include: /\.(?:jsx|tsx)$/,
+    }),
+    pluginLess(),
+    pluginSolid(),
     webxPlugin({
       background: './src/background/index.ts',
       contentScripts: {
@@ -14,9 +19,13 @@ export default defineConfig({
       },
     }),
   ],
-  builderPlugins: [pluginSolid()],
+  source: {
+    entry: {
+      options: './src/pages/options/index.tsx',
+      popup: './src/pages/popup/index.tsx',
+    },
+  },
   output: {
-    disableSvgr: true,
     copy: [
       {
         from: './public',

@@ -1,16 +1,20 @@
 import type { RsbuildConfig, RsbuildPlugin } from '@rsbuild/core';
 import { isDev } from '@rsbuild/shared';
-import { BackgroundOptions, applyBackgroundSupport, getBackgroundEntryNames } from '@webx-kit/core-plugin/background';
+import {
+  type BackgroundOptions,
+  applyBackgroundSupport,
+  getBackgroundEntryNames,
+} from '@webx-kit/core-plugin/background';
 import { applyBuildHttpSupport } from '@webx-kit/core-plugin/build-http';
 import {
-  ContentScriptsOptions,
+  type ContentScriptsOptions,
   applyContentScriptsSupport,
   getContentScriptEntryNames,
   normalizeContentScriptsOptions,
 } from '@webx-kit/core-plugin/content-script';
 import { applyCorsSupport } from '@webx-kit/core-plugin/cors';
 import { applyEnvSupport } from '@webx-kit/core-plugin/env';
-import { ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
+import { type ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
 import { titleCase } from '@webx-kit/core-plugin/utils';
 import { BackgroundReloadPlugin } from './plugins/background/live-reload-plugin';
 import { ContentScriptHMRPlugin } from './plugins/content-script/hmr-plugin';

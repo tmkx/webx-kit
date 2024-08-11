@@ -1,4 +1,4 @@
-import { getPixelUnitDefaultTheme } from '@webx-kit/modernjs-plugin/tailwind';
+import { getPixelUnitDefaultTheme } from '@webx-kit/rsbuild-plugin/tailwind';
 import type { Config } from 'tailwindcss';
 import plugin from 'tailwindcss/plugin';
 

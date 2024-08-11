@@ -1,4 +1,4 @@
-import type { Rspack } from '@rsbuild/shared';
+import type { Rspack } from '@rsbuild/core';
 import { ContentScriptBasePlugin } from './base-plugin';
 import type { JsRuntimeModule } from '../../utils/types';
 
