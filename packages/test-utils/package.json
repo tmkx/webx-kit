@@ -1,6 +1,6 @@
 {
   "name": "@webx-kit/test-utils",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "bin": {
     "webx-launch": "bin/webx-launch.mjs"
   },
@@ -43,6 +43,10 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "url": "https://github.com/tmkx/webx-kit.git",
+    "directory": "packages/test-utils"
+  },
   "scripts": {
     "prepack": "tsc -p ./tsconfig.build.json",
     "lint:type": "tsc --noEmit"

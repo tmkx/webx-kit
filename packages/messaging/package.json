@@ -1,6 +1,6 @@
 {
   "name": "@webx-kit/messaging",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "exports": {
     ".": {
       "types": "./src/index.ts",
@@ -49,6 +49,10 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "url": "https://github.com/tmkx/webx-kit.git",
+    "directory": "packages/messaging"
+  },
   "scripts": {
     "dev": "modern dev",
     "prepack": "tsup",

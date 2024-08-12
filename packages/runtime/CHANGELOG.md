@@ -1,5 +1,11 @@
 # @webx-kit/runtime
 
+## 0.0.5
+
+### Patch Changes
+
+- 4634f9d: upgrade to rsbuild 1.0
+
 ## 0.0.4
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@webx-kit/storage",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "exports": {
     ".": {
       "types": "./src/index.ts",
@@ -28,6 +28,10 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "url": "https://github.com/tmkx/webx-kit.git",
+    "directory": "packages/storage"
+  },
   "scripts": {
     "dev": "modern dev",
     "prepack": "tsup",
