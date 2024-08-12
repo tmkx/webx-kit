@@ -1,5 +1,4 @@
 import type { RsbuildConfig, RsbuildPlugin } from '@rsbuild/core';
-import { isDev } from '@rsbuild/shared';
 import {
   type BackgroundOptions,
   applyBackgroundSupport,
@@ -13,7 +12,7 @@ import {
   normalizeContentScriptsOptions,
 } from '@webx-kit/core-plugin/content-script';
 import { applyCorsSupport } from '@webx-kit/core-plugin/cors';
-import { applyEnvSupport } from '@webx-kit/core-plugin/env';
+import { applyEnvSupport, isDev } from '@webx-kit/core-plugin/env';
 import { type ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
 import { titleCase } from '@webx-kit/core-plugin/utils';
 import { BackgroundReloadPlugin } from './plugins/background/live-reload-plugin';
@@ -23,7 +22,16 @@ import { ContentScriptShadowRootPlugin } from './plugins/content-script/shadow-r
 
 export interface WebxPluginOptions extends BackgroundOptions, ContentScriptsOptions, ManifestOptions {}
 
-function getDefaultConfig({ allInOneEntries }: { allInOneEntries: Set<string> }): RsbuildConfig {
+function getDefaultConfig({
+  allInOneEntries,
+  defaultConfig,
+  originalConfig,
+}: {
+  allInOneEntries: Set<string>;
+  defaultConfig: Readonly<RsbuildConfig>;
+  originalConfig: Readonly<RsbuildConfig>;
+}): RsbuildConfig {
+  const port = process.env.PORT ? Number(process.env.PORT) : originalConfig.server?.port || defaultConfig.server?.port;
   return {
     source: {
       define: {
@@ -35,6 +43,7 @@ function getDefaultConfig({ allInOneEntries }: { allInOneEntries: Set<string> })
       client: {
         protocol: 'ws',
         host: 'localhost',
+        port,
       },
       writeToDisk: (filename) => !filename.includes('.hot-update.'),
     },
@@ -49,14 +58,14 @@ function getDefaultConfig({ allInOneEntries }: { allInOneEntries: Set<string> })
     },
     server: {
       publicDir: false,
-      port: process.env.PORT ? Number(process.env.PORT) : undefined,
+      port,
       printUrls: false,
     },
     tools: {
       bundlerChain(chain) {
         // DO NOT split chunks when the entry is background/content-scripts
         chain.optimization.runtimeChunk(false).splitChunks({
-          chunks: (chunk) => chunk.runtime.every((runtime) => !allInOneEntries.has(runtime)),
+          chunks: (chunk) => [...chunk.runtime].every((runtime) => !allInOneEntries.has(runtime)),
         });
       },
     },
@@ -73,8 +82,13 @@ export const webxPlugin = (options: WebxPluginOptions = {}): RsbuildPlugin => {
         ...getContentScriptEntryNames(normalizedOptions),
       ]);
       api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
+        const defaultConfig = api.getRsbuildConfig('current');
         const originalConfig = api.getRsbuildConfig('original');
-        return mergeRsbuildConfig(config, getDefaultConfig({ allInOneEntries }), originalConfig);
+        return mergeRsbuildConfig(
+          config,
+          getDefaultConfig({ allInOneEntries, defaultConfig, originalConfig }),
+          originalConfig
+        );
       });
       applyBackgroundSupport(api, normalizedOptions, ({ entryName, backgroundLiveReload }) =>
         isDev() ? [new BackgroundReloadPlugin(entryName, backgroundLiveReload)] : []

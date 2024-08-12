@@ -56,7 +56,7 @@ export function startDev({ beforeAll, afterAll, beforeEach, afterEach }: typeof 
         const handler = (chunk: unknown) => {
           const message = stripAnsi(String(chunk));
           !process.env.CI && message && console.log(message.trim());
-          if (message.includes('Client compiled in')) {
+          if (message.startsWith('ready')) {
             childProcess.stdout?.removeListener('data', handler);
             resolve();
           }

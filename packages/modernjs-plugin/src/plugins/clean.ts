@@ -1,5 +1,6 @@
+import fs from 'node:fs';
 import path from 'node:path';
-import { type RsbuildPluginAPI, fse } from '@rsbuild/shared';
+import type { RsbuildPluginAPI } from '@rsbuild/core';
 
 export type CleanOptions = {
   /**
@@ -18,7 +19,7 @@ export function applyCleanSupport(api: RsbuildPluginAPI, { clean = DEFAULT_CLEAN
   api.onAfterBuild(async () => {
     for (const file of clean) {
       const filePath = path.resolve(distPath, file);
-      if (fse.existsSync(filePath)) await fse.unlink(filePath);
+      if (fs.existsSync(filePath)) await fs.unlinkSync(filePath);
     }
   });
 }
