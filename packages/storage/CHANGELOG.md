@@ -1,5 +1,11 @@
 # @webx-kit/storage
 
+## 0.0.3
+
+### Patch Changes
+
+- 4634f9d: upgrade to rsbuild 1.0
+
 ## 0.0.2
 
 ### Patch Changes

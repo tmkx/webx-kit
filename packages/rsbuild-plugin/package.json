@@ -1,6 +1,6 @@
 {
   "name": "@webx-kit/rsbuild-plugin",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "exports": {
     ".": {
       "types": "./src/index.ts",

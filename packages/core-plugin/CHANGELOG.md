@@ -1,5 +1,11 @@
 # @webx-kit/core-plugin
 
+## 0.0.7
+
+### Patch Changes
+
+- 4634f9d: upgrade to rsbuild 1.0
+
 ## 0.0.6
 
 ### Patch Changes
