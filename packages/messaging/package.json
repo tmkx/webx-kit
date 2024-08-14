@@ -71,7 +71,7 @@
     "@playwright/test": "^1.46.0",
     "@trpc/client": "11.0.0-rc.477",
     "@trpc/server": "11.0.0-rc.477",
-    "@types/chrome": "^0.0.269",
+    "@types/chrome": "^0.0.270",
     "@types/node": "^22.2.0",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/modernjs-plugin": "workspace:^",
