@@ -1,11 +1,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { execaSync } from 'execa';
 import { assert, expect, test } from 'vitest';
-import { findMonorepoRoot } from '@modern-js/utils';
 import { templateLists } from '../src/index';
 import { updateWorkspaceReferences } from '../src/utils';
 
-const root = findMonorepoRoot(__dirname);
+const root = path.dirname(execaSync('pnpm', ['-w', 'root']).stdout);
 assert(root);
 
 test('ensure template exists', async () => {

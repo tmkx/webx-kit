@@ -102,14 +102,14 @@
     "@types/chrome": "^0.0.270",
     "chokidar": "^3.6.0",
     "jiti": "^1.21.6",
-    "type-fest": "^4.24.0"
+    "type-fest": "^4.26.1"
   },
   "devDependencies": {
     "@rsbuild/core": "catalog:",
-    "tailwindcss": "^3.4.10",
+    "tailwindcss": "^3.4.11",
     "tsup": "^8.2.4",
-    "typescript": "^5.5.4",
-    "webpack": "^5.93.0"
+    "typescript": "^5.6.2",
+    "webpack": "^5.94.0"
   },
   "peerDependencies": {
     "@rsbuild/core": "^1.0.0",

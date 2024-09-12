@@ -63,21 +63,21 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "type-fest": "^4.24.0"
+    "type-fest": "^4.26.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.58.0",
-    "@modern-js/utils": "^2.58.0",
-    "@playwright/test": "^1.46.0",
+    "@modern-js/app-tools": "^2.60.0",
+    "@modern-js/utils": "^2.60.0",
+    "@playwright/test": "^1.47.0",
     "@trpc/client": "11.0.0-rc.477",
     "@trpc/server": "11.0.0-rc.477",
     "@types/chrome": "^0.0.270",
-    "@types/node": "^22.2.0",
+    "@types/node": "^22.5.4",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/modernjs-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
     "tsup": "^8.2.4",
-    "typescript": "^5.5.4",
+    "typescript": "^5.6.2",
     "vitest": "^2.0.5",
     "zod": "^3.23.8"
   },
