@@ -1,5 +1,6 @@
 {
   "name": "@webx-kit/example-vue",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "dev": "rsbuild dev",
@@ -9,18 +10,18 @@
   },
   "dependencies": {
     "@webx-kit/runtime": "workspace:^",
-    "vue": "^3.4.37"
+    "vue": "^3.5.4"
   },
   "devDependencies": {
-    "@playwright/test": "^1.46.0",
+    "@playwright/test": "^1.47.0",
     "@rsbuild/core": "catalog:",
     "@rsbuild/plugin-less": "catalog:",
     "@rsbuild/plugin-vue": "catalog:",
     "@types/chrome": "^0.0.270",
-    "@types/node": "^22.2.0",
+    "@types/node": "^22.5.4",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "tailwindcss": "^3.4.10",
-    "typescript": "^5.5.4"
+    "tailwindcss": "^3.4.11",
+    "typescript": "^5.6.2"
   }
 }

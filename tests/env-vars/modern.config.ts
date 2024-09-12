@@ -9,6 +9,9 @@ export default defineConfig({
       background: './src/background/index.ts',
     }),
   ],
+  source: {
+    disableDefaultEntries: true,
+  },
   output: {
     ...(process.env.DIST ? { distPath: { root: process.env.DIST } } : null),
     disableTsChecker: true,

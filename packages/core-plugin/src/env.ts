@@ -1,12 +1,12 @@
 import { env } from 'node:process';
-import { type NodeEnv, type RsbuildPluginAPI, loadEnv } from '@rsbuild/core';
+import { type RsbuildPluginAPI, loadEnv } from '@rsbuild/core';
 
 export const ENV_PREFIX = 'WEBX_PUBLIC_';
 
 const envMode = process.argv.find((_value, index, args) => index > 0 && args[index - 1] === '--env-mode');
 
 // DO NOT use `process.env.NODE_ENV` here, otherwise it will be overridden by tsup
-const getNodeEnv = () => env['NODE_ENV'] as NodeEnv;
+const getNodeEnv = () => env['NODE_ENV'];
 
 export const isDev = () => getNodeEnv() === 'development';
 

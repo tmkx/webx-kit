@@ -1,11 +1,11 @@
 {
-  "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
+  "$schema": "https://unpkg.com/@changesets/config@3.0.3/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
-  "fixed": [],
+  "fixed": [["@webx-kit/*", "create-webx"]],
   "linked": [],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@webx-kit/app-*"]
+  "ignore": ["@webx-kit/app-*", "@webx-kit/docs", "@webx-kit/example-*", "@webx-kit/test-*", "!@webx-kit/test-utils"]
 }

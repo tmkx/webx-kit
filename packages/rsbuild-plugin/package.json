@@ -52,7 +52,7 @@
     "@rsbuild/core": "catalog:",
     "@rspack/core": "catalog:",
     "tsup": "^8.2.4",
-    "typescript": "^5.5.4"
+    "typescript": "^5.6.2"
   },
   "peerDependencies": {
     "@rsbuild/core": "^0.7.0"
