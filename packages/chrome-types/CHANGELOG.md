@@ -1,5 +1,11 @@
 # @webx-kit/chrome-types
 
+## 0.1.0
+
+### Minor Changes
+
+- bd49af5: refactor: upgrade to rsbuild 1.0 stable
+
 ## 0.0.2
 
 ### Patch Changes
