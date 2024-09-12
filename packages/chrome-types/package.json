@@ -1,6 +1,6 @@
 {
   "name": "@webx-kit/chrome-types",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "exports": {
     ".": {
       "types": "./src/index.d.ts",

@@ -1,5 +1,16 @@
 # @webx-kit/rsbuild-plugin
 
+## 0.1.0
+
+### Minor Changes
+
+- bd49af5: refactor: upgrade to rsbuild 1.0 stable
+
+### Patch Changes
+
+- Updated dependencies [bd49af5]
+  - @webx-kit/core-plugin@0.1.0
+
 ## 0.0.9
 
 ### Patch Changes
