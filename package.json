@@ -12,8 +12,8 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.8",
-    "@playwright/test": "^1.47.0",
-    "nx": "^19.7.2"
+    "@playwright/test": "^1.47.1",
+    "nx": "^19.7.4"
   },
   "publishConfig": {
     "access": "public"
