@@ -72,7 +72,7 @@ function createManifestGenerator({
     context,
     watch(): FSWatcher {
       if (watcher) return watcher;
-      watcher = watch(sourcePath).on('change', (changedFilePath) => {
+      watcher = watch(sourcePath, {}).on('change', (changedFilePath) => {
         if (changedFilePath !== sourcePath) return;
         generate();
       });
