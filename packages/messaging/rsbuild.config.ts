@@ -1,21 +1,24 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
-import { webxPlugin } from '@webx-kit/modernjs-plugin';
+import { defineConfig } from '@rsbuild/core';
+import { pluginReact } from '@rsbuild/plugin-react';
+import { webxPlugin } from '@webx-kit/rsbuild-plugin';
 
-// https://modernjs.dev/en/configure/app/usage
 export default defineConfig({
   plugins: [
-    appTools(),
+    pluginReact(),
     webxPlugin({
       background: './demo/background/index.ts',
       manifest: './demo/manifest.ts',
       contentScripts: {
-        import: './demo/content-scripts/index.tsx',
+        import: './demo/content-scripts/index.ts',
         matches: ['<all_urls>'],
       },
     }),
   ],
   source: {
-    entriesDir: './demo/pages',
+    entry: {
+      options: './demo/pages/options/index.ts',
+      popup: './demo/pages/popup/index.ts',
+    },
   },
   output: {
     distPath: { root: './output' },

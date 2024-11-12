@@ -1,5 +1,4 @@
 import { createCustomHandler } from '@/client';
-import '../../global.css';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 

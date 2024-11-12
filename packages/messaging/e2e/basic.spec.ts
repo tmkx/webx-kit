@@ -5,7 +5,7 @@ import type { WrappedMessaging } from '@/shared';
 
 const getWebpageURL = setupStaticServer(test);
 
-declare module globalThis {
+declare namespace globalThis {
   /** only in background */
   const __messaging: Messaging;
   const __clientMessaging: WrappedMessaging;
