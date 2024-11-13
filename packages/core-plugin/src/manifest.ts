@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import type { RsbuildPluginAPI } from '@rsbuild/core';
 import { FSWatcher, watch } from 'chokidar';
-import createJITI from 'jiti';
+import { createJiti } from 'jiti';
 import type { PackageJson, SetOptional } from 'type-fest';
 import { isDev } from './env';
 
@@ -49,10 +49,10 @@ function createManifestGenerator({
     outputPath,
     port: 0,
   };
-  const jiti = createJITI(__filename, { requireCache: false, interopDefault: true });
+  const jiti = createJiti(__filename, { requireCache: false, interopDefault: true });
 
   async function generate() {
-    const userManifest: UserManifest = await jiti(sourcePath);
+    const userManifest: UserManifest = await jiti.import(sourcePath, { default: true });
     const manifest = typeof userManifest === 'function' ? await userManifest(context) : userManifest;
 
     await applyDefaultValuePlugin(manifest, context);

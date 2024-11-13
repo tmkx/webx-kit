@@ -2,13 +2,13 @@ import {
   AnyTRPCRouter,
   TRPCError,
   callTRPCProcedure,
-  getErrorShape,
   getTRPCErrorFromUnknown,
   transformTRPCResponse,
 } from '@trpc/server';
 import {
   MaybePromise,
   TRPCResponseMessage,
+  getErrorShape,
   inferClientTypes,
   inferRouterContext,
   transformResult,
@@ -36,7 +36,7 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
   const server = createMessaging(port, {
     intercept,
     async onRequest(message, context) {
-      const { type, path, input, context: ctx } = message as Operation<unknown>;
+      const { type, path, input, context: ctx, signal } = message as Operation<unknown>;
       try {
         const result = await callTRPCProcedure({
           procedures,
@@ -44,6 +44,7 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
           getRawInput: () => Promise.resolve(input),
           ctx: createContext ? { ...ctx, ...(await createContext(context)) } : ctx,
           type,
+          signal: signal || new AbortController().signal,
         });
         return transformTRPCResponse(rootConfig, { result: { data: result } });
       } catch (cause) {
@@ -54,7 +55,7 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
       }
     },
     async onStream(message, subscriber, context) {
-      const { type, path, input, context: ctx } = message as Operation<unknown>;
+      const { type, path, input, context: ctx, signal } = message as Operation<unknown>;
 
       try {
         const result = await callTRPCProcedure({
@@ -63,6 +64,7 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
           getRawInput: () => Promise.resolve(input),
           ctx: createContext ? { ...ctx, ...(await createContext(context)) } : ctx,
           type,
+          signal: signal || new AbortController().signal,
         });
 
         if (!isObservable(result)) {

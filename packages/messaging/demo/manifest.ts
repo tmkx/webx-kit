@@ -1,6 +1,6 @@
-const isDev = process.env.NODE_ENV === 'development';
+import { defineManifest } from '@webx-kit/rsbuild-plugin/manifest';
 
-const manifest: chrome.runtime.ManifestV3 = {
+export default defineManifest(({ isDev }) => ({
   manifest_version: 3,
   name: 'WebX Kit Messaging',
   version: '0.0.0',
@@ -24,6 +24,4 @@ const manifest: chrome.runtime.ManifestV3 = {
         },
       }
     : {}),
-};
-
-export default manifest;
+}));

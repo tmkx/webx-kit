@@ -4,23 +4,23 @@
   "engines": {
     "node": ">=18.19.0"
   },
-  "packageManager": "pnpm@9.10.0",
+  "packageManager": "pnpm@9.12.3",
   "scripts": {
     "lint:type": "nx run-many -t lint:type",
     "build": "nx run-many -t build",
     "test": "nx run-many -t test"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.8",
-    "@playwright/test": "^1.47.1",
-    "nx": "^19.7.4"
+    "@changesets/cli": "^2.27.9",
+    "@playwright/test": "^1.48.2",
+    "nx": "^20.1.0"
   },
   "publishConfig": {
     "access": "public"
   },
   "pnpm": {
     "patchedDependencies": {
-      "@react-aria/interactions@3.22.2": "patches/@react-aria__interactions@3.22.2.patch"
+      "@react-aria/interactions@3.22.4": "patches/@react-aria__interactions@3.22.4.patch"
     }
   }
 }

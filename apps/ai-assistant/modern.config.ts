@@ -38,7 +38,9 @@ type PostCSSLoaderOptions = AppUserWebpackConfig extends {
 }
   ? Exclude<P, Function | Array<any>>
   : never;
-type PostCSSAcceptedPlugin = NonNullable<NonNullable<PostCSSLoaderOptions['postcssOptions']>['plugins']>[number];
+type PostCSSAcceptedPlugin = NonNullable<
+  Exclude<NonNullable<PostCSSLoaderOptions['postcssOptions']>, Function>['plugins']
+>[number];
 
 const bodyToHostCSSPlugin: PostCSSAcceptedPlugin = {
   postcss(css) {

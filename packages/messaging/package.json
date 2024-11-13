@@ -54,9 +54,9 @@
     "directory": "packages/messaging"
   },
   "scripts": {
-    "dev": "modern dev",
+    "dev": "rsbuild dev",
     "prepack": "tsup",
-    "pretest": "modern build",
+    "pretest": "rsbuild build",
     "test": "pnpm run /^test:/",
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
@@ -66,19 +66,19 @@
     "type-fest": "^4.26.1"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.60.1",
-    "@modern-js/utils": "^2.60.1",
-    "@playwright/test": "^1.47.1",
-    "@trpc/client": "11.0.0-rc.477",
-    "@trpc/server": "11.0.0-rc.477",
-    "@types/chrome": "^0.0.271",
-    "@types/node": "^22.5.5",
+    "@playwright/test": "^1.48.2",
+    "@rsbuild/core": "catalog:",
+    "@rsbuild/plugin-react": "catalog:",
+    "@trpc/client": "11.0.0-rc.621",
+    "@trpc/server": "11.0.0-rc.621",
+    "@types/chrome": "^0.0.280",
+    "@types/node": "^22.9.0",
     "@webx-kit/chrome-types": "workspace:^",
-    "@webx-kit/modernjs-plugin": "workspace:^",
+    "@webx-kit/rsbuild-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "tsup": "^8.3.0",
-    "typescript": "^5.6.2",
-    "vitest": "^2.1.1",
+    "tsup": "^8.3.5",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.4",
     "zod": "^3.23.8"
   },
   "peerDependencies": {

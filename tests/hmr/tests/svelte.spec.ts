@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import { setTimeout as sleep } from 'node:timers/promises';
 import { expect } from '@playwright/test';
 import { startDev, test } from './webx-test';
 import { gotoDevPage, setupStaticServer } from '@webx-kit/test-utils/playwright';
@@ -6,7 +7,7 @@ import { gotoDevPage, setupStaticServer } from '@webx-kit/test-utils/playwright'
 const { updateFile } = startDev(test);
 const getWebpageURL = setupStaticServer(test);
 
-declare module globalThis {
+declare namespace globalThis {
   let __secret: string;
 }
 
@@ -24,7 +25,7 @@ test('Background', async ({ background, context, extensionId }) => {
 
   const [newBackground] = await Promise.all([
     context.waitForEvent('serviceworker'),
-    updateFile('src/background/index.ts', (content) => content.replace('hello', randomID)),
+    sleep(500).then(() => updateFile('src/background/index.ts', (content) => content.replace('hello', randomID))),
   ]);
 
   expect(newBackground.url().startsWith(`chrome-extension://${extensionId}`)).toBeTruthy();
