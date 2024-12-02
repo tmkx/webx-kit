@@ -1,6 +1,7 @@
 {
   "name": "@webx-kit/core-plugin",
   "version": "0.1.0",
+  "type": "commonjs",
   "exports": {
     "./background": {
       "types": "./src/background.ts",

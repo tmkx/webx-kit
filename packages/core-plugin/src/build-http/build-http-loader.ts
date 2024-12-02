@@ -13,7 +13,7 @@ const loader: Rspack.LoaderDefinition = function (_code, _sourceMap, _additional
     .then(async (res) => {
       const contentType = res.headers.get('content-type');
       if (contentType && /^application\/json\b/.test(contentType)) {
-        return `export default JSON.parse(${JSON.stringify(JSON.stringify(await res.json()))})`;
+        return `module.exports = ${JSON.stringify(await res.json())}`;
       }
       return await res.text();
     })

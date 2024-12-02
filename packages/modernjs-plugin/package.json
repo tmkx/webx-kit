@@ -1,6 +1,7 @@
 {
   "name": "@webx-kit/modernjs-plugin",
   "version": "0.1.0",
+  "type": "commonjs",
   "exports": {
     ".": {
       "types": "./src/index.ts",

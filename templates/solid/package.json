@@ -1,5 +1,5 @@
 {
-  "name": "@webx-kit/example-vue",
+  "name": "@webx-kit/template-solid",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -10,13 +10,14 @@
   },
   "dependencies": {
     "@webx-kit/runtime": "workspace:^",
-    "vue": "^3.5.12"
+    "solid-js": "^1.9.3"
   },
   "devDependencies": {
     "@playwright/test": "^1.48.2",
     "@rsbuild/core": "catalog:",
+    "@rsbuild/plugin-babel": "catalog:",
     "@rsbuild/plugin-less": "catalog:",
-    "@rsbuild/plugin-vue": "catalog:",
+    "@rsbuild/plugin-solid": "catalog:",
     "@types/chrome": "^0.0.280",
     "@types/node": "^22.9.0",
     "@webx-kit/rsbuild-plugin": "workspace:^",

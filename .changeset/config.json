@@ -7,5 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@webx-kit/app-*", "@webx-kit/docs", "@webx-kit/example-*", "@webx-kit/test-*", "!@webx-kit/test-utils"]
+  "ignore": ["@webx-kit/app-*", "@webx-kit/docs", "@webx-kit/template-*", "@webx-kit/test-*", "!@webx-kit/test-utils"]
 }
