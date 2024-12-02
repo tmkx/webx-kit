@@ -1,5 +1,14 @@
 # @webx-kit/rsbuild-plugin
 
+## 0.1.1
+
+### Patch Changes
+
+- 96fc63c: chore: lock core-plugin at the same version
+- 40c4854: chore: upgrade deps
+- Updated dependencies [40c4854]
+  - @webx-kit/core-plugin@0.1.1
+
 ## 0.1.0
 
 ### Minor Changes
