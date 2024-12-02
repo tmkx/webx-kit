@@ -232,221 +232,6 @@ importers:
         specifier: ^1.5.0
         version: 1.5.0(@algolia/client-search@5.13.0)(@types/node@22.9.0)(@types/react@18.3.12)(axios@1.7.7)(postcss@8.4.49)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass-embedded@1.80.6)(terser@5.36.0)(typescript@5.6.3)
 
-  examples/react:
-    dependencies:
-      '@webx-kit/runtime':
-        specifier: workspace:^
-        version: link:../../packages/runtime
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
-    devDependencies:
-      '@playwright/test':
-        specifier: ^1.48.2
-        version: 1.48.2
-      '@rsbuild/core':
-        specifier: 'catalog:'
-        version: 1.1.0
-      '@rsbuild/plugin-less':
-        specifier: 'catalog:'
-        version: 1.1.0(@rsbuild/core@1.1.0)
-      '@rsbuild/plugin-react':
-        specifier: 'catalog:'
-        version: 1.0.7(@rsbuild/core@1.1.0)
-      '@types/chrome':
-        specifier: ^0.0.280
-        version: 0.0.280
-      '@types/node':
-        specifier: ^22.9.0
-        version: 22.9.0
-      '@types/react':
-        specifier: ^18.3.12
-        version: 18.3.12
-      '@types/react-dom':
-        specifier: ^18.3.1
-        version: 18.3.1
-      '@webx-kit/rsbuild-plugin':
-        specifier: workspace:^
-        version: link:../../packages/rsbuild-plugin
-      '@webx-kit/test-utils':
-        specifier: workspace:^
-        version: link:../../packages/test-utils
-      tailwindcss:
-        specifier: ^3.4.14
-        version: 3.4.14
-      typescript:
-        specifier: ^5.6.3
-        version: 5.6.3
-
-  examples/react-webpack:
-    dependencies:
-      '@webx-kit/runtime':
-        specifier: workspace:^
-        version: link:../../packages/runtime
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: ^2.61.0
-        version: 2.61.0(@rspack/core@1.1.1(@swc/helpers@0.5.15))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.26.1)(typescript@5.6.3)
-      '@playwright/test':
-        specifier: ^1.48.2
-        version: 1.48.2
-      '@types/chrome':
-        specifier: ^0.0.280
-        version: 0.0.280
-      '@types/node':
-        specifier: ^22.9.0
-        version: 22.9.0
-      '@types/react':
-        specifier: ^18.3.12
-        version: 18.3.12
-      '@types/react-dom':
-        specifier: ^18.3.1
-        version: 18.3.1
-      '@webx-kit/modernjs-plugin':
-        specifier: workspace:^
-        version: link:../../packages/modernjs-plugin
-      '@webx-kit/test-utils':
-        specifier: workspace:^
-        version: link:../../packages/test-utils
-      tailwindcss:
-        specifier: ^3.4.14
-        version: 3.4.14
-      typescript:
-        specifier: ^5.6.3
-        version: 5.6.3
-
-  examples/solid:
-    dependencies:
-      '@webx-kit/runtime':
-        specifier: workspace:^
-        version: link:../../packages/runtime
-      solid-js:
-        specifier: ^1.9.3
-        version: 1.9.3
-    devDependencies:
-      '@playwright/test':
-        specifier: ^1.48.2
-        version: 1.48.2
-      '@rsbuild/core':
-        specifier: 'catalog:'
-        version: 1.1.0
-      '@rsbuild/plugin-babel':
-        specifier: 'catalog:'
-        version: 1.0.3(@rsbuild/core@1.1.0)
-      '@rsbuild/plugin-less':
-        specifier: 'catalog:'
-        version: 1.1.0(@rsbuild/core@1.1.0)
-      '@rsbuild/plugin-solid':
-        specifier: 'catalog:'
-        version: 1.0.1(@babel/core@7.26.0)(@rsbuild/core@1.1.0)(solid-js@1.9.3)
-      '@types/chrome':
-        specifier: ^0.0.280
-        version: 0.0.280
-      '@types/node':
-        specifier: ^22.9.0
-        version: 22.9.0
-      '@webx-kit/rsbuild-plugin':
-        specifier: workspace:^
-        version: link:../../packages/rsbuild-plugin
-      '@webx-kit/test-utils':
-        specifier: workspace:^
-        version: link:../../packages/test-utils
-      tailwindcss:
-        specifier: ^3.4.14
-        version: 3.4.14
-      typescript:
-        specifier: ^5.6.3
-        version: 5.6.3
-
-  examples/svelte:
-    dependencies:
-      '@webx-kit/runtime':
-        specifier: workspace:^
-        version: link:../../packages/runtime
-      svelte:
-        specifier: ^4.2.19
-        version: 4.2.19
-    devDependencies:
-      '@playwright/test':
-        specifier: ^1.48.2
-        version: 1.48.2
-      '@rsbuild/core':
-        specifier: 'catalog:'
-        version: 1.1.0
-      '@rsbuild/plugin-less':
-        specifier: 'catalog:'
-        version: 1.1.0(@rsbuild/core@1.1.0)
-      '@rsbuild/plugin-svelte':
-        specifier: 'catalog:'
-        version: 1.0.1(@babel/core@7.26.0)(@rsbuild/core@1.1.0)(postcss-load-config@6.0.1(jiti@2.4.0)(postcss@8.4.49)(yaml@2.6.0))(postcss@8.4.49)(pug@3.0.3)(svelte@4.2.19)(typescript@5.6.3)
-      '@types/chrome':
-        specifier: ^0.0.280
-        version: 0.0.280
-      '@types/node':
-        specifier: ^22.9.0
-        version: 22.9.0
-      '@webx-kit/rsbuild-plugin':
-        specifier: workspace:^
-        version: link:../../packages/rsbuild-plugin
-      '@webx-kit/test-utils':
-        specifier: workspace:^
-        version: link:../../packages/test-utils
-      tailwindcss:
-        specifier: ^3.4.14
-        version: 3.4.14
-      typescript:
-        specifier: ^5.6.3
-        version: 5.6.3
-
-  examples/vue:
-    dependencies:
-      '@webx-kit/runtime':
-        specifier: workspace:^
-        version: link:../../packages/runtime
-      vue:
-        specifier: ^3.5.12
-        version: 3.5.12(typescript@5.6.3)
-    devDependencies:
-      '@playwright/test':
-        specifier: ^1.48.2
-        version: 1.48.2
-      '@rsbuild/core':
-        specifier: 'catalog:'
-        version: 1.1.0
-      '@rsbuild/plugin-less':
-        specifier: 'catalog:'
-        version: 1.1.0(@rsbuild/core@1.1.0)
-      '@rsbuild/plugin-vue':
-        specifier: 'catalog:'
-        version: 1.0.1(@rsbuild/core@1.1.0)(vue@3.5.12(typescript@5.6.3))
-      '@types/chrome':
-        specifier: ^0.0.280
-        version: 0.0.280
-      '@types/node':
-        specifier: ^22.9.0
-        version: 22.9.0
-      '@webx-kit/rsbuild-plugin':
-        specifier: workspace:^
-        version: link:../../packages/rsbuild-plugin
-      '@webx-kit/test-utils':
-        specifier: workspace:^
-        version: link:../../packages/test-utils
-      tailwindcss:
-        specifier: ^3.4.14
-        version: 3.4.14
-      typescript:
-        specifier: ^5.6.3
-        version: 5.6.3
-
   packages/chrome-types:
     dependencies:
       '@types/chrome':
@@ -716,6 +501,221 @@ importers:
         specifier: ^5.6.3
         version: 5.6.3
 
+  templates/react:
+    dependencies:
+      '@webx-kit/runtime':
+        specifier: workspace:^
+        version: link:../../packages/runtime
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@playwright/test':
+        specifier: ^1.48.2
+        version: 1.48.2
+      '@rsbuild/core':
+        specifier: 'catalog:'
+        version: 1.1.0
+      '@rsbuild/plugin-less':
+        specifier: 'catalog:'
+        version: 1.1.0(@rsbuild/core@1.1.0)
+      '@rsbuild/plugin-react':
+        specifier: 'catalog:'
+        version: 1.0.7(@rsbuild/core@1.1.0)
+      '@types/chrome':
+        specifier: ^0.0.280
+        version: 0.0.280
+      '@types/node':
+        specifier: ^22.9.0
+        version: 22.9.0
+      '@types/react':
+        specifier: ^18.3.12
+        version: 18.3.12
+      '@types/react-dom':
+        specifier: ^18.3.1
+        version: 18.3.1
+      '@webx-kit/rsbuild-plugin':
+        specifier: workspace:^
+        version: link:../../packages/rsbuild-plugin
+      '@webx-kit/test-utils':
+        specifier: workspace:^
+        version: link:../../packages/test-utils
+      tailwindcss:
+        specifier: ^3.4.14
+        version: 3.4.14
+      typescript:
+        specifier: ^5.6.3
+        version: 5.6.3
+
+  templates/react-webpack:
+    dependencies:
+      '@webx-kit/runtime':
+        specifier: workspace:^
+        version: link:../../packages/runtime
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: ^2.61.0
+        version: 2.61.0(@rspack/core@1.1.1(@swc/helpers@0.5.15))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tsconfig-paths@4.2.0)(type-fest@4.26.1)(typescript@5.6.3)
+      '@playwright/test':
+        specifier: ^1.48.2
+        version: 1.48.2
+      '@types/chrome':
+        specifier: ^0.0.280
+        version: 0.0.280
+      '@types/node':
+        specifier: ^22.9.0
+        version: 22.9.0
+      '@types/react':
+        specifier: ^18.3.12
+        version: 18.3.12
+      '@types/react-dom':
+        specifier: ^18.3.1
+        version: 18.3.1
+      '@webx-kit/modernjs-plugin':
+        specifier: workspace:^
+        version: link:../../packages/modernjs-plugin
+      '@webx-kit/test-utils':
+        specifier: workspace:^
+        version: link:../../packages/test-utils
+      tailwindcss:
+        specifier: ^3.4.14
+        version: 3.4.14
+      typescript:
+        specifier: ^5.6.3
+        version: 5.6.3
+
+  templates/solid:
+    dependencies:
+      '@webx-kit/runtime':
+        specifier: workspace:^
+        version: link:../../packages/runtime
+      solid-js:
+        specifier: ^1.9.3
+        version: 1.9.3
+    devDependencies:
+      '@playwright/test':
+        specifier: ^1.48.2
+        version: 1.48.2
+      '@rsbuild/core':
+        specifier: 'catalog:'
+        version: 1.1.0
+      '@rsbuild/plugin-babel':
+        specifier: 'catalog:'
+        version: 1.0.3(@rsbuild/core@1.1.0)
+      '@rsbuild/plugin-less':
+        specifier: 'catalog:'
+        version: 1.1.0(@rsbuild/core@1.1.0)
+      '@rsbuild/plugin-solid':
+        specifier: 'catalog:'
+        version: 1.0.1(@babel/core@7.26.0)(@rsbuild/core@1.1.0)(solid-js@1.9.3)
+      '@types/chrome':
+        specifier: ^0.0.280
+        version: 0.0.280
+      '@types/node':
+        specifier: ^22.9.0
+        version: 22.9.0
+      '@webx-kit/rsbuild-plugin':
+        specifier: workspace:^
+        version: link:../../packages/rsbuild-plugin
+      '@webx-kit/test-utils':
+        specifier: workspace:^
+        version: link:../../packages/test-utils
+      tailwindcss:
+        specifier: ^3.4.14
+        version: 3.4.14
+      typescript:
+        specifier: ^5.6.3
+        version: 5.6.3
+
+  templates/svelte:
+    dependencies:
+      '@webx-kit/runtime':
+        specifier: workspace:^
+        version: link:../../packages/runtime
+      svelte:
+        specifier: ^4.2.19
+        version: 4.2.19
+    devDependencies:
+      '@playwright/test':
+        specifier: ^1.48.2
+        version: 1.48.2
+      '@rsbuild/core':
+        specifier: 'catalog:'
+        version: 1.1.0
+      '@rsbuild/plugin-less':
+        specifier: 'catalog:'
+        version: 1.1.0(@rsbuild/core@1.1.0)
+      '@rsbuild/plugin-svelte':
+        specifier: 'catalog:'
+        version: 1.0.1(@babel/core@7.26.0)(@rsbuild/core@1.1.0)(postcss-load-config@6.0.1(jiti@2.4.0)(postcss@8.4.49)(yaml@2.6.0))(postcss@8.4.49)(pug@3.0.3)(svelte@4.2.19)(typescript@5.6.3)
+      '@types/chrome':
+        specifier: ^0.0.280
+        version: 0.0.280
+      '@types/node':
+        specifier: ^22.9.0
+        version: 22.9.0
+      '@webx-kit/rsbuild-plugin':
+        specifier: workspace:^
+        version: link:../../packages/rsbuild-plugin
+      '@webx-kit/test-utils':
+        specifier: workspace:^
+        version: link:../../packages/test-utils
+      tailwindcss:
+        specifier: ^3.4.14
+        version: 3.4.14
+      typescript:
+        specifier: ^5.6.3
+        version: 5.6.3
+
+  templates/vue:
+    dependencies:
+      '@webx-kit/runtime':
+        specifier: workspace:^
+        version: link:../../packages/runtime
+      vue:
+        specifier: ^3.5.12
+        version: 3.5.12(typescript@5.6.3)
+    devDependencies:
+      '@playwright/test':
+        specifier: ^1.48.2
+        version: 1.48.2
+      '@rsbuild/core':
+        specifier: 'catalog:'
+        version: 1.1.0
+      '@rsbuild/plugin-less':
+        specifier: 'catalog:'
+        version: 1.1.0(@rsbuild/core@1.1.0)
+      '@rsbuild/plugin-vue':
+        specifier: 'catalog:'
+        version: 1.0.1(@rsbuild/core@1.1.0)(vue@3.5.12(typescript@5.6.3))
+      '@types/chrome':
+        specifier: ^0.0.280
+        version: 0.0.280
+      '@types/node':
+        specifier: ^22.9.0
+        version: 22.9.0
+      '@webx-kit/rsbuild-plugin':
+        specifier: workspace:^
+        version: link:../../packages/rsbuild-plugin
+      '@webx-kit/test-utils':
+        specifier: workspace:^
+        version: link:../../packages/test-utils
+      tailwindcss:
+        specifier: ^3.4.14
+        version: 3.4.14
+      typescript:
+        specifier: ^5.6.3
+        version: 5.6.3
+
   tests/env-vars:
     devDependencies:
       '@modern-js/app-tools':
@@ -760,21 +760,21 @@ importers:
       '@webx-kit/chrome-types':
         specifier: workspace:^
         version: link:../../packages/chrome-types
-      '@webx-kit/example-react':
+      '@webx-kit/template-react':
         specifier: workspace:^
-        version: link:../../examples/react
-      '@webx-kit/example-react-webpack':
+        version: link:../../templates/react
+      '@webx-kit/template-react-webpack':
         specifier: workspace:^
-        version: link:../../examples/react-webpack
-      '@webx-kit/example-solid':
+        version: link:../../templates/react-webpack
+      '@webx-kit/template-solid':
         specifier: workspace:^
-        version: link:../../examples/solid
-      '@webx-kit/example-svelte':
+        version: link:../../templates/solid
+      '@webx-kit/template-svelte':
         specifier: workspace:^
-        version: link:../../examples/svelte
-      '@webx-kit/example-vue':
+        version: link:../../templates/svelte
+      '@webx-kit/template-vue':
         specifier: workspace:^
-        version: link:../../examples/vue
+        version: link:../../templates/vue
       '@webx-kit/test-utils':
         specifier: workspace:^
         version: link:../../packages/test-utils

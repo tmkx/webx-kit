@@ -85,7 +85,7 @@ async function main() {
   const { stdout: lastCommitHash } = await execa('git', ['rev-parse', 'HEAD'], { cwd: repoDir });
   debug({ lastCommitHash });
 
-  await fs.promises.cp(path.resolve(repoDir, 'examples', template), targetDir, { recursive: true });
+  await fs.promises.cp(path.resolve(repoDir, 'templates', template), targetDir, { recursive: true });
   const resolvedPackageJson = await updateWorkspaceReferences(repoDir, path.resolve(targetDir, 'package.json'));
   await fs.promises.writeFile(path.resolve(targetDir, 'package.json'), JSON.stringify(resolvedPackageJson, null, 2));
 

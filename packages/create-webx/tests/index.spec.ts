@@ -10,11 +10,11 @@ assert(root);
 
 test('ensure template exists', async () => {
   for (const template of templateLists) {
-    expect(fs.existsSync(path.resolve(root, 'examples', template.value, 'package.json'))).toBeTruthy();
+    expect(fs.existsSync(path.resolve(root, 'templates', template.value, 'package.json'))).toBeTruthy();
   }
 });
 
 test('updateWorkspaceReferences', async () => {
-  const packageJson = await updateWorkspaceReferences(root, path.resolve(root, 'examples/svelte/package.json'));
+  const packageJson = await updateWorkspaceReferences(root, path.resolve(root, 'templates/svelte/package.json'));
   expect(JSON.stringify(packageJson)).not.toContain('workspace:');
 });
