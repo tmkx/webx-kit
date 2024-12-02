@@ -1,7 +1,7 @@
 /**
  * @see {@link https://playwright.dev/docs/chrome-extensions Chrome extensions | Playwright}
  */
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 import { createLaunchOptions } from './tests/webx-test';
 
 export default defineConfig({
@@ -19,6 +19,8 @@ export default defineConfig({
       name: 'React',
       grep: /react\.spec/,
       use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chromium',
         launchOptions: createLaunchOptions('@webx-kit/template-react'),
       },
     },
@@ -26,6 +28,8 @@ export default defineConfig({
       name: 'ReactWebpack',
       grep: /react-webpack/,
       use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chromium',
         launchOptions: createLaunchOptions('@webx-kit/template-react-webpack'),
       },
     },
@@ -33,6 +37,8 @@ export default defineConfig({
       name: 'Solid',
       grep: /solid/,
       use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chromium',
         launchOptions: createLaunchOptions('@webx-kit/template-solid'),
       },
     },
@@ -40,6 +46,8 @@ export default defineConfig({
       name: 'Svelte',
       grep: /svelte/,
       use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chromium',
         launchOptions: createLaunchOptions('@webx-kit/template-svelte'),
       },
     },
@@ -47,6 +55,8 @@ export default defineConfig({
       name: 'Vue',
       grep: /vue/,
       use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chromium',
         launchOptions: createLaunchOptions('@webx-kit/template-vue'),
       },
     },

@@ -58,7 +58,7 @@ export function Radio(props: RadioProps) {
       {(renderProps) => (
         <>
           <div className={styles(renderProps)} />
-          {props.children}
+          {typeof props.children === 'function' ? props.children(renderProps) : props.children}
         </>
       )}
     </RACRadio>

@@ -68,16 +68,18 @@ export function Checkbox(props: CheckboxProps) {
         checkboxStyles({ ...renderProps, className })
       )}
     >
-      {({ isSelected, isIndeterminate, ...renderProps }) => (
+      {(renderProps) => (
         <>
-          <div className={boxStyles({ isSelected: isSelected || isIndeterminate, ...renderProps })}>
-            {isIndeterminate ? (
+          <div
+            className={boxStyles({ ...renderProps, isSelected: Boolean(props.isSelected || props.isIndeterminate) })}
+          >
+            {props.isIndeterminate ? (
               <MinusIcon aria-hidden className={iconStyles} />
-            ) : isSelected ? (
+            ) : props.isSelected ? (
               <CheckIcon aria-hidden className={iconStyles} />
             ) : null}
           </div>
-          {props.children}
+          {typeof props.children === 'function' ? props.children(renderProps) : props.children}
         </>
       )}
     </AriaCheckbox>
