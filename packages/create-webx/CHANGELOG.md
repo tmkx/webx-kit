@@ -1,5 +1,12 @@
 # create-webx
 
+## 0.1.1
+
+### Patch Changes
+
+- e44d163: refactor: rename `example` to `template`
+- 40c4854: chore: upgrade deps
+
 ## 0.1.0
 
 ### Minor Changes
