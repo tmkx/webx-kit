@@ -40,12 +40,20 @@ export function Button(props: ButtonProps) {
       className={composeRenderProps(props.className, (className, renderProps) =>
         button({ ...renderProps, variant: props.variant, isIcon: hasIcon, className })
       )}
-      children={
+      children={(renderProps) =>
         hasIcon ? (
           <>
             {icon}
-            {typeof children === 'string' ? <Text>{children}</Text> : children}
+            {typeof children === 'function' ? (
+              children(renderProps)
+            ) : typeof children === 'string' ? (
+              <Text>{children}</Text>
+            ) : (
+              children
+            )}
           </>
+        ) : typeof children === 'function' ? (
+          children(renderProps)
         ) : (
           children
         )

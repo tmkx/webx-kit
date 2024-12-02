@@ -7,5 +7,6 @@
       "fileMatch": ["project.json"],
       "url": "./node_modules/nx/schemas/project-schema.json"
     }
-  ]
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

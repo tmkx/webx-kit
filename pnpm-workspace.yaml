@@ -6,11 +6,11 @@ packages:
   - docs
 
 catalog:
-  '@rsbuild/core': ^1.1.0
-  '@rsbuild/plugin-babel': ^1.0.0
-  '@rsbuild/plugin-less': ^1.0.0
-  '@rsbuild/plugin-react': ^1.0.0
-  '@rsbuild/plugin-solid': ^1.0.0
-  '@rsbuild/plugin-svelte': ^1.0.0
-  '@rsbuild/plugin-vue': ^1.0.0
-  '@rspack/core': ^1.1.0
+  '@rsbuild/core': ^1.1.7
+  '@rsbuild/plugin-babel': ^1.0.3
+  '@rsbuild/plugin-less': ^1.1.0
+  '@rsbuild/plugin-react': ^1.0.7
+  '@rsbuild/plugin-solid': ^1.0.4
+  '@rsbuild/plugin-svelte': ^1.0.5
+  '@rsbuild/plugin-vue': ^1.0.5
+  '@rspack/core': ^1.1.4
