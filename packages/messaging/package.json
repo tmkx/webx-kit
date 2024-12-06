@@ -63,7 +63,7 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "type-fest": "^4.29.1"
+    "type-fest": "^4.30.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",
@@ -78,7 +78,7 @@
     "@webx-kit/test-utils": "workspace:^",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2",
-    "vitest": "^2.1.7",
+    "vitest": "^2.1.8",
     "zod": "^3.23.8"
   },
   "peerDependencies": {
