@@ -1,0 +1,33 @@
+{
+  "name": "@webx-kit/example-with-antd",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "rsbuild dev",
+    "build": "rsbuild build",
+    "test": "playwright test",
+    "lint:type": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ant-design/cssinjs": "^1.22.1",
+    "@ant-design/icons": "^5.5.2",
+    "@webx-kit/runtime": "workspace:^",
+    "antd": "^5.22.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@rsbuild/core": "catalog:",
+    "@rsbuild/plugin-less": "catalog:",
+    "@rsbuild/plugin-react": "catalog:",
+    "@types/chrome": "^0.0.287",
+    "@types/node": "^22.10.1",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.1",
+    "@webx-kit/rsbuild-plugin": "workspace:^",
+    "@webx-kit/test-utils": "workspace:^",
+    "tailwindcss": "^3.4.16",
+    "typescript": "^5.7.2"
+  }
+}
