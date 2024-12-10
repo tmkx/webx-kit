@@ -10,7 +10,7 @@ export function App() {
         const id = String(i + 1);
         return {
           key: id,
-          label: <div data-testid={`tab-${id}`}>{`Tab ${id}`}</div>,
+          label: <span data-testid={`tab-${id}`}>{`Tab ${id}`}</span>,
           children: <div data-testid={`content-${id}`}>{`Tab ${id}`}</div>,
           icon: <Icon />,
         };

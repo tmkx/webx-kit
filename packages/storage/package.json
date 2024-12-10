@@ -28,6 +28,12 @@
   "files": [
     "dist"
   ],
+  "keywords": [
+    "web",
+    "extension",
+    "webext",
+    "storage"
+  ],
   "repository": {
     "url": "https://github.com/tmkx/webx-kit.git",
     "directory": "packages/storage"

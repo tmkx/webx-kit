@@ -49,6 +49,13 @@
   "files": [
     "dist"
   ],
+  "keywords": [
+    "trpc",
+    "chrome",
+    "extension",
+    "webext",
+    "messaging"
+  ],
   "repository": {
     "url": "https://github.com/tmkx/webx-kit.git",
     "directory": "packages/messaging"

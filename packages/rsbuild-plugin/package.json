@@ -37,6 +37,12 @@
   "files": [
     "dist"
   ],
+  "keywords": [
+    "chrome",
+    "extension",
+    "webext",
+    "rsbuild"
+  ],
   "repository": {
     "url": "https://github.com/tmkx/webx-kit.git",
     "directory": "packages/rsbuild-plugin"

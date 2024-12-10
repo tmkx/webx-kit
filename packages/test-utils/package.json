@@ -43,6 +43,13 @@
   "files": [
     "dist"
   ],
+  "keywords": [
+    "web",
+    "extension",
+    "webext",
+    "test",
+    "e2e"
+  ],
   "repository": {
     "url": "https://github.com/tmkx/webx-kit.git",
     "directory": "packages/test-utils"
