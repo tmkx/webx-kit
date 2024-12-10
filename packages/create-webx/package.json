@@ -8,6 +8,12 @@
   "files": [
     "dist"
   ],
+  "keywords": [
+    "chrome",
+    "extension",
+    "webext",
+    "template"
+  ],
   "repository": {
     "url": "https://github.com/tmkx/webx-kit.git",
     "directory": "packages/create-webx"
