@@ -4,24 +4,24 @@
   "engines": {
     "node": ">=18.19.0"
   },
-  "packageManager": "pnpm@9.15.0",
+  "packageManager": "pnpm@10.3.0",
   "scripts": {
     "lint:type": "nx run-many -t lint:type",
     "build": "nx run-many -t build",
     "test": "nx run-many -t test"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.10",
-    "@playwright/test": "^1.49.0",
-    "nx": "^20.2.0",
-    "typescript": "^5.7.2"
+    "@changesets/cli": "^2.27.12",
+    "@playwright/test": "^1.50.1",
+    "nx": "^20.4.3",
+    "typescript": "^5.7.3"
   },
   "publishConfig": {
     "access": "public"
   },
   "pnpm": {
-    "patchedDependencies": {
-      "@react-aria/interactions@3.22.5": "patches/@react-aria__interactions@3.22.5.patch"
-    }
+    "onlyBuiltDependencies": [
+      "nx"
+    ]
   }
 }

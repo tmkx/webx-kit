@@ -100,17 +100,17 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@types/chrome": "^0.0.287",
-    "chokidar": "^4.0.1",
-    "jiti": "^2.4.1",
-    "type-fest": "^4.30.0"
+    "@types/chrome": "^0.0.304",
+    "chokidar": "^4.0.3",
+    "jiti": "^2.4.2",
+    "type-fest": "^4.34.1"
   },
   "devDependencies": {
     "@rsbuild/core": "catalog:",
-    "@types/node": "^22.10.1",
-    "tailwindcss": "^3.4.16",
-    "tsup": "^8.3.5",
-    "typescript": "^5.7.2",
+    "@types/node": "^22.13.1",
+    "tailwindcss": "^3.4.17",
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3",
     "webpack": "^5.97.1"
   },
   "peerDependencies": {
