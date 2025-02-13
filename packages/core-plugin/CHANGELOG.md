@@ -1,5 +1,11 @@
 # @webx-kit/core-plugin
 
+## 0.1.2
+
+### Patch Changes
+
+- 9122767: chore: upgrade dependencies
+
 ## 0.1.1
 
 ### Patch Changes
