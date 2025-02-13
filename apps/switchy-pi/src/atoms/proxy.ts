@@ -5,7 +5,10 @@ import { syncExternalStateAtom } from '@/utils/atom';
 export const proxySetting = chrome.proxy.settings;
 
 export const proxySettingDetailsAtom = syncExternalStateAtom(
-  () => new Promise<chrome.types.ChromeSettingGetResultDetails>((resolve) => proxySetting.get({}, resolve)),
+  () =>
+    new Promise<chrome.types.ChromeSettingOnChangeDetails<chrome.proxy.ProxyConfig>>((resolve) =>
+      proxySetting.get({}, resolve)
+    ),
   (setSelf) => {
     proxySetting.onChange.addListener(setSelf);
     return () => proxySetting.onChange.removeListener(setSelf);

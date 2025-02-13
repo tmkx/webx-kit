@@ -31,7 +31,7 @@ export interface MessagingHandlerOptions<TRouter extends AnyTRPCRouter> {
 
 export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: MessagingHandlerOptions<TRouter>) {
   const { port, router, intercept, createContext } = options;
-  const { procedures, _config: rootConfig } = router._def;
+  const { _config: rootConfig } = router._def;
 
   const server = createMessaging(port, {
     intercept,
@@ -39,12 +39,12 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
       const { type, path, input, context: ctx, signal } = message as Operation<unknown>;
       try {
         const result = await callTRPCProcedure({
-          procedures,
+          router,
           path,
           getRawInput: () => Promise.resolve(input),
           ctx: createContext ? { ...ctx, ...(await createContext(context)) } : ctx,
           type,
-          signal: signal || new AbortController().signal,
+          signal: signal || undefined,
         });
         return transformTRPCResponse(rootConfig, { result: { data: result } });
       } catch (cause) {
@@ -59,7 +59,7 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
 
       try {
         const result = await callTRPCProcedure({
-          procedures,
+          router,
           path,
           getRawInput: () => Promise.resolve(input),
           ctx: createContext ? { ...ctx, ...(await createContext(context)) } : ctx,

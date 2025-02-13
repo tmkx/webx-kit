@@ -6,9 +6,9 @@
     "test": "playwright test"
   },
   "devDependencies": {
-    "@modern-js/utils": "^2.63.1",
-    "@playwright/test": "^1.49.0",
-    "@types/node": "^22.10.1",
+    "@modern-js/utils": "^2.64.2",
+    "@playwright/test": "^1.50.1",
+    "@types/node": "^22.13.1",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/template-react": "workspace:^",
     "@webx-kit/template-react-webpack": "workspace:^",
@@ -17,6 +17,6 @@
     "@webx-kit/template-vue": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
     "p-retry": "^6.2.1",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.3"
   }
 }

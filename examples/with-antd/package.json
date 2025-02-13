@@ -9,25 +9,25 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@ant-design/cssinjs": "^1.22.1",
-    "@ant-design/icons": "^5.5.2",
+    "@ant-design/cssinjs": "^1.23.0",
+    "@ant-design/icons": "^5.6.1",
     "@webx-kit/runtime": "workspace:^",
-    "antd": "^5.22.3",
+    "antd": "^5.24.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.49.0",
+    "@playwright/test": "^1.50.1",
     "@rsbuild/core": "catalog:",
     "@rsbuild/plugin-less": "catalog:",
     "@rsbuild/plugin-react": "catalog:",
-    "@types/chrome": "^0.0.287",
-    "@types/node": "^22.10.1",
-    "@types/react": "^19.0.1",
-    "@types/react-dom": "^19.0.1",
+    "@types/chrome": "^0.0.304",
+    "@types/node": "^22.13.1",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "tailwindcss": "^3.4.16",
-    "typescript": "^5.7.2"
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3"
   }
 }

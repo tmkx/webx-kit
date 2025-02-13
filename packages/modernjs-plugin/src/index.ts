@@ -97,7 +97,6 @@ const getDefaultConfig = async ({
         });
         // DO NOT split chunks when the entry is background/content-scripts
         chain.optimization.runtimeChunk(false).splitChunks({
-          // @ts-expect-error
           chunks: (chunk) => !allInOneEntries.has(chunk.getEntryOptions()?.name!),
         });
       },
