@@ -59,13 +59,13 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@modern-js/utils": "^2.64.2",
+    "@modern-js/utils": "^2.65.1",
     "@webx-kit/chrome-types": "workspace:^",
     "chrome-launcher": "^1.1.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.50.1",
-    "@types/node": "^22.13.1",
+    "@types/node": "^22.13.5",
     "typescript": "^5.7.3"
   },
   "peerDependencies": {

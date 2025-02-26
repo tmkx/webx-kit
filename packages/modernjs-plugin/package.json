@@ -52,14 +52,14 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@types/chrome": "^0.0.304",
+    "@types/chrome": "^0.0.306",
     "@webx-kit/core-plugin": "workspace:*"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "^2.64.2",
-    "@modern-js/utils": "^2.64.2",
+    "@modern-js/app-tools": "^2.65.1",
+    "@modern-js/utils": "^2.65.1",
     "@rsbuild/core": "catalog:",
-    "tsup": "^8.3.6",
+    "tsup": "^8.4.0",
     "typescript": "^5.7.3"
   },
   "peerDependencies": {
