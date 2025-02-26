@@ -18,5 +18,3 @@ coverage/
 release/
 output/
 log/
-
-modern.config.local.*

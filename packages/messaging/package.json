@@ -70,7 +70,7 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "type-fest": "^4.34.1"
+    "type-fest": "^4.35.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.50.1",
@@ -78,14 +78,14 @@
     "@rsbuild/plugin-react": "catalog:",
     "@trpc/client": "11.0.0-rc.764",
     "@trpc/server": "11.0.0-rc.764",
-    "@types/chrome": "^0.0.304",
-    "@types/node": "^22.13.1",
+    "@types/chrome": "^0.0.306",
+    "@types/node": "^22.13.5",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "tsup": "^8.3.6",
+    "tsup": "^8.4.0",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.5",
+    "vitest": "^3.0.7",
     "zod": "^3.24.2"
   },
   "peerDependencies": {

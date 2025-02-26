@@ -1,10 +1,12 @@
-import { AppUserConfig, appTools, defineConfig } from '@modern-js/app-tools';
-import { webxPlugin } from '@webx-kit/modernjs-plugin';
+import { defineConfig, PostCSSOptions } from '@rsbuild/core';
+import { pluginLess } from '@rsbuild/plugin-less';
+import { pluginReact } from '@rsbuild/plugin-react';
+import { webxPlugin } from '@webx-kit/rsbuild-plugin';
 
-// https://modernjs.dev/en/configure/app/usage
 export default defineConfig(() => ({
   plugins: [
-    appTools(),
+    pluginLess(),
+    pluginReact(),
     webxPlugin({
       background: './src/background/index.ts',
       contentScripts: {
@@ -14,6 +16,12 @@ export default defineConfig(() => ({
       autoRefreshContentScripts: true,
     }),
   ],
+  source: {
+    entry: {
+      options: './src/pages/options/index.tsx',
+      popup: './src/pages/popup/index.tsx',
+    },
+  },
   output: {
     copy: [
       {
@@ -32,15 +40,7 @@ export default defineConfig(() => ({
   },
 }));
 
-type AppUserWebpackConfig = AppUserConfig<'webpack'>;
-type PostCSSLoaderOptions = AppUserWebpackConfig extends {
-  tools?: { postcss?: infer P };
-}
-  ? Exclude<P, Function | Array<any>>
-  : never;
-type PostCSSAcceptedPlugin = NonNullable<
-  Exclude<NonNullable<PostCSSLoaderOptions['postcssOptions']>, Function>['plugins']
->[number];
+type PostCSSAcceptedPlugin = NonNullable<PostCSSOptions['plugins']>[number];
 
 const bodyToHostCSSPlugin: PostCSSAcceptedPlugin = {
   postcss(css) {

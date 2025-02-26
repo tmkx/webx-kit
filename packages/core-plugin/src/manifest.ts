@@ -142,7 +142,6 @@ export const applyManifestSupport = (api: RsbuildPluginAPI, options: ManifestOpt
     }
   });
 
-  // FIXME: modern.js doesn't trigger `onAfterBuild`
   api.onAfterCreateCompiler(async () => {
     const {
       server: { port },
