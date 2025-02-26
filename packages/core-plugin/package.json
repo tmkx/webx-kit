@@ -96,7 +96,7 @@
     "directory": "packages/core-plugin"
   },
   "scripts": {
-    "prepack": "tsup",
+    "prepack": "rslib build",
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
@@ -107,9 +107,9 @@
   },
   "devDependencies": {
     "@rsbuild/core": "catalog:",
+    "@rslib/core": "^0.5.2",
     "@types/node": "^22.13.5",
     "tailwindcss": "^3.4.17",
-    "tsup": "^8.4.0",
     "typescript": "^5.7.3",
     "webpack": "^5.98.0"
   },

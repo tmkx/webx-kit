@@ -8,8 +8,7 @@
     "skipLibCheck": true,
     "declaration": true,
     "isolatedModules": true,
-    "allowJs": true,
     "noEmit": true
   },
-  "exclude": ["dist"]
+  "exclude": ["dist", "rslib.config.ts"]
 }
