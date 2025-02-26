@@ -1,5 +1,13 @@
 # @webx-kit/example-with-shadcn
 
+## 0.1.3
+
+### Patch Changes
+
+- 4ef4977: chore: deprecate modernjs
+- Updated dependencies [4ef4977]
+  - @webx-kit/runtime@0.1.3
+
 ## 0.1.2
 
 ### Patch Changes

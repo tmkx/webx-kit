@@ -1,5 +1,13 @@
 # @webx-kit/rsbuild-plugin
 
+## 0.1.3
+
+### Patch Changes
+
+- 4ef4977: chore: deprecate modernjs
+- Updated dependencies [4ef4977]
+  - @webx-kit/core-plugin@0.1.3
+
 ## 0.1.2
 
 ### Patch Changes
