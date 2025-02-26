@@ -14,7 +14,7 @@ export const isProd = () => getNodeEnv() === 'production';
 
 export const { publicVars } = loadEnv({
   prefixes: [ENV_PREFIX],
-  mode: envMode || process.env.MODERN_ENV || getNodeEnv(),
+  mode: envMode || getNodeEnv(),
 });
 
 export function applyEnvSupport(api: RsbuildPluginAPI) {

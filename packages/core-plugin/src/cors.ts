@@ -1,30 +1,17 @@
 import type { RequestHandler, RsbuildPluginAPI } from '@rsbuild/core';
 
 export function applyCorsSupport(api: RsbuildPluginAPI) {
-  if (api.modifyRsbuildConfig) {
-    api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) =>
-      mergeRsbuildConfig(config, {
-        dev: {
-          setupMiddlewares: [
-            (middlewares) => {
-              middlewares.unshift(requestHandler);
-            },
-          ],
-        },
-      })
-    );
-  } else {
-    // @ts-ignore compat for modern.js < 2.46.0
-    api.modifyBuilderConfig((config, { mergeBuilderConfig }) =>
-      mergeBuilderConfig(config, {
-        tools: {
-          devServer: {
-            before: [requestHandler],
+  api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) =>
+    mergeRsbuildConfig(config, {
+      dev: {
+        setupMiddlewares: [
+          (middlewares) => {
+            middlewares.unshift(requestHandler);
           },
-        },
-      })
-    );
-  }
+        ],
+      },
+    })
+  );
 }
 
 const requestHandler: RequestHandler = (req, res, next) => {

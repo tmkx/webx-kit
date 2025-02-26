@@ -39,10 +39,6 @@ For example, set the env mode as `test`:
 
 ::: code-group
 
-```bash [Modern.js(Default)]
-MODERN_ENV=test pnpm dev
-```
-
 ```bash [Rsbuild]
 pnpm dev --env-mode test
 ```

@@ -2,16 +2,26 @@
 
 // @ts-check
 /// <reference types="@webx-kit/chrome-types" />
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { chalk, fs, findMonorepoRoot } from '@modern-js/utils';
-import commander from '@modern-js/utils/commander';
 import { chromium } from '@playwright/test';
 import { getChromePath } from 'chrome-launcher';
+import { program } from 'commander';
+import kleur from 'kleur';
 
-commander.program.option('--path [path]', 'extension path').option('--no-pin', 'pin extension to toolbar');
+/**
+ * Credit to https://github.com/web-infra-dev/modern.js/blob/4d70724c7d26d60e31b0e12b60851eb4a209ca21/packages/toolkit/utils/src/cli/monorepo.ts#L7-L50
+ */
+const WORKSPACE_FILES = {
+  YARN: 'package.json',
+  PNPM: 'pnpm-workspace.yaml',
+  LERNA: 'lerna.json',
+};
 
-const opts = commander.program.parse(process.argv).opts();
+program.option('--path [path]', 'extension path').option('--no-pin', 'pin extension to toolbar');
+
+const opts = program.parse(process.argv).opts();
 
 let extensionPath;
 
@@ -48,7 +58,7 @@ chromium
     args: ['--hide-crash-restore-bubble', `--load-extension=${extensionPath}`],
   })
   .then(async (context) => {
-    console.log(chalk.green`Start successfully`);
+    console.log(kleur.green('Start successfully'));
 
     const outdatedPages = context.pages();
     const page = await context.newPage();
@@ -73,5 +83,60 @@ chromium
     }, opts.pin);
   })
   .catch((err) => {
-    console.log(chalk.red`Start failed`, err);
+    console.log(kleur.red('Start failed'), err);
   });
+
+/**
+ * @param {string} root
+ * @returns {boolean}
+ */
+
+function isLerna(root) {
+  return fs.existsSync(path.join(root, WORKSPACE_FILES.LERNA));
+}
+/**
+ * @param {string} root
+ * @returns {boolean}
+ */
+function isYarnWorkspaces(root) {
+  const pkg = path.join(root, WORKSPACE_FILES.YARN);
+  if (!fs.existsSync(pkg)) return false;
+  const json = JSON.parse(fs.readFileSync(pkg, 'utf8'));
+  return Boolean(json.workspaces?.packages);
+}
+
+/**
+ * @param {string} root
+ * @returns {boolean}
+ */
+function isPnpmWorkspaces(root) {
+  return fs.existsSync(path.join(root, WORKSPACE_FILES.PNPM));
+}
+
+/**
+ * @param {string} root
+ * @returns {boolean}
+ */
+function isMonorepo(root) {
+  return isLerna(root) || isYarnWorkspaces(root) || isPnpmWorkspaces(root);
+}
+
+/**
+ * @param {string} appDirectory
+ * @param {number} maxDepth
+ * @returns {string | undefined}
+ */
+function findMonorepoRoot(appDirectory, maxDepth = 5) {
+  let inMonorepo = false;
+  let monorepoRoot = appDirectory;
+
+  for (let depth = 0; depth < maxDepth; depth++) {
+    if (isMonorepo(appDirectory)) {
+      inMonorepo = true;
+      break;
+    }
+    monorepoRoot = path.dirname(appDirectory);
+  }
+
+  return inMonorepo ? monorepoRoot : undefined;
+}

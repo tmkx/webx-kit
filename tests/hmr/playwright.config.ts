@@ -25,15 +25,6 @@ export default defineConfig({
       },
     },
     {
-      name: 'ReactWebpack',
-      grep: /react-webpack/,
-      use: {
-        ...devices['Desktop Chrome'],
-        channel: 'chromium',
-        launchOptions: createLaunchOptions('@webx-kit/template-react-webpack'),
-      },
-    },
-    {
       name: 'Solid',
       grep: /solid/,
       use: {

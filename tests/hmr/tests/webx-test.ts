@@ -1,8 +1,9 @@
 import assert from 'node:assert';
+import fs from 'node:fs/promises';
 import path from 'node:path';
-import { dynamicImport, fs, execa, stripAnsi } from '@modern-js/utils';
 import { createWebxTest, getRandomPort } from '@webx-kit/test-utils/playwright';
-import { LaunchOptions } from '@playwright/test';
+import type { LaunchOptions } from '@playwright/test';
+import type { ResultPromise } from 'execa';
 
 export function createLaunchOptions(packageName: string, launchOptions?: LaunchOptions) {
   return { ...launchOptions, packageName };
@@ -27,6 +28,7 @@ export const test = webxTest.extend<{
 }>({
   packageName: ({ launchOptions }, use) => use(getPackageNameFromLaunchOptions(launchOptions)),
   packageDir: async ({ packageName }, use) => {
+    const { execa } = await import('execa');
     const { stdout: packagesInfoJson } = await execa('pnpm', ['list', '--filter', packageName, '--depth=-1', '--json']);
     const packagesInfo = JSON.parse(packagesInfoJson) as { name: string; path: string }[];
     if (packagesInfo.length === 0) throw new Error(`Cannot find ${packageName}`);
@@ -39,11 +41,12 @@ export const expect = test.expect;
 
 export function startDev({ beforeAll, afterAll, beforeEach, afterEach }: typeof test) {
   let baseDir: string;
-  let childProcess: execa.ExecaChildProcess<string>;
+  let childProcess: ResultPromise<{}>;
 
   beforeAll(async ({ packageDir }, testInfo) => {
     testInfo.setTimeout(30 * 1000);
     baseDir = packageDir;
+    const { execa } = await import('execa');
     const { stdout: dirtyFiles } = await execa('git', ['ls-files', '--modified'], { cwd: packageDir });
     if (!!dirtyFiles) throw new Error(`Make sure all modifications have been staged:\n${dirtyFiles}`);
     const PORT = String(await getRandomPort());
@@ -51,6 +54,7 @@ export function startDev({ beforeAll, afterAll, beforeEach, afterEach }: typeof 
       cwd: packageDir,
       env: { PORT, WEBX_DIST: DEV_DIST_DIR },
     });
+    const { default: stripAnsi } = await import('strip-ansi');
     await Promise.race([
       new Promise<void>((resolve) => {
         const handler = (chunk: unknown) => {
@@ -90,7 +94,8 @@ export function startDev({ beforeAll, afterAll, beforeEach, afterEach }: typeof 
     await page.close();
   });
   afterEach(async () => {
-    const { default: pRetry } = (await dynamicImport('p-retry')) as typeof import('p-retry');
+    const { execa } = await import('execa');
+    const { default: pRetry } = await import('p-retry');
     // tolerate `.git/index.lock` conflict
     await pRetry(() => execa('git', ['checkout', '.'], { cwd: baseDir }), { retries: 3 });
   });
