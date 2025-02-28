@@ -59,11 +59,11 @@ importers:
         specifier: ^0.22.0
         version: 0.22.0
       '@trpc/client':
-        specifier: 11.0.0-rc.764
-        version: 11.0.0-rc.764(@trpc/server@11.0.0-rc.764(typescript@5.7.3))(typescript@5.7.3)
+        specifier: 11.0.0-rc.818
+        version: 11.0.0-rc.818(@trpc/server@11.0.0-rc.818(typescript@5.7.3))(typescript@5.7.3)
       '@trpc/server':
-        specifier: 11.0.0-rc.764
-        version: 11.0.0-rc.764(typescript@5.7.3)
+        specifier: 11.0.0-rc.818
+        version: 11.0.0-rc.818(typescript@5.7.3)
       '@webx-kit/messaging':
         specifier: workspace:^
         version: link:../../packages/messaging
@@ -147,11 +147,11 @@ importers:
         specifier: ^3.23.0
         version: 3.23.0(patch_hash=b0a616792c1b6e3c35eee5e0e0fcb03da9d41c8598b83395c920e3ce64d0d2c4)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@trpc/client':
-        specifier: 11.0.0-rc.764
-        version: 11.0.0-rc.764(@trpc/server@11.0.0-rc.764(typescript@5.7.3))(typescript@5.7.3)
+        specifier: 11.0.0-rc.818
+        version: 11.0.0-rc.818(@trpc/server@11.0.0-rc.818(typescript@5.7.3))(typescript@5.7.3)
       '@trpc/server':
-        specifier: 11.0.0-rc.764
-        version: 11.0.0-rc.764(typescript@5.7.3)
+        specifier: 11.0.0-rc.818
+        version: 11.0.0-rc.818(typescript@5.7.3)
       '@webx-kit/messaging':
         specifier: workspace:^
         version: link:../../packages/messaging
@@ -474,11 +474,11 @@ importers:
         specifier: 'catalog:'
         version: 1.1.1(@rsbuild/core@1.2.11)
       '@trpc/client':
-        specifier: 11.0.0-rc.764
-        version: 11.0.0-rc.764(@trpc/server@11.0.0-rc.764(typescript@5.7.3))(typescript@5.7.3)
+        specifier: 11.0.0-rc.818
+        version: 11.0.0-rc.818(@trpc/server@11.0.0-rc.818(typescript@5.7.3))(typescript@5.7.3)
       '@trpc/server':
-        specifier: 11.0.0-rc.764
-        version: 11.0.0-rc.764(typescript@5.7.3)
+        specifier: 11.0.0-rc.818
+        version: 11.0.0-rc.818(typescript@5.7.3)
       '@types/chrome':
         specifier: ^0.0.306
         version: 0.0.306
@@ -2760,14 +2760,14 @@ packages:
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
 
-  '@trpc/client@11.0.0-rc.764':
-    resolution: {integrity: sha512-6NXnOm5c4U3CYqaIzZ9YHqwyEpGj8aMVpY7jvUwvpJjX11n1j52YbwqoeuUpz1JJzYw6g23PFORD4JQanqQntQ==}
+  '@trpc/client@11.0.0-rc.818':
+    resolution: {integrity: sha512-KsLufqpB3wId/GIRBRfT3abMZ2UuSZAglCR2/6i7vyx0XAnQu4iAZynuzP17Yl6abkgmfK7pOq1irELO7GXF6g==}
     peerDependencies:
-      '@trpc/server': 11.0.0-rc.764+71c7ccc49
+      '@trpc/server': 11.0.0-rc.818+1becc23d9
       typescript: '>=5.7.2'
 
-  '@trpc/server@11.0.0-rc.764':
-    resolution: {integrity: sha512-fwU5Oowk0d7qD4nB29Fv54FGDp2JlxJcRLJUSBmXIYCK66BlwHUcaB6lzrwy6Weqlc9nt+U5j/WsooWcFDam7A==}
+  '@trpc/server@11.0.0-rc.818':
+    resolution: {integrity: sha512-twsIO3aGJwi4HTM00Oz4ey738zQ9wff4J/hjZt05/S6j/l2T6KB8Hzjb3nolYIRFaZ2x1siTBH6SEoeiRpdY2w==}
     peerDependencies:
       typescript: '>=5.7.2'
 
@@ -7927,12 +7927,12 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@trpc/client@11.0.0-rc.764(@trpc/server@11.0.0-rc.764(typescript@5.7.3))(typescript@5.7.3)':
+  '@trpc/client@11.0.0-rc.818(@trpc/server@11.0.0-rc.818(typescript@5.7.3))(typescript@5.7.3)':
     dependencies:
-      '@trpc/server': 11.0.0-rc.764(typescript@5.7.3)
+      '@trpc/server': 11.0.0-rc.818(typescript@5.7.3)
       typescript: 5.7.3
 
-  '@trpc/server@11.0.0-rc.764(typescript@5.7.3)':
+  '@trpc/server@11.0.0-rc.818(typescript@5.7.3)':
     dependencies:
       typescript: 5.7.3
 

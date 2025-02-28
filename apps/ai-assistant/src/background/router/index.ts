@@ -1,42 +1,36 @@
-import { observable, t } from '@webx-kit/messaging/server';
+import { t } from '@webx-kit/messaging/server';
 import { z } from 'zod';
 import { getGenAI } from '@/background/shared';
 
 export const appRouter = t.router({
-  generateContentStream: t.procedure.input(z.object({ prompt: z.string() })).subscription(({ ctx, input }) => {
-    return observable((observer) => {
-      let isUnsubscribed = false;
+  generateContentStream: t.procedure
+    .input(z.object({ prompt: z.string() })) //
+    .subscription(async function* ({ input, signal }) {
+      const genAI = await getGenAI();
 
-      getGenAI().then((genAI) => {
-        if (!genAI) {
-          chrome.runtime.openOptionsPage();
-          return observer.error('GenAI is not initialized');
+      if (!genAI) {
+        chrome.runtime.openOptionsPage();
+        throw new Error('GenAI is not initialized');
+      }
+      const result = await genAI.getGenerativeModel({ model: 'gemini-2.0-flash' }).generateContentStream(
+        {
+          contents: [
+            {
+              role: 'user',
+              parts: [{ text: input.prompt }],
+            },
+          ],
+        },
+        {
+          signal,
         }
-        genAI
-          .getGenerativeModel({ model: 'gemini-pro' })
-          .generateContentStream({
-            contents: [
-              {
-                role: 'user',
-                parts: [{ text: input.prompt }],
-              },
-            ],
-          })
-          .then(async (result) => {
-            for await (const token of result.stream || []) {
-              if (isUnsubscribed) break;
-              observer.next(token.text());
-            }
-            observer.complete();
-          })
-          .catch(observer.error);
-      });
+      );
 
-      return () => {
-        isUnsubscribed = true;
-      };
-    });
-  }),
+      for await (const token of result.stream || []) {
+        if (signal?.aborted) break;
+        yield token.text();
+      }
+    }),
 });
 
 export type AppRouter = typeof appRouter;

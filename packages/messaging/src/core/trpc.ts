@@ -11,9 +11,12 @@ import {
   getErrorShape,
   inferClientTypes,
   inferRouterContext,
+  isAsyncIterable,
+  iteratorResource,
+  run,
   transformResult,
 } from '@trpc/server/unstable-core-do-not-import';
-import { isObservable, observable } from '@trpc/server/observable';
+import { isObservable, observable, observableToAsyncIterable } from '@trpc/server/observable';
 import { Operation, TRPCClientError, TRPCLink } from '@trpc/client';
 import { TransformerOptions, getTransformer } from '@trpc/client/unstable-internals';
 import { Messaging, OriginMessage, Port, createMessaging } from './index';
@@ -55,7 +58,9 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
       }
     },
     async onStream(message, subscriber, context) {
-      const { type, path, input, context: ctx, signal } = message as Operation<unknown>;
+      const { type, path, input, context: ctx } = message as Operation<unknown>;
+      const ac = new AbortController();
+      const signal = ac.signal;
 
       try {
         const result = await callTRPCProcedure({
@@ -64,39 +69,69 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
           getRawInput: () => Promise.resolve(input),
           ctx: createContext ? { ...ctx, ...(await createContext(context)) } : ctx,
           type,
-          signal: signal || new AbortController().signal,
+          signal,
         });
 
-        if (!isObservable(result)) {
+        const isIterableResult = isAsyncIterable(result) || isObservable(result);
+
+        if (!isIterableResult) {
           throw new TRPCError({
-            message: `Subscription ${path} did not return an observable`,
+            message: `Subscription ${path} did not return an observable or a AsyncGenerator`,
             code: 'INTERNAL_SERVER_ERROR',
           });
         }
 
-        subscriber.next(transformTRPCResponse(rootConfig, { result: { type: 'started' } } as TRPCResponseMessage));
+        const iterable = isObservable(result)
+          ? observableToAsyncIterable(result, signal || new AbortController().signal)
+          : result;
 
-        const observable = result;
-        const sub = observable.subscribe({
-          next(data) {
-            subscriber.next(transformTRPCResponse(rootConfig, { result: { data } }));
-          },
-          error(err) {
-            const error = getTRPCErrorFromUnknown(err);
-            subscriber.next(
-              transformTRPCResponse(rootConfig, {
-                error: getErrorShape({ config: rootConfig, error, type, path, input, ctx }),
-              })
-            );
-            subscriber.complete();
-          },
-          complete() {
-            subscriber.next(transformTRPCResponse(rootConfig, { result: { type: 'stopped' } } as TRPCResponseMessage));
-            subscriber.complete();
-          },
+        const abortPromise = new Promise<'abort'>((resolve) => {
+          signal.addEventListener('abort', () => resolve('abort'));
         });
 
-        return sub.unsubscribe;
+        const iterator = iteratorResource(iterable);
+
+        subscriber.next(transformTRPCResponse(rootConfig, { result: { type: 'started' } } as TRPCResponseMessage));
+
+        run(async () => {
+          while (true) {
+            const next = await Promise.race([iterator.next().catch(getTRPCErrorFromUnknown), abortPromise]);
+
+            if (next === 'abort') {
+              await iterator.return?.();
+              break;
+            }
+
+            if (next instanceof Error) {
+              const error = getTRPCErrorFromUnknown(next);
+              subscriber.next(
+                transformTRPCResponse(rootConfig, {
+                  error: getErrorShape({ config: rootConfig, error, type, path, input, ctx }),
+                })
+              );
+              subscriber.complete();
+              break;
+            }
+
+            if (next.done) {
+              subscriber.next(
+                transformTRPCResponse(rootConfig, { result: { type: 'stopped' } } as TRPCResponseMessage)
+              );
+              subscriber.complete();
+              break;
+            }
+
+            subscriber.next(transformTRPCResponse(rootConfig, { result: { data: next.value } }));
+          }
+        }).catch((err) => {
+          const error = getTRPCErrorFromUnknown(err);
+          subscriber.next(
+            transformTRPCResponse(rootConfig, {
+              error: getErrorShape({ config: rootConfig, error, type, path, input, ctx }),
+            })
+          );
+          subscriber.complete();
+        });
       } catch (cause) {
         const error = getTRPCErrorFromUnknown(cause);
         subscriber.error(
@@ -105,6 +140,8 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
           })
         );
       }
+
+      return ac.abort.bind(ac);
     },
   });
 

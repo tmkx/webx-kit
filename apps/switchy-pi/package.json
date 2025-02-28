@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@react-aria/interactions": "^3.23.0",
-    "@trpc/client": "11.0.0-rc.764",
-    "@trpc/server": "11.0.0-rc.764",
+    "@trpc/client": "11.0.0-rc.818",
+    "@trpc/server": "11.0.0-rc.818",
     "@webx-kit/messaging": "workspace:^",
     "@webx-kit/runtime": "workspace:^",
     "@webx-kit/storage": "workspace:^",

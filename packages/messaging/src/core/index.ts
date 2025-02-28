@@ -72,7 +72,7 @@ export type RequestHandler = (
 ) => Promisable<any>;
 export type StreamHandler = (
   message: any,
-  ubscriber: Observer<any>,
+  subscriber: Observer<any>,
   context: {
     originMessage: OriginMessage;
   }
