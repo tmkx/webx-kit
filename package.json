@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=18.19.0"
   },
-  "packageManager": "pnpm@10.5.0",
+  "packageManager": "pnpm@10.5.2",
   "scripts": {
     "lint:type": "nx run-many -t lint:type",
     "build": "nx run-many -t build",

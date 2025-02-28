@@ -114,7 +114,7 @@ export const App = () => {
               <Button
                 className="px-2"
                 isDisabled={isLoading}
-                onPress={() => {
+                onPressEnd={() => {
                   handleTranslate(selectedText);
                 }}
               >
@@ -126,7 +126,7 @@ export const App = () => {
               <Button
                 className="px-2"
                 isDisabled={isLoading}
-                onPress={() => {
+                onPressEnd={() => {
                   handleSummarize(selectedText);
                 }}
               >
