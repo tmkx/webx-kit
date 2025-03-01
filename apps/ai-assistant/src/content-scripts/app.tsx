@@ -114,6 +114,7 @@ export const App = () => {
               <Button
                 className="px-2"
                 isDisabled={isLoading}
+                // TODO: Change to `onPress` after the release of [this PR](https://github.com/adobe/react-spectrum/pull/6046).
                 onPressEnd={() => {
                   handleTranslate(selectedText);
                 }}

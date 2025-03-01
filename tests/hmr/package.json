@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.50.1",
-    "@types/node": "^22.13.5",
+    "@types/node": "^22.13.7",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/template-react": "workspace:^",
     "@webx-kit/template-solid": "workspace:^",
@@ -19,6 +19,6 @@
     "@webx-kit/template-vue": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
     "p-retry": "^6.2.1",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.2"
   }
 }
