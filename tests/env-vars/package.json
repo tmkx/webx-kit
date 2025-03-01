@@ -7,10 +7,10 @@
   },
   "devDependencies": {
     "@rsbuild/core": "catalog:",
-    "@types/node": "^22.13.5",
+    "@types/node": "^22.13.7",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/rsbuild-plugin": "workspace:^",
-    "typescript": "^5.7.3",
+    "typescript": "^5.8.2",
     "vitest": "^3.0.7"
   },
   "dependencies": {
