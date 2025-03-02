@@ -103,11 +103,11 @@
     "@types/chrome": "^0.0.307",
     "chokidar": "^4.0.3",
     "jiti": "^2.4.2",
-    "type-fest": "^4.35.0"
+    "type-fest": "^4.36.0"
   },
   "devDependencies": {
     "@rsbuild/core": "catalog:",
-    "@types/node": "^22.13.7",
+    "@types/node": "^22.13.8",
     "tailwindcss": "^3.4.17",
     "tsup": "^8.4.0",
     "typescript": "^5.8.2",

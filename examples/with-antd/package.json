@@ -22,7 +22,7 @@
     "@rsbuild/plugin-less": "catalog:",
     "@rsbuild/plugin-react": "catalog:",
     "@types/chrome": "^0.0.307",
-    "@types/node": "^22.13.7",
+    "@types/node": "^22.13.8",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@webx-kit/rsbuild-plugin": "workspace:^",
