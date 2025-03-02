@@ -13,7 +13,7 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "moduleResolution": "Bundler",
+    "moduleResolution": "bundler",
     "jsxImportSource": "solid-js",
     "baseUrl": "./",
     "paths": {

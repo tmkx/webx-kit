@@ -12,7 +12,7 @@
     "jsx": "preserve",
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "moduleResolution": "Bundler",
+    "moduleResolution": "bundler",
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"]
