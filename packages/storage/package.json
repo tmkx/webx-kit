@@ -46,14 +46,14 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "type-fest": "^4.35.0"
+    "type-fest": "^4.36.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.50.1",
     "@rsbuild/core": "catalog:",
     "@rsbuild/plugin-react": "catalog:",
     "@types/chrome": "^0.0.307",
-    "@types/node": "^22.13.7",
+    "@types/node": "^22.13.8",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@webx-kit/rsbuild-plugin": "workspace:^",

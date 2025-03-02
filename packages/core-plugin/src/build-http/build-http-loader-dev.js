@@ -1,6 +1,5 @@
-/** @type {import('jiti').default} */
-const createJITI = require('jiti');
+const { createJiti } = require('jiti');
 
-const jiti = createJITI(__filename, { requireCache: false });
+const jiti = createJiti(__filename, { moduleCache: false });
 
 module.exports = jiti('./build-http-loader.ts');

@@ -49,7 +49,7 @@ function createManifestGenerator({
     outputPath,
     port: 0,
   };
-  const jiti = createJiti(__filename, { requireCache: false, interopDefault: true });
+  const jiti = createJiti(__filename, { moduleCache: false, interopDefault: true });
 
   async function generate() {
     const userManifest: UserManifest = await jiti.import(sourcePath, { default: true });

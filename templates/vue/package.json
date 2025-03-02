@@ -18,7 +18,7 @@
     "@rsbuild/plugin-less": "catalog:",
     "@rsbuild/plugin-vue": "catalog:",
     "@types/chrome": "^0.0.307",
-    "@types/node": "^22.13.7",
+    "@types/node": "^22.13.8",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
     "tailwindcss": "^3.4.17",
