@@ -1,7 +1,7 @@
 import { AnyTRPCRouter, initTRPC } from '@trpc/server';
 import { Port, RequestHandler, StreamHandler, createMessaging } from './core';
 import { CreateContextFnOptions, applyMessagingHandler } from './core/trpc';
-import { WebxMessage, isWebxMessage } from './shared';
+import { WebXMessage, isWebXMessage } from './shared';
 
 export { observable } from '@trpc/server/observable';
 
@@ -29,13 +29,13 @@ const serverPort: Port = {
 };
 
 function shouldSkip(data: unknown) {
-  if (!isWebxMessage(data)) return true;
+  if (!isWebXMessage(data)) return true;
   return !(!data.to || data.to === NAME);
 }
 
 export function createCustomHandler({ requestHandler, streamHandler }: CustomHandlerOptions) {
   return createMessaging(serverPort, {
-    intercept: (data: WebxMessage, abort) => (shouldSkip(data) ? abort : data.data),
+    intercept: (data: WebXMessage, abort) => (shouldSkip(data) ? abort : data.data),
     onRequest: requestHandler || (() => Promise.reject()),
     onStream:
       streamHandler ||
@@ -53,7 +53,7 @@ export function createTrpcServer<TRouter extends AnyTRPCRouter>({ router }: Trpc
   return applyMessagingHandler({
     port: serverPort,
     router,
-    intercept: (data: WebxMessage, abort) => (shouldSkip(data) ? abort : data.data),
+    intercept: (data: WebXMessage, abort) => (shouldSkip(data) ? abort : data.data),
     createContext: createSenderContext,
   });
 }

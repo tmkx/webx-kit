@@ -5,33 +5,33 @@ export type ClientType = 'default' | 'devtools' | 'popup' | 'options' | 'content
 
 export type MessageTarget = LiteralUnion<ClientType, string> | number;
 
-export type RequestHandler = (message: WebxMessage) => any;
-export type StreamHandler = (message: WebxMessage, subscriber: Observer<any>) => any;
+export type RequestHandler = (message: WebXMessage) => any;
+export type StreamHandler = (message: WebXMessage, subscriber: Observer<any>) => any;
 
-export interface WebxMessage {
+export interface WebXMessage {
   /** Target */
   to?: MessageTarget;
   /** Structural cloneable data */
   data: unknown;
 }
 
-export function isWebxMessage(message: unknown): message is WebxMessage {
+export function isWebXMessage(message: unknown): message is WebXMessage {
   return typeof message === 'object' && message !== null && 'data' in message;
 }
 
 export function wrapMessaging(messaging: Messaging) {
   return {
     request(data: unknown) {
-      return messaging.request({ data } satisfies WebxMessage);
+      return messaging.request({ data } satisfies WebXMessage);
     },
     stream(data: unknown, observer: Partial<Observer<any>>) {
-      return messaging.stream({ data } satisfies WebxMessage, observer);
+      return messaging.stream({ data } satisfies WebXMessage, observer);
     },
     requestTo(to: MessageTarget, data: unknown) {
-      return messaging.request({ data, to } satisfies WebxMessage);
+      return messaging.request({ data, to } satisfies WebXMessage);
     },
     streamTo(to: MessageTarget, data: unknown, observer: Partial<Observer<any>>) {
-      return messaging.stream({ data, to } satisfies WebxMessage, observer);
+      return messaging.stream({ data, to } satisfies WebXMessage, observer);
     },
     dispose: messaging.dispose,
   };

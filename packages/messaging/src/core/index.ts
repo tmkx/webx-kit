@@ -74,6 +74,7 @@ export type StreamHandler = (
   message: any,
   subscriber: Observer<any>,
   context: {
+    signal: AbortSignal;
     originMessage: OriginMessage;
   }
 ) => Promisable<CleanupFunction | void>;
@@ -125,7 +126,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
   const ongoingRequestResolvers = new Map<string, PromiseResolvers<any>>();
   const ongoingStreamObservers = new Map<string, Partial<Observer<any>>>();
   // receiver side
-  const processingRequestControllers = new Map<string, AbortController>();
+  const processingAbortControllers = new Map<string, AbortController>();
   const processingStreamCleanups = new Map<string, CleanupFunction | void>();
 
   async function handleMessage(...originMessage: OriginMessage) {
@@ -141,28 +142,28 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
       case 'r': {
         if (!onRequest) return;
         const { i: messageId } = message;
-        if (isAbortPacket(message)) {
-          const ac = processingRequestControllers.get(messageId);
+        let data = message.d;
+        if (isAbortPacket(message) || (data = intercept(message.d, INTERCEPT_ABORT)) === INTERCEPT_ABORT) {
+          const ac = processingAbortControllers.get(messageId);
           if (ac) {
-            processingRequestControllers.delete(messageId);
+            processingAbortControllers.delete(messageId);
             ac.abort();
           }
           break;
         }
-        const data = intercept(message.d, INTERCEPT_ABORT);
-        if (data === INTERCEPT_ABORT) return;
+
         let d: ResponsePacket['d'];
         try {
           const ac = new AbortController();
-          processingRequestControllers.set(messageId, ac);
+          processingAbortControllers.set(messageId, ac);
           const response = await onRequest(data, { signal: ac.signal, originMessage });
           d = { data: response };
         } catch (err) {
           d = { error: err };
-          processingRequestControllers.delete(messageId);
+          processingAbortControllers.delete(messageId);
         }
         reply({ t: 'R', i: messageId, d }).finally(() => {
-          processingRequestControllers.delete(messageId);
+          processingAbortControllers.delete(messageId);
         });
         break;
       }
@@ -179,17 +180,21 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
       }
       case 's': {
         if (!onStream) return;
-        const data = intercept(message.d, INTERCEPT_ABORT);
-        if (data === INTERCEPT_ABORT) return;
+        let data = message.d;
 
         function safelyTerminate(d: { error: unknown } | { complete: boolean }) {
           reply({ t: 'S', i: message.i, d }).catch(noop);
+          const ac = processingAbortControllers.get(message.i);
+          if (ac) {
+            processingAbortControllers.delete(message.i);
+            ac.abort();
+          }
           const cleanupFn = processingStreamCleanups.get(message.i);
           processingStreamCleanups.delete(message.i);
           cleanupFn && cleanupFn();
         }
 
-        if (isAbortPacket(message)) {
+        if (isAbortPacket(message) || (data = intercept(message.d, INTERCEPT_ABORT)) === INTERCEPT_ABORT) {
           safelyTerminate({ complete: false });
           break;
         }
@@ -209,7 +214,9 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
         };
 
         try {
-          const cleanup = await onStream(data, observer, { originMessage });
+          const ac = new AbortController();
+          processingAbortControllers.set(message.i, ac);
+          const cleanup = await onStream(data, observer, { signal: ac.signal, originMessage });
           processingStreamCleanups.set(message.i, cleanup);
         } catch (error) {
           // Error is not serializable in `chrome.runtime.Port`
