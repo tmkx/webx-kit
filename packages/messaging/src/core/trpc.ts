@@ -39,7 +39,7 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
   const server = createMessaging(port, {
     intercept,
     async onRequest(message, context) {
-      const { type, path, input, context: ctx, signal } = message as Operation<unknown>;
+      const { type, path, input, context: ctx } = message as Operation<unknown>;
       try {
         const result = await callTRPCProcedure({
           router,
@@ -47,7 +47,7 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
           getRawInput: () => Promise.resolve(input),
           ctx: createContext ? { ...ctx, ...(await createContext(context)) } : ctx,
           type,
-          signal: signal || undefined,
+          signal: context.signal,
         });
         return transformTRPCResponse(rootConfig, { result: { data: result } });
       } catch (cause) {
@@ -59,8 +59,7 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
     },
     async onStream(message, subscriber, context) {
       const { type, path, input, context: ctx } = message as Operation<unknown>;
-      const ac = new AbortController();
-      const signal = ac.signal;
+      const signal = context.signal;
 
       try {
         const result = await callTRPCProcedure({
@@ -81,9 +80,7 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
           });
         }
 
-        const iterable = isObservable(result)
-          ? observableToAsyncIterable(result, signal || new AbortController().signal)
-          : result;
+        const iterable = isObservable(result) ? observableToAsyncIterable(result, signal) : result;
 
         const abortPromise = new Promise<'abort'>((resolve) => {
           signal.addEventListener('abort', () => resolve('abort'));
@@ -140,8 +137,6 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
           })
         );
       }
-
-      return ac.abort.bind(ac);
     },
   });
 

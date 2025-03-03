@@ -4,7 +4,7 @@ import type { SetOptional } from 'type-fest';
 import { Port, RequestHandler, StreamHandler, createMessaging } from './core';
 import { messagingLink } from './core/trpc';
 import { randomID } from './core/utils';
-import { ClientType, MessageTarget, WebxMessage, isWebxMessage, wrapMessaging } from './shared';
+import { ClientType, MessageTarget, WebXMessage, isWebXMessage, wrapMessaging } from './shared';
 
 const clientPort: Port = {
   onMessage(listener) {
@@ -21,7 +21,7 @@ const clientPort: Port = {
 };
 
 function shouldSkip(name: string, data: unknown) {
-  if (!isWebxMessage(data)) return true;
+  if (!isWebXMessage(data)) return true;
   const { to } = data;
   // - string: all extension pages (including background) will receive
   // - number: only the specific page will receive the message, so it's unnecessary to check
@@ -41,7 +41,7 @@ function internalCreateCustomHandler({ type, requestHandler, streamHandler }: Cu
   const messaging = createMessaging(
     { ...clientPort, name },
     {
-      intercept: (data: WebxMessage, abort) => (shouldSkip(name, data) ? abort : data.data),
+      intercept: (data: WebXMessage, abort) => (shouldSkip(name, data) ? abort : data.data),
       onRequest: requestHandler || (() => Promise.reject()),
       onStream:
         streamHandler ||
@@ -74,7 +74,7 @@ function internalCreateTrpcClient<TRouter extends AnyTRPCRouter>({ type, to = 's
     createMessaging(
       { ...clientPort, name },
       {
-        intercept: (data: WebxMessage, abort) => (shouldSkip(name, data) ? abort : data.data),
+        intercept: (data: WebXMessage, abort) => (shouldSkip(name, data) ? abort : data.data),
       }
     )
   );
