@@ -4,11 +4,12 @@ const { CLARITY_PROJECT_ID } = process.env;
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: '/webx-kit/',
   title: 'WebX Kit',
   description: 'A tool set for Web eXtension development',
   cleanUrls: true,
   head: [
-    ['link', { rel: 'icon', href: '/favicon.ico' }],
+    ['link', { rel: 'icon', href: '/webx-kit/favicon.ico' }],
     ...(CLARITY_PROJECT_ID
       ? [
           [
