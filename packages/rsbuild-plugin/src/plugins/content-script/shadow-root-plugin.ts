@@ -18,7 +18,7 @@ export class ContentScriptShadowRootPlugin extends ContentScriptBasePlugin {
       });
     });
 
-    new CSSExtractPatchPlugin(/css-extract\/hmr\/hotModuleReplacement\.js$/).apply(compiler);
+    new CSSExtractPatchPlugin(/\/@rspack\/core\/dist\/cssExtractHmr\.js$/).apply(compiler);
   }
 }
 

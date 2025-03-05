@@ -8,7 +8,7 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.22.0",
+    "@google/generative-ai": "^0.23.0",
     "@trpc/client": "11.0.0-rc.819",
     "@trpc/server": "11.0.0-rc.819",
     "@webx-kit/messaging": "workspace:^",
@@ -26,8 +26,8 @@
     "@rsbuild/core": "catalog:",
     "@rsbuild/plugin-less": "catalog:",
     "@rsbuild/plugin-react": "catalog:",
-    "@types/chrome": "^0.0.307",
-    "@types/node": "^22.13.8",
+    "@types/chrome": "^0.0.308",
+    "@types/node": "^22.13.9",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@webx-kit/rsbuild-plugin": "workspace:^",
