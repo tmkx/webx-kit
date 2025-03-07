@@ -17,10 +17,12 @@ export function Menu<T extends object>(props: MenuProps<T>) {
   return (
     <AriaMenu
       {...props}
-      className={twMerge(
-        'p-1 outline outline-0 max-h-[inherit] overflow-auto [clip-path:inset(0_0_0_0_round_.75rem)]',
-        props.className
-      )}
+      className={(values) =>
+        twMerge(
+          'p-1 outline outline-0 max-h-[inherit] overflow-auto [clip-path:inset(0_0_0_0_round_.75rem)]',
+          typeof props.className === 'function' ? props.className(values) : props.className
+        )
+      }
     />
   );
 }

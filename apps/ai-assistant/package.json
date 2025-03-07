@@ -8,9 +8,10 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.23.0",
-    "@trpc/client": "11.0.0-rc.819",
-    "@trpc/server": "11.0.0-rc.819",
+    "@google/generative-ai": "^0.24.0",
+    "@react-stately/flags": "^3.1.0",
+    "@trpc/client": "11.0.0-rc.824",
+    "@trpc/server": "11.0.0-rc.824",
     "@webx-kit/messaging": "workspace:^",
     "@webx-kit/runtime": "workspace:^",
     "@webx-kit/storage": "workspace:^",
@@ -18,7 +19,7 @@
     "jotai": "^2.12.1",
     "lucide-react": "^0.477.0",
     "react": "^19.0.0",
-    "react-aria-components": "^1.6.0",
+    "react-aria-components": "^1.7.0",
     "react-dom": "^19.0.0",
     "zod": "^3.24.2"
   },
