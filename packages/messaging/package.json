@@ -76,8 +76,8 @@
     "@playwright/test": "^1.50.1",
     "@rsbuild/core": "catalog:",
     "@rsbuild/plugin-react": "catalog:",
-    "@trpc/client": "11.0.0-rc.819",
-    "@trpc/server": "11.0.0-rc.819",
+    "@trpc/client": "11.0.0-rc.824",
+    "@trpc/server": "11.0.0-rc.824",
     "@types/chrome": "^0.0.308",
     "@types/node": "^22.13.9",
     "@webx-kit/chrome-types": "workspace:^",
@@ -85,7 +85,7 @@
     "@webx-kit/test-utils": "workspace:^",
     "tsup": "^8.4.0",
     "typescript": "^5.8.2",
-    "vitest": "^3.0.7",
+    "vitest": "^3.0.8",
     "zod": "^3.24.2"
   },
   "peerDependencies": {
