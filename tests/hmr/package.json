@@ -10,7 +10,7 @@
     "strip-ansi": "^7.1.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.50.1",
+    "@playwright/test": "^1.51.0",
     "@types/node": "^22.13.9",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/template-react": "workspace:^",

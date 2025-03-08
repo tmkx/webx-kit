@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.28.1",
-    "@playwright/test": "^1.50.1",
+    "@playwright/test": "^1.51.0",
     "nx": "^20.5.0",
     "typescript": "^5.8.2"
   },
