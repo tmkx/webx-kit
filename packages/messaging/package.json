@@ -73,7 +73,7 @@
     "type-fest": "^4.37.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.50.1",
+    "@playwright/test": "^1.51.0",
     "@rsbuild/core": "catalog:",
     "@rsbuild/plugin-react": "catalog:",
     "@trpc/client": "11.0.0-rc.824",

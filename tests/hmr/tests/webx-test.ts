@@ -75,6 +75,8 @@ export function startDev({ beforeAll, afterAll, beforeEach, afterEach }: typeof 
     const page = await context.newPage();
     await page.goto('chrome://extensions/');
     await page.evaluate(async () => {
+      // "Turn on developer mode to use this extension, which can't be reviewed by the Chrome Web Store."
+      await chrome.developerPrivate.updateProfileConfiguration({ inDeveloperMode: true });
       const extensions = await chrome.developerPrivate.getExtensionsInfo();
       for (const extension of extensions) {
         for (const view of extension.views.filter(
