@@ -100,14 +100,14 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@types/chrome": "^0.0.308",
+    "@types/chrome": "^0.0.313",
     "chokidar": "^4.0.3",
     "jiti": "^2.4.2",
-    "type-fest": "^4.37.0"
+    "type-fest": "^4.38.0"
   },
   "devDependencies": {
     "@rsbuild/core": "catalog:",
-    "@types/node": "^22.13.9",
+    "@types/node": "^22.13.14",
     "tailwindcss": "^3.4.17",
     "tsup": "^8.4.0",
     "typescript": "^5.8.2",
