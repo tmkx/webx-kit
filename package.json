@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=18.19.0"
   },
-  "packageManager": "pnpm@10.6.1",
+  "packageManager": "pnpm@10.7.0",
   "scripts": {
     "lint:type": "nx run-many -t lint:type",
     "build": "nx run-many -t build",
@@ -12,8 +12,8 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.28.1",
-    "@playwright/test": "^1.51.0",
-    "nx": "^20.5.0",
+    "@playwright/test": "^1.51.1",
+    "nx": "^20.6.4",
     "typescript": "^5.8.2"
   },
   "publishConfig": {

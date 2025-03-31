@@ -52,7 +52,7 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@types/chrome": "^0.0.308",
+    "@types/chrome": "^0.0.313",
     "@webx-kit/core-plugin": "workspace:*"
   },
   "devDependencies": {

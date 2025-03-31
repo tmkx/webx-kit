@@ -46,21 +46,21 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "type-fest": "^4.37.0"
+    "type-fest": "^4.38.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.51.0",
+    "@playwright/test": "^1.51.1",
     "@rsbuild/core": "catalog:",
     "@rsbuild/plugin-react": "catalog:",
-    "@types/chrome": "^0.0.308",
-    "@types/node": "^22.13.9",
-    "@types/react": "^19.0.10",
+    "@types/chrome": "^0.0.313",
+    "@types/node": "^22.13.14",
+    "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "jotai": "^2.12.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "jotai": "^2.12.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "tsup": "^8.4.0",
     "typescript": "^5.8.2",
     "unstorage": "^1.15.0"

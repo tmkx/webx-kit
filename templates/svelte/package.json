@@ -13,12 +13,12 @@
     "svelte": "^4.2.19"
   },
   "devDependencies": {
-    "@playwright/test": "^1.51.0",
+    "@playwright/test": "^1.51.1",
     "@rsbuild/core": "catalog:",
     "@rsbuild/plugin-less": "catalog:",
     "@rsbuild/plugin-svelte": "catalog:",
-    "@types/chrome": "^0.0.308",
-    "@types/node": "^22.13.9",
+    "@types/chrome": "^0.0.313",
+    "@types/node": "^22.13.14",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
     "tailwindcss": "^3.4.17",

@@ -10,17 +10,17 @@
   },
   "dependencies": {
     "@webx-kit/runtime": "workspace:^",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.51.0",
+    "@playwright/test": "^1.51.1",
     "@rsbuild/core": "catalog:",
     "@rsbuild/plugin-less": "catalog:",
     "@rsbuild/plugin-react": "catalog:",
-    "@types/chrome": "^0.0.308",
-    "@types/node": "^22.13.9",
-    "@types/react": "^19.0.10",
+    "@types/chrome": "^0.0.313",
+    "@types/node": "^22.13.14",
+    "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
