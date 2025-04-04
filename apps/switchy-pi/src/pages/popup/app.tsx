@@ -14,17 +14,18 @@ export const App = () => {
 
   return (
     <Menu
-      className="[clip-path:none] min-w-48"
       aria-label="Proxy profiles"
       selectionMode="single"
       selectedKeys={activeProfileId ? [activeProfileId] : []}
       onAction={selectProfile}
       onClose={window.close}
     >
-      <MenuItem id="direct" icon={<ArrowRightLeftIcon size={16} />}>
+      <MenuItem id="direct">
+        <ArrowRightLeftIcon size={16} />
         [Direct]
       </MenuItem>
-      <MenuItem id="system" icon={<PowerIcon size={16} />} textValue="System Proxy">
+      <MenuItem id="system" textValue="System Proxy">
+        <PowerIcon size={16} />
         [System Proxy]
       </MenuItem>
       {profileList.length ? (
@@ -36,7 +37,8 @@ export const App = () => {
         </>
       ) : null}
       <MenuSeparator />
-      <MenuItem id="options" icon={<WrenchIcon size={16} />}>
+      <MenuItem id="options">
+        <WrenchIcon size={16} />
         Options
       </MenuItem>
     </Menu>

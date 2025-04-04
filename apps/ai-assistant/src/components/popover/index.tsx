@@ -3,7 +3,10 @@ import {
   Popover as AriaPopover,
   PopoverProps as AriaPopoverProps,
   composeRenderProps,
+  PopoverContext,
+  useSlottedContext,
 } from 'react-aria-components';
+import React from 'react';
 import { tv } from 'tailwind-variants';
 import { usePortalContainer } from '../shared';
 
@@ -25,11 +28,15 @@ const styles = tv({
 });
 
 export function Popover({ children, showArrow, className, ...props }: PopoverProps) {
-  const portalContainer = usePortalContainer();
+  let portalContainer = usePortalContainer();
+  let popoverContext = useSlottedContext(PopoverContext)!;
+  let isSubmenu = popoverContext?.trigger === 'SubmenuTrigger';
+  let offset = showArrow ? 12 : 8;
+  offset = isSubmenu ? offset - 6 : offset;
   return (
     <AriaPopover
       UNSTABLE_portalContainer={portalContainer}
-      offset={showArrow ? 12 : 8}
+      offset={offset}
       {...props}
       className={composeRenderProps(className, (className, renderProps) => styles({ ...renderProps, className }))}
     >

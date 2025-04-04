@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+@plugin 'tailwindcss-react-aria-components';
+@plugin 'tailwindcss-animate';
+
+body {
+  @apply bg-white dark:bg-zinc-900;
+  color-scheme: dark light;
+}
+
+@utility flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

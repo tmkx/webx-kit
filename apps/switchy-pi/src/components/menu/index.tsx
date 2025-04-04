@@ -1,50 +1,42 @@
-import { CheckIcon } from 'lucide-react';
+import { Check, ChevronRight } from 'lucide-react';
+import React from 'react';
 import {
   Menu as AriaMenu,
   MenuItem as AriaMenuItem,
   MenuProps as AriaMenuProps,
-  MenuItemProps as AriaMenuItemProps,
+  MenuItemProps,
+  MenuSection as AriaMenuSection,
+  MenuSectionProps as AriaMenuSectionProps,
   Separator,
   SeparatorProps,
   composeRenderProps,
+  Header,
+  Collection,
 } from 'react-aria-components';
-import { twMerge } from 'tailwind-merge';
-import { DropdownSection, DropdownSectionProps, dropdownItemStyles } from '../list-box';
+import { dropdownItemStyles } from '../list-box';
 
-interface MenuProps<T> extends AriaMenuProps<T> {}
-
-export function Menu<T extends object>(props: MenuProps<T>) {
+export function Menu<T extends object>(props: AriaMenuProps<T>) {
   return (
     <AriaMenu
       {...props}
-      className={(values) =>
-        twMerge(
-          'p-1 outline outline-0 max-h-[inherit] overflow-auto [clip-path:inset(0_0_0_0_round_.75rem)]',
-          typeof props.className === 'function' ? props.className(values) : props.className
-        )
-      }
+      className="p-1 outline outline-0 max-h-[inherit] overflow-auto [clip-path:inset(0_0_0_0_round_.75rem)]"
     />
   );
 }
 
-interface MenuItemProps<T> extends AriaMenuItemProps<T> {
-  icon?: React.ReactNode;
-}
-
-export function MenuItem<T extends object>(props: MenuItemProps<T>) {
+export function MenuItem(props: MenuItemProps) {
+  let textValue = props.textValue || (typeof props.children === 'string' ? props.children : undefined);
   return (
-    <AriaMenuItem<T>
-      {...props}
-      className={composeRenderProps(props.className, (className, renderProps) =>
-        twMerge(className, dropdownItemStyles(renderProps))
-      )}
-    >
-      {composeRenderProps(props.children, (children, { isSelected }) => (
+    <AriaMenuItem textValue={textValue} {...props} className={dropdownItemStyles}>
+      {composeRenderProps(props.children, (children, { selectionMode, isSelected, hasSubmenu }) => (
         <>
-          <span className="flex items-center w-4">{isSelected ? <CheckIcon aria-hidden size={16} /> : props.icon}</span>
+          {selectionMode !== 'none' && (
+            <span className="flex items-center w-4">{isSelected && <Check aria-hidden className="w-4 h-4" />}</span>
+          )}
           <span className="flex items-center flex-1 gap-2 font-normal truncate group-selected:font-semibold">
             {children}
           </span>
+          {hasSubmenu && <ChevronRight aria-hidden className="absolute w-4 h-4 right-2" />}
         </>
       ))}
     </AriaMenuItem>
@@ -52,14 +44,21 @@ export function MenuItem<T extends object>(props: MenuItemProps<T>) {
 }
 
 export function MenuSeparator(props: SeparatorProps) {
-  return (
-    <Separator
-      {...props}
-      className={twMerge('mx-3 my-1 border-b border-gray-300 dark:border-zinc-700', props.className)}
-    />
-  );
+  return <Separator {...props} className="mx-3 my-1 border-b border-gray-300 dark:border-zinc-700" />;
 }
 
-export function MenuSection<T extends object>(props: DropdownSectionProps<T>) {
-  return <DropdownSection {...props} />;
+export interface MenuSectionProps<T> extends AriaMenuSectionProps<T> {
+  title?: string;
+  items?: any;
+}
+
+export function MenuSection<T extends object>(props: MenuSectionProps<T>) {
+  return (
+    <AriaMenuSection className="first:-mt-[5px] after:content-[''] after:block after:h-[5px]">
+      <Header className="text-sm font-semibold text-gray-500 dark:text-zinc-300 px-4 py-1 truncate sticky -top-[5px] -mt-px -mx-1 z-10 bg-gray-100/60 dark:bg-zinc-700/60 backdrop-blur-md supports-[-moz-appearance:none]:bg-gray-100 border-y border-y-gray-200 dark:border-y-zinc-700 [&+*]:mt-1">
+        {props.title}
+      </Header>
+      <Collection items={props.items}>{props.children}</Collection>
+    </AriaMenuSection>
+  );
 }

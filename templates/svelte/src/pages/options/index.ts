@@ -1,5 +1,5 @@
 import App from './app.svelte';
-import '../../global.less';
-import './style.less';
+import '../../styles.css';
+import './styles.css';
 
 new App({ target: document.getElementById('root')! });

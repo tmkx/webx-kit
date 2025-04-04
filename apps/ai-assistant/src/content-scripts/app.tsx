@@ -7,7 +7,7 @@ import type { AppRouter } from '@/background/router';
 import { DialogTrigger, TooltipTrigger } from 'react-aria-components';
 import { Button, Popover, Tooltip } from '@/components';
 import { Provider } from './features/provider';
-import './global.less';
+import '../styles.css';
 
 const { client } = createTrpcClient<AppRouter>({});
 

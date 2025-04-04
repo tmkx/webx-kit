@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { App } from './app';
-import '../global.less';
-import './style.less';
+import '../../styles.css';
+import './styles.css';
 
 createRoot(document.getElementById('root')!).render(<App />);

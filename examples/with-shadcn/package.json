@@ -15,25 +15,25 @@
     "@webx-kit/runtime": "workspace:^",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "lucide-react": "^0.485.0",
+    "lucide-react": "^0.487.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "tailwind-merge": "^3.0.2",
-    "tailwindcss-animate": "^1.0.7",
+    "tailwind-merge": "^3.1.0",
+    "tw-animate-css": "^1.2.5",
     "vaul": "^1.1.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.51.1",
     "@rsbuild/core": "catalog:",
-    "@rsbuild/plugin-less": "catalog:",
     "@rsbuild/plugin-react": "catalog:",
+    "@tailwindcss/postcss": "^4.1.2",
     "@types/chrome": "^0.0.313",
-    "@types/node": "^22.13.14",
-    "@types/react": "^19.0.12",
-    "@types/react-dom": "^19.0.4",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.1",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "^4.1.2",
     "typescript": "^5.8.2"
   }
 }

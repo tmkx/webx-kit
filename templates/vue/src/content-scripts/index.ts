@@ -1,7 +1,7 @@
 import { createShadowRootUI } from '@webx-kit/runtime/content-scripts';
 import { createApp } from 'vue';
 import App from './App.vue';
-import '../global.less';
+import '../styles.css';
 
 createShadowRootUI({
   styles: chrome.runtime.getURL('static/css/content-script.css'),

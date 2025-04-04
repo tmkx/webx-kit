@@ -1,4 +1,5 @@
-import { ChevronDownIcon } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
+import React from 'react';
 import {
   Select as AriaSelect,
   SelectProps as AriaSelectProps,
@@ -47,17 +48,17 @@ export function Select<T extends object>({
       {label && <Label>{label}</Label>}
       <Button className={styles}>
         <SelectValue className="flex-1 text-sm placeholder-shown:italic" />
-        <ChevronDownIcon
+        <ChevronDown
           aria-hidden
           className="w-4 h-4 text-gray-600 dark:text-zinc-400 forced-colors:text-[ButtonText] group-disabled:text-gray-200 dark:group-disabled:text-zinc-600 forced-colors:group-disabled:text-[GrayText]"
         />
       </Button>
       {description && <Description>{description}</Description>}
       <FieldError>{errorMessage}</FieldError>
-      <Popover className="min-w-[--trigger-width]">
+      <Popover className="min-w-(--trigger-width)">
         <ListBox
           items={items}
-          className="outline-none p-1 max-h-[inherit] overflow-auto [clip-path:inset(0_0_0_0_round_.75rem)]"
+          className="outline-hidden p-1 max-h-[inherit] overflow-auto [clip-path:inset(0_0_0_0_round_.75rem)]"
         >
           {children}
         </ListBox>

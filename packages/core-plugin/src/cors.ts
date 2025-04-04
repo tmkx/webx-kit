@@ -15,10 +15,23 @@ export function applyCorsSupport(api: RsbuildPluginAPI) {
 }
 
 const requestHandler: RequestHandler = (req, res, next) => {
-  if (req.method?.toUpperCase() !== 'OPTIONS') return next();
-  res.writeHead(200, {
-    'Access-Control-Allow-Origin': req.headers.origin,
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-  });
-  res.write('');
+  const method = req.method?.toUpperCase();
+  const origin = req.headers.origin;
+
+  if (method === 'OPTIONS' || origin?.startsWith('chrome-extension://')) {
+    res.setHeaders(
+      new Headers({
+        'Access-Control-Allow-Origin': origin || '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      })
+    );
+  }
+
+  if (method === 'OPTIONS') {
+    res.statusCode = 204;
+    res.end();
+    return;
+  }
+
+  next();
 };

@@ -1,11 +1,9 @@
 import { defineConfig } from '@rsbuild/core';
-import { pluginLess } from '@rsbuild/plugin-less';
 import { pluginVue } from '@rsbuild/plugin-vue';
 import { webxPlugin } from '@webx-kit/rsbuild-plugin';
 
 export default defineConfig({
   plugins: [
-    pluginLess(),
     pluginVue(),
     webxPlugin({
       background: './src/background/index.ts',
@@ -32,7 +30,7 @@ export default defineConfig({
   tools: {
     postcss: {
       postcssOptions: {
-        plugins: [require('tailwindcss')],
+        plugins: [require('@tailwindcss/postcss')],
       },
     },
   },
