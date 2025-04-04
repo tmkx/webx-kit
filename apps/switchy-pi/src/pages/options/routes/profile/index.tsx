@@ -56,7 +56,8 @@ function ExportProfile({ profile }: { profile: ProfileType }) {
     downloadTextAsFile(pacContent, `SwitchyPiProfile_${profile.name}.pac`);
   };
   return (
-    <Button variant="secondary" icon={<DownloadIcon size={16} />} onPress={handleExport}>
+    <Button variant="secondary" onPress={handleExport}>
+      <DownloadIcon size={16} />
       Export PAC
     </Button>
   );
@@ -71,7 +72,8 @@ function RenameProfile({
 }) {
   return (
     <DialogTrigger>
-      <Button variant="secondary" icon={<FilePenLineIcon size={16} />}>
+      <Button variant="secondary">
+        <FilePenLineIcon size={16} />
         Rename
       </Button>
       <Modal isDismissable>
@@ -122,7 +124,8 @@ function DeleteProfile({ profileId, profile }: { profileId: string; profile: Pro
 
   return (
     <DialogTrigger>
-      <Button variant="destructive" icon={<TrashIcon size={16} />}>
+      <Button variant="destructive">
+        <TrashIcon size={16} />
         Delete
       </Button>
       <Modal isDismissable>

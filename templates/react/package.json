@@ -16,15 +16,15 @@
   "devDependencies": {
     "@playwright/test": "^1.51.1",
     "@rsbuild/core": "catalog:",
-    "@rsbuild/plugin-less": "catalog:",
     "@rsbuild/plugin-react": "catalog:",
+    "@tailwindcss/postcss": "^4.1.2",
     "@types/chrome": "^0.0.313",
-    "@types/node": "^22.13.14",
-    "@types/react": "^19.0.12",
-    "@types/react-dom": "^19.0.4",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.1",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "^4.1.2",
     "typescript": "^5.8.2"
   }
 }

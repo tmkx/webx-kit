@@ -1,6 +1,5 @@
 import { defineConfig } from '@rsbuild/core';
 import { pluginBabel } from '@rsbuild/plugin-babel';
-import { pluginLess } from '@rsbuild/plugin-less';
 import { pluginSolid } from '@rsbuild/plugin-solid';
 import { webxPlugin } from '@webx-kit/rsbuild-plugin';
 
@@ -9,7 +8,6 @@ export default defineConfig({
     pluginBabel({
       include: /\.(?:jsx|tsx)$/,
     }),
-    pluginLess(),
     pluginSolid(),
     webxPlugin({
       background: './src/background/index.ts',
@@ -36,7 +34,7 @@ export default defineConfig({
   tools: {
     postcss: {
       postcssOptions: {
-        plugins: [require('tailwindcss')],
+        plugins: [require('@tailwindcss/postcss')],
       },
     },
   },

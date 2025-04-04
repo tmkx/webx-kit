@@ -1,4 +1,5 @@
-import { CheckIcon, MinusIcon } from 'lucide-react';
+import { Check, Minus } from 'lucide-react';
+import React, { ReactNode } from 'react';
 import {
   Checkbox as AriaCheckbox,
   CheckboxGroup as AriaCheckboxGroup,
@@ -13,7 +14,7 @@ import { composeTailwindRenderProps, focusRing } from '../shared/utils';
 
 export interface CheckboxGroupProps extends Omit<AriaCheckboxGroupProps, 'children'> {
   label?: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
   description?: string;
   errorMessage?: string | ((validation: ValidationResult) => string);
 }
@@ -41,18 +42,18 @@ const checkboxStyles = tv({
 
 const boxStyles = tv({
   extend: focusRing,
-  base: 'w-5 h-5 flex-shrink-0 rounded flex items-center justify-center border-2 transition',
+  base: 'w-5 h-5 shrink-0 rounded-sm flex items-center justify-center border-2 transition',
   variants: {
     isSelected: {
       false:
-        'bg-white dark:bg-zinc-900 border-[--color] [--color:theme(colors.gray.400)] dark:[--color:colors.zinc-400)] group-pressed:[--color:theme(colors.gray.500)] dark:group-pressed:[--color:theme(colors.zinc.300)]',
-      true: 'bg-[--color] border-[--color] [--color:theme(colors.gray.700)] group-pressed:[--color:theme(colors.gray.800)] dark:[--color:theme(colors.slate.300)] dark:group-pressed:[--color:theme(colors.slate.200)] forced-colors:![--color:Highlight]',
+        'bg-white dark:bg-zinc-900 border-(--color) [--color:var(--color-gray-400)] dark:[--color:colors.zinc-400)] group-pressed:[--color:var(--color-gray-500)] dark:group-pressed:[--color:var(--color-zinc-300)]',
+      true: 'bg-(--color) border-(--color) [--color:var(--color-gray-700)] group-pressed:[--color:var(--color-gray-800)] dark:[--color:var(--color-slate-300)] dark:group-pressed:[--color:var(--color-slate-200)] forced-colors:[--color:Highlight]!',
     },
     isInvalid: {
-      true: '[--color:theme(colors.red.700)] dark:[--color:theme(colors.red.600)] forced-colors:![--color:Mark] group-pressed:[--color:theme(colors.red.800)] dark:group-pressed:[--color:theme(colors.red.700)]',
+      true: '[--color:var(--color-red-700)] dark:[--color:var(--color-red-600)] forced-colors:[--color:Mark]! group-pressed:[--color:var(--color-red-800)] dark:group-pressed:[--color:var(--color-red-700)]',
     },
     isDisabled: {
-      true: '[--color:theme(colors.gray.200)] dark:[--color:theme(colors.zinc.700)] forced-colors:![--color:GrayText]',
+      true: '[--color:var(--color-gray-200)] dark:[--color:var(--color-zinc-700)] forced-colors:[--color:GrayText]!',
     },
   },
 });
@@ -68,18 +69,16 @@ export function Checkbox(props: CheckboxProps) {
         checkboxStyles({ ...renderProps, className })
       )}
     >
-      {(renderProps) => (
+      {({ isSelected, isIndeterminate, ...renderProps }) => (
         <>
-          <div
-            className={boxStyles({ ...renderProps, isSelected: Boolean(props.isSelected || props.isIndeterminate) })}
-          >
-            {props.isIndeterminate ? (
-              <MinusIcon aria-hidden className={iconStyles} />
-            ) : props.isSelected ? (
-              <CheckIcon aria-hidden className={iconStyles} />
+          <div className={boxStyles({ isSelected: isSelected || isIndeterminate, ...renderProps })}>
+            {isIndeterminate ? (
+              <Minus aria-hidden className={iconStyles} />
+            ) : isSelected ? (
+              <Check aria-hidden className={iconStyles} />
             ) : null}
           </div>
-          {typeof props.children === 'function' ? props.children(renderProps) : props.children}
+          {props.children}
         </>
       )}
     </AriaCheckbox>

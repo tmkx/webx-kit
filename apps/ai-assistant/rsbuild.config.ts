@@ -1,11 +1,9 @@
 import { defineConfig, PostCSSOptions } from '@rsbuild/core';
-import { pluginLess } from '@rsbuild/plugin-less';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { webxPlugin } from '@webx-kit/rsbuild-plugin';
 
 export default defineConfig(() => ({
   plugins: [
-    pluginLess(),
     pluginReact(),
     webxPlugin({
       background: './src/background/index.ts',
@@ -34,7 +32,7 @@ export default defineConfig(() => ({
   tools: {
     postcss: {
       postcssOptions: {
-        plugins: [require('tailwindcss'), bodyToHostCSSPlugin],
+        plugins: [require('@tailwindcss/postcss'), bodyToHostCSSPlugin],
       },
     },
   },

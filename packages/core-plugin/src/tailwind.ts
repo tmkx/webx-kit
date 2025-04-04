@@ -7,6 +7,6 @@ export function convertToPx<T>(theme: T, base = 16): T {
   return Object.fromEntries(Object.entries(theme).map(([key, value]) => [key, convertToPx(value, base)])) as T;
 }
 
-export function getPixelUnitDefaultTheme(base = 16) {
+export function getPixelUnitDefaultTheme(base = 16): typeof defaultTheme {
   return convertToPx(defaultTheme, base);
 }

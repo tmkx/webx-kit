@@ -4,8 +4,8 @@ import { getDefaultStore } from 'jotai';
 import { isDarkAtom } from '@/atoms/config';
 import { Provider } from '@/features/provider';
 import { router } from './app';
-import '../global.less';
-import './style.less';
+import '../styles.css';
+import './styles.css';
 
 if (getDefaultStore().get(isDarkAtom)) {
   document.documentElement.classList.add('dark');

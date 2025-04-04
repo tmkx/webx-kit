@@ -1,4 +1,4 @@
 import App from './app.svelte';
-import '../../global.less';
+import '../../styles.css';
 
 new App({ target: document.getElementById('root')! });

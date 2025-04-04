@@ -1,6 +1,6 @@
-import { MutableRefObject, createContext, useContext } from 'react';
+import { RefObject, createContext, useContext } from 'react';
 
-export const PortalContainerContext = createContext<MutableRefObject<HTMLDivElement | null>>({ current: null });
+export const PortalContainerContext = createContext<RefObject<HTMLDivElement | null>>({ current: null });
 
 export const usePortalContainer = () =>
   (useContext(PortalContainerContext).current || window.__webxRoot?.lastElementChild || undefined) as

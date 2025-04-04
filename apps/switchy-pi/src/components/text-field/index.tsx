@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   TextField as AriaTextField,
   TextFieldProps as AriaTextFieldProps,
@@ -13,7 +14,8 @@ const inputStyles = tv({
   base: 'border-2 rounded-md',
   variants: {
     isFocused: fieldBorderStyles.variants.isFocusWithin,
-    ...fieldBorderStyles.variants,
+    isInvalid: fieldBorderStyles.variants.isInvalid,
+    isDisabled: fieldBorderStyles.variants.isDisabled,
   },
 });
 

@@ -1,3 +1,4 @@
+import React from 'react';
 import { DialogProps, Dialog as RACDialog } from 'react-aria-components';
 import { twMerge } from 'tailwind-merge';
 

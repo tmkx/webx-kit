@@ -1,4 +1,5 @@
-import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import React from 'react';
 import {
   NumberField as AriaNumberField,
   NumberFieldProps as AriaNumberFieldProps,
@@ -18,18 +19,18 @@ export interface NumberFieldProps extends AriaNumberFieldProps {
 export function NumberField({ label, description, errorMessage, ...props }: NumberFieldProps) {
   return (
     <AriaNumberField {...props} className={composeTailwindRenderProps(props.className, 'group flex flex-col gap-1')}>
-      {label && <Label>{label}</Label>}
+      <Label>{label}</Label>
       <FieldGroup>
         {(renderProps) => (
           <>
-            <Input className="tabular-nums" />
+            <Input />
             <div className={fieldBorderStyles({ ...renderProps, class: 'flex flex-col border-s-2' })}>
               <StepperButton slot="increment">
-                <ChevronUpIcon aria-hidden className="w-4 h-4" />
+                <ChevronUp aria-hidden className="w-4 h-4" />
               </StepperButton>
               <div className={fieldBorderStyles({ ...renderProps, class: 'border-b-2' })} />
               <StepperButton slot="decrement">
-                <ChevronDownIcon aria-hidden className="w-4 h-4" />
+                <ChevronDown aria-hidden className="w-4 h-4" />
               </StepperButton>
             </div>
           </>
