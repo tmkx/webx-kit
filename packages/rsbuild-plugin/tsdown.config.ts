@@ -1,5 +1,5 @@
-import { defineConfig } from 'tsup';
-import { sharedConfig } from '../core-plugin/tsup.config';
+import { defineConfig } from 'tsdown';
+import { sharedConfig } from '../core-plugin/tsdown.config';
 
 export default defineConfig({
   ...sharedConfig,
