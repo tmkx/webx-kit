@@ -1,9 +1,9 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from 'tsdown';
 
 export default defineConfig({
   entry: ['./src/*.ts'],
   outDir: './dist',
-  format: 'cjs',
+  format: 'esm',
   clean: true,
   dts: true,
 });

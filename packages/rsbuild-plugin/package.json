@@ -48,7 +48,7 @@
     "directory": "packages/rsbuild-plugin"
   },
   "scripts": {
-    "prepack": "tsup",
+    "prepack": "tsdown",
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
@@ -58,7 +58,7 @@
   "devDependencies": {
     "@rsbuild/core": "^1.3.12",
     "@rspack/core": "^1.3.7",
-    "tsup": "^8.4.0",
+    "tsdown": "^0.9.8",
     "typescript": "^5.8.3"
   },
   "peerDependencies": {

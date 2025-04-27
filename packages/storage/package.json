@@ -40,7 +40,7 @@
   },
   "scripts": {
     "dev": "rsbuild dev",
-    "prepack": "tsup",
+    "prepack": "tsdown",
     "pretest": "rsbuild build",
     "test": "playwright test",
     "lint:type": "tsc --noEmit"
@@ -61,7 +61,7 @@
     "jotai": "^2.12.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "tsup": "^8.4.0",
+    "tsdown": "^0.9.8",
     "typescript": "^5.8.3",
     "unstorage": "^1.15.0"
   },

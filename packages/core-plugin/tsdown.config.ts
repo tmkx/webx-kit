@@ -1,4 +1,4 @@
-import { Options, defineConfig } from 'tsup';
+import { Options, defineConfig } from 'tsdown';
 
 export const sharedConfig: Options = {
   define: {
@@ -8,11 +8,9 @@ export const sharedConfig: Options = {
   format: 'cjs',
   clean: true,
   dts: true,
-  minifySyntax: true,
 };
 
 export default defineConfig({
   ...sharedConfig,
   entry: ['./src/**/*.ts'],
-  bundle: false,
 });
