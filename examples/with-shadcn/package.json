@@ -9,31 +9,31 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@radix-ui/react-dialog": "^1.1.6",
-    "@radix-ui/react-slot": "^1.1.2",
-    "@radix-ui/react-tabs": "^1.1.3",
+    "@radix-ui/react-dialog": "^1.1.11",
+    "@radix-ui/react-slot": "^1.2.0",
+    "@radix-ui/react-tabs": "^1.1.9",
     "@webx-kit/runtime": "workspace:^",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "lucide-react": "^0.487.0",
+    "lucide-react": "^0.503.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "tailwind-merge": "^3.1.0",
-    "tw-animate-css": "^1.2.5",
+    "tailwind-merge": "^3.2.0",
+    "tw-animate-css": "^1.2.8",
     "vaul": "^1.1.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.51.1",
-    "@rsbuild/core": "catalog:",
-    "@rsbuild/plugin-react": "catalog:",
-    "@tailwindcss/postcss": "^4.1.2",
-    "@types/chrome": "^0.0.313",
-    "@types/node": "^22.14.0",
-    "@types/react": "^19.1.0",
-    "@types/react-dom": "^19.1.1",
+    "@playwright/test": "^1.52.0",
+    "@rsbuild/core": "^1.3.12",
+    "@rsbuild/plugin-react": "^1.3.0",
+    "@tailwindcss/postcss": "^4.1.4",
+    "@types/chrome": "^0.0.317",
+    "@types/node": "^22.15.2",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "tailwindcss": "^4.1.2",
-    "typescript": "^5.8.2"
+    "tailwindcss": "^4.1.4",
+    "typescript": "^5.8.3"
   }
 }
