@@ -10,8 +10,8 @@
     "strip-ansi": "^7.1.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.51.1",
-    "@types/node": "^22.14.0",
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.2",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/template-react": "workspace:^",
     "@webx-kit/template-solid": "workspace:^",
@@ -19,6 +19,6 @@
     "@webx-kit/template-vue": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
     "p-retry": "^6.2.1",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   }
 }
