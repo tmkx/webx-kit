@@ -1,5 +1,11 @@
 # @webx-kit/test-utils
 
+## 0.1.4
+
+### Patch Changes
+
+- @webx-kit/chrome-types@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @webx-kit/example-with-shadcn
 
+## 0.1.4
+
+### Patch Changes
+
+- Updated dependencies [6d9be85]
+  - @webx-kit/runtime@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes
