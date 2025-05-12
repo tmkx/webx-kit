@@ -18,14 +18,12 @@ const requestHandler: RequestHandler = (req, res, next) => {
   const method = req.method?.toUpperCase();
   const origin = req.headers.origin;
 
-  if (method === 'OPTIONS' || origin?.startsWith('chrome-extension://')) {
-    res.setHeaders(
-      new Headers({
-        'Access-Control-Allow-Origin': origin || '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-      })
-    );
-  }
+  res.setHeaders(
+    new Headers({
+      'Access-Control-Allow-Origin': origin || '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+    })
+  );
 
   if (method === 'OPTIONS') {
     res.statusCode = 204;
