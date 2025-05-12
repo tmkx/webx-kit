@@ -1,5 +1,14 @@
 # @webx-kit/rsbuild-plugin
 
+## 0.1.4
+
+### Patch Changes
+
+- 6d92c9c: fix: css hmr is not working in shadow root
+- 6d9be85: refactor: migrate to tsdown
+- Updated dependencies [6d9be85]
+  - @webx-kit/core-plugin@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes

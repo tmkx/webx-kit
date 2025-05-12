@@ -1,5 +1,11 @@
 # @webx-kit/core-plugin
 
+## 0.1.4
+
+### Patch Changes
+
+- 6d9be85: refactor: migrate to tsdown
+
 ## 0.1.3
 
 ### Patch Changes
