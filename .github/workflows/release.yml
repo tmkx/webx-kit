@@ -65,4 +65,4 @@ jobs:
         with:
           commit: ${{ steps.prepare.outputs.title }}
           title: ${{ steps.prepare.outputs.title }}
-          publish: pnpm -w changeset publish
+          publish: pnpm -w changeset publish --no-git-tag
