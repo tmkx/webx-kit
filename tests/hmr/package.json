@@ -6,12 +6,12 @@
     "test": "playwright test"
   },
   "dependencies": {
-    "execa": "^9.5.3",
+    "execa": "^9.6.0",
     "strip-ansi": "^7.1.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.52.0",
-    "@types/node": "^22.15.17",
+    "@playwright/test": "^1.53.0",
+    "@types/node": "^24.0.1",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/template-react": "workspace:^",
     "@webx-kit/template-solid": "workspace:^",

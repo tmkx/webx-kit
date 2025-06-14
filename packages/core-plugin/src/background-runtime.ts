@@ -1,4 +1,4 @@
-/// <reference types="webpack/module" />
+/// <reference types="@rspack/core/module" />
 
 import type { NormalizeContentScriptsOptions } from './content-script';
 
