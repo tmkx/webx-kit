@@ -1,6 +1,10 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "cli": {
+    "packageManager": "pnpm"
+  },
   "defaultBase": "main",
+  "neverConnectToCloud": true,
   "targetDefaults": {
     "build": {
       "cache": true,
