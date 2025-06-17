@@ -55,7 +55,11 @@ chromium
     colorScheme: 'no-preference',
     viewport: null,
     ignoreDefaultArgs: ['--disable-extensions', '--enable-automation'],
-    args: ['--hide-crash-restore-bubble', `--load-extension=${extensionPath}`],
+    args: [
+      '--hide-crash-restore-bubble',
+      `--disable-extensions-except=${extensionPath}`,
+      `--load-extension=${extensionPath}`,
+    ],
   })
   .then(async (context) => {
     console.log(kleur.green('Start successfully'));
