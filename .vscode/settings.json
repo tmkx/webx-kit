@@ -8,5 +8,8 @@
       "url": "./node_modules/nx/schemas/project-schema.json"
     }
   ],
+  "search.exclude": {
+    "**/dist": true
+  },
   "typescript.tsdk": "node_modules/typescript/lib"
 }

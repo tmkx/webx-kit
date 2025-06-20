@@ -25,27 +25,27 @@ export interface WebxPluginOptions extends BackgroundOptions, ContentScriptsOpti
 function getDefaultConfig({
   allInOneEntries,
   defaultConfig,
-  originalConfig,
+  userConfig,
 }: {
   allInOneEntries: Set<string>;
   defaultConfig: Readonly<RsbuildConfig>;
-  originalConfig: Readonly<RsbuildConfig>;
+  userConfig: Readonly<RsbuildConfig>;
 }): RsbuildConfig {
-  const port = process.env.PORT ? Number(process.env.PORT) : originalConfig.server?.port || defaultConfig.server?.port;
+  const port = process.env.PORT ? Number(process.env.PORT) : userConfig.server?.port || defaultConfig.server?.port;
   return {
     source: {
       define: {
-        __DEV__: isDev(),
+        __DEV__: userConfig.source?.define?.__DEV__ ?? isDev(),
       },
     },
     dev: {
-      assetPrefix: true,
-      client: {
+      assetPrefix: userConfig.dev?.assetPrefix ?? true,
+      client: userConfig.dev?.client ?? {
         protocol: 'ws',
         host: 'localhost',
         port,
       },
-      writeToDisk: (filename) => !filename.includes('.hot-update.'),
+      writeToDisk: userConfig.dev?.writeToDisk ?? ((filename) => !filename.includes('.hot-update.')),
     },
     output: {
       distPath: {
@@ -54,7 +54,7 @@ function getDefaultConfig({
       filenameHash: false,
     },
     html: {
-      title: ({ entryName }) => titleCase(entryName),
+      title: userConfig.html?.title ?? (({ entryName }) => titleCase(entryName)),
     },
     server: {
       publicDir: false,
@@ -82,12 +82,13 @@ export const webxPlugin = (options: WebxPluginOptions = {}): RsbuildPlugin => {
         ...getContentScriptEntryNames(normalizedOptions),
       ]);
       api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
-        const defaultConfig = api.getRsbuildConfig('current');
-        const originalConfig = api.getRsbuildConfig('original');
         return mergeRsbuildConfig(
           config,
-          getDefaultConfig({ allInOneEntries, defaultConfig, originalConfig }),
-          originalConfig
+          getDefaultConfig({
+            allInOneEntries,
+            defaultConfig: api.getRsbuildConfig('current'),
+            userConfig: api.getRsbuildConfig('original'),
+          })
         );
       });
       applyBackgroundSupport(api, normalizedOptions, ({ entryName, backgroundLiveReload }) =>

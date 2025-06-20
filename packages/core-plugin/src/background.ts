@@ -59,7 +59,7 @@ export function applyBackgroundSupport(
     }
   });
 
-  const modifyChain = (chain: RspackChain) => {
+  api.modifyBundlerChain((chain) => {
     chain.entry(entry.name).add({
       import: enableAutoRefreshContentScripts
         ? [
@@ -77,11 +77,8 @@ export function applyBackgroundSupport(
       filename: backgroundFilename,
     });
     const plugins = getPlugins({ entryName: entry.name, backgroundLiveReload });
-    if (plugins) plugins.forEach((plugin) => plugin && chain.plugin(plugin.name).use(plugin as any));
-  };
-
-  if (api.context.bundlerType === 'webpack') api.modifyWebpackChain(modifyChain);
-  else api.modifyBundlerChain(modifyChain);
+    if (plugins) plugins.forEach((plugin) => plugin && chain.plugin(plugin.name).use(plugin));
+  });
 }
 
 export function generateLoadScriptCode(options: {
