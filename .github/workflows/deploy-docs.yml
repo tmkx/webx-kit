@@ -20,6 +20,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      CLARITY_PROJECT_ID: ${{ vars.CLARITY_PROJECT_ID }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
