@@ -1,4 +1,4 @@
-import { defineConfig, PostCSSOptions } from '@rsbuild/core';
+import { defineConfig, PostCSSPlugin } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { webxPlugin } from '@webx-kit/rsbuild-plugin';
 
@@ -38,9 +38,7 @@ export default defineConfig(() => ({
   },
 }));
 
-type PostCSSAcceptedPlugin = NonNullable<PostCSSOptions['plugins']>[number];
-
-const bodyToHostCSSPlugin: PostCSSAcceptedPlugin = {
+const bodyToHostCSSPlugin: PostCSSPlugin = {
   postcss(css) {
     css.walkRules((rule) => {
       const bodyToHostSelectors = rule.selectors

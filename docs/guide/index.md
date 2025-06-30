@@ -5,7 +5,7 @@
 ::: code-group
 
 ```bash [pnpm]
-$ pnpm create webx
+$ pnpm create webx@latest
 ```
 
 ```bash [npm]
@@ -13,7 +13,7 @@ $ npm create webx@latest
 ```
 
 ```bash [yarn]
-$ yarn create webx
+$ yarn create webx@latest
 ```
 
 :::
