@@ -1,5 +1,12 @@
 # @webx-kit/test-utils
 
+## 0.1.5
+
+### Patch Changes
+
+- d6ec874: fix: auto load extension not work
+  - @webx-kit/chrome-types@0.1.5
+
 ## 0.1.4
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@webx-kit/rsbuild-plugin",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "type": "commonjs",
   "exports": {
     ".": {
