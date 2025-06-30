@@ -1,5 +1,11 @@
 # @webx-kit/core-plugin
 
+## 0.1.5
+
+### Patch Changes
+
+- 37cc40a: fix: resolve the warning about duplicated plugins
+
 ## 0.1.4
 
 ### Patch Changes

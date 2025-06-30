@@ -1,5 +1,11 @@
 # create-webx
 
+## 0.1.5
+
+### Patch Changes
+
+- f040b12: feat: create new project with local templates
+
 ## 0.1.4
 
 ### Patch Changes
