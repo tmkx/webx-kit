@@ -6,7 +6,8 @@
     "create-webx": "./dist/index.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "templates"
   ],
   "keywords": [
     "chrome",
@@ -20,7 +21,8 @@
   },
   "scripts": {
     "test": "vitest run",
-    "prepack": "tsdown",
+    "prepack": "tsdown && node ./sync.mjs",
+    "postpack": "rm -rf ./templates",
     "lint:type": "tsc --noEmit"
   },
   "devDependencies": {
@@ -28,12 +30,10 @@
     "@types/prompts": "^2.4.9",
     "debug": "^4.4.1",
     "execa": "^9.6.0",
-    "fast-glob": "^3.3.3",
     "kleur": "^4.1.5",
     "prompts": "^2.4.2",
-    "tsdown": "^0.12.7",
-    "type-fest": "^4.41.0",
+    "tsdown": "^0.12.9",
     "typescript": "^5.8.3",
-    "vitest": "^3.2.3"
+    "vitest": "^3.2.4"
   }
 }

@@ -10,11 +10,11 @@
 ## Getting started
 
 ```bash
-pnpm create webx
+pnpm create webx@latest
 
-npm create webx
+npm create webx@latest
 
-yarn create webx
+yarn create webx@latest
 ```
 
 ## Features
