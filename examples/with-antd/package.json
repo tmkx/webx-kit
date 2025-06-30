@@ -12,7 +12,7 @@
     "@ant-design/cssinjs": "^1.23.0",
     "@ant-design/icons": "^5.6.1",
     "@webx-kit/runtime": "workspace:^",
-    "antd": "^5.26.2",
+    "antd": "^5.26.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
