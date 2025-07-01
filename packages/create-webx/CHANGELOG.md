@@ -1,5 +1,11 @@
 # create-webx
 
+## 0.1.6
+
+### Patch Changes
+
+- ec3101c: fix: pack dotfiles
+
 ## 0.1.5
 
 ### Patch Changes
