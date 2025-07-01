@@ -7,7 +7,7 @@
   },
   "files": [
     "dist",
-    "templates"
+    "templates/**/*"
   ],
   "keywords": [
     "chrome",
