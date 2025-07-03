@@ -4,7 +4,7 @@ import type { RsbuildPluginAPI } from '@rsbuild/core';
 import { FSWatcher, watch } from 'chokidar';
 import { createJiti } from 'jiti';
 import type { PackageJson, SetOptional } from 'type-fest';
-import { isDev } from './env';
+import { isDev } from '../env';
 
 const DEFAULT_MANIFEST_SRC = './src/manifest.ts';
 

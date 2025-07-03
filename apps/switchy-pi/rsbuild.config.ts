@@ -7,14 +7,12 @@ export default defineConfig({
     pluginReact(),
     webxPlugin({
       background: './src/background/index.ts',
+      pages: {
+        options: './src/pages/options/index.tsx',
+        popup: './src/pages/popup/index.tsx',
+      },
     }),
   ],
-  source: {
-    entry: {
-      options: './src/pages/options/index.tsx',
-      popup: './src/pages/popup/index.tsx',
-    },
-  },
   output: {
     copy: [
       {

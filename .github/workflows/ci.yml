@@ -26,7 +26,7 @@ jobs:
         node-version: [20.x]
     runs-on: ${{ matrix.os }}
     env:
-      NX_REJECT_UNKNOWN_LOCAL_CACHE: '0'
+      NX_KEY: ${{ vars.NX_KEY }}
       NX_SKIP_NX_CACHE: ${{ vars.NX_SKIP_NX_CACHE }}
 
     steps:

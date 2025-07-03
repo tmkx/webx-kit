@@ -11,13 +11,11 @@ export default defineConfig({
         import: './src/content-scripts/index.tsx',
         matches: ['<all_urls>'],
       },
+      pages: {
+        popup: './src/pages/popup/index.tsx',
+      },
     }),
   ],
-  source: {
-    entry: {
-      popup: './src/pages/popup/index.tsx',
-    },
-  },
   output: {
     copy: [
       {

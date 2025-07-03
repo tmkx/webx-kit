@@ -27,7 +27,7 @@ describe('Rsbuild', () => {
     const compiler = build(dist);
     onTestFinished(() => void compiler.kill());
     await compiler;
-    await expect(fs.readFile(path.resolve(dist, 'background.mjs'), 'utf8')).resolves.toContain(
+    await expect(fs.readFile(path.resolve(dist, 'background.js'), 'utf8')).resolves.toContain(
       'https://httpbin.org/get?id=default'
     );
   });
@@ -37,7 +37,7 @@ describe('Rsbuild', () => {
     const compiler = build(dist, 'demo');
     onTestFinished(() => void compiler.kill());
     await compiler;
-    await expect(fs.readFile(path.resolve(dist, 'background.mjs'), 'utf8')).resolves.toContain(
+    await expect(fs.readFile(path.resolve(dist, 'background.js'), 'utf8')).resolves.toContain(
       'https://httpbin.org/get?id=demo'
     );
   });
