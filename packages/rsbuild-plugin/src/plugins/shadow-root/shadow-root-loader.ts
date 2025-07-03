@@ -1,5 +1,5 @@
 import type { Rspack } from '@rsbuild/core';
-import { ROOT_NAME } from '../constants';
+import { ROOT_NAME } from '../../constants';
 
 const loader: Rspack.LoaderDefinition = function (code, sourceMap, additionalData) {
   this.callback(

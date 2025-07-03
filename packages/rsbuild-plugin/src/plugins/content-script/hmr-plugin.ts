@@ -1,5 +1,4 @@
 import type { Rspack } from '@rsbuild/core';
-import { generateLoadScriptCode } from '@webx-kit/core-plugin/content-script';
 import { ContentScriptBasePlugin } from './base-plugin';
 import type { JsRuntimeModule } from '../../utils/types';
 
@@ -18,6 +17,16 @@ export class ContentScriptHMRPlugin extends ContentScriptBasePlugin {
       });
     });
   }
+}
+
+function generateLoadScriptCode(options: { RuntimeGlobals: Rspack.Compiler['webpack']['RuntimeGlobals'] }): string[] {
+  return [
+    // jsonp will cause cross-context issues in the isolated content-script environment
+    `${options.RuntimeGlobals.loadScript} = async function (url, done) {
+      await import(url);
+      done(null);
+    };`,
+  ];
 }
 
 function patchLoadScriptRuntimeModule(module: JsRuntimeModule, { webpack: { RuntimeGlobals } }: Rspack.Compiler) {

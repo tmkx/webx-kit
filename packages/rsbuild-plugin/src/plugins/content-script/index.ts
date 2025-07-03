@@ -1,8 +1,8 @@
-import type { RsbuildPluginAPI, Rspack, RspackChain } from '@rsbuild/core';
-import type { SetRequired } from 'type-fest';
-import { isProd } from './env';
-import { registerManifestTransformer } from './manifest';
-import { type Override, type WebpackConfig, castArray } from './utils';
+import type { RsbuildPluginAPI, Rspack } from '@rsbuild/core';
+import { isProd } from '../env';
+import { registerManifestTransformer } from '../manifest';
+import { castArray } from '../../utils/misc';
+import type { Override, WebpackConfig } from '../../utils/types';
 
 type ContentScriptItem = NonNullable<chrome.runtime.ManifestV3['content_scripts']>[number];
 
@@ -76,26 +76,12 @@ export function applyContentScriptsSupport(
     }
   });
 
-  function modifyChain(chain: RspackChain) {
+  api.modifyBundlerChain((chain, { environment }) => {
+    if (environment.name !== 'web') return;
     contentScripts.forEach((cs) => chain.entry(cs.name).add(cs.import));
     const plugins = getPlugins({ contentScriptNames });
-    if (plugins) plugins.forEach((plugin) => plugin && chain.plugin(plugin.name).use(plugin as any));
-  }
-
-  if (api.context.bundlerType === 'webpack') api.modifyWebpackChain(modifyChain);
-  else api.modifyBundlerChain(modifyChain);
+    if (plugins) plugins.forEach((plugin) => plugin && chain.plugin(plugin.name).use(plugin));
+  });
 
   return { contentScriptNames };
-}
-
-export function generateLoadScriptCode(options: {
-  RuntimeGlobals: Rspack.Compiler['webpack']['RuntimeGlobals'];
-}): string[] {
-  return [
-    // jsonp will cause cross-context issues in the isolated content-script environment
-    `${options.RuntimeGlobals.loadScript} = async function (url, done) {
-      await import(url);
-      done(null);
-    };`,
-  ];
 }

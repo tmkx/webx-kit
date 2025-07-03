@@ -1,6 +1,6 @@
 import type { Rspack } from '@rsbuild/core';
-import { PLUGIN_NAME, CSSExtractPatchPlugin, patchCSSLoadingCode } from '@webx-kit/core-plugin/shadow-root';
 import { ContentScriptBasePlugin } from './base-plugin';
+import { PLUGIN_NAME, CSSExtractPatchPlugin, patchCSSLoadingCode } from '../shadow-root';
 import type { JsRuntimeModule } from '../../utils/types';
 
 export { PLUGIN_NAME };

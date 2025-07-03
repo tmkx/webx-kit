@@ -359,40 +359,6 @@ importers:
         specifier: ^5.8.3
         version: 5.8.3
 
-  packages/core-plugin:
-    dependencies:
-      '@types/chrome':
-        specifier: ^0.0.328
-        version: 0.0.328
-      chokidar:
-        specifier: ^4.0.3
-        version: 4.0.3
-      jiti:
-        specifier: ^2.4.2
-        version: 2.4.2
-      type-fest:
-        specifier: ^4.41.0
-        version: 4.41.0
-    devDependencies:
-      '@rsbuild/core':
-        specifier: ^1.4.2
-        version: 1.4.2
-      '@rspack/core':
-        specifier: ^1.4.1
-        version: 1.4.1(@swc/helpers@0.5.17)
-      '@types/node':
-        specifier: ^24.0.7
-        version: 24.0.7
-      tailwindcss:
-        specifier: ^4.1.11
-        version: 4.1.11
-      tsdown:
-        specifier: ^0.12.9
-        version: 0.12.9(typescript@5.8.3)
-      typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
-
   packages/create-webx:
     devDependencies:
       '@types/debug':
@@ -477,9 +443,15 @@ importers:
       '@types/chrome':
         specifier: ^0.0.328
         version: 0.0.328
-      '@webx-kit/core-plugin':
-        specifier: workspace:*
-        version: link:../core-plugin
+      chokidar:
+        specifier: ^4.0.3
+        version: 4.0.3
+      jiti:
+        specifier: ^2.4.2
+        version: 2.4.2
+      type-fest:
+        specifier: ^4.41.0
+        version: 4.41.0
     devDependencies:
       '@rsbuild/core':
         specifier: ^1.4.2
@@ -487,6 +459,9 @@ importers:
       '@rspack/core':
         specifier: ^1.4.1
         version: 1.4.1(@swc/helpers@0.5.17)
+      tailwindcss:
+        specifier: ^4.1.11
+        version: 4.1.11
       tsdown:
         specifier: ^0.12.9
         version: 0.12.9(typescript@5.8.3)

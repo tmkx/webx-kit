@@ -1,10 +1,5 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import type { ModifyWebpackChainUtils } from '@rsbuild/core';
-
-export type Override<T, U> = Omit<T, keyof U> & U;
-
-export type WebpackConfig = Parameters<ModifyWebpackChainUtils['webpack']['config']['getNormalizedWebpackOptions']>[0];
 
 export function titleCase(str: string) {
   return str
