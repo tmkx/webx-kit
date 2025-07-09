@@ -1,8 +1,11 @@
-import type { RsbuildPluginAPI, Rspack, RspackChain } from '@rsbuild/core';
-import type { SetRequired } from 'type-fest';
-import { isProd } from './env';
-import { registerManifestTransformer } from './manifest';
-import { type Override, type WebpackConfig, castArray } from './utils';
+import type { BundlerPluginInstance, RsbuildPluginAPI } from '@rsbuild/core';
+import { isDev, isProd } from '../env';
+import { registerManifestTransformer } from '../manifest';
+import { castArray } from '../../utils/misc';
+import type { Override } from '../../utils/types';
+import { ContentScriptHMRPlugin } from './hmr-plugin';
+import { ContentScriptPublicPathPlugin } from './public-path-plugin';
+import { ContentScriptShadowRootPlugin } from './shadow-root-plugin';
 
 type ContentScriptItem = NonNullable<chrome.runtime.ManifestV3['content_scripts']>[number];
 
@@ -53,22 +56,18 @@ export function normalizeContentScriptsOptions<T extends ContentScriptsOptions>(
   };
 }
 
-export function getContentScriptEntryNames(options: NormalizeContentScriptsOptions): string[] {
+function getContentScriptEntryNames(options: NormalizeContentScriptsOptions): string[] {
   return castArray(options.contentScripts || []).map(({ name }) => name);
 }
 
-export function applyContentScriptsSupport(
-  api: RsbuildPluginAPI,
-  options: NormalizeContentScriptsOptions,
-  getPlugins: (context: { contentScriptNames: Set<string> }) => Rspack.Plugins | WebpackConfig['plugins'] | void
-) {
+export function applyContentScriptsSupport(api: RsbuildPluginAPI, options: NormalizeContentScriptsOptions) {
   const { contentScripts, autoRefreshContentScripts } = options;
   if (contentScripts.length === 0) return;
 
   const contentScriptNames = new Set(getContentScriptEntryNames(options));
 
   registerManifestTransformer('content-script', (manifest) => {
-    if (!manifest.content_scripts && contentScripts.length && (!autoRefreshContentScripts || isProd())) {
+    if (!manifest.content_scripts && (!autoRefreshContentScripts || isProd())) {
       manifest.content_scripts = contentScripts.map(({ name, import: _import, ...entry }) => ({
         js: [`static/js/${name}.js`],
         ...entry,
@@ -76,26 +75,37 @@ export function applyContentScriptsSupport(
     }
   });
 
-  function modifyChain(chain: RspackChain) {
-    contentScripts.forEach((cs) => chain.entry(cs.name).add(cs.import));
-    const plugins = getPlugins({ contentScriptNames });
-    if (plugins) plugins.forEach((plugin) => plugin && chain.plugin(plugin.name).use(plugin as any));
-  }
-
-  if (api.context.bundlerType === 'webpack') api.modifyWebpackChain(modifyChain);
-  else api.modifyBundlerChain(modifyChain);
+  api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
+    return mergeRsbuildConfig(config, {
+      environments: {
+        'content-script': {
+          source: {
+            entry: Object.fromEntries(contentScripts.map((cs) => [cs.name, cs.import])),
+          },
+          performance: {
+            chunkSplit: {
+              strategy: 'all-in-one',
+            },
+          },
+          output: {
+            filenameHash: false,
+          },
+          tools: {
+            htmlPlugin: false,
+            rspack(_config, { appendPlugins }) {
+              const plugins: BundlerPluginInstance[] = isDev()
+                ? [
+                    new ContentScriptHMRPlugin(contentScriptNames),
+                    new ContentScriptShadowRootPlugin(contentScriptNames),
+                  ]
+                : [new ContentScriptPublicPathPlugin(contentScriptNames)];
+              appendPlugins(plugins);
+            },
+          },
+        },
+      },
+    });
+  });
 
   return { contentScriptNames };
-}
-
-export function generateLoadScriptCode(options: {
-  RuntimeGlobals: Rspack.Compiler['webpack']['RuntimeGlobals'];
-}): string[] {
-  return [
-    // jsonp will cause cross-context issues in the isolated content-script environment
-    `${options.RuntimeGlobals.loadScript} = async function (url, done) {
-      await import(url);
-      done(null);
-    };`,
-  ];
 }

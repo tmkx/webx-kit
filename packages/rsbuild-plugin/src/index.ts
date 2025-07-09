@@ -1,75 +1,18 @@
-import type { RsbuildConfig, RsbuildPlugin } from '@rsbuild/core';
-import {
-  type BackgroundOptions,
-  applyBackgroundSupport,
-  getBackgroundEntryNames,
-} from '@webx-kit/core-plugin/background';
-import { applyBuildHttpSupport } from '@webx-kit/core-plugin/build-http';
+import type { RsbuildEntry, RsbuildPlugin } from '@rsbuild/core';
+import { type BackgroundOptions, applyBackgroundSupport } from './plugins/background';
+import { applyBuildHttpSupport } from './plugins/build-http';
 import {
   type ContentScriptsOptions,
   applyContentScriptsSupport,
-  getContentScriptEntryNames,
   normalizeContentScriptsOptions,
-} from '@webx-kit/core-plugin/content-script';
-import { applyCorsSupport } from '@webx-kit/core-plugin/cors';
-import { applyEnvSupport, isDev } from '@webx-kit/core-plugin/env';
-import { type ManifestOptions, applyManifestSupport } from '@webx-kit/core-plugin/manifest';
-import { titleCase } from '@webx-kit/core-plugin/utils';
-import { BackgroundReloadPlugin } from './plugins/background/live-reload-plugin';
-import { ContentScriptHMRPlugin } from './plugins/content-script/hmr-plugin';
-import { ContentScriptPublicPathPlugin } from './plugins/content-script/public-path-plugin';
-import { ContentScriptShadowRootPlugin } from './plugins/content-script/shadow-root-plugin';
+} from './plugins/content-script';
+import { applyCorsSupport } from './plugins/cors';
+import { applyEnvSupport, isDev } from './plugins/env';
+import { type ManifestOptions, applyManifestSupport } from './plugins/manifest';
+import { titleCase } from './utils/misc';
 
-export interface WebxPluginOptions extends BackgroundOptions, ContentScriptsOptions, ManifestOptions {}
-
-function getDefaultConfig({
-  allInOneEntries,
-  defaultConfig,
-  userConfig,
-}: {
-  allInOneEntries: Set<string>;
-  defaultConfig: Readonly<RsbuildConfig>;
-  userConfig: Readonly<RsbuildConfig>;
-}): RsbuildConfig {
-  const port = process.env.PORT ? Number(process.env.PORT) : userConfig.server?.port || defaultConfig.server?.port;
-  return {
-    source: {
-      define: {
-        __DEV__: userConfig.source?.define?.__DEV__ ?? isDev(),
-      },
-    },
-    dev: {
-      assetPrefix: userConfig.dev?.assetPrefix ?? true,
-      client: userConfig.dev?.client ?? {
-        protocol: 'ws',
-        host: 'localhost',
-        port,
-      },
-      writeToDisk: userConfig.dev?.writeToDisk ?? ((filename) => !filename.includes('.hot-update.')),
-    },
-    output: {
-      distPath: {
-        ...(process.env.WEBX_DIST ? { root: process.env.WEBX_DIST } : null),
-      },
-      filenameHash: false,
-    },
-    html: {
-      title: userConfig.html?.title ?? (({ entryName }) => titleCase(entryName)),
-    },
-    server: {
-      publicDir: false,
-      port,
-      printUrls: false,
-    },
-    tools: {
-      bundlerChain(chain) {
-        // DO NOT split chunks when the entry is background/content-scripts
-        chain.optimization.runtimeChunk(false).splitChunks({
-          chunks: (chunk) => [...chunk.runtime].every((runtime) => !allInOneEntries.has(runtime)),
-        });
-      },
-    },
-  };
+export interface WebxPluginOptions extends BackgroundOptions, ContentScriptsOptions, ManifestOptions {
+  pages?: RsbuildEntry;
 }
 
 export const webxPlugin = (options: WebxPluginOptions = {}): RsbuildPlugin => {
@@ -77,29 +20,58 @@ export const webxPlugin = (options: WebxPluginOptions = {}): RsbuildPlugin => {
     name: 'webx:rsbuild-plugin',
     setup(api) {
       const normalizedOptions = normalizeContentScriptsOptions(options);
-      const allInOneEntries = new Set([
-        ...getBackgroundEntryNames(normalizedOptions),
-        ...getContentScriptEntryNames(normalizedOptions),
-      ]);
+      const defaultConfig = api.getRsbuildConfig('current');
+      const userConfig = api.getRsbuildConfig('original');
+      const port = process.env.PORT ? Number(process.env.PORT) : userConfig.server?.port || defaultConfig.server?.port;
       api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
         return mergeRsbuildConfig(
           config,
-          getDefaultConfig({
-            allInOneEntries,
-            defaultConfig: api.getRsbuildConfig('current'),
-            userConfig: api.getRsbuildConfig('original'),
-          })
+          Object.keys(options.pages || {}).length > 0
+            ? {
+                environments: {
+                  web: {
+                    source: {
+                      entry: Object.keys(options.pages || {}).length > 0 ? options.pages : {},
+                    },
+                  },
+                },
+              }
+            : {},
+          {
+            source: {
+              define: {
+                __DEV__: isDev(),
+              },
+            },
+            dev: {
+              assetPrefix: true,
+              client: {
+                protocol: 'ws',
+                host: 'localhost',
+                port,
+              },
+              writeToDisk: (file) => !file.includes('.hot-update.'),
+            },
+            output: {
+              distPath: {
+                ...(process.env.WEBX_DIST ? { root: process.env.WEBX_DIST } : null),
+              },
+              filenameHash: false,
+            },
+            html: {
+              title: ({ entryName }) => titleCase(entryName),
+            },
+            server: {
+              publicDir: false,
+              port,
+              printUrls: false,
+            },
+          }
         );
       });
-      applyBackgroundSupport(api, normalizedOptions, ({ entryName, backgroundLiveReload }) =>
-        isDev() ? [new BackgroundReloadPlugin(entryName, backgroundLiveReload)] : []
-      );
+      applyBackgroundSupport(api, normalizedOptions);
       applyBuildHttpSupport(api);
-      applyContentScriptsSupport(api, normalizedOptions, ({ contentScriptNames }) =>
-        isDev()
-          ? [new ContentScriptHMRPlugin(contentScriptNames), new ContentScriptShadowRootPlugin(contentScriptNames)]
-          : [new ContentScriptPublicPathPlugin(contentScriptNames)]
-      );
+      applyContentScriptsSupport(api, normalizedOptions);
       applyCorsSupport(api);
       applyEnvSupport(api);
       applyManifestSupport(api, normalizedOptions);

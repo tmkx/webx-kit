@@ -1,6 +1,6 @@
-/// <reference types="@rspack/core/module" />
+/// <reference types="@rsbuild/core/types" />
 
-import type { NormalizeContentScriptsOptions } from './content-script';
+import type { NormalizeContentScriptsOptions } from '../content-script';
 
 const searchParams = new URLSearchParams(__resourceQuery);
 const contentScripts: NormalizeContentScriptsOptions['contentScripts'] = JSON.parse(searchParams.get('cs') || '[]');

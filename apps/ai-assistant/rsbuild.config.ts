@@ -12,14 +12,12 @@ export default defineConfig(() => ({
         matches: ['<all_urls>'],
       },
       autoRefreshContentScripts: true,
+      pages: {
+        options: './src/pages/options/index.tsx',
+        popup: './src/pages/popup/index.tsx',
+      },
     }),
   ],
-  source: {
-    entry: {
-      options: './src/pages/options/index.tsx',
-      popup: './src/pages/popup/index.tsx',
-    },
-  },
   output: {
     copy: [
       {

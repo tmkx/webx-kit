@@ -1,11 +1,11 @@
 import { defineConfig } from 'tsdown';
-import { sharedConfig } from '../core-plugin/tsdown.config';
 
 export default defineConfig({
-  ...sharedConfig,
+  outDir: './dist',
+  format: 'cjs',
+  dts: false,
+  clean: true,
   entry: {
     index: './src/index.ts',
   },
-  format: 'cjs',
-  dts: false,
 });

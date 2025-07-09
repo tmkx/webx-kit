@@ -12,14 +12,12 @@ export default defineConfig({
         import: './demo/content-scripts/index.ts',
         matches: ['<all_urls>'],
       },
+      pages: {
+        options: './demo/pages/options/index.ts',
+        popup: './demo/pages/popup/index.ts',
+      },
     }),
   ],
-  source: {
-    entry: {
-      options: './demo/pages/options/index.ts',
-      popup: './demo/pages/popup/index.ts',
-    },
-  },
   output: {
     distPath: { root: './output' },
     overrideBrowserslist: ['last 2 Chrome versions'],
