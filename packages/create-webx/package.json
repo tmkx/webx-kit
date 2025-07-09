@@ -1,6 +1,6 @@
 {
   "name": "create-webx",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "type": "commonjs",
   "bin": {
     "create-webx": "./dist/index.js"
