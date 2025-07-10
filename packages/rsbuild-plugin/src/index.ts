@@ -23,58 +23,70 @@ export const webxPlugin = (options: WebxPluginOptions = {}): RsbuildPlugin => {
       const defaultConfig = api.getRsbuildConfig('current');
       const userConfig = api.getRsbuildConfig('original');
       const port = process.env.PORT ? Number(process.env.PORT) : userConfig.server?.port || defaultConfig.server?.port;
+      let mainEnv: string | undefined;
+
       api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
-        return mergeRsbuildConfig(
-          config,
-          Object.keys(options.pages || {}).length > 0
-            ? {
-                environments: {
-                  web: {
-                    source: {
-                      entry: Object.keys(options.pages || {}).length > 0 ? options.pages : {},
-                    },
-                  },
-                },
-              }
-            : {},
-          {
-            source: {
-              define: {
-                __DEV__: isDev(),
-              },
+        return mergeRsbuildConfig(config, {
+          source: {
+            define: {
+              __DEV__: isDev(),
             },
-            dev: {
-              assetPrefix: true,
-              client: {
-                protocol: 'ws',
-                host: 'localhost',
-                port,
-              },
-              writeToDisk: (file) => !file.includes('.hot-update.'),
-            },
-            output: {
-              distPath: {
-                ...(process.env.WEBX_DIST ? { root: process.env.WEBX_DIST } : null),
-              },
-              filenameHash: false,
-            },
-            html: {
-              title: ({ entryName }) => titleCase(entryName),
-            },
-            server: {
-              publicDir: false,
+          },
+          dev: {
+            assetPrefix: true,
+            client: {
+              protocol: 'ws',
+              host: 'localhost',
               port,
-              printUrls: false,
             },
-          }
-        );
+            writeToDisk: (file) => !file.includes('.hot-update.'),
+          },
+          output: {
+            distPath: {
+              ...(process.env.WEBX_DIST ? { root: process.env.WEBX_DIST } : null),
+            },
+            filenameHash: false,
+          },
+          html: {
+            title: ({ entryName }) => titleCase(entryName),
+          },
+          server: {
+            publicDir: false,
+            port,
+            printUrls: false,
+          },
+        });
       });
-      applyBackgroundSupport(api, normalizedOptions);
+
+      if (applyBackgroundSupport(api, normalizedOptions)) mainEnv = 'background';
+      if (applyContentScriptsSupport(api, normalizedOptions)) mainEnv = 'content-script';
       applyBuildHttpSupport(api);
-      applyContentScriptsSupport(api, normalizedOptions);
       applyCorsSupport(api);
       applyEnvSupport(api);
       applyManifestSupport(api, normalizedOptions);
+
+      if (Object.keys(options.pages || {}).length > 0) {
+        mainEnv = 'web';
+        api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
+          return mergeRsbuildConfig(config, {
+            environments: {
+              web: {
+                source: {
+                  entry: Object.keys(options.pages || {}).length > 0 ? options.pages : {},
+                },
+              },
+            },
+          });
+        });
+      }
+
+      if (mainEnv) {
+        api.modifyEnvironmentConfig((config, { name }) => {
+          // Prevent unnecessary operations
+          if (name === mainEnv) return;
+          config.output.copy = [];
+        });
+      }
     },
   };
 };

@@ -60,9 +60,9 @@ function getContentScriptEntryNames(options: NormalizeContentScriptsOptions): st
   return castArray(options.contentScripts || []).map(({ name }) => name);
 }
 
-export function applyContentScriptsSupport(api: RsbuildPluginAPI, options: NormalizeContentScriptsOptions) {
+export function applyContentScriptsSupport(api: RsbuildPluginAPI, options: NormalizeContentScriptsOptions): boolean {
   const { contentScripts, autoRefreshContentScripts } = options;
-  if (contentScripts.length === 0) return;
+  if (contentScripts.length === 0) return false;
 
   const contentScriptNames = new Set(getContentScriptEntryNames(options));
 
@@ -107,5 +107,5 @@ export function applyContentScriptsSupport(api: RsbuildPluginAPI, options: Norma
     });
   });
 
-  return { contentScriptNames };
+  return true;
 }

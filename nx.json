@@ -4,7 +4,7 @@
     "packageManager": "pnpm"
   },
   "defaultBase": "main",
-  "neverConnectToCloud": true,
+  "nxCloudId": "686fa76549686cbdade1394a",
   "targetDefaults": {
     "build": {
       "cache": true,
