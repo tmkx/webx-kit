@@ -8,19 +8,32 @@
   "targetDefaults": {
     "build": {
       "cache": true,
-      "dependsOn": ["^build"],
-      "outputs": ["{projectRoot}/dist"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
     },
     "lint:type": {
-      "dependsOn": ["^lint:type"],
+      "dependsOn": [
+        "^lint:type"
+      ],
       "outputs": []
     },
     "pretest": {
       "cache": true,
-      "outputs": ["{projectRoot}/output"]
+      "outputs": [
+        "{projectRoot}/output"
+      ]
     },
     "test": {
-      "dependsOn": ["build", "pretest", "^test"]
+      "dependsOn": [
+        "build",
+        "pretest",
+        "^test"
+      ]
     }
-  }
+  },
+  "nxCloudId": "686fa76549686cbdade1394a"
 }
