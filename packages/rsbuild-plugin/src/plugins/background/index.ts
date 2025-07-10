@@ -23,9 +23,9 @@ export type BackgroundOptions = {
   backgroundLiveReload?: boolean;
 };
 
-export function applyBackgroundSupport(api: RsbuildPluginAPI, options: BackgroundOptions) {
+export function applyBackgroundSupport(api: RsbuildPluginAPI, options: BackgroundOptions): boolean {
   const { background } = options;
-  if (!background) return;
+  if (!background) return false;
 
   registerManifestTransformer('background', (manifest) => {
     manifest.background = {
@@ -76,4 +76,6 @@ export function applyBackgroundSupport(api: RsbuildPluginAPI, options: Backgroun
       },
     });
   });
+
+  return true;
 }

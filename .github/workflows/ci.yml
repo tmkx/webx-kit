@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        node-version: [20.x]
+        node-version: [22.x]
     runs-on: ${{ matrix.os }}
     env:
       NX_KEY: ${{ vars.NX_KEY }}
