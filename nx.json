@@ -4,7 +4,12 @@
     "packageManager": "pnpm"
   },
   "defaultBase": "main",
-  "nxCloudId": "686fa76549686cbdade1394a",
+  "neverConnectToCloud": true,
+  "plugins": [
+    {
+      "plugin": "@nx/shared-fs-cache"
+    }
+  ],
   "targetDefaults": {
     "build": {
       "cache": true,

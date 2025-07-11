@@ -1,4 +1,5 @@
 /// <reference types="@webx-kit/chrome-types" />
+import path from 'node:path';
 import { type BrowserType, type Page, type TestType, type Worker, test as base, chromium } from '@playwright/test';
 import { type CreateStaticServerOptions, createStaticServer, sleep } from './shared';
 
@@ -17,6 +18,8 @@ export interface CreateWebxTestOptions {
 }
 
 export function createWebxTest({ extensionPath, browser = chromium }: CreateWebxTestOptions) {
+  const cachedExtensionIdMap = new Map<string, string>();
+
   const webxTest = base.extend<WebXTestFixtures>({
     extensionPath: async ({}, use) => use(extensionPath),
     context: async ({ headless, launchOptions, extensionPath }, use) => {
@@ -37,28 +40,49 @@ export function createWebxTest({ extensionPath, browser = chromium }: CreateWebx
       if (!background) background = await context.waitForEvent('serviceworker');
 
       // wait for service worker to be ready
+      let hasRuntime = false;
       for (let retryTimes = 5; retryTimes > 0; --retryTimes) {
-        const hasRuntime = await background.evaluate(() => 'runtime' in chrome);
+        hasRuntime = await background.evaluate(() => 'runtime' in chrome);
         if (hasRuntime) break;
         await sleep(200);
       }
 
+      if (!hasRuntime) {
+        const keys = await background.evaluate(() => Object.keys(chrome));
+        throw new Error(`Cannot find runtime in chrome: ${keys}`);
+      }
+
       return use(background);
     },
-    extensionId: async ({ background }, use) => use(await background.evaluate(() => chrome.runtime.id)),
-    getURL: async ({ background }, use) => use((path) => background.evaluate((p) => chrome.runtime.getURL(p), path)),
+    extensionId: async ({ context, extensionPath }, use) => {
+      if (cachedExtensionIdMap.has(extensionPath)) return use(cachedExtensionIdMap.get(extensionPath)!);
+      const page = await context.newPage();
+      await page.goto('chrome://extensions');
+      const extensionId = await page.evaluate(
+        (extPath) =>
+          chrome.developerPrivate
+            .getExtensionsInfo()
+            .then((extensions) => extensions.find((ext) => ext.path === extPath)?.id),
+        extensionPath
+      );
+      await page.close();
+      if (!extensionId) throw new Error('Cannot get extension id');
+      cachedExtensionIdMap.set(extensionPath, extensionId);
+      return use(extensionId);
+    },
+    getURL: ({ extensionId }, use) => use(async (p) => `chrome-extension://${extensionId}${path.posix.join('/', p)}`),
   });
 
   return webxTest;
 }
 
 export function setupStaticServer(test: TestType<any, any>, serverOptions?: CreateStaticServerOptions) {
-  let result: Awaited<ReturnType<typeof createStaticServer>> | undefined;
+  let server: Awaited<ReturnType<typeof createStaticServer>> | undefined;
 
-  test.beforeAll(async () => (result = await createStaticServer(serverOptions)));
-  test.afterAll(() => result?.close());
+  test.beforeAll(async () => (server = await createStaticServer(serverOptions)));
+  test.afterAll(() => server?.close());
 
-  return () => result?.getURL() || 'about:blank';
+  return () => server?.getURL() || 'about:blank';
 }
 
 export async function gotoDevPage(page: Page, ...args: Parameters<Page['goto']>) {
