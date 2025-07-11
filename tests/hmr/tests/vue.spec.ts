@@ -29,9 +29,9 @@ test('Background', async ({ background, context, extensionId }) => {
   ]);
 
   expect(newBackground.url().startsWith(`chrome-extension://${extensionId}`)).toBeTruthy();
-  await expect(background.evaluate(() => globalThis.__secret)).rejects.toThrowError(
-    'Target page, context or browser has been closed'
-  );
+  await expect
+    .soft(background.evaluate(() => globalThis.__secret))
+    .rejects.toThrowError('Target page, context or browser has been closed');
 });
 
 test('Options Page', async ({ getURL, page }) => {
