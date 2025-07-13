@@ -11,6 +11,7 @@ export default defineConfig({
     ? {
         // HMR is slow in Windows sometimes
         expect: { timeout: 15000 },
+        workers: 1,
       }
     : null),
 
