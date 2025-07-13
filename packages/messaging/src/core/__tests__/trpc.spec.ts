@@ -109,13 +109,12 @@ describe('Basic', () => {
     await expect(client.getUser.query({ id: '666' })).rejects.toThrowErrorMatchingInlineSnapshot(`
       [TRPCClientError: [
         {
-          "code": "invalid_type",
           "expected": "number",
-          "received": "string",
+          "code": "invalid_type",
           "path": [
             "id"
           ],
-          "message": "Expected number, received string"
+          "message": "Invalid input: expected number, received string"
         }
       ]]
     `);
@@ -137,13 +136,12 @@ describe('Basic', () => {
     await expect(client.createUser.mutate({ id: '666' })).rejects.toThrowErrorMatchingInlineSnapshot(`
       [TRPCClientError: [
         {
-          "code": "invalid_type",
           "expected": "number",
-          "received": "string",
+          "code": "invalid_type",
           "path": [
             "id"
           ],
-          "message": "Expected number, received string"
+          "message": "Invalid input: expected number, received string"
         }
       ]]
     `);

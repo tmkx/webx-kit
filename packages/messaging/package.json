@@ -73,20 +73,20 @@
     "type-fest": "^4.41.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.54.0",
+    "@playwright/test": "^1.54.1",
     "@rsbuild/core": "^1.4.6",
     "@rsbuild/plugin-react": "^1.3.4",
     "@trpc/client": "^11.4.3",
     "@trpc/server": "^11.4.3",
-    "@types/chrome": "^0.0.332",
-    "@types/node": "^24.0.12",
+    "@types/chrome": "^0.1.0",
+    "@types/node": "^24.0.13",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
     "tsdown": "^0.12.9",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4",
-    "zod": "^3.25.76"
+    "zod": "^4.0.5"
   },
   "peerDependencies": {
     "@trpc/client": "^11.0.0",

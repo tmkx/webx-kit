@@ -13,8 +13,8 @@
   "devDependencies": {
     "@changesets/cli": "^2.29.5",
     "@nx/shared-fs-cache": "^3.0.0",
-    "@playwright/test": "^1.54.0",
-    "nx": "^21.2.2",
+    "@playwright/test": "^1.54.1",
+    "nx": "^21.2.3",
     "typescript": "^5.8.3"
   },
   "publishConfig": {

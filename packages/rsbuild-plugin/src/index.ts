@@ -6,7 +6,6 @@ import {
   applyContentScriptsSupport,
   normalizeContentScriptsOptions,
 } from './plugins/content-script';
-import { applyCorsSupport } from './plugins/cors';
 import { applyEnvSupport, isDev } from './plugins/env';
 import { type ManifestOptions, applyManifestSupport } from './plugins/manifest';
 import { titleCase } from './utils/misc';
@@ -54,6 +53,7 @@ export const webxPlugin = (options: WebxPluginOptions = {}): RsbuildPlugin => {
             publicDir: false,
             port,
             printUrls: false,
+            cors: true,
           },
         });
       });
@@ -61,7 +61,6 @@ export const webxPlugin = (options: WebxPluginOptions = {}): RsbuildPlugin => {
       if (applyBackgroundSupport(api, normalizedOptions)) mainEnv = 'background';
       if (applyContentScriptsSupport(api, normalizedOptions)) mainEnv = 'content-script';
       applyBuildHttpSupport(api);
-      applyCorsSupport(api);
       applyEnvSupport(api);
       applyManifestSupport(api, normalizedOptions);
 
