@@ -34,25 +34,27 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/cache@v4
-        with:
-          path: .nx
-          key: nx-${{ runner.os }}-${{ github.sha }}
-          restore-keys: |
-            nx-${{ runner.os }}-
+      - if: ${{ github.event_name == 'pull_request' }}
+        name: Fetch Main
+        run: git fetch origin main:main
 
-      - uses: pnpm/action-setup@v3
+      - uses: nrwl/nx-set-shas@v4
+
+      - uses: pnpm/action-setup@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
 
-      - uses: nrwl/nx-set-shas@v4
-      # This line is needed for nx affected to work when CI is running on a PR
-      - name: Fetch NX base
-        run: |
-          git fetch --all
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/ms-playwright
+            .nx
+          key: webx-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            webx-${{ runner.os }}-
 
       - name: Install deps
         run: |
