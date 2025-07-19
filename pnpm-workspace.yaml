@@ -7,3 +7,4 @@ packages:
   - docs
 
 autoInstallPeers: false
+verifyDepsBeforeRun: install
