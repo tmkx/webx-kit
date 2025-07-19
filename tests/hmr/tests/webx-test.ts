@@ -5,6 +5,8 @@ import { createWebxTest, getRandomPort } from '@webx-kit/test-utils/playwright';
 import type { LaunchOptions } from '@playwright/test';
 import type { ResultPromise } from 'execa';
 
+export const isWindowsCI = process.platform === 'win32' && process.env.CI === 'true';
+
 export function createLaunchOptions(packageName: string, launchOptions?: LaunchOptions) {
   return { ...launchOptions, packageName };
 }

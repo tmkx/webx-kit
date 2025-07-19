@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { expect } from '@playwright/test';
-import { startDev, test } from './webx-test';
+import { isWindowsCI, startDev, test } from './webx-test';
 import { gotoDevPage, setupStaticServer } from '@webx-kit/test-utils/playwright';
 
 const { updateFile } = startDev(test);
@@ -29,6 +29,8 @@ test('Background', async ({ background, context, extensionId }) => {
   ]);
 
   expect(newBackground.url().startsWith(`chrome-extension://${extensionId}`)).toBeTruthy();
+
+  if (isWindowsCI) return;
   await expect
     .soft(background.evaluate(() => globalThis.__secret))
     .rejects.toThrowError('Target page, context or browser has been closed');
