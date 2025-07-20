@@ -26,7 +26,7 @@ yarn create webx@latest
 
 ## Tech stacks
 
-- [Webpack](https://webpack.js.org/) / [Rspack](https://www.rspack.dev/)
+- [Rspack](https://www.rspack.dev/)
 - [React](https://react.dev/) / [Vue](https://vuejs.org/) / [Solid](https://www.solidjs.com/) / [Svelte](https://svelte.dev/) / ...
 - [Tailwind CSS](https://tailwindcss.com/) / Sass / Less / CSS Modules
 - ... and more!

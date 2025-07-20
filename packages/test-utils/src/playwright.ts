@@ -49,7 +49,7 @@ export function createWebxTest({ extensionPath, browser = chromium }: CreateWebx
 
       if (!hasRuntime) {
         const keys = await background.evaluate(() => Object.keys(chrome));
-        throw new Error(`Cannot find runtime in chrome: ${keys}`);
+        throw new Error(`Cannot find runtime in chrome: ${keys}, ${background.url()}`);
       }
 
       return use(background);
