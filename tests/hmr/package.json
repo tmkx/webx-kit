@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.54.1",
-    "@types/node": "^24.0.15",
+    "@types/node": "^24.1.0",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/template-react": "workspace:^",
     "@webx-kit/template-solid": "workspace:^",

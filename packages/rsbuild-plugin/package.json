@@ -54,13 +54,13 @@
   "dependencies": {
     "@types/chrome": "^0.1.1",
     "chokidar": "^4.0.3",
-    "jiti": "^2.4.2",
+    "jiti": "^2.5.1",
     "type-fest": "^4.41.0"
   },
   "devDependencies": {
-    "@rsbuild/core": "^1.4.8",
+    "@rsbuild/core": "^1.4.10",
     "tailwindcss": "^4.1.11",
-    "tsdown": "^0.12.9",
+    "tsdown": "^0.13.0",
     "typescript": "^5.8.3"
   },
   "peerDependencies": {
