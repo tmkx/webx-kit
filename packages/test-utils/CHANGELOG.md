@@ -1,5 +1,17 @@
 # @webx-kit/test-utils
 
+## 0.2.0
+
+### Minor Changes
+
+- 79faa53: refactor: use environment api
+
+### Patch Changes
+
+- cb93ffe: fix: do not rely on background to get extension id
+- Updated dependencies [79faa53]
+  - @webx-kit/chrome-types@0.2.0
+
 ## 0.1.6
 
 ### Patch Changes

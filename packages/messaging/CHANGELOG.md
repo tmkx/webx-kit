@@ -1,5 +1,15 @@
 # @webx-kit/messaging
 
+## 0.2.0
+
+### Minor Changes
+
+- 79faa53: refactor: use environment api
+
+### Patch Changes
+
+- bba9956: fix: add trpc as peer dependencies
+
 ## 0.1.6
 
 ## 0.1.5
