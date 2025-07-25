@@ -1,5 +1,16 @@
 # @webx-kit/example-with-shadcn
 
+## 0.2.0
+
+### Minor Changes
+
+- 79faa53: refactor: use environment api
+
+### Patch Changes
+
+- Updated dependencies [79faa53]
+  - @webx-kit/runtime@0.2.0
+
 ## 0.1.6
 
 ### Patch Changes
