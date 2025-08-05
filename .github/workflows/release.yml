@@ -16,8 +16,6 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    env:
-      NPM_CONFIG_PROVENANCE: true
     steps:
       - uses: actions/checkout@v4
         with:
@@ -49,19 +47,14 @@ jobs:
 
       - id: prepare
         name: Prepare release
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          cat << EOF > "$HOME/.npmrc"
-            //registry.npmjs.org/:_authToken=$NPM_TOKEN
-          EOF
+          npm install -g npm@latest # Ensure npm 11.5.1 or later is installed
           echo "title=chore: $(date +'%Y-%m-%d') release" >> $GITHUB_OUTPUT
 
       - id: changesets
         uses: changesets/action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
         with:
           commit: ${{ steps.prepare.outputs.title }}
           title: ${{ steps.prepare.outputs.title }}
