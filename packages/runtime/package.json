@@ -53,12 +53,12 @@
     "test": "playwright test"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.7.2",
+    "@floating-ui/dom": "^1.7.3",
     "@types/chrome": "^0.1.1"
   },
   "devDependencies": {
-    "@playwright/test": "^1.54.1",
-    "tsdown": "^0.13.0",
-    "typescript": "^5.8.3"
+    "@playwright/test": "^1.54.2",
+    "tsdown": "^0.13.3",
+    "typescript": "^5.9.2"
   }
 }
