@@ -1,5 +1,13 @@
 # @webx-kit/example-with-antd
 
+## 0.2.1
+
+### Patch Changes
+
+- 5a95fa9: feat: trusted publishing
+- Updated dependencies [5a95fa9]
+  - @webx-kit/runtime@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes
