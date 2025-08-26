@@ -10,15 +10,15 @@
     "strip-ansi": "^7.1.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.54.2",
-    "@types/node": "^24.2.0",
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^24.3.0",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/template-react": "workspace:^",
     "@webx-kit/template-solid": "workspace:^",
     "@webx-kit/template-svelte": "workspace:^",
     "@webx-kit/template-vue": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "p-retry": "^6.2.1",
+    "p-retry": "^7.0.0",
     "typescript": "^5.9.2"
   }
 }

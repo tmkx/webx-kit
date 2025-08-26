@@ -4,17 +4,17 @@
   "engines": {
     "node": ">=18.19.0"
   },
-  "packageManager": "pnpm@10.14.0",
+  "packageManager": "pnpm@10.15.0",
   "scripts": {
     "lint:type": "nx run-many -t lint:type",
     "build": "nx run-many -t build",
     "test": "nx run-many -t test"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.5",
-    "@nx/shared-fs-cache": "^3.0.0",
-    "@playwright/test": "^1.54.2",
-    "nx": "^21.3.11",
+    "@changesets/cli": "^2.29.6",
+    "@nx/shared-fs-cache": "^3.1.0",
+    "@playwright/test": "^1.55.0",
+    "nx": "^21.4.1",
     "typescript": "^5.9.2"
   },
   "publishConfig": {
