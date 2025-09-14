@@ -1,4 +1,5 @@
-import type { Promisable, Observer } from 'type-fest';
+import type { Promisable } from 'type-fest';
+import type { Observer } from 'type-fest/globals';
 import { randomID, withResolvers } from './utils';
 
 export type SendMessageFunction = (message: any) => void;

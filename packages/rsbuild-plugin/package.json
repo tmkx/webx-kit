@@ -52,15 +52,15 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@types/chrome": "^0.1.4",
+    "@types/chrome": "^0.1.11",
     "chokidar": "^4.0.3",
     "jiti": "^2.5.1",
-    "type-fest": "^4.41.0"
+    "type-fest": "^5.0.0"
   },
   "devDependencies": {
-    "@rsbuild/core": "^1.5.0",
-    "tailwindcss": "^4.1.12",
-    "tsdown": "^0.14.2",
+    "@rsbuild/core": "^1.5.6",
+    "tailwindcss": "^4.1.13",
+    "tsdown": "^0.15.1",
     "typescript": "^5.9.2"
   },
   "peerDependencies": {
