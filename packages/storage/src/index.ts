@@ -1,13 +1,13 @@
-import type { StringKeyOf } from 'type-fest';
+import type { KeyAsString } from 'type-fest';
 
 export interface ChromeStorage<T extends Record<string, any> = Record<string, any>> {
-  setItem: <K extends StringKeyOf<T>>(key: K, value: T[K]) => Promise<void>;
-  getItem: <K extends StringKeyOf<T>>(key: K, defaultValue?: T[K]) => Promise<T[K] | null>;
+  setItem: <K extends KeyAsString<T>>(key: K, value: T[K]) => Promise<void>;
+  getItem: <K extends KeyAsString<T>>(key: K, defaultValue?: T[K]) => Promise<T[K] | null>;
   hasItem: (key: string) => Promise<boolean>;
   getKeys: () => Promise<string[]>;
-  removeItem: (key: StringKeyOf<T> | StringKeyOf<T>[]) => Promise<void>;
+  removeItem: (key: KeyAsString<T> | KeyAsString<T>[]) => Promise<void>;
   clear: () => Promise<void>;
-  subscribe: <K extends StringKeyOf<T>>(
+  subscribe: <K extends KeyAsString<T>>(
     key: K,
     callback: (value: T[K] | null) => void,
     defaultValue?: T[K]
@@ -30,11 +30,11 @@ export function createStorage<T extends Record<string, any> = Record<string, any
   const storage = chrome.storage[area];
   const [addPrefix, removePrefix] = createPrefixHelpers(prefix);
 
-  async function setItem<K extends StringKeyOf<T>>(key: K, value: T[K]): Promise<void> {
+  async function setItem<K extends KeyAsString<T>>(key: K, value: T[K]): Promise<void> {
     return storage.set({ [addPrefix(key)]: value });
   }
 
-  async function getItem<K extends StringKeyOf<T>>(key: K, defaultValue?: T[K]): Promise<T[K] | null> {
+  async function getItem<K extends KeyAsString<T>>(key: K, defaultValue?: T[K]): Promise<T[K] | null> {
     const prefixedKey = addPrefix(key);
     const result = await storage.get(prefixedKey);
     return prefixedKey in result ? result[prefixedKey] : arguments.length === 2 ? defaultValue ?? null : null;
@@ -53,7 +53,7 @@ export function createStorage<T extends Record<string, any> = Record<string, any
     return prefixedKeys.filter((key) => key.startsWith(prefix)).map(removePrefix);
   }
 
-  async function removeItem(key: StringKeyOf<T> | StringKeyOf<T>[]): Promise<void> {
+  async function removeItem(key: KeyAsString<T> | KeyAsString<T>[]): Promise<void> {
     return storage.remove(Array.isArray(key) ? key.map(addPrefix) : addPrefix(key));
   }
 
@@ -103,7 +103,7 @@ export function createStorage<T extends Record<string, any> = Record<string, any
     }
   }
 
-  function subscribe<K extends StringKeyOf<T>>(
+  function subscribe<K extends KeyAsString<T>>(
     key: K,
     callback: (value: T[K] | null) => void,
     defaultValue?: T[K]

@@ -1,4 +1,5 @@
-import type { LiteralUnion, Observer } from 'type-fest';
+import type { LiteralUnion } from 'type-fest';
+import type { Observer } from 'type-fest/globals';
 import type { Messaging } from './core';
 
 export type ClientType = 'default' | 'devtools' | 'popup' | 'options' | 'content-script';

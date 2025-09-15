@@ -7,11 +7,11 @@
   },
   "dependencies": {
     "execa": "^9.6.0",
-    "strip-ansi": "^7.1.0"
+    "strip-ansi": "^7.1.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",
-    "@types/node": "^24.3.0",
+    "@types/node": "^24.4.0",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/template-react": "workspace:^",
     "@webx-kit/template-solid": "workspace:^",
