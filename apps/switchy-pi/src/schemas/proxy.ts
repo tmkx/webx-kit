@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import * as z from 'zod';
 
 export const BuiltinProfile = z.enum(['direct', 'auto_detect', 'system', 'fixed_servers', 'pac_script']);
 
@@ -8,7 +8,7 @@ export const ProxyServer = z.object({
   /** The URI of the proxy server. This must be an ASCII hostname (in Punycode format). IDNA is not supported, yet. */
   host: z.string(),
   /** The scheme (protocol) of the proxy server itself. Defaults to 'http'. */
-  scheme: z.string().optional(),
+  scheme: z.enum(Object.values(chrome.proxy.Scheme) as `${chrome.proxy.Scheme}`[]).optional(),
   /** The port of the proxy server. Defaults to a port that depends on the scheme. */
   port: z.number().optional(),
 });

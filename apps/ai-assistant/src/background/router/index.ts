@@ -1,5 +1,5 @@
 import { t } from '@webx-kit/messaging/server';
-import { z } from 'zod';
+import * as z from 'zod';
 import { getGenAI } from '@/background/shared';
 
 export const appRouter = t.router({

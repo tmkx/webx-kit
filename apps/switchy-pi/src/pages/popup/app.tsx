@@ -2,6 +2,7 @@ import type { Key } from 'react-aria-components';
 import { ArrowRightLeftIcon, PowerIcon, WrenchIcon } from 'lucide-react';
 import { Menu, MenuItem, MenuSeparator } from '@/components';
 import { useActiveProfileId, useProfileList, useProfileValue } from '@/hooks';
+import { BuiltinProfile } from '@/schemas';
 
 export const App = () => {
   const [activeProfileId, setActiveProfileId] = useActiveProfileId();
@@ -9,7 +10,7 @@ export const App = () => {
 
   function selectProfile(key: Key) {
     if (key === 'options') return chrome.runtime.openOptionsPage();
-    if (typeof key === 'string') setActiveProfileId(key).then(chrome.tabs.reload);
+    if (typeof key === 'string') setActiveProfileId(key as BuiltinProfile).then(chrome.tabs.reload);
   }
 
   return (

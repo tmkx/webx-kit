@@ -1,6 +1,7 @@
 {
   "files.associations": {
-    "manifest.json": "jsonc"
+    "manifest.json": "jsonc",
+    "tailwind.css": "tailwindcss"
   },
   "json.schemas": [
     {

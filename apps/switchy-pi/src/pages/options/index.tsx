@@ -4,7 +4,7 @@ import { getDefaultStore } from 'jotai';
 import { isDarkAtom } from '@/atoms/config';
 import { Provider } from '@/features/provider';
 import { router } from './app';
-import '../styles.css';
+import '../tailwind.css';
 import './styles.css';
 
 if (getDefaultStore().get(isDarkAtom)) {

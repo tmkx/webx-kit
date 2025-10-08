@@ -1,7 +1,7 @@
-declare const RSBUILD_HMR_TOKEN: string;
+declare const RSBUILD_WEB_SOCKET_TOKEN: string;
 declare const RSBUILD_CLIENT_CONFIG: import('@rsbuild/core').ClientConfig;
 
-const hmrToken = RSBUILD_HMR_TOKEN;
+const hmrToken = RSBUILD_WEB_SOCKET_TOKEN;
 const config = RSBUILD_CLIENT_CONFIG;
 
 const ws = new WebSocket(`${config.protocol}://${config.host}:${config.port}${config.path}?token=${hmrToken}`);

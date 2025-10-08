@@ -1,7 +1,7 @@
 import { createShadowRootUI } from '@webx-kit/runtime/content-scripts';
 import { createRoot } from 'react-dom/client';
 import { App } from './app';
-import '../styles.css';
+import '../tailwind.css';
 import { ContainerProvider } from '@/components/provider';
 
 createShadowRootUI({

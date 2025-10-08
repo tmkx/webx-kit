@@ -39,7 +39,7 @@ createTrpcServer({
 
 ```ts [background/router/index.ts]
 import { t } from '@webx-kit/messaging/server';
-import { z } from 'zod';
+import * as z from 'zod';
 
 export const appRouter = t.router({
   hello: t.procedure.input(z.object({ name: z.string() })).query(async ({ ctx, input }) => {
