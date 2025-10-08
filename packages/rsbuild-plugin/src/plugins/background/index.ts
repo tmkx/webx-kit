@@ -44,7 +44,7 @@ export function applyBackgroundSupport(api: RsbuildPluginAPI, options: Backgroun
     const bgEnvironment = environments[ENV_NAME];
     if (!bgCompiler || !bgEnvironment) return;
     new rspack.webpack.DefinePlugin({
-      RSBUILD_HMR_TOKEN: JSON.stringify(bgEnvironment.webSocketToken),
+      RSBUILD_WEB_SOCKET_TOKEN: JSON.stringify(bgEnvironment.webSocketToken),
       RSBUILD_CLIENT_CONFIG: JSON.stringify(bgEnvironment.config.dev.client),
     }).apply(bgCompiler);
   });

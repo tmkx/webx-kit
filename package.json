@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=18.19.0"
   },
-  "packageManager": "pnpm@10.16.1",
+  "packageManager": "pnpm@10.18.1",
   "scripts": {
     "lint:type": "nx run-many -t lint:type",
     "build": "nx run-many -t build",
@@ -12,10 +12,10 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.7",
-    "@nx/shared-fs-cache": "^3.1.1",
-    "@playwright/test": "^1.55.0",
-    "nx": "^21.5.2",
-    "typescript": "^5.9.2"
+    "@nx/shared-fs-cache": "^4.0.0",
+    "@playwright/test": "^1.56.0",
+    "nx": "^21.6.4",
+    "typescript": "^5.9.3"
   },
   "publishConfig": {
     "access": "public"
