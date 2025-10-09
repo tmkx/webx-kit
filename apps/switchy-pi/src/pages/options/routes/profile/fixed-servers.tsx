@@ -46,10 +46,10 @@ export function FixedServers({ className, profile, onSave }: FixedServersProps) 
 }
 
 const defaultValues = {
-  fallbackProxy: { scheme: 'http', host: 'example.com', port: 80 },
-  proxyForHttp: { scheme: 'DEFAULT', host: 'example.com', port: 80 },
-  proxyForHttps: { scheme: 'DEFAULT', host: 'example.com', port: 80 },
-  proxyForFtp: { scheme: 'DEFAULT', host: 'example.com', port: 80 },
+  fallbackProxy: { scheme: chrome.proxy.Scheme.HTTP, host: 'example.com', port: 80 },
+  proxyForHttp: { scheme: undefined, host: 'example.com', port: 80 },
+  proxyForHttps: { scheme: undefined, host: 'example.com', port: 80 },
+  proxyForFtp: { scheme: undefined, host: 'example.com', port: 80 },
 } as FixedProfile;
 
 const advancedSchemes = ['proxyForHttp', 'proxyForHttps', 'proxyForFtp'] as const;
@@ -72,7 +72,7 @@ function ProxyServerForm({ className, profile, onSubmit }: ProxyServerFormProps)
   }, [profile]);
 
   const { field: defaultProtocolField } = useController({ control, name: 'fallbackProxy.scheme' });
-  const isDirect = defaultProtocolField.value === 'DIRECT';
+  const isDirect = defaultProtocolField.value == null;
 
   return (
     <Form className={className} onSubmit={handleSubmit(onSubmit)}>
@@ -196,7 +196,7 @@ function AdvancedSchemeRow({
   scheme: (typeof advancedSchemes)[number];
 }) {
   const { field: protocolField } = useController({ control, name: `${scheme}.scheme` });
-  const isInheritDefault = protocolField.value === 'DEFAULT';
+  const isInheritDefault = protocolField.value != null;
   return (
     <Row>
       <Cell className="font-mono">{`${scheme.replace('proxyFor', '').toLowerCase()}://`}</Cell>
@@ -204,8 +204,8 @@ function AdvancedSchemeRow({
         <ProtocolSelect
           name={protocolField.name}
           isAdvanced
-          selectedKey={protocolField.value}
-          onSelectionChange={protocolField.onChange}
+          value={protocolField.value}
+          onChange={protocolField.onChange}
         />
       </Cell>
       <Cell>
@@ -268,11 +268,11 @@ export function computeProxyRulesFromFormValues(
 ): Omit<chrome.proxy.ProxyRules, 'bypassList'> {
   const { fallbackProxy, proxyForHttp, proxyForHttps, proxyForFtp } = formValues;
   const rules: chrome.proxy.ProxyRules = {};
-  if ([proxyForHttp, proxyForHttps, proxyForFtp].some((type) => type && type.scheme === 'DEFAULT')) {
+  if ([proxyForHttp, proxyForHttps, proxyForFtp].some((type) => type && !type.scheme)) {
     rules.fallbackProxy = fallbackProxy;
   }
-  if (proxyForHttp && proxyForHttp.scheme !== 'DEFAULT') rules.proxyForHttp = proxyForHttp;
-  if (proxyForFtp && proxyForFtp.scheme !== 'DEFAULT') rules.proxyForHttps = proxyForFtp;
-  if (proxyForFtp && proxyForFtp.scheme !== 'DEFAULT') rules.proxyForFtp = proxyForFtp;
+  if (proxyForHttp && proxyForHttp.scheme) rules.proxyForHttp = proxyForHttp;
+  if (proxyForFtp && proxyForFtp.scheme) rules.proxyForHttps = proxyForFtp;
+  if (proxyForFtp && proxyForFtp.scheme) rules.proxyForFtp = proxyForFtp;
   return rules;
 }

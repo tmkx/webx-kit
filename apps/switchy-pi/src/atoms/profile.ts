@@ -1,6 +1,5 @@
 import { atom } from 'jotai';
 import { RESET, atomFamily, atomWithStorage, loadable, unwrap } from 'jotai/utils';
-import type { LiteralUnion } from 'react-hook-form';
 import type { Profile } from '@/schemas';
 import { createStorage } from '@webx-kit/storage';
 import { BuiltinProfile } from '@/schemas/proxy';
@@ -17,18 +16,18 @@ export const profileListAtom = unwrap(
 
 export const profileFamily = atomFamily((name: string) => atomWithStorage<Profile | null>(name, null, profileStorage));
 
-type ActiveProfile = LiteralUnion<BuiltinProfile, string>;
+const customModes: BuiltinProfile[] = ['fixed_servers', 'pac_script'];
 
-const customModes: ActiveProfile[] = ['fixed_servers', 'pac_script'];
-
-const baseActiveProfileIdAtom = atomWithStorage<string | null>('active-profile', null, undefined, { getOnInit: true });
+const baseActiveProfileIdAtom = atomWithStorage<BuiltinProfile | null>('active-profile', null, undefined, {
+  getOnInit: true,
+});
 export const activeProfileIdAtom = atom(
-  async (get): Promise<ActiveProfile | null> => {
+  async (get): Promise<BuiltinProfile | null> => {
     const mode = await get(proxyModeAtom);
     if (mode && customModes.includes(mode)) return get(baseActiveProfileIdAtom);
     return mode;
   },
-  async (_get, set, profileId: ActiveProfile) => {
+  async (_get, set, profileId: BuiltinProfile) => {
     const { promise, resolve, reject } = withResolvers<void>();
 
     const handleResolve = () => {

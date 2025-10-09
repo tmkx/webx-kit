@@ -54,11 +54,11 @@
   },
   "dependencies": {
     "@floating-ui/dom": "^1.7.4",
-    "@types/chrome": "^0.1.11"
+    "@types/chrome": "^0.1.22"
   },
   "devDependencies": {
-    "@playwright/test": "^1.55.0",
-    "tsdown": "^0.15.1",
-    "typescript": "^5.9.2"
+    "@playwright/test": "^1.56.0",
+    "tsdown": "^0.15.6",
+    "typescript": "^5.9.3"
   }
 }

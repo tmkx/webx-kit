@@ -3,7 +3,7 @@ import { getDefaultStore } from 'jotai';
 import { isDarkAtom } from '@/atoms/config';
 import { Provider } from '@/features/provider';
 import { App } from './app';
-import '../styles.css';
+import '../tailwind.css';
 
 if (getDefaultStore().get(isDarkAtom)) {
   document.documentElement.classList.add('dark');

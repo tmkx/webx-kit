@@ -43,13 +43,13 @@ function buildProxyServerString(server: ProxyServer, withQuote = true) {
   const hostPort = `${server.host}:${server.port}`;
   const wrap = (str: string) => (withQuote ? `"${str}"` : str);
   switch (server.scheme) {
-    case 'http':
+    case chrome.proxy.Scheme.HTTP:
       return wrap(`PROXY ${hostPort}`);
-    case 'https':
+    case chrome.proxy.Scheme.HTTPS:
       return wrap(`HTTPS ${hostPort}`);
-    case 'socks4':
+    case chrome.proxy.Scheme.SOCKS4:
       return wrap(`SOCKS ${hostPort}`);
-    case 'socks5':
+    case chrome.proxy.Scheme.SOCKS5:
       return wrap(`SOCKS5 ${hostPort}; SOCKS ${hostPort}`);
   }
 }

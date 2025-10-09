@@ -2,7 +2,7 @@ import { setTimeout as sleep } from 'node:timers/promises';
 import { createTRPCClient } from '@trpc/client';
 import { initTRPC } from '@trpc/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { z } from 'zod';
+import * as z from 'zod';
 import { applyMessagingHandler, messagingLink } from '../trpc';
 import { observable } from '@trpc/server/observable';
 import { withResolvers } from '../utils';

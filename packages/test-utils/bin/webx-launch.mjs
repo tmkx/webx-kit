@@ -6,7 +6,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from '@playwright/test';
-import { getChromePath } from 'chrome-launcher';
 import { program } from 'commander';
 import kleur from 'kleur';
 
@@ -41,16 +40,9 @@ const userDataDir = path.resolve(
   'node_modules/.cache/webx-browser-user-dir'
 );
 
-/** @type {string | undefined} */
-let executablePath;
-try {
-  executablePath = getChromePath();
-} catch (_err) {}
-
 // it must be "persisted", otherwise the browser will enable incognito mode
 chromium
   .launchPersistentContext(userDataDir, {
-    ...(executablePath ? { executablePath } : {}),
     headless: false,
     colorScheme: 'no-preference',
     viewport: null,

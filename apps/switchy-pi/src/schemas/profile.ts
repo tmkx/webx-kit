@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import * as z from 'zod';
 import { ProxyServer } from './proxy';
 
 const BaseProfile = z.object({
@@ -36,7 +36,7 @@ export function createDefaultProfile(name: string): FixedProfile {
     name,
     color: '#000',
     fallbackProxy: {
-      scheme: 'http',
+      scheme: chrome.proxy.Scheme.HTTP,
       host: 'example.com',
       port: 80,
     },
