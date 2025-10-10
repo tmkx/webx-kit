@@ -1,5 +1,13 @@
 # @webx-kit/example-with-shadcn
 
+## 0.2.2
+
+### Patch Changes
+
+- ba8c82f: upgrade rsbuild
+- Updated dependencies [ba8c82f]
+  - @webx-kit/runtime@0.2.2
+
 ## 0.2.1
 
 ### Patch Changes

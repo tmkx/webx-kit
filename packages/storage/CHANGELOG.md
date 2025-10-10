@@ -1,5 +1,11 @@
 # @webx-kit/storage
 
+## 0.2.2
+
+### Patch Changes
+
+- ba8c82f: upgrade rsbuild
+
 ## 0.2.1
 
 ### Patch Changes
