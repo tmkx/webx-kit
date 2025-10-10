@@ -1,5 +1,13 @@
 # @webx-kit/test-utils
 
+## 0.2.2
+
+### Patch Changes
+
+- ba8c82f: upgrade rsbuild
+- Updated dependencies [ba8c82f]
+  - @webx-kit/chrome-types@0.2.2
+
 ## 0.2.1
 
 ### Patch Changes
