@@ -11,7 +11,7 @@ export class ContentScriptShadowRootPlugin extends ContentScriptBasePlugin {
   apply(compiler: Rspack.Compiler) {
     const { isEnabledForChunk } = this;
 
-    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation) => {
+    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
       compilation.hooks.runtimeModule.tap(PLUGIN_NAME, (module, chunk) => {
         if (!isEnabledForChunk(chunk)) return;
         if (module.name === 'css loading') patchCSSLoadingRuntimeModule(module);

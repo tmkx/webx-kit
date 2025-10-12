@@ -10,10 +10,10 @@ export function useUnstorage(key: string, defaultValue?: any) {
   const [value, setValue] = useState(defaultValue);
 
   useEffect(() => {
-    const refresh = () => storage.getItem(key).then((v) => setValue(v ?? defaultValue));
+    const refresh = () => storage.getItem(key).then(v => setValue(v ?? defaultValue));
     refresh();
     const unwatch = storage.watch((_type, changedKey) => changedKey === key && refresh());
-    return () => void unwatch.then((unwatch) => unwatch());
+    return () => void unwatch.then(unwatch => unwatch());
   }, [key]);
 
   const handleSetValue = useCallback(

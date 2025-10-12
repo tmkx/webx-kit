@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Form, TableBody } from 'react-aria-components';
 import { Control, Controller, useController, useForm } from 'react-hook-form';
 import {
@@ -32,7 +32,7 @@ export function FixedServers({ className, profile, onSave }: FixedServersProps) 
         <ProxyServerForm
           className="m-4"
           profile={profile}
-          onSubmit={(formValues) => {
+          onSubmit={formValues => {
             onSave({ ...profile, ...computeProxyRulesFromFormValues(formValues) });
           }}
         />
@@ -66,7 +66,7 @@ function ProxyServerForm({ className, profile, onSubmit }: ProxyServerFormProps)
   });
 
   useEffect(() => {
-    (Object.keys(defaultValues) as (keyof typeof defaultValues)[]).forEach((field) => {
+    (Object.keys(defaultValues) as (keyof typeof defaultValues)[]).forEach(field => {
       setValue(field, profile[field] || defaultValues[field]);
     });
   }, [profile]);
@@ -130,7 +130,7 @@ function ProxyServerForm({ className, profile, onSubmit }: ProxyServerFormProps)
               />
             </Cell>
           </Row>
-          {advancedSchemes.map((scheme) => (
+          {advancedSchemes.map(scheme => (
             <AdvancedSchemeRow key={scheme} control={control} scheme={scheme} />
           ))}
         </TableBody>
@@ -144,6 +144,7 @@ function ProxyServerForm({ className, profile, onSubmit }: ProxyServerFormProps)
     </Form>
   );
 }
+
 interface ProxyProxyFormProps {
   className?: string;
   profile: FixedProfile;
@@ -159,15 +160,15 @@ function ProxyBypassForm({ className, profile, onSubmit }: ProxyProxyFormProps) 
         ...profile,
         bypassList: String(bypassList)
           .split('\n')
-          .map((row) => row.trim())
-          .filter((row) => row)
-          .map((row) => ({ conditionType: '', pattern: row })),
+          .map(row => row.trim())
+          .filter(row => row)
+          .map(row => ({ conditionType: '', pattern: row })),
       },
       ev
     );
   };
 
-  const defaultValue = useMemo(() => profile.bypassList.map((item) => item.pattern).join('\n'), [profile]);
+  const defaultValue = useMemo(() => profile.bypassList.map(item => item.pattern).join('\n'), [profile]);
 
   return (
     <Form className={className} onSubmit={handleSubmit}>
@@ -268,7 +269,7 @@ export function computeProxyRulesFromFormValues(
 ): Omit<chrome.proxy.ProxyRules, 'bypassList'> {
   const { fallbackProxy, proxyForHttp, proxyForHttps, proxyForFtp } = formValues;
   const rules: chrome.proxy.ProxyRules = {};
-  if ([proxyForHttp, proxyForHttps, proxyForFtp].some((type) => type && !type.scheme)) {
+  if ([proxyForHttp, proxyForHttps, proxyForFtp].some(type => type && !type.scheme)) {
     rules.fallbackProxy = fallbackProxy;
   }
   if (proxyForHttp && proxyForHttp.scheme) rules.proxyForHttp = proxyForHttp;

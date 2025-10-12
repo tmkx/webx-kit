@@ -6,7 +6,7 @@ const config = RSBUILD_CLIENT_CONFIG;
 
 const ws = new WebSocket(`${config.protocol}://${config.host}:${config.port}${config.path}?token=${hmrToken}`);
 
-ws.addEventListener('message', (ev) => {
+ws.addEventListener('message', ev => {
   const message = JSON.parse(ev.data);
   if (message.type !== 'hash') return;
   if (message.data !== __webpack_hash__) chrome.runtime.reload();

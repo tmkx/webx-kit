@@ -38,7 +38,7 @@ export const webxPlugin = (options: WebxPluginOptions = {}): RsbuildPlugin => {
               host: 'localhost',
               port,
             },
-            writeToDisk: (file) => !file.includes('.hot-update.'),
+            writeToDisk: file => !file.includes('.hot-update.'),
           },
           output: {
             distPath: {

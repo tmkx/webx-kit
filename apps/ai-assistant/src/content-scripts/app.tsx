@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { LanguagesIcon, ListTreeIcon, Loader2Icon } from 'lucide-react';
 import { unstable_createSelectionMenu as createSelectionMenu, isPageInDark } from '@webx-kit/runtime/content-scripts';
 import { createTrpcClient } from '@webx-kit/messaging/client';
@@ -7,11 +7,11 @@ import type { AppRouter } from '@/background/router';
 import { DialogTrigger, TooltipTrigger } from 'react-aria-components';
 import { Button, Popover, Tooltip } from '@/components';
 import { Provider } from './features/provider';
-import '../styles.css';
+import '../tailwind.css';
 
 const { client } = createTrpcClient<AppRouter>({});
 
-export const App = () => {
+export function App() {
   const [visible, setVisible] = useState(false);
   const [rootStyle, setRootStyle] = useState<React.CSSProperties>();
   const [isLoading, setIsLoading] = useState(false);
@@ -57,7 +57,7 @@ export const App = () => {
       },
       {
         onData(token) {
-          setContent((prev) => prev + token);
+          setContent(prev => prev + token);
         },
         onError(err) {
           console.log('Translate Error', { err });
@@ -83,7 +83,7 @@ export const App = () => {
       },
       {
         onData(token) {
-          setContent((prev) => prev + token);
+          setContent(prev => prev + token);
         },
         onError(err) {
           console.log('Translate Error', { err });
@@ -102,9 +102,9 @@ export const App = () => {
         ref={containerRef}
         tabIndex={visible ? undefined : -1}
         className={clsx(
-          'absolute transition-opacity z-[2147483647]',
+          'absolute left-0 top-0 z-[2147483647] transition-opacity',
           isDarkMode && 'dark',
-          visible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          visible ? 'opacity-100' : 'pointer-events-none opacity-0'
         )}
         style={rootStyle}
       >
@@ -114,8 +114,8 @@ export const App = () => {
               <Button
                 className="px-2"
                 isDisabled={isLoading}
-                onPress={() => {
-                  handleTranslate(selectedText);
+                onPress={async () => {
+                  await handleTranslate(selectedText);
                 }}
               >
                 {isLoading ? <Loader2Icon className="animate-spin" size={16} /> : <LanguagesIcon size={16} />}
@@ -126,8 +126,8 @@ export const App = () => {
               <Button
                 className="px-2"
                 isDisabled={isLoading}
-                onPress={() => {
-                  handleSummarize(selectedText);
+                onPress={async () => {
+                  await handleSummarize(selectedText);
                 }}
               >
                 {isLoading ? <Loader2Icon className="animate-spin" size={16} /> : <ListTreeIcon size={16} />}
@@ -137,11 +137,11 @@ export const App = () => {
           </div>
           <Popover className="w-[512px] p-4">
             <div>{selectedText}</div>
-            <div className="h-[1px] my-3 bg-slate-300/40 dark:bg-slate-200/20" />
+            <div className="my-3 h-[1px] bg-slate-300/40 dark:bg-slate-200/20" />
             <div>{content}</div>
           </Popover>
         </DialogTrigger>
       </div>
     </Provider>
   );
-};
+}

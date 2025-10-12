@@ -39,7 +39,7 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
   const server = createMessaging(port, {
     intercept,
     async onRequest(message, context) {
-      const { type, path, input, context: ctx } = message as Operation<unknown>;
+      const { type, path, input, context: ctx } = message as Operation;
       try {
         const result = await callTRPCProcedure({
           router,
@@ -58,7 +58,7 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
       }
     },
     async onStream(message, subscriber, context) {
-      const { type, path, input, context: ctx } = message as Operation<unknown>;
+      const { type, path, input, context: ctx } = message as Operation;
       const signal = context.signal;
 
       try {
@@ -82,7 +82,7 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
 
         const iterable = isObservable(result) ? observableToAsyncIterable(result, signal) : result;
 
-        const abortPromise = new Promise<'abort'>((resolve) => {
+        const abortPromise = new Promise<'abort'>(resolve => {
           signal.addEventListener('abort', () => resolve('abort'));
         });
 
@@ -120,7 +120,7 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
 
             subscriber.next(transformTRPCResponse(rootConfig, { result: { data: next.value } }));
           }
-        }).catch((err) => {
+        }).catch(err => {
           const error = getTRPCErrorFromUnknown(err);
           subscriber.next(
             transformTRPCResponse(rootConfig, {
@@ -158,10 +158,10 @@ export function messagingLink<TRouter extends AnyTRPCRouter>(
       const input = transformer.input.serialize(op.input);
 
       if (op.type !== 'subscription') {
-        return observable((observer) => {
+        return observable(observer => {
           messaging
             .request({ type, path, input, id, context })
-            .then((response) => {
+            .then(response => {
               const transformed = transformResult(response as any, transformer.output);
 
               if (!transformed.ok) {
@@ -171,13 +171,13 @@ export function messagingLink<TRouter extends AnyTRPCRouter>(
               observer.next({ result: transformed.result });
               observer.complete();
             })
-            .catch((err) => {
+            .catch(err => {
               observer.error(err as TRPCClientError<any>);
             });
         });
       }
 
-      return observable((observer) => {
+      return observable(observer => {
         const unsub = messaging.stream(
           { type, path, input, id, context },
           {

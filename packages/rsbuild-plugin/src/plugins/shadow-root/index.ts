@@ -13,7 +13,7 @@ export class CSSExtractPatchPlugin {
   constructor(readonly resourceRegExp: RegExp) {}
 
   apply(compiler: Rspack.Compiler) {
-    new compiler.webpack.NormalModuleReplacementPlugin(this.resourceRegExp, (resolveData) => {
+    new compiler.webpack.NormalModuleReplacementPlugin(this.resourceRegExp, resolveData => {
       resolveData.request = `${shadowRootLoader}!${resolveData.request}`;
     }).apply(compiler);
   }

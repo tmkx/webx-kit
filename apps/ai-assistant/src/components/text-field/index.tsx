@@ -9,7 +9,7 @@ import { composeTailwindRenderProps, focusRing } from '../shared/utils';
 
 const inputStyles = tv({
   extend: focusRing,
-  base: 'border-2 rounded-md',
+  base: 'rounded-md border-2',
   variants: {
     isFocused: fieldBorderStyles.variants.isFocusWithin,
     isInvalid: fieldBorderStyles.variants.isInvalid,

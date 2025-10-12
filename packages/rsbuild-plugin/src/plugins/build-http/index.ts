@@ -11,7 +11,7 @@ const buildHttpLoader = (function () {
 })();
 
 export function applyBuildHttpSupport(api: RsbuildPluginAPI) {
-  api.modifyBundlerChain((chain) => {
+  api.modifyBundlerChain(chain => {
     chain.externalsPresets({ web: false }).plugin(BUILD_HTTP_PLUGIN_NAME).use(BuildHttpPlugin);
   });
 }

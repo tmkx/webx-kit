@@ -1,3 +1,4 @@
+import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { DownloadIcon, FilePenLineIcon, TrashIcon } from 'lucide-react';
 import { AlertDialog, Button, Dialog, Modal, TextField, Toolbar } from '@/components';
@@ -25,7 +26,7 @@ export function Profile() {
     <NormalLayout
       title={
         <div className="flex gap-2">
-          <input className="w-8 h-8 rounded-lg flex-shrink-0" type="color" defaultValue={profile.color} />
+          <input className="h-8 w-8 flex-shrink-0 rounded-lg" type="color" defaultValue={profile.color} />
           <div>{`Profile: ${profile.name}`}</div>
         </div>
       }
@@ -40,9 +41,9 @@ export function Profile() {
       <FixedServers
         className="pb-4"
         profile={profile as FixedProfile}
-        onSave={(newProfile) => {
+        onSave={async newProfile => {
           console.log(newProfile);
-          setProfile(newProfile);
+          await setProfile(newProfile);
         }}
       />
     </NormalLayout>
@@ -86,7 +87,7 @@ function RenameProfile({
                 onProfileChange({ ...profile, name: String(name) }).then(close);
               }}
             >
-              <Heading slot="title" className="text-xl font-semibold leading-6 my-0">
+              <Heading slot="title" className="my-0 text-xl font-semibold leading-6">
                 Rename Profile
               </Heading>
               <TextField
@@ -116,7 +117,7 @@ function DeleteProfile({ profileId, profile }: { profileId: string; profile: Pro
   const deleteProfile = useDeleteProfile();
 
   const handleDelete = async () => {
-    deleteProfile(profileId).then((nearestId) => {
+    deleteProfile(profileId).then(nearestId => {
       if (nearestId) navigate(`/profiles/${nearestId}`);
       else navigate('/ui');
     });

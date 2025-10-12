@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=18.19.0"
   },
-  "packageManager": "pnpm@10.18.1",
+  "packageManager": "pnpm@10.18.2",
   "scripts": {
     "lint:type": "nx run-many -t lint:type",
     "build": "nx run-many -t build",
@@ -15,6 +15,8 @@
     "@nx/shared-fs-cache": "^4.0.0",
     "@playwright/test": "^1.56.0",
     "nx": "^21.6.4",
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.14",
     "typescript": "^5.9.3"
   },
   "publishConfig": {

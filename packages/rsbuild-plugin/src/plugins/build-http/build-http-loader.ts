@@ -10,15 +10,15 @@ const loader: Rspack.LoaderDefinition = function (_code, _sourceMap, _additional
       'User-Agent': 'WebX Kit',
     },
   })
-    .then(async (res) => {
+    .then(async res => {
       const contentType = res.headers.get('content-type');
       if (contentType && /^application\/json\b/.test(contentType)) {
         return `module.exports = ${JSON.stringify(await res.json())}`;
       }
       return await res.text();
     })
-    .then((content) => callback(null, content))
-    .catch((err) => callback(err));
+    .then(content => callback(null, content))
+    .catch(err => callback(err));
 };
 
 function evalURL(url: URL | string) {

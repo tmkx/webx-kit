@@ -1,3 +1,4 @@
+import React from 'react';
 import { useStore } from 'jotai';
 import { DialogTrigger, DialogTriggerProps, Form, Heading } from 'react-aria-components';
 import { Button, Dialog, Label, Modal, Radio, RadioGroup, TextField } from '@/components';
@@ -19,7 +20,7 @@ export function NewProfileModal({ isOpen, onOpenChange, onCreate }: NewProfileMo
 
     const profileId = Math.random().toString(36).slice(2);
     await store.set(profileFamily(profileId), createDefaultProfile(String(name)));
-    await store.set(profileListAtom, async (profileList) => [...(await profileList), profileId]);
+    await store.set(profileListAtom, async profileList => [...(await profileList), profileId]);
 
     onCreate?.(profileId);
   };
@@ -30,7 +31,7 @@ export function NewProfileModal({ isOpen, onOpenChange, onCreate }: NewProfileMo
         <Dialog>
           {({ close }) => (
             <Form onSubmit={handleSubmit}>
-              <Heading slot="title" className="text-xl font-semibold leading-6 my-0">
+              <Heading slot="title" className="my-0 text-xl font-semibold leading-6">
                 New Profile
               </Heading>
               <TextField className="mt-4" name="name" label="Profile name" autoFocus isRequired />
@@ -38,7 +39,7 @@ export function NewProfileModal({ isOpen, onOpenChange, onCreate }: NewProfileMo
                 <Label>Profile type</Label>
                 <Radio value="FixedProfile">
                   <div className="flex flex-1 flex-col">
-                    <div className="flex gap-1 items-center">
+                    <div className="flex items-center gap-1">
                       {createElement(profileIcons.FixedProfile, { size: 14 })}
                       <span>Proxy Profile</span>
                     </div>

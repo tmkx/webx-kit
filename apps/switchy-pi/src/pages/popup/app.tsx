@@ -32,7 +32,7 @@ export const App = () => {
       {profileList.length ? (
         <>
           <MenuSeparator />
-          {profileList.map((profileId) => (
+          {profileList.map(profileId => (
             <CustomProfile key={profileId} profileId={profileId} />
           ))}
         </>

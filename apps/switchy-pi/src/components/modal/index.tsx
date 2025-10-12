@@ -2,7 +2,7 @@ import { ModalOverlay, ModalOverlayProps, Modal as RACModal } from 'react-aria-c
 import { tv } from 'tailwind-variants';
 
 const overlayStyles = tv({
-  base: 'fixed top-0 left-0 w-full h-(--visual-viewport-height) isolate z-20 bg-black/[15%] flex items-center justify-center p-4 text-center backdrop-blur-lg',
+  base: 'h-(--visual-viewport-height) fixed left-0 top-0 isolate z-20 flex w-full items-center justify-center bg-black/[15%] p-4 text-center backdrop-blur-lg',
   variants: {
     isEntering: {
       true: 'animate-in fade-in duration-200 ease-out',
@@ -14,13 +14,13 @@ const overlayStyles = tv({
 });
 
 const modalStyles = tv({
-  base: 'w-full max-w-md max-h-full rounded-2xl bg-white dark:bg-zinc-800/70 dark:backdrop-blur-2xl dark:backdrop-saturate-200 forced-colors:bg-[Canvas] text-left align-middle text-slate-700 dark:text-zinc-300 shadow-2xl bg-clip-padding border border-black/10 dark:border-white/10',
+  base: 'max-h-full w-full max-w-md rounded-2xl border border-black/10 bg-white bg-clip-padding text-left align-middle text-slate-700 shadow-2xl dark:border-white/10 dark:bg-zinc-800/70 dark:text-zinc-300 dark:backdrop-blur-2xl dark:backdrop-saturate-200 forced-colors:bg-[Canvas]',
   variants: {
     isEntering: {
-      true: 'animate-in zoom-in-105 ease-out duration-200',
+      true: 'animate-in zoom-in-105 duration-200 ease-out',
     },
     isExiting: {
-      true: 'animate-out zoom-out-95 ease-in duration-200',
+      true: 'animate-out zoom-out-95 duration-200 ease-in',
     },
   },
 });

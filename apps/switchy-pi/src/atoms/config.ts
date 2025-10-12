@@ -12,14 +12,14 @@ export const colorSchemeAtom = atomWithStorage<ColorScheme>('color-scheme', 'sys
 const darkQuery = matchMedia('(prefers-color-scheme: dark)');
 const isSystemDarkAtom = syncExternalStateAtom(
   () => darkQuery.matches,
-  (setSelf) => {
+  setSelf => {
     const updateState = () => setSelf(darkQuery.matches);
     darkQuery.addEventListener('change', updateState);
     return () => darkQuery.removeEventListener('change', updateState);
   }
 );
 
-export const isDarkAtom = atom((get) => {
+export const isDarkAtom = atom(get => {
   const colorScheme = get(colorSchemeAtom);
   return colorScheme === 'system' ? get(isSystemDarkAtom) : colorScheme === 'dark';
 });

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { apiKeyAtom } from '@/hooks/atoms/config';
 import { useBodyThemeClass } from '@/hooks/use-theme';
@@ -14,14 +14,14 @@ export const App = () => {
     setValue(apiKey || '');
   }, [apiKey]);
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (ev) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async ev => {
     ev.preventDefault();
-    setAPIKey(value);
+    await setAPIKey(value);
   };
 
   return (
-    <div className="h-full text-slate-700 flex-center flex-col">
-      <Form className="w-96 px-2 py-4 flex flex-col gap-2" onSubmit={handleSubmit}>
+    <div className="flex-center h-full flex-col text-slate-700">
+      <Form className="flex w-96 flex-col gap-2 px-2 py-4" onSubmit={handleSubmit}>
         <TextField
           name="apiKey"
           label="API Key"
@@ -31,7 +31,7 @@ export const App = () => {
           onChange={setValue}
         />
         <div className="text-right">
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Save</Button>
         </div>
       </Form>
     </div>

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import {
   Radio as RACRadio,
   RadioGroup as RACRadioGroup,
@@ -12,7 +12,7 @@ import { composeTailwindRenderProps, focusRing } from '../shared/utils';
 
 export interface RadioGroupProps extends Omit<RACRadioGroupProps, 'children'> {
   label?: string;
-  children?: ReactNode;
+  children?: React.ReactNode;
   description?: string;
   errorMessage?: string | ((validation: ValidationResult) => string);
 }
@@ -21,7 +21,7 @@ export function RadioGroup(props: RadioGroupProps) {
   return (
     <RACRadioGroup {...props} className={composeTailwindRenderProps(props.className, 'group flex flex-col gap-2')}>
       <Label>{props.label}</Label>
-      <div className="flex group-orientation-vertical:flex-col gap-2 group-orientation-horizontal:gap-4">
+      <div className="group-orientation-vertical:flex-col group-orientation-horizontal:gap-4 flex gap-2">
         {props.children}
       </div>
       {props.description && <Description>{props.description}</Description>}
@@ -32,17 +32,17 @@ export function RadioGroup(props: RadioGroupProps) {
 
 const styles = tv({
   extend: focusRing,
-  base: 'w-5 h-5 rounded-full border-2 bg-white dark:bg-zinc-900 transition-all',
+  base: 'h-5 w-5 rounded-full border-2 bg-white transition-all dark:bg-zinc-900',
   variants: {
     isSelected: {
-      false: 'border-gray-400 dark:border-zinc-400 group-pressed:border-gray-500 dark:group-pressed:border-zinc-300',
-      true: 'border-[7px] border-gray-700 dark:border-slate-300 forced-colors:border-[Highlight]! group-pressed:border-gray-800 dark:group-pressed:border-slate-200',
+      false: 'group-pressed:border-gray-500 dark:group-pressed:border-zinc-300 border-gray-400 dark:border-zinc-400',
+      true: 'forced-colors:border-[Highlight]! group-pressed:border-gray-800 dark:group-pressed:border-slate-200 border-[7px] border-gray-700 dark:border-slate-300',
     },
     isInvalid: {
-      true: 'border-red-700 dark:border-red-600 group-pressed:border-red-800 dark:group-pressed:border-red-700 forced-colors:border-[Mark]!',
+      true: 'group-pressed:border-red-800 dark:group-pressed:border-red-700 forced-colors:border-[Mark]! border-red-700 dark:border-red-600',
     },
     isDisabled: {
-      true: 'border-gray-200 dark:border-zinc-700 forced-colors:border-[GrayText]!',
+      true: 'forced-colors:border-[GrayText]! border-gray-200 dark:border-zinc-700',
     },
   },
 });
@@ -53,10 +53,10 @@ export function Radio(props: RadioProps) {
       {...props}
       className={composeTailwindRenderProps(
         props.className,
-        'flex gap-2 items-center group text-gray-800 disabled:text-gray-300 dark:text-zinc-200 dark:disabled:text-zinc-600 forced-colors:disabled:text-[GrayText] text-sm transition'
+        'group flex items-center gap-2 text-sm text-gray-800 transition disabled:text-gray-300 dark:text-zinc-200 dark:disabled:text-zinc-600 forced-colors:disabled:text-[GrayText]'
       )}
     >
-      {(renderProps) => (
+      {renderProps => (
         <>
           <div className={styles(renderProps)} />
           {props.children}

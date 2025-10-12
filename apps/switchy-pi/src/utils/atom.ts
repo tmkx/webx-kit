@@ -23,14 +23,14 @@ export function syncExternalStateAtom<T>(
       cleanup();
     };
   });
-  return atom((get) => {
+  return atom(get => {
     get(aEffect);
     const value = get(baseAtom);
     if (value !== RESET) return value;
     const newValue = getSnapshot();
     isOutdated = false;
     if (newValue && typeof newValue === 'object' && 'then' in newValue) {
-      return newValue.then((v) => {
+      return newValue.then(v => {
         internalSetter?.(baseAtom, v);
         return v;
       });

@@ -7,11 +7,11 @@ const contentScripts: NormalizeContentScriptsOptions['contentScripts'] = JSON.pa
 const isModule: boolean = JSON.parse(searchParams.get('module') || 'false');
 
 // when the background is reactivated, refresh the list of content scripts
-chrome.scripting.getRegisteredContentScripts(async (registered) => {
-  await chrome.scripting.unregisterContentScripts({ ids: registered.map((cs) => cs.id) });
+chrome.scripting.getRegisteredContentScripts(async registered => {
+  await chrome.scripting.unregisterContentScripts({ ids: registered.map(cs => cs.id) });
   await chrome.scripting.registerContentScripts(
     contentScripts
-      .map<chrome.scripting.RegisteredContentScript | false>((cs) => {
+      .map<chrome.scripting.RegisteredContentScript | false>(cs => {
         return {
           id: cs.name,
           matches: cs.matches,
@@ -28,10 +28,10 @@ chrome.scripting.getRegisteredContentScripts(async (registered) => {
   );
 });
 
-module.hot?.addStatusHandler(async (status) => {
+module.hot?.addStatusHandler(async status => {
   if (status !== 'check') return;
   await Promise.all(
-    contentScripts.map(async (cs) => {
+    contentScripts.map(async cs => {
       const needRefresh = await hasUpdate(cs.name);
       if (!needRefresh) return;
       await chrome.scripting
@@ -53,6 +53,6 @@ async function hasUpdate(csName: string) {
       .replace(__webpack_runtime_id__, csName)
       .replace(/\.json$/, isModule ? '.mjs' : '.js')}`
   )
-    .then((res) => res.text())
-    .then((code) => /^[\/*\s]*".+":/m.test(code));
+    .then(res => res.text())
+    .then(code => /^[\/*\s]*".+":/m.test(code));
 }

@@ -6,8 +6,8 @@
     "test": "vitest"
   },
   "devDependencies": {
-    "@rsbuild/core": "^1.5.16",
-    "@types/node": "^24.7.0",
+    "@rsbuild/core": "^1.5.17",
+    "@types/node": "^24.7.2",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "typescript": "^5.9.3",

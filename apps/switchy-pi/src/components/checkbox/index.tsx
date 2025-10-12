@@ -1,5 +1,5 @@
+import React from 'react';
 import { Check, Minus } from 'lucide-react';
-import React, { ReactNode } from 'react';
 import {
   Checkbox as AriaCheckbox,
   CheckboxGroup as AriaCheckboxGroup,
@@ -14,7 +14,7 @@ import { composeTailwindRenderProps, focusRing } from '../shared/utils';
 
 export interface CheckboxGroupProps extends Omit<AriaCheckboxGroupProps, 'children'> {
   label?: string;
-  children?: ReactNode;
+  children?: React.ReactNode;
   description?: string;
   errorMessage?: string | ((validation: ValidationResult) => string);
 }
@@ -31,7 +31,7 @@ export function CheckboxGroup(props: CheckboxGroupProps) {
 }
 
 const checkboxStyles = tv({
-  base: 'flex gap-2 items-center group text-sm transition',
+  base: 'group flex items-center gap-2 text-sm transition',
   variants: {
     isDisabled: {
       false: 'text-gray-800 dark:text-zinc-200',
@@ -42,18 +42,18 @@ const checkboxStyles = tv({
 
 const boxStyles = tv({
   extend: focusRing,
-  base: 'w-5 h-5 shrink-0 rounded-sm flex items-center justify-center border-2 transition',
+  base: 'flex h-5 w-5 shrink-0 items-center justify-center rounded-sm border-2 transition',
   variants: {
     isSelected: {
       false:
-        'bg-white dark:bg-zinc-900 border-(--color) [--color:var(--color-gray-400)] dark:[--color:colors.zinc-400)] group-pressed:[--color:var(--color-gray-500)] dark:group-pressed:[--color:var(--color-zinc-300)]',
-      true: 'bg-(--color) border-(--color) [--color:var(--color-gray-700)] group-pressed:[--color:var(--color-gray-800)] dark:[--color:var(--color-slate-300)] dark:group-pressed:[--color:var(--color-slate-200)] forced-colors:[--color:Highlight]!',
+        'border-(--color) dark:[--color:colors.zinc-400)] group-pressed:[--color:var(--color-gray-500)] dark:group-pressed:[--color:var(--color-zinc-300)] bg-white [--color:var(--color-gray-400)] dark:bg-zinc-900',
+      true: 'bg-(--color) border-(--color) group-pressed:[--color:var(--color-gray-800)] dark:group-pressed:[--color:var(--color-slate-200)] forced-colors:[--color:Highlight]! [--color:var(--color-gray-700)] dark:[--color:var(--color-slate-300)]',
     },
     isInvalid: {
-      true: '[--color:var(--color-red-700)] dark:[--color:var(--color-red-600)] forced-colors:[--color:Mark]! group-pressed:[--color:var(--color-red-800)] dark:group-pressed:[--color:var(--color-red-700)]',
+      true: 'forced-colors:[--color:Mark]! group-pressed:[--color:var(--color-red-800)] dark:group-pressed:[--color:var(--color-red-700)] [--color:var(--color-red-700)] dark:[--color:var(--color-red-600)]',
     },
     isDisabled: {
-      true: '[--color:var(--color-gray-200)] dark:[--color:var(--color-zinc-700)] forced-colors:[--color:GrayText]!',
+      true: 'forced-colors:[--color:GrayText]! [--color:var(--color-gray-200)] dark:[--color:var(--color-zinc-700)]',
     },
   },
 });

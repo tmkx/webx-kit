@@ -1,7 +1,7 @@
 import { createShadowRootUI } from '@webx-kit/runtime/content-scripts';
 import { render } from 'solid-js/web';
 import { App } from './app';
-import '../styles.css';
+import '../tailwind.css';
 
 createShadowRootUI({
   styles: chrome.runtime.getURL('static/css/content-script.css'),

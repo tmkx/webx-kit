@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   FieldErrorProps,
   Group,
@@ -22,7 +21,7 @@ export function Label(props: LabelProps) {
   return (
     <RACLabel
       {...props}
-      className={twMerge('text-sm text-gray-500 dark:text-zinc-400 font-medium cursor-default w-fit', props.className)}
+      className={twMerge('w-fit cursor-default text-sm font-medium text-gray-500 dark:text-zinc-400', props.className)}
     />
   );
 }
@@ -57,7 +56,7 @@ export const fieldBorderStyles = tv({
 
 export const fieldGroupStyles = tv({
   extend: focusRing,
-  base: 'group flex items-center h-9 bg-white dark:bg-zinc-900 forced-colors:bg-[Field] border-2 rounded-lg overflow-hidden',
+  base: 'group flex h-9 items-center overflow-hidden rounded-lg border-2 bg-white dark:bg-zinc-900 forced-colors:bg-[Field]',
   variants: fieldBorderStyles.variants,
 });
 
@@ -78,7 +77,7 @@ export function Input(props: InputProps) {
       {...props}
       className={composeTailwindRenderProps(
         props.className,
-        'px-2 py-1.5 flex-1 min-w-0 outline outline-0 bg-white dark:bg-zinc-900 text-sm text-gray-800 dark:text-zinc-200 disabled:text-gray-200 dark:disabled:text-zinc-600'
+        'min-w-0 flex-1 bg-white px-2 py-1.5 text-sm text-gray-800 outline-0 disabled:text-gray-200 dark:bg-zinc-900 dark:text-zinc-200 dark:disabled:text-zinc-600'
       )}
     />
   );
@@ -90,7 +89,7 @@ export function TextArea(props: TextAreaProps) {
       {...props}
       className={composeTailwindRenderProps(
         props.className,
-        'px-2 py-1.5 flex-1 min-w-0 outline outline-0 bg-white dark:bg-zinc-900 text-sm text-gray-800 dark:text-zinc-200 disabled:text-gray-200 dark:disabled:text-zinc-600'
+        'min-w-0 flex-1 bg-white px-2 py-1.5 text-sm text-gray-800 outline-0 disabled:text-gray-200 dark:bg-zinc-900 dark:text-zinc-200 dark:disabled:text-zinc-600'
       )}
     />
   );
