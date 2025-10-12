@@ -37,6 +37,7 @@ it('should support stream', async () => {
           subscriber.next(2);
           subscriber.next(3);
           subscriber.complete();
+          break;
         }
         default:
           throw new Error('Unknown method');
@@ -51,8 +52,8 @@ it('should support stream', async () => {
       sender.stream(
         { name: 'hello' },
         {
-          next: (value) => result.push(value),
-          error: (reason) => reject(reason),
+          next: value => result.push(value),
+          error: reason => reject(reason),
           complete: () => resolve(result),
         }
       );
@@ -65,8 +66,8 @@ it('should support stream', async () => {
       sender.stream(
         { name: 'greet' },
         {
-          next: (value) => result.push(value),
-          error: (reason) => reject(reason),
+          next: value => result.push(value),
+          error: reason => reject(reason),
           complete: () => resolve(result),
         }
       );
@@ -108,14 +109,14 @@ it('should support abort stream', async () => {
       const unsubscribe = sender.stream(
         { name: 'hello', interval: 10 },
         {
-          next: (value) => {
+          next: value => {
             result.push(value);
             if (result.length === 2) {
               unsubscribe();
               resolve(result);
             }
           },
-          error: (reason) => reject(reason),
+          error: reason => reject(reason),
           complete: completeFn,
         }
       );

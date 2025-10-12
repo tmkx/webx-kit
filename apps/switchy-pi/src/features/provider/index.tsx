@@ -1,10 +1,10 @@
-import { useEffect, useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { getDefaultStore, useAtomValue } from 'jotai';
 import { isDarkAtom } from '@/atoms/config';
 import { proxyModeAtom } from '@/atoms/proxy';
 import { activeProfileIdAtom } from '@/atoms/profile';
 
-export function Provider({ children }: React.PropsWithChildren<unknown>) {
+export function Provider({ children }: React.PropsWithChildren) {
   useBodyThemeClass();
   return (
     <>
@@ -18,8 +18,8 @@ const store = getDefaultStore();
 function GlobalDeps() {
   useEffect(() => {
     function noop() {}
-    const subscriptions = [proxyModeAtom, activeProfileIdAtom].map((atom) => store.sub(atom, noop));
-    return () => subscriptions.forEach((unsub) => unsub());
+    const subscriptions = [proxyModeAtom, activeProfileIdAtom].map(atom => store.sub(atom, noop));
+    return () => subscriptions.forEach(unsub => unsub());
   }, []);
   return null;
 }

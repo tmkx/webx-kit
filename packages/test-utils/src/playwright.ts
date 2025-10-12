@@ -59,10 +59,10 @@ export function createWebxTest({ extensionPath, browser = chromium }: CreateWebx
       const page = await context.newPage();
       await page.goto('chrome://extensions');
       const extensionId = await page.evaluate(
-        (extPath) =>
+        extPath =>
           chrome.developerPrivate
             .getExtensionsInfo()
-            .then((extensions) => extensions.find((ext) => ext.path === extPath)?.id),
+            .then(extensions => extensions.find(ext => ext.path === extPath)?.id),
         extensionPath
       );
       await page.close();
@@ -70,7 +70,7 @@ export function createWebxTest({ extensionPath, browser = chromium }: CreateWebx
       cachedExtensionIdMap.set(extensionPath, extensionId);
       return use(extensionId);
     },
-    getURL: ({ extensionId }, use) => use(async (p) => `chrome-extension://${extensionId}${path.posix.join('/', p)}`),
+    getURL: ({ extensionId }, use) => use(async p => `chrome-extension://${extensionId}${path.posix.join('/', p)}`),
   });
 
   return webxTest;

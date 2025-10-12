@@ -52,7 +52,7 @@ export const activeProfileIdAtom = atom(
                 proxyForHttp: profile.proxyForHttp,
                 proxyForHttps: profile.proxyForHttps,
                 proxyForFtp: profile.proxyForFtp,
-                bypassList: profile.bypassList.map((item) => item.pattern),
+                bypassList: profile.bypassList.map(item => item.pattern),
               },
             } satisfies chrome.proxy.ProxyConfig,
           },
@@ -60,8 +60,7 @@ export const activeProfileIdAtom = atom(
         );
         return;
       }
-      case 'SwitchProfile': {
-      }
+      case 'SwitchProfile':
       default:
         reject(`Unhandled: ${profile?.profileType}`);
     }
@@ -76,7 +75,7 @@ export const deleteProfileAtom = atom(null, async function (get, set, profileId:
   if (!activeProfileId) throw new Error(`Unknown active profile`);
   const profileList = await get(profileListAtom);
   const prevIndex = profileList.indexOf(profileId);
-  const newProfileList = profileList.filter((item) => item !== profileId);
+  const newProfileList = profileList.filter(item => item !== profileId);
   await set(profileListAtom, newProfileList);
   await set(profileFamily(profileId), RESET);
   if (profileId === activeProfileId) await set(activeProfileIdAtom, 'system');

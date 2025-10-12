@@ -72,10 +72,10 @@ export function unstable_createSelectionMenu({
 
   container.addEventListener(
     'mouseup',
-    async (ev) => {
+    async ev => {
       if (ignore && ev.composedPath().includes(ignore)) return;
       // getSelection after a tick, because the selection may be cleared after "mouseup"
-      await new Promise((resolve) => setTimeout(resolve));
+      await new Promise(resolve => setTimeout(resolve));
       updateSelection();
     },
     { signal: ac.signal }

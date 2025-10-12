@@ -2,7 +2,7 @@ import { enableShadowDOM } from '@react-stately/flags';
 import { createShadowRootUI } from '@webx-kit/runtime/content-scripts';
 import { createRoot } from 'react-dom/client';
 import { App } from './app';
-import '../styles.css';
+import '../tailwind.css';
 
 enableShadowDOM();
 

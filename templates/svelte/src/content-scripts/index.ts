@@ -1,6 +1,6 @@
 import { createShadowRootUI } from '@webx-kit/runtime/content-scripts';
 import App from './app.svelte';
-import '../styles.css';
+import '../tailwind.css';
 
 createShadowRootUI({
   styles: chrome.runtime.getURL('static/css/content-script.css'),

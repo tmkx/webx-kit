@@ -34,7 +34,7 @@ describe('Basic', () => {
     }),
 
     streamBasic: t.procedure.subscription(() => {
-      return observable<number>((observer) => {
+      return observable<number>(observer => {
         observer.next(1);
         observer.next(2);
         observer.next(3);
@@ -43,7 +43,7 @@ describe('Basic', () => {
     }),
 
     streamError: t.procedure.subscription(() => {
-      return observable<number>((observer) => {
+      return observable<number>(observer => {
         observer.next(1);
         observer.error(new Error('Internal Error'));
       });
@@ -52,7 +52,7 @@ describe('Basic', () => {
     streamInterval: t.procedure
       .input(z.object({ from: z.number(), interval: z.number() }))
       .subscription(({ input }) => {
-        return observable<number>((observer) => {
+        return observable<number>(observer => {
           let i = input.from;
           const timer = setInterval(() => observer.next(i++), input.interval);
           return () => {

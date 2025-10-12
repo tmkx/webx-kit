@@ -25,7 +25,7 @@ function generateFunction(server: FixedProfile) {
     ${
       server.bypassList.length > 0
         ? `if (${server.bypassList
-            .map((item) => `/^${item.pattern.replace(/\./g, '\\.')}$/.test(host)`)
+            .map(item => `/^${item.pattern.replace(/\./g, '\\.')}$/.test(host)`)
             .join(' || ')}) return 'DIRECT';`
         : ''
     }

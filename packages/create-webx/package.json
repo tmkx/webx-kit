@@ -21,7 +21,7 @@
   },
   "scripts": {
     "test": "vitest run",
-    "prepack": "tsdown && node ./sync.mjs",
+    "prepack": "tsdown && node ./sync.mts",
     "postpack": "rm -rf ./templates",
     "lint:type": "tsc --noEmit"
   },

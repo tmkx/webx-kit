@@ -58,7 +58,7 @@ export function startDev({ beforeAll, afterAll, beforeEach, afterEach }: typeof 
     });
     const { default: stripAnsi } = await import('strip-ansi');
     await Promise.race([
-      new Promise<void>((resolve) => {
+      new Promise<void>(resolve => {
         const handler = (chunk: unknown) => {
           const message = stripAnsi(String(chunk));
           !process.env.CI && message && console.log(message.trim());
@@ -82,7 +82,7 @@ export function startDev({ beforeAll, afterAll, beforeEach, afterEach }: typeof 
       const extensions = await chrome.developerPrivate.getExtensionsInfo();
       for (const extension of extensions) {
         for (const view of extension.views.filter(
-          (view) => view.type === chrome.developerPrivate.ViewType.EXTENSION_SERVICE_WORKER_BACKGROUND
+          view => view.type === chrome.developerPrivate.ViewType.EXTENSION_SERVICE_WORKER_BACKGROUND
         )) {
           // keep background alive
           await chrome.developerPrivate.openDevTools({

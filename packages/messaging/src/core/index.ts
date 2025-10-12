@@ -202,7 +202,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
 
         const observer: Observer<any> = {
           next(value) {
-            reply({ t: 'S', i: message.i, d: { next: value } }).catch((error) => {
+            reply({ t: 'S', i: message.i, d: { next: value } }).catch(error => {
               safelyTerminate({ error });
             });
           },
@@ -261,7 +261,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
           port.send(createAbortPacket('r', id)).catch(noop);
         });
       }
-      port.send({ t: 'r', i: id, d: data } satisfies Packet).catch((err) => {
+      port.send({ t: 'r', i: id, d: data } satisfies Packet).catch(err => {
         resolvers.reject(err);
       });
       return resolvers.promise;
@@ -269,7 +269,7 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
     stream(data, observer) {
       const id = randomID();
       ongoingStreamObservers.set(id, observer);
-      port.send({ t: 's', i: id, d: data } satisfies Packet).catch((err) => {
+      port.send({ t: 's', i: id, d: data } satisfies Packet).catch(err => {
         queueMicrotask(() => {
           observer.error?.(err);
         });

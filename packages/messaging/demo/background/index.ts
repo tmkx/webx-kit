@@ -1,6 +1,6 @@
 import { createCustomHandler } from '@/server';
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 // @ts-expect-error
 globalThis.__messaging = createCustomHandler({

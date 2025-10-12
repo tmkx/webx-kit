@@ -1,17 +1,27 @@
-// @ts-check
-/** @typedef {{ from: string, version: string, path: string }} Dependency */
-/** @typedef {{ name: string, version: string, path: string, dependencies?: Record<string, Dependency>, devDependencies?: Record<string, Dependency> }} Project */
 import child_process from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { $ } from 'execa';
 import kleur from 'kleur';
 
+interface Dependency {
+  from: string;
+  version: string;
+  path: string;
+}
+
+interface Project {
+  name: string;
+  version: string;
+  path: string;
+  dependencies?: Record<string, Dependency>;
+  devDependencies?: Record<string, Dependency>;
+}
+
 const templatesDir = path.resolve(import.meta.dirname, 'templates');
 if (fs.existsSync(templatesDir)) await fs.promises.rm(templatesDir, { recursive: true });
 
-/** @type {Project[]} */
-const templates = JSON.parse(
+const templates: Project[] = JSON.parse(
   child_process.execSync(`pnpm ls --filter="@webx-kit/template-*" --only-projects --json`, {
     encoding: 'utf8',
   })
@@ -35,9 +45,8 @@ for (const template of templates) {
   const pkgJsonPath = path.resolve(templatesDir, templateDirname, 'package.json');
   const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf8'));
 
-  /** @type {const} */ (['dependencies', 'devDependencies']).forEach((depType) => {
+  (['dependencies', 'devDependencies'] as const).forEach((depType) => {
     Object.entries(template[depType] || {}).forEach(([depName, dep]) => {
-      /** @type {string} */
       const prevValue = pkgJson[depType][depName];
       if (!PNPM_WORKSPACE_PROTOCOL.test(prevValue)) return;
       pkgJson[depType][depName] = prevValue.replace(PNPM_WORKSPACE_PROTOCOL, '') + getPackageVersion(dep.path);
@@ -47,13 +56,8 @@ for (const template of templates) {
   fs.writeFileSync(pkgJsonPath, JSON.stringify(pkgJson, null, 2));
 }
 
-/** @type {Map<string, string>} */
-var packageVersionsCache;
-/**
- * @param {string} pkgPath
- * @returns {string}
- */
-function getPackageVersion(pkgPath) {
+var packageVersionsCache: Map<string, string> | undefined;
+function getPackageVersion(pkgPath: string) {
   if (!packageVersionsCache) packageVersionsCache = new Map();
   const cacheValue = packageVersionsCache.get(pkgPath);
   if (cacheValue) return cacheValue;

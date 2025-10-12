@@ -1,17 +1,17 @@
-import { PortalContainerContext } from '@/components/shared';
-import { isPageInDark } from '@webx-kit/runtime/content-scripts';
-import { useContext } from 'react';
+import React, { useRef } from 'react';
 import { createPortal } from 'react-dom';
+import { UNSAFE_PortalProvider } from '@react-aria/overlays';
+import { isPageInDark } from '@webx-kit/runtime/content-scripts';
 
-export const Provider = (props: React.PropsWithChildren<unknown>) => {
-  const portalContainerContextRef = useContext(PortalContainerContext);
+export const Provider = (props: React.PropsWithChildren) => {
+  const portalContainerRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
-      {props.children}
+      <UNSAFE_PortalProvider getContainer={() => portalContainerRef.current}>{props.children}</UNSAFE_PortalProvider>
       {window.__webxRoot
         ? createPortal(
-            <div ref={portalContainerContextRef} className={isPageInDark() ? 'dark' : undefined} />,
+            <div ref={portalContainerRef} className={isPageInDark() ? 'dark' : undefined} />,
             window.__webxRoot as unknown as HTMLElement
           )
         : null}

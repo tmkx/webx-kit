@@ -1,3 +1,4 @@
+import React from 'react';
 import { MenuSeparator } from '@/components';
 
 export interface NormalLayoutProps {
@@ -9,7 +10,7 @@ export interface NormalLayoutProps {
 export function NormalLayout(props: NormalLayoutProps) {
   return (
     <div>
-      <div className="flex items-center gap-2 my-4 justify-between pr-4 min-h-10">
+      <div className="my-4 flex min-h-10 items-center justify-between gap-2 pr-4">
         <div className="text-2xl">{props.title}</div>
         <div>{props.action}</div>
       </div>

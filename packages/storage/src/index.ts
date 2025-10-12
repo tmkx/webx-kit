@@ -37,7 +37,7 @@ export function createStorage<T extends Record<string, any> = Record<string, any
   async function getItem<K extends KeyAsString<T>>(key: K, defaultValue?: T[K]): Promise<T[K] | null> {
     const prefixedKey = addPrefix(key);
     const result = await storage.get(prefixedKey);
-    return prefixedKey in result ? result[prefixedKey] : arguments.length === 2 ? defaultValue ?? null : null;
+    return prefixedKey in result ? result[prefixedKey] : arguments.length === 2 ? (defaultValue ?? null) : null;
   }
 
   async function hasItem(key: string): Promise<boolean> {
@@ -50,7 +50,7 @@ export function createStorage<T extends Record<string, any> = Record<string, any
     const result = await storage.get();
     const prefixedKeys = Object.keys(result);
     if (!prefix) return prefixedKeys;
-    return prefixedKeys.filter((key) => key.startsWith(prefix)).map(removePrefix);
+    return prefixedKeys.filter(key => key.startsWith(prefix)).map(removePrefix);
   }
 
   async function removeItem(key: KeyAsString<T> | KeyAsString<T>[]): Promise<void> {
@@ -69,13 +69,13 @@ export function createStorage<T extends Record<string, any> = Record<string, any
   type SubscribeCallback = (value: any) => void;
   const onChangedCallbacks = new Map<string, Set<SubscribeCallback>>();
   const callbackDefaultValues = new WeakMap<SubscribeCallback, unknown>();
-  const onChangedListener: OnChangedListener = (changes) => {
+  const onChangedListener: OnChangedListener = changes => {
     for (const [key, value] of Object.entries(changes)) {
       const changedCallback = onChangedCallbacks.get(key);
       if (!changedCallback) continue;
       const IS_REMOVE_SYMBOL = Symbol();
       const newValue = 'newValue' in value ? value.newValue : IS_REMOVE_SYMBOL;
-      changedCallback.forEach((callback) =>
+      changedCallback.forEach(callback =>
         newValue === IS_REMOVE_SYMBOL ? callback(callbackDefaultValues.get(callback) ?? null) : callback(newValue)
       );
     }
@@ -116,7 +116,7 @@ export function createStorage<T extends Record<string, any> = Record<string, any
   }
 
   function watch(callback: (type: 'update' | 'remove', key: string) => void): VoidFunction {
-    const listener: OnChangedListener = (changes) => {
+    const listener: OnChangedListener = changes => {
       for (const [key, value] of Object.entries(changes)) {
         const type = 'newValue' in value ? 'update' : 'remove';
         callback(type, removePrefix(key));
@@ -149,7 +149,7 @@ type StringTransformer = (key: string) => string;
 function createPrefixHelpers(prefix?: string): [StringTransformer, StringTransformer] {
   if (!prefix) return [identity, identity];
   const len = prefix.length;
-  const add: StringTransformer = (key) => prefix + key;
-  const remove: StringTransformer = (key) => (key.startsWith(prefix) ? key.slice(len) : key);
+  const add: StringTransformer = key => prefix + key;
+  const remove: StringTransformer = key => (key.startsWith(prefix) ? key.slice(len) : key);
   return [add, remove];
 }

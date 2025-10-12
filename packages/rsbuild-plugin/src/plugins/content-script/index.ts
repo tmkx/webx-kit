@@ -66,7 +66,7 @@ export function applyContentScriptsSupport(api: RsbuildPluginAPI, options: Norma
 
   const contentScriptNames = new Set(getContentScriptEntryNames(options));
 
-  registerManifestTransformer('content-script', (manifest) => {
+  registerManifestTransformer('content-script', manifest => {
     if (!manifest.content_scripts && (!autoRefreshContentScripts || isProd())) {
       manifest.content_scripts = contentScripts.map(({ name, import: _import, ...entry }) => ({
         js: [`static/js/${name}.js`],
@@ -80,7 +80,7 @@ export function applyContentScriptsSupport(api: RsbuildPluginAPI, options: Norma
       environments: {
         'content-script': {
           source: {
-            entry: Object.fromEntries(contentScripts.map((cs) => [cs.name, cs.import])),
+            entry: Object.fromEntries(contentScripts.map(cs => [cs.name, cs.import])),
           },
           performance: {
             chunkSplit: {

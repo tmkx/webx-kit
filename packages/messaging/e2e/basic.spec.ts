@@ -37,10 +37,10 @@ test('Messaging', async ({ context, getURL }) => {
   });
 
   const [webpage] = await popupPage.evaluate(() =>
-    chrome.tabs.query({}).then((tabs) =>
+    chrome.tabs.query({}).then(tabs =>
       tabs
-        .filter((tab) => tab.url?.startsWith('http'))
-        .map((tab) => ({
+        .filter(tab => tab.url?.startsWith('http'))
+        .map(tab => ({
           id: tab.id,
           url: tab.url,
         }))
@@ -48,7 +48,7 @@ test('Messaging', async ({ context, getURL }) => {
   );
 
   await expect(
-    popupPage.evaluate((tabId) => globalThis.__clientMessaging.requestTo(tabId!, 'popup to content-script'), webpage.id)
+    popupPage.evaluate(tabId => globalThis.__clientMessaging.requestTo(tabId!, 'popup to content-script'), webpage.id)
   ).resolves.toEqual({
     reply: 'content-script',
     data: 'popup to content-script',
@@ -64,7 +64,7 @@ test('Stream', async ({ context, getURL }) => {
     return new Promise<unknown[]>((resolve, reject) => {
       const result: unknown[] = [];
       globalThis.__clientMessaging.stream('options', {
-        next: (value) => result.push(value),
+        next: value => result.push(value),
         error: reject,
         complete: () => resolve(result),
       });

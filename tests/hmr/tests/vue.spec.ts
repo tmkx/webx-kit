@@ -20,12 +20,12 @@ declare global {
 test('Background', async ({ background, context, extensionId }) => {
   const randomID = randomUUID();
 
-  await background.evaluate((secret) => (globalThis.__secret = secret), randomID);
+  await background.evaluate(secret => (globalThis.__secret = secret), randomID);
   await expect(background.evaluate(() => globalThis.__secret)).resolves.toBe(randomID);
 
   const [newBackground] = await Promise.all([
     context.waitForEvent('serviceworker'),
-    sleep(500).then(() => updateFile('src/background/index.ts', (content) => content.replace('hello', randomID))),
+    sleep(500).then(() => updateFile('src/background/index.ts', content => content.replace('hello', randomID))),
   ]);
 
   expect(newBackground.url().startsWith(`chrome-extension://${extensionId}`)).toBeTruthy();
@@ -42,8 +42,8 @@ test('Options Page', async ({ getURL, page }) => {
 
   const randomID = randomUUID();
 
-  await page.evaluate((secret) => (window.__secret = secret), randomID);
-  await updateFile('src/pages/options/App.vue', (content) => content.replace('Options Page', randomID));
+  await page.evaluate(secret => (window.__secret = secret), randomID);
+  await updateFile('src/pages/options/App.vue', content => content.replace('Options Page', randomID));
   await expect(page.locator('#root')).toHaveText(randomID);
 
   // ensure the page is NOT refreshed
@@ -62,7 +62,7 @@ test('Content Scripts', async ({ page, background: _background }) => {
 
   const randomID = randomUUID();
   await expect(page.locator('webx-root')).toContainText('Edit to Show HMR');
-  await updateFile('src/content-scripts/Hello.vue', (content) => content.replace('Edit to Show HMR', randomID));
+  await updateFile('src/content-scripts/Hello.vue', content => content.replace('Edit to Show HMR', randomID));
   await expect(page.locator('webx-root')).toContainText(randomID);
 
   await expect(page.locator('webx-root')).toContainText('Count: 1');

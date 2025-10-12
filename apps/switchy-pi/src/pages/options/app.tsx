@@ -1,4 +1,4 @@
-import { Suspense, createElement, useEffect, useState } from 'react';
+import React, { Suspense, createElement, useEffect, useState } from 'react';
 import { Outlet, createHashRouter, redirect, useNavigate, useLocation, NonIndexRouteObject } from 'react-router-dom';
 import { RouterProvider, Selection } from 'react-aria-components';
 import { PlusIcon, SaveIcon, SettingsIcon, WrenchIcon } from 'lucide-react';
@@ -74,7 +74,7 @@ function RootLayout() {
   }, [location.pathname]);
 
   return (
-    <div className="w-full h-full flex">
+    <div className="flex h-full w-full">
       <RouterProvider navigate={navigate}>
         <div className="w-72 flex-shrink-0">
           <Navbar />
@@ -148,8 +148,8 @@ function Navbar() {
 
 function Logo() {
   return (
-    <Link className="flex-center gap-2 mx-2 py-2 no-underline" href="/about">
-      <img className="w-8 h-8" src="/public/logo.png" alt="Logo" />
+    <Link className="flex-center mx-2 gap-2 py-2 no-underline" href="/about">
+      <img className="h-8 w-8" src="/public/logo.png" alt="Logo" />
       <div className="text-xl font-bold">Switchy Pi</div>
     </Link>
   );
@@ -157,7 +157,7 @@ function Logo() {
 
 function ProfilesList() {
   const profiles = useProfileList();
-  return profiles.map((profile) => <ProfileListItem key={profile} id={profile} />);
+  return profiles.map(profile => <ProfileListItem key={profile} id={profile} />);
 }
 
 function ProfileListItem({ id }: { id: string }) {

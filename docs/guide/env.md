@@ -18,10 +18,10 @@ WEBX_PUBLIC_SHIP_NAME="WebX - Alpha"
 
 ### NODE_ENV Specific Env
 
-> [Environment Variables - Rsbuild](https://rsbuild.dev/guide/advanced/env-vars#file-types)
+> [Environment Variables - Rsbuild](https://rsbuild.rs/guide/advanced/env-vars#file-types)
 
 | File Name                | Description                                                                |
-| ------------------------ | -------------------------------------------------------------------------- |
+|--------------------------|----------------------------------------------------------------------------|
 | `.env`                   | Loaded by default in all scenarios.                                        |
 | `.env.local`             | Local usage of the `.env` file, should be added to .gitignore.             |
 | `.env.development`       | Read when `process.env.NODE_ENV` is `'development'`.                       |

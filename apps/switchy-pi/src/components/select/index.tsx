@@ -1,5 +1,5 @@
-import { ChevronDown } from 'lucide-react';
 import React from 'react';
+import { ChevronDown } from 'lucide-react';
 import {
   Select as AriaSelect,
   SelectProps as AriaSelectProps,
@@ -17,12 +17,12 @@ import { composeTailwindRenderProps, focusRing } from '../shared/utils';
 
 const styles = tv({
   extend: focusRing,
-  base: 'flex items-center text-start gap-4 w-full cursor-default border border-black/10 dark:border-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] dark:shadow-none rounded-lg pl-3 pr-2 py-2 min-w-[150px] transition bg-gray-50 dark:bg-zinc-700',
+  base: 'flex w-full min-w-[150px] cursor-default items-center gap-4 rounded-lg border border-black/10 bg-gray-50 py-2 pl-3 pr-2 text-start shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] transition dark:border-white/10 dark:bg-zinc-700 dark:shadow-none',
   variants: {
     isDisabled: {
       false:
-        'text-gray-800 dark:text-zinc-300 hover:bg-gray-100 pressed:bg-gray-200 dark:hover:bg-zinc-600 dark:pressed:bg-zinc-500 group-invalid:border-red-600 forced-colors:group-invalid:border-[Mark]',
-      true: 'text-gray-200 dark:text-zinc-600 forced-colors:text-[GrayText] dark:bg-zinc-800 dark:border-white/5 forced-colors:border-[GrayText]',
+        'pressed:bg-gray-200 dark:pressed:bg-zinc-500 text-gray-800 hover:bg-gray-100 group-invalid:border-red-600 dark:text-zinc-300 dark:hover:bg-zinc-600 forced-colors:group-invalid:border-[Mark]',
+      true: 'text-gray-200 dark:border-white/5 dark:bg-zinc-800 dark:text-zinc-600 forced-colors:border-[GrayText] forced-colors:text-[GrayText]',
     },
   },
 });
@@ -50,7 +50,7 @@ export function Select<T extends object>({
         <SelectValue className="flex-1 text-sm placeholder-shown:italic" />
         <ChevronDown
           aria-hidden
-          className="w-4 h-4 text-gray-600 dark:text-zinc-400 forced-colors:text-[ButtonText] group-disabled:text-gray-200 dark:group-disabled:text-zinc-600 forced-colors:group-disabled:text-[GrayText]"
+          className="h-4 w-4 text-gray-600 group-disabled:text-gray-200 dark:text-zinc-400 dark:group-disabled:text-zinc-600 forced-colors:text-[ButtonText] forced-colors:group-disabled:text-[GrayText]"
         />
       </Button>
       {description && <Description>{description}</Description>}
@@ -58,7 +58,7 @@ export function Select<T extends object>({
       <Popover className="min-w-(--trigger-width)">
         <ListBox
           items={items}
-          className="outline-hidden p-1 max-h-[inherit] overflow-auto [clip-path:inset(0_0_0_0_round_.75rem)]"
+          className="outline-hidden max-h-[inherit] overflow-auto p-1 [clip-path:inset(0_0_0_0_round_.75rem)]"
         >
           {children}
         </ListBox>

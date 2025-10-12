@@ -1,5 +1,5 @@
 import { AlertCircleIcon, InfoIcon } from 'lucide-react';
-import React, { ReactNode } from 'react';
+import * as React from 'react';
 import { chain } from 'react-aria';
 import { DialogProps, Heading } from 'react-aria-components';
 import { Button } from '../button';
@@ -7,7 +7,7 @@ import { Dialog } from '../dialog';
 
 interface AlertDialogProps extends Omit<DialogProps, 'children'> {
   title: string;
-  children: ReactNode;
+  children: React.ReactNode;
   variant?: 'info' | 'destructive';
   actionLabel: string;
   cancelLabel?: string;
@@ -27,11 +27,11 @@ export function AlertDialog({
     <Dialog role="alertdialog" {...props}>
       {({ close }) => (
         <>
-          <Heading slot="title" className="text-xl font-semibold leading-6 my-0">
+          <Heading slot="title" className="my-0 text-xl font-semibold leading-6">
             {title}
           </Heading>
           <div
-            className={`w-6 h-6 absolute right-6 top-6 stroke-2 ${
+            className={`absolute right-6 top-6 h-6 w-6 stroke-2 ${
               variant === 'destructive' ? 'text-red-500' : 'text-blue-500'
             }`}
           >

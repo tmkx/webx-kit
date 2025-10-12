@@ -4,7 +4,7 @@ import { atom, getDefaultStore } from 'jotai';
 
 export const store = getDefaultStore();
 
-const genAIAtom = atom(async (get) => {
+const genAIAtom = atom(async get => {
   const apiKey = await get(apiKeyAtom);
   return apiKey ? new GoogleGenerativeAI(apiKey) : null;
 });

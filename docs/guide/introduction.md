@@ -2,7 +2,7 @@
 
 ## Why
 
-WebX Kit is built upon [webpack](https://webpack.js.org/)/[rspack](https://www.rspack.dev/), and the projects I maintain are primarily webpack-based. It's natural to reuse the existing codebase.
+WebX Kit is built upon [webpack](https://webpack.js.org/)/[rspack](https://rspack.rs/), and the projects I maintain are primarily webpack-based. It's natural to reuse the existing codebase.
 
 ::: info
 

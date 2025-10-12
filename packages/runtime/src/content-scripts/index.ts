@@ -44,7 +44,7 @@ export function createShadowRootUI({ styles = [], render }: CreateShadowRootUIOp
 
   setWebxRoot({ root: shadowRoot });
 
-  const styleElements = ([] as string[]).concat(styles).map((style) => {
+  const styleElements = ([] as string[]).concat(styles).map(style => {
     const styleEl = document.createElement('link');
     styleEl.rel = 'stylesheet';
     styleEl.href = style;
@@ -54,11 +54,11 @@ export function createShadowRootUI({ styles = [], render }: CreateShadowRootUIOp
   const appRoot = document.createElement('div');
   render({ root: appRoot });
 
-  Promise.all(styleElements.map((el) => new Promise((resolve) => el.addEventListener('load', resolve))))
+  Promise.all(styleElements.map(el => new Promise(resolve => el.addEventListener('load', resolve))))
     // render the app after the style has been loaded
     // https://en.wikipedia.org/wiki/Flash_of_unstyled_content
     .then(() => shadowRoot.append(appRoot));
 
-  styleElements.forEach((styleEl) => shadowRoot.append(styleEl));
+  styleElements.forEach(styleEl => shadowRoot.append(styleEl));
   document.body.prepend(container);
 }

@@ -1,5 +1,4 @@
 import { Check, ChevronRight } from 'lucide-react';
-import React from 'react';
 import {
   Menu as AriaMenu,
   MenuItem as AriaMenuItem,
@@ -19,7 +18,7 @@ export function Menu<T extends object>(props: AriaMenuProps<T>) {
   return (
     <AriaMenu
       {...props}
-      className="p-1 outline outline-0 max-h-[inherit] overflow-auto [clip-path:inset(0_0_0_0_round_.75rem)]"
+      className="max-h-[inherit] overflow-auto p-1 outline-0 [clip-path:inset(0_0_0_0_round_.75rem)]"
     />
   );
 }
@@ -31,12 +30,12 @@ export function MenuItem(props: MenuItemProps) {
       {composeRenderProps(props.children, (children, { selectionMode, isSelected, hasSubmenu }) => (
         <>
           {selectionMode !== 'none' && (
-            <span className="flex items-center w-4">{isSelected && <Check aria-hidden className="w-4 h-4" />}</span>
+            <span className="flex w-4 items-center">{isSelected && <Check aria-hidden className="h-4 w-4" />}</span>
           )}
-          <span className="flex items-center flex-1 gap-2 font-normal truncate group-selected:font-semibold">
+          <span className="group-selected:font-semibold flex flex-1 items-center gap-2 truncate font-normal">
             {children}
           </span>
-          {hasSubmenu && <ChevronRight aria-hidden className="absolute w-4 h-4 right-2" />}
+          {hasSubmenu && <ChevronRight aria-hidden className="absolute right-2 h-4 w-4" />}
         </>
       ))}
     </AriaMenuItem>
@@ -54,8 +53,8 @@ export interface MenuSectionProps<T> extends AriaMenuSectionProps<T> {
 
 export function MenuSection<T extends object>(props: MenuSectionProps<T>) {
   return (
-    <AriaMenuSection className="first:-mt-[5px] after:content-[''] after:block after:h-[5px]">
-      <Header className="text-sm font-semibold text-gray-500 dark:text-zinc-300 px-4 py-1 truncate sticky -top-[5px] -mt-px -mx-1 z-10 bg-gray-100/60 dark:bg-zinc-700/60 backdrop-blur-md supports-[-moz-appearance:none]:bg-gray-100 border-y border-y-gray-200 dark:border-y-zinc-700 [&+*]:mt-1">
+    <AriaMenuSection className="after:block after:h-[5px] after:content-[''] first:-mt-[5px]">
+      <Header className="sticky -top-[5px] z-10 -mx-1 -mt-px truncate border-y border-y-gray-200 bg-gray-100/60 px-4 py-1 text-sm font-semibold text-gray-500 backdrop-blur-md supports-[-moz-appearance:none]:bg-gray-100 dark:border-y-zinc-700 dark:bg-zinc-700/60 dark:text-zinc-300 [&+*]:mt-1">
         {props.title}
       </Header>
       <Collection items={props.items}>{props.children}</Collection>

@@ -52,13 +52,13 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@types/chrome": "^0.1.22",
+    "@types/chrome": "^0.1.24",
     "chokidar": "^4.0.3",
     "jiti": "^2.6.1",
     "type-fest": "^5.0.1"
   },
   "devDependencies": {
-    "@rsbuild/core": "^1.5.16",
+    "@rsbuild/core": "^1.5.17",
     "tailwindcss": "^4.1.14",
     "tsdown": "^0.15.6",
     "typescript": "^5.9.3"

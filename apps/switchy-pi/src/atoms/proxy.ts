@@ -6,16 +6,16 @@ export const proxySetting = chrome.proxy.settings;
 
 export const proxySettingDetailsAtom = syncExternalStateAtom(
   () =>
-    new Promise<chrome.types.ChromeSettingOnChangeDetails<chrome.proxy.ProxyConfig>>((resolve) =>
+    new Promise<chrome.types.ChromeSettingOnChangeDetails<chrome.proxy.ProxyConfig>>(resolve =>
       proxySetting.get({}, resolve)
     ),
-  (setSelf) => {
+  setSelf => {
     proxySetting.onChange.addListener(setSelf);
     return () => proxySetting.onChange.removeListener(setSelf);
   }
 );
 
-export const notControllableReasonAtom = atom(async (get) => {
+export const notControllableReasonAtom = atom(async get => {
   const settingDetails = await get(proxySettingDetailsAtom);
   const levelOfControl = settingDetails?.levelOfControl;
   switch (levelOfControl) {
@@ -27,13 +27,13 @@ export const notControllableReasonAtom = atom(async (get) => {
   }
 });
 
-export const proxySettingValueAtom = atom(async (get) => {
+export const proxySettingValueAtom = atom(async get => {
   const settingDetails = await get(proxySettingDetailsAtom);
   if (!settingDetails) return null;
   return settingDetails.value as chrome.proxy.ProxyConfig;
 });
 
-export const proxyModeAtom = atom(async (get) => {
+export const proxyModeAtom = atom(async get => {
   const proxySettingValue = await get(proxySettingValueAtom);
   if (!proxySettingValue) return null;
   const mode = proxySettingValue.mode as BuiltinProfile;

@@ -27,7 +27,7 @@ export function applyBackgroundSupport(api: RsbuildPluginAPI, options: Backgroun
   const { background } = options;
   if (!background) return false;
 
-  registerManifestTransformer('background', (manifest) => {
+  registerManifestTransformer('background', manifest => {
     manifest.background = {
       service_worker: 'background.js',
       type: 'module',
@@ -40,7 +40,7 @@ export function applyBackgroundSupport(api: RsbuildPluginAPI, options: Backgroun
 
   api.onAfterCreateCompiler(({ compiler, environments }) => {
     if (!('compilers' in compiler)) return;
-    const bgCompiler = compiler.compilers.find((compiler) => compiler.name === ENV_NAME);
+    const bgCompiler = compiler.compilers.find(compiler => compiler.name === ENV_NAME);
     const bgEnvironment = environments[ENV_NAME];
     if (!bgCompiler || !bgEnvironment) return;
     new rspack.webpack.DefinePlugin({

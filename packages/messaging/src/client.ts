@@ -78,7 +78,7 @@ function internalCreateTrpcClient<TRouter extends AnyTRPCRouter>({ type, to = 's
       }
     )
   );
-  messaging.request = (message) => messaging.requestTo(to, message);
+  messaging.request = message => messaging.requestTo(to, message);
   messaging.stream = (message, subscriber) => messaging.streamTo(to, message, subscriber);
   const link = messagingLink({ messaging });
   const client = createTRPCClient<TRouter>({

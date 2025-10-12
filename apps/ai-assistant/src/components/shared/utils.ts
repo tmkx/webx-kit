@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge';
 import { tv } from 'tailwind-variants';
 
 export const focusRing = tv({
-  base: 'outline outline-blue-600 dark:outline-blue-500 forced-colors:outline-[Highlight] outline-offset-2',
+  base: 'outline outline-offset-2 outline-blue-600 dark:outline-blue-500 forced-colors:outline-[Highlight]',
   variants: {
     isFocusVisible: {
       false: 'outline-0',
@@ -16,5 +16,5 @@ export function composeTailwindRenderProps<T>(
   className: string | ((v: T) => string) | undefined,
   tw: string
 ): string | ((v: T) => string) {
-  return composeRenderProps(className, (className) => twMerge(tw, className));
+  return composeRenderProps(className, className => twMerge(tw, className));
 }
