@@ -46,14 +46,14 @@ const boxStyles = tv({
   variants: {
     isSelected: {
       false:
-        'border-(--color) dark:[--color:colors.zinc-400)] group-pressed:[--color:var(--color-gray-500)] dark:group-pressed:[--color:var(--color-zinc-300)] bg-white [--color:var(--color-gray-400)] dark:bg-zinc-900',
-      true: 'bg-(--color) border-(--color) group-pressed:[--color:var(--color-gray-800)] dark:group-pressed:[--color:var(--color-slate-200)] forced-colors:[--color:Highlight]! [--color:var(--color-gray-700)] dark:[--color:var(--color-slate-300)]',
+        'dark:[--color:colors.zinc-400)] group-pressed:[--color:var(--color-gray-500)] dark:group-pressed:[--color:var(--color-zinc-300)] border-(--color) bg-white [--color:var(--color-gray-400)] dark:bg-zinc-900',
+      true: 'group-pressed:[--color:var(--color-gray-800)] dark:group-pressed:[--color:var(--color-slate-200)] border-(--color) bg-(--color) [--color:var(--color-gray-700)] dark:[--color:var(--color-slate-300)] forced-colors:[--color:Highlight]!',
     },
     isInvalid: {
-      true: 'forced-colors:[--color:Mark]! group-pressed:[--color:var(--color-red-800)] dark:group-pressed:[--color:var(--color-red-700)] [--color:var(--color-red-700)] dark:[--color:var(--color-red-600)]',
+      true: 'group-pressed:[--color:var(--color-red-800)] dark:group-pressed:[--color:var(--color-red-700)] [--color:var(--color-red-700)] dark:[--color:var(--color-red-600)] forced-colors:[--color:Mark]!',
     },
     isDisabled: {
-      true: 'forced-colors:[--color:GrayText]! [--color:var(--color-gray-200)] dark:[--color:var(--color-zinc-700)]',
+      true: '[--color:var(--color-gray-200)] dark:[--color:var(--color-zinc-700)] forced-colors:[--color:GrayText]!',
     },
   },
 });

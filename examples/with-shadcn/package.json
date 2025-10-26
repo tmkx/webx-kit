@@ -15,7 +15,7 @@
     "@webx-kit/runtime": "workspace:^",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "lucide-react": "^0.545.0",
+    "lucide-react": "^0.548.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tailwind-merge": "^3.3.1",
@@ -23,17 +23,17 @@
     "vaul": "^1.1.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.56.0",
+    "@playwright/test": "^1.56.1",
     "@rsbuild/core": "^1.5.17",
     "@rsbuild/plugin-react": "^1.4.1",
-    "@tailwindcss/postcss": "^4.1.14",
+    "@tailwindcss/postcss": "^4.1.16",
     "@types/chrome": "^0.1.24",
-    "@types/node": "^24.7.2",
+    "@types/node": "^24.9.1",
     "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.1",
+    "@types/react-dom": "^19.2.2",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "tailwindcss": "^4.1.14",
+    "tailwindcss": "^4.1.16",
     "typescript": "^5.9.3"
   }
 }

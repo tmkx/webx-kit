@@ -102,7 +102,7 @@ export function App() {
         ref={containerRef}
         tabIndex={visible ? undefined : -1}
         className={clsx(
-          'absolute left-0 top-0 z-[2147483647] transition-opacity',
+          'absolute top-0 left-0 z-2147483647 transition-opacity',
           isDarkMode && 'dark',
           visible ? 'opacity-100' : 'pointer-events-none opacity-0'
         )}

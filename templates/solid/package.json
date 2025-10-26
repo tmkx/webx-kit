@@ -13,16 +13,16 @@
     "solid-js": "^1.9.9"
   },
   "devDependencies": {
-    "@playwright/test": "^1.56.0",
+    "@playwright/test": "^1.56.1",
     "@rsbuild/core": "^1.5.17",
     "@rsbuild/plugin-babel": "^1.0.6",
     "@rsbuild/plugin-solid": "^1.0.6",
-    "@tailwindcss/postcss": "^4.1.14",
+    "@tailwindcss/postcss": "^4.1.16",
     "@types/chrome": "^0.1.24",
-    "@types/node": "^24.7.2",
+    "@types/node": "^24.9.1",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "tailwindcss": "^4.1.14",
+    "tailwindcss": "^4.1.16",
     "typescript": "^5.9.3"
   }
 }

@@ -25,7 +25,7 @@ export function App() {
     <Drawer container={container}>
       <DrawerTrigger>
         <div
-          className="flex-center fixed bottom-16 right-16 h-10 w-10 cursor-pointer rounded-full bg-blue-500 text-white transition-colors hover:bg-blue-600"
+          className="flex-center fixed right-16 bottom-16 h-10 w-10 cursor-pointer rounded-full bg-blue-500 text-white transition-colors hover:bg-blue-600"
           data-testid="settings"
         >
           <LucideSettings />

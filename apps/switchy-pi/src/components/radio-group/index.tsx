@@ -36,13 +36,13 @@ const styles = tv({
   variants: {
     isSelected: {
       false: 'group-pressed:border-gray-500 dark:group-pressed:border-zinc-300 border-gray-400 dark:border-zinc-400',
-      true: 'forced-colors:border-[Highlight]! group-pressed:border-gray-800 dark:group-pressed:border-slate-200 border-[7px] border-gray-700 dark:border-slate-300',
+      true: 'group-pressed:border-gray-800 dark:group-pressed:border-slate-200 border-[7px] border-gray-700 dark:border-slate-300 forced-colors:border-[Highlight]!',
     },
     isInvalid: {
-      true: 'group-pressed:border-red-800 dark:group-pressed:border-red-700 forced-colors:border-[Mark]! border-red-700 dark:border-red-600',
+      true: 'group-pressed:border-red-800 dark:group-pressed:border-red-700 border-red-700 dark:border-red-600 forced-colors:border-[Mark]!',
     },
     isDisabled: {
-      true: 'forced-colors:border-[GrayText]! border-gray-200 dark:border-zinc-700',
+      true: 'border-gray-200 dark:border-zinc-700 forced-colors:border-[GrayText]!',
     },
   },
 });

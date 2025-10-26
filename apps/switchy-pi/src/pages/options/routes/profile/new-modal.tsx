@@ -31,7 +31,7 @@ export function NewProfileModal({ isOpen, onOpenChange, onCreate }: NewProfileMo
         <Dialog>
           {({ close }) => (
             <Form onSubmit={handleSubmit}>
-              <Heading slot="title" className="my-0 text-xl font-semibold leading-6">
+              <Heading slot="title" className="my-0 text-xl leading-6 font-semibold">
                 New Profile
               </Heading>
               <TextField className="mt-4" name="name" label="Profile name" autoFocus isRequired />

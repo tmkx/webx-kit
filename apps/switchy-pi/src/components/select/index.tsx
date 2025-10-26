@@ -17,11 +17,11 @@ import { composeTailwindRenderProps, focusRing } from '../shared/utils';
 
 const styles = tv({
   extend: focusRing,
-  base: 'flex w-full min-w-[150px] cursor-default items-center gap-4 rounded-lg border border-black/10 bg-gray-50 py-2 pl-3 pr-2 text-start shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] transition dark:border-white/10 dark:bg-zinc-700 dark:shadow-none',
+  base: 'flex w-full min-w-[150px] cursor-default items-center gap-4 rounded-lg border border-black/10 bg-gray-50 py-2 pr-2 pl-3 text-start shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] transition dark:border-white/10 dark:bg-zinc-700 dark:shadow-none',
   variants: {
     isDisabled: {
       false:
-        'pressed:bg-gray-200 dark:pressed:bg-zinc-500 text-gray-800 hover:bg-gray-100 group-invalid:border-red-600 dark:text-zinc-300 dark:hover:bg-zinc-600 forced-colors:group-invalid:border-[Mark]',
+        'pressed:bg-gray-200 dark:pressed:bg-zinc-500 text-gray-800 group-invalid:border-red-600 hover:bg-gray-100 dark:text-zinc-300 dark:hover:bg-zinc-600 forced-colors:group-invalid:border-[Mark]',
       true: 'text-gray-200 dark:border-white/5 dark:bg-zinc-800 dark:text-zinc-600 forced-colors:border-[GrayText] forced-colors:text-[GrayText]',
     },
   },
@@ -58,7 +58,7 @@ export function Select<T extends object>({
       <Popover className="min-w-(--trigger-width)">
         <ListBox
           items={items}
-          className="outline-hidden max-h-[inherit] overflow-auto p-1 [clip-path:inset(0_0_0_0_round_.75rem)]"
+          className="max-h-[inherit] overflow-auto p-1 outline-hidden [clip-path:inset(0_0_0_0_round_.75rem)]"
         >
           {children}
         </ListBox>

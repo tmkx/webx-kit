@@ -53,22 +53,23 @@ chromium
       `--load-extension=${extensionPath}`,
     ],
   })
-  .then(async (context) => {
+  .then(async context => {
     console.log(kleur.green('Start successfully'));
 
+    await context.grantPermissions(['local-network-access']);
     const outdatedPages = context.pages();
     const page = await context.newPage();
-    await Promise.all(outdatedPages.map((page) => page.close()));
+    await Promise.all(outdatedPages.map(page => page.close()));
     await page.goto(`chrome://extensions/`);
 
-    await page.evaluate(async (pin) => {
+    await page.evaluate(async pin => {
       await chrome.developerPrivate.updateProfileConfiguration({ inDeveloperMode: true });
       if (pin) {
         const extensions = await chrome.developerPrivate.getExtensionsInfo();
         await Promise.all(
           extensions
-            .filter((ext) => !ext.pinnedToToolbar)
-            .map((ext) =>
+            .filter(ext => !ext.pinnedToToolbar)
+            .map(ext =>
               chrome.developerPrivate.updateExtensionConfiguration({
                 extensionId: ext.id,
                 pinnedToToolbar: true,
@@ -78,7 +79,7 @@ chromium
       }
     }, opts.pin);
   })
-  .catch((err) => {
+  .catch(err => {
     console.log(kleur.red('Start failed'), err);
   });
 
