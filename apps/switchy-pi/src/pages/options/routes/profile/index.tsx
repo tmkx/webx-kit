@@ -87,7 +87,7 @@ function RenameProfile({
                 onProfileChange({ ...profile, name: String(name) }).then(close);
               }}
             >
-              <Heading slot="title" className="my-0 text-xl font-semibold leading-6">
+              <Heading slot="title" className="my-0 text-xl leading-6 font-semibold">
                 Rename Profile
               </Heading>
               <TextField

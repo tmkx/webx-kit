@@ -37,7 +37,7 @@ const columnStyles = tv({
 
 const resizerStyles = tv({
   extend: focusRing,
-  base: 'rounded-xs resizing:bg-blue-600 forced-colors:resizing:bg-[Highlight] resizing:w-[2px] resizing:pl-[7px] box-content h-5 w-px translate-x-[8px] cursor-col-resize bg-gray-400 bg-clip-content px-[8px] py-1 -outline-offset-2 dark:bg-zinc-500 forced-colors:bg-[ButtonBorder]',
+  base: 'resizing:bg-blue-600 forced-colors:resizing:bg-[Highlight] resizing:w-[2px] resizing:pl-[7px] box-content h-5 w-px translate-x-[8px] cursor-col-resize rounded-xs bg-gray-400 bg-clip-content px-[8px] py-1 -outline-offset-2 dark:bg-zinc-500 forced-colors:bg-[ButtonBorder]',
 });
 
 export function Column(props: ColumnProps) {
@@ -100,7 +100,7 @@ export function TableHeader<T extends object>(props: TableHeaderProps<T>) {
 
 const rowStyles = tv({
   extend: focusRing,
-  base: 'group/row selected:bg-blue-100 selected:hover:bg-blue-200 dark:selected:bg-blue-700/30 dark:selected:hover:bg-blue-700/40 relative cursor-default select-none text-sm text-gray-900 -outline-offset-2 hover:bg-gray-100 disabled:text-gray-300 dark:text-zinc-200 dark:hover:bg-zinc-700/60 dark:disabled:text-zinc-600',
+  base: 'group/row selected:bg-blue-100 selected:hover:bg-blue-200 dark:selected:bg-blue-700/30 dark:selected:hover:bg-blue-700/40 relative cursor-default text-sm text-gray-900 -outline-offset-2 select-none hover:bg-gray-100 disabled:text-gray-300 dark:text-zinc-200 dark:hover:bg-zinc-700/60 dark:disabled:text-zinc-600',
 });
 
 export function Row<T extends object>({ id, columns, children, ...otherProps }: RowProps<T>) {
@@ -125,7 +125,7 @@ export function Row<T extends object>({ id, columns, children, ...otherProps }: 
 
 const cellStyles = tv({
   extend: focusRing,
-  base: 'group-selected/row:border-(--selected-border) in-[:has(+[data-selected])]:border-(--selected-border) truncate border-b border-b-gray-200 p-2 -outline-offset-2 [--selected-border:var(--color-blue-200)] group-last/row:border-b-0 dark:border-b-zinc-700 dark:[--selected-border:var(--color-blue-900)]',
+  base: 'group-selected/row:border-(--selected-border) truncate border-b border-b-gray-200 p-2 -outline-offset-2 [--selected-border:var(--color-blue-200)] group-last/row:border-b-0 in-[:has(+[data-selected])]:border-(--selected-border) dark:border-b-zinc-700 dark:[--selected-border:var(--color-blue-900)]',
 });
 
 export function Cell(props: CellProps) {

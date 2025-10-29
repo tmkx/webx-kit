@@ -27,11 +27,11 @@ export function AlertDialog({
     <Dialog role="alertdialog" {...props}>
       {({ close }) => (
         <>
-          <Heading slot="title" className="my-0 text-xl font-semibold leading-6">
+          <Heading slot="title" className="my-0 text-xl leading-6 font-semibold">
             {title}
           </Heading>
           <div
-            className={`absolute right-6 top-6 h-6 w-6 stroke-2 ${
+            className={`absolute top-6 right-6 h-6 w-6 stroke-2 ${
               variant === 'destructive' ? 'text-red-500' : 'text-blue-500'
             }`}
           >
