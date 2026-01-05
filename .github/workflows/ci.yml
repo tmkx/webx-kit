@@ -23,9 +23,10 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        node-version: [22.x]
+        node-version: [24.x]
     runs-on: ${{ matrix.os }}
     env:
+      NX_DAEMON: 'false'
       NX_KEY: ${{ vars.NX_KEY }}
       NX_SKIP_NX_CACHE: ${{ vars.NX_SKIP_NX_CACHE }}
 

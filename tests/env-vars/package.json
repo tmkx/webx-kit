@@ -6,14 +6,14 @@
     "test": "vitest"
   },
   "devDependencies": {
-    "@rsbuild/core": "^1.5.17",
-    "@types/node": "^24.9.1",
+    "@rsbuild/core": "^1.7.2",
+    "@types/node": "^25.0.9",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.3"
+    "vitest": "^4.0.17"
   },
   "dependencies": {
-    "execa": "^9.6.0"
+    "execa": "^9.6.1"
   }
 }

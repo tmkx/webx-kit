@@ -6,19 +6,19 @@
     "test": "playwright test"
   },
   "dependencies": {
-    "execa": "^9.6.0",
+    "execa": "^9.6.1",
     "strip-ansi": "^7.1.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.56.1",
-    "@types/node": "^24.9.1",
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.9",
     "@webx-kit/chrome-types": "workspace:^",
     "@webx-kit/template-react": "workspace:^",
     "@webx-kit/template-solid": "workspace:^",
     "@webx-kit/template-svelte": "workspace:^",
     "@webx-kit/template-vue": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "p-retry": "^7.1.0",
+    "p-retry": "^7.1.1",
     "typescript": "^5.9.3"
   }
 }

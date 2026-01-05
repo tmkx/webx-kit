@@ -9,25 +9,25 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@ant-design/cssinjs": "^1.24.0",
-    "@ant-design/icons": "^5.6.1",
+    "@ant-design/cssinjs": "^2.0.3",
+    "@ant-design/icons": "^6.1.0",
     "@webx-kit/runtime": "workspace:^",
-    "antd": "^5.27.6",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "antd": "^6.2.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
-    "@playwright/test": "^1.56.1",
-    "@rsbuild/core": "^1.5.17",
-    "@rsbuild/plugin-react": "^1.4.1",
-    "@tailwindcss/postcss": "^4.1.16",
-    "@types/chrome": "^0.1.24",
-    "@types/node": "^24.9.1",
-    "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.2",
+    "@playwright/test": "^1.57.0",
+    "@rsbuild/core": "^1.7.2",
+    "@rsbuild/plugin-react": "^1.4.3",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/chrome": "^0.1.33",
+    "@types/node": "^25.0.9",
+    "@types/react": "^19.2.8",
+    "@types/react-dom": "^19.2.3",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "tailwindcss": "^4.1.16",
+    "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3"
   }
 }

@@ -59,7 +59,11 @@ export function applyBackgroundSupport(api: RsbuildPluginAPI, options: Backgroun
                 import: background,
               },
             },
-            preEntry: isDev() ? [path.join(__dirname, './hmr')] : [],
+            preEntry: isDev()
+              ? process.env.NODE_ENV === 'development'
+                ? [path.resolve(__dirname, 'live-reload.ts')]
+                : [path.resolve(__dirname, 'live-reload.cjs')]
+              : [],
           },
           output: {
             target: 'web-worker',

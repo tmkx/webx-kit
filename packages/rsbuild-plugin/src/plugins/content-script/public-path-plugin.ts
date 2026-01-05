@@ -21,6 +21,5 @@ export class ContentScriptPublicPathPlugin extends ContentScriptBasePlugin {
 
 function patchPublicPathRuntimeModule(module: JsRuntimeModule, { webpack: { RuntimeGlobals } }: Rspack.Compiler) {
   if (!module.source) return;
-  module.name = 'content-script publicPath';
   module.source.source = Buffer.from(`${RuntimeGlobals.publicPath} = chrome.runtime.getURL('/');`, 'utf-8');
 }

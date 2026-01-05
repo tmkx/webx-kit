@@ -24,7 +24,6 @@ export class ContentScriptShadowRootPlugin extends ContentScriptBasePlugin {
 
 function patchCSSLoadingRuntimeModule(module: JsRuntimeModule) {
   if (!module.source) return;
-  module.name = 'content-scripts css loading';
   const originCode = module.source.source.toString('utf-8');
   module.source.source = Buffer.from(patchCSSLoadingCode(originCode), 'utf-8');
 }

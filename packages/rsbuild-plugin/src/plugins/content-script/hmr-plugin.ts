@@ -31,6 +31,5 @@ function generateLoadScriptCode(options: { RuntimeGlobals: Rspack.Compiler['webp
 
 function patchLoadScriptRuntimeModule(module: JsRuntimeModule, { webpack: { RuntimeGlobals } }: Rspack.Compiler) {
   if (!module.source) return;
-  module.name = 'content-script load script';
   module.source.source = Buffer.from(generateLoadScriptCode({ RuntimeGlobals }).join(';\n'), 'utf-8');
 }

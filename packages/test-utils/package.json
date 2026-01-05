@@ -64,8 +64,8 @@
     "kleur": "^4.1.5"
   },
   "devDependencies": {
-    "@playwright/test": "^1.56.1",
-    "@types/node": "^24.9.1",
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.9",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
