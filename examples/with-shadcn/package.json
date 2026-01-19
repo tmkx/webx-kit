@@ -1,6 +1,6 @@
 {
   "name": "@webx-kit/example-with-shadcn",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "private": true,
   "scripts": {
     "dev": "rsbuild dev",
