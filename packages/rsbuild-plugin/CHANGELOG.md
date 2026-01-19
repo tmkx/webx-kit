@@ -1,5 +1,7 @@
 # @webx-kit/rsbuild-plugin
 
+## 0.2.3
+
 ## 0.2.2
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @webx-kit/test-utils
 
+## 0.2.3
+
+### Patch Changes
+
+- a131520: chore: allow local-network-access permission
+  - @webx-kit/chrome-types@0.2.3
+
 ## 0.2.2
 
 ### Patch Changes
