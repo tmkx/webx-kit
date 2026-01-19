@@ -6,7 +6,7 @@ export const PLUGIN_NAME = 'webx:content-script-shadow-root';
 
 const shadowRootLoader = path.resolve(
   __dirname,
-  process.env.NODE_ENV === 'development' ? 'shadow-root-loader-dev.js' : 'shadow-root-loader.js'
+  process.env.NODE_ENV === 'development' ? 'shadow-root-loader-dev.cjs' : 'shadow-root-loader.cjs'
 );
 
 export class CSSExtractPatchPlugin {

@@ -37,7 +37,11 @@ export function createStorage<T extends Record<string, any> = Record<string, any
   async function getItem<K extends KeyAsString<T>>(key: K, defaultValue?: T[K]): Promise<T[K] | null> {
     const prefixedKey = addPrefix(key);
     const result = await storage.get(prefixedKey);
-    return prefixedKey in result ? result[prefixedKey] : arguments.length === 2 ? (defaultValue ?? null) : null;
+    return prefixedKey in result
+      ? (result[prefixedKey] as T[K])
+      : arguments.length === 2
+        ? (defaultValue ?? null)
+        : null;
   }
 
   async function hasItem(key: string): Promise<boolean> {

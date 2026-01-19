@@ -3,9 +3,9 @@ import path from 'node:path';
 import type { RsbuildPluginAPI, Rspack } from '@rsbuild/core';
 
 const buildHttpLoader = (function () {
-  const devLoader = path.resolve(__dirname, 'build-http-loader-dev.js');
+  const devLoader = path.resolve(__dirname, 'build-http-loader-dev.cjs');
   if (process.env.NODE_ENV === 'development') return devLoader;
-  const prodLoader = path.resolve(__dirname, 'build-http-loader.js');
+  const prodLoader = path.resolve(__dirname, 'build-http-loader.cjs');
   if (fs.existsSync(prodLoader)) return prodLoader;
   return devLoader;
 })();

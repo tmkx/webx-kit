@@ -21,15 +21,15 @@
     "exports": {
       ".": {
         "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
+        "default": "./dist/index.cjs"
       },
       "./manifest": {
         "types": "./dist/manifest.d.ts",
-        "default": "./dist/manifest.js"
+        "default": "./dist/manifest.cjs"
       },
       "./tailwind": {
         "types": "./dist/tailwind.d.ts",
-        "default": "./dist/tailwind.js"
+        "default": "./dist/tailwind.cjs"
       }
     },
     "types": "./dist/index.d.ts"
@@ -52,15 +52,15 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@types/chrome": "^0.1.24",
-    "chokidar": "^4.0.3",
+    "@types/chrome": "^0.1.33",
+    "chokidar": "^5.0.0",
     "jiti": "^2.6.1",
-    "type-fest": "^5.1.0"
+    "type-fest": "^5.4.1"
   },
   "devDependencies": {
-    "@rsbuild/core": "^1.5.17",
-    "tailwindcss": "^4.1.16",
-    "tsdown": "^0.15.10",
+    "@rsbuild/core": "^1.7.2",
+    "tailwindcss": "^4.1.18",
+    "tsdown": "^0.19.0",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {

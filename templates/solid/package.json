@@ -10,19 +10,19 @@
   },
   "dependencies": {
     "@webx-kit/runtime": "workspace:^",
-    "solid-js": "^1.9.9"
+    "solid-js": "^1.9.10"
   },
   "devDependencies": {
-    "@playwright/test": "^1.56.1",
-    "@rsbuild/core": "^1.5.17",
-    "@rsbuild/plugin-babel": "^1.0.6",
-    "@rsbuild/plugin-solid": "^1.0.6",
-    "@tailwindcss/postcss": "^4.1.16",
-    "@types/chrome": "^0.1.24",
-    "@types/node": "^24.9.1",
+    "@playwright/test": "^1.57.0",
+    "@rsbuild/core": "^1.7.2",
+    "@rsbuild/plugin-babel": "^1.0.7",
+    "@rsbuild/plugin-solid": "^1.0.7",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/chrome": "^0.1.33",
+    "@types/node": "^25.0.9",
     "@webx-kit/rsbuild-plugin": "workspace:^",
     "@webx-kit/test-utils": "workspace:^",
-    "tailwindcss": "^4.1.16",
+    "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3"
   }
 }
