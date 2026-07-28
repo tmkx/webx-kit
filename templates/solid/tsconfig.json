@@ -15,7 +15,7 @@
     "isolatedModules": true,
     "moduleResolution": "bundler",
     "jsxImportSource": "solid-js",
-    "baseUrl": "./",
+    "rootDir": "./",
     "paths": {
       "@/*": ["./src/*"]
     }

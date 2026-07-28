@@ -48,6 +48,7 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
           ctx: createContext ? { ...ctx, ...(await createContext(context)) } : ctx,
           type,
           signal: context.signal,
+          batchIndex: 0,
         });
         return transformTRPCResponse(rootConfig, { result: { data: result } });
       } catch (cause) {
@@ -69,6 +70,7 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
           ctx: createContext ? { ...ctx, ...(await createContext(context)) } : ctx,
           type,
           signal,
+          batchIndex: 0,
         });
 
         const isIterableResult = isAsyncIterable(result) || isObservable(result);
@@ -91,10 +93,11 @@ export function applyMessagingHandler<TRouter extends AnyTRPCRouter>(options: Me
         subscriber.next(transformTRPCResponse(rootConfig, { result: { type: 'started' } } as TRPCResponseMessage));
 
         run(async () => {
-          while (true) {
+          while (!signal.aborted) {
             const next = await Promise.race([iterator.next().catch(getTRPCErrorFromUnknown), abortPromise]);
 
-            if (next === 'abort') {
+            // Prefer abort over a racing `next` value so unsubscribes do not emit extra data.
+            if (next === 'abort' || signal.aborted) {
               await iterator.return?.();
               break;
             }

@@ -218,6 +218,11 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
           const ac = new AbortController();
           processingAbortControllers.set(message.i, ac);
           const cleanup = await onStream(data, observer, { signal: ac.signal, originMessage });
+          // Abort/complete may have already run while `onStream` was async; do not leave a dangling cleanup.
+          if (!processingAbortControllers.has(message.i)) {
+            cleanup?.();
+            return;
+          }
           processingStreamCleanups.set(message.i, cleanup);
         } catch (error) {
           // Error is not serializable in `chrome.runtime.Port`
@@ -249,11 +254,12 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
     name: port.name,
     request<T>(data: unknown, options?: RequestOptions) {
       const { signal } = options || {};
+      if (signal?.aborted) return Promise.reject(signal.reason);
+
       const resolvers = withResolvers<T>();
       const id = randomID();
       ongoingRequestResolvers.set(id, resolvers);
       if (signal) {
-        if (signal.aborted) return Promise.reject(signal.reason);
         signal.addEventListener('abort', () => {
           if (!ongoingRequestResolvers.has(id)) return;
           ongoingRequestResolvers.delete(id);
@@ -262,6 +268,8 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
         });
       }
       port.send({ t: 'r', i: id, d: data } satisfies Packet).catch(err => {
+        if (!ongoingRequestResolvers.has(id)) return;
+        ongoingRequestResolvers.delete(id);
         resolvers.reject(err);
       });
       return resolvers.promise;
@@ -270,17 +278,28 @@ export function createMessaging(port: Port, options?: CreateMessagingOptions): M
       const id = randomID();
       ongoingStreamObservers.set(id, observer);
       port.send({ t: 's', i: id, d: data } satisfies Packet).catch(err => {
+        if (!ongoingStreamObservers.has(id)) return;
+        ongoingStreamObservers.delete(id);
         queueMicrotask(() => {
           observer.error?.(err);
         });
       });
       return () => {
+        // Drop the observer immediately so late `next` packets after unsubscribe
+        // cannot mutate caller state (important for timing-sensitive consumers / Windows CI).
         if (!ongoingStreamObservers.has(id)) return;
+        ongoingStreamObservers.delete(id);
         port.send(createAbortPacket('s', id)).catch(noop);
       };
     },
     dispose() {
       offMessage();
+      ongoingRequestResolvers.clear();
+      ongoingStreamObservers.clear();
+      for (const ac of processingAbortControllers.values()) ac.abort();
+      processingAbortControllers.clear();
+      for (const cleanup of processingStreamCleanups.values()) cleanup?.();
+      processingStreamCleanups.clear();
     },
   };
 

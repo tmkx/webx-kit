@@ -52,16 +52,16 @@
     "lint:type": "tsc --noEmit"
   },
   "dependencies": {
-    "@types/chrome": "^0.1.33",
+    "@types/chrome": "^0.2.2",
     "chokidar": "^5.0.0",
-    "jiti": "^2.6.1",
-    "type-fest": "^5.4.1"
+    "jiti": "^2.7.0",
+    "type-fest": "^5.8.0"
   },
   "devDependencies": {
-    "@rsbuild/core": "^1.7.2",
-    "tailwindcss": "^4.1.18",
-    "tsdown": "^0.19.0",
-    "typescript": "^5.9.3"
+    "@rsbuild/core": "^2.1.8",
+    "tailwindcss": "^4.3.3",
+    "tsdown": "^0.22.14",
+    "typescript": "^6.0.3"
   },
   "peerDependencies": {
     "@rsbuild/core": "^1.0.0",

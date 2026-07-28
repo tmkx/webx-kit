@@ -1,15 +1,11 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "analytics": false,
   "cli": {
     "packageManager": "pnpm"
   },
   "defaultBase": "main",
   "neverConnectToCloud": true,
-  "plugins": [
-    {
-      "plugin": "@nx/shared-fs-cache"
-    }
-  ],
   "targetDefaults": {
     "build": {
       "cache": true,

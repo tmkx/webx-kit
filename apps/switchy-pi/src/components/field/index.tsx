@@ -13,21 +13,20 @@ import {
   TextProps,
   composeRenderProps,
 } from 'react-aria-components';
-import { twMerge } from 'tailwind-merge';
-import { tv } from 'tailwind-variants';
+import { cn, tv } from 'tailwind-variants';
 import { composeTailwindRenderProps, focusRing } from '../shared/utils';
 
 export function Label(props: LabelProps) {
   return (
     <RACLabel
       {...props}
-      className={twMerge('w-fit cursor-default text-sm font-medium text-gray-500 dark:text-zinc-400', props.className)}
+      className={cn('w-fit cursor-default text-sm font-medium text-gray-500 dark:text-zinc-400', props.className)}
     />
   );
 }
 
 export function Description(props: TextProps) {
-  return <Text {...props} slot="description" className={twMerge('text-sm text-gray-600', props.className)} />;
+  return <Text {...props} slot="description" className={cn('text-sm text-gray-600', props.className)} />;
 }
 
 export function FieldError(props: FieldErrorProps) {

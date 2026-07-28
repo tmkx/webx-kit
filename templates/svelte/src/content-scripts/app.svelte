@@ -2,7 +2,7 @@
   import logo from '@/assets/text-logo.svg';
   import Hello from './hello.svelte';
 
-  let count = 0;
+  let count = $state(0);
 
   function handleClick() {
     count += 1;
@@ -13,7 +13,7 @@
   <img class="h-5" src={logo} alt="Logo" />
   <div>
     <span class="text-slate-700 dark:text-slate-400">Count: </span>
-    <button class="text-sky-700 tabular-nums" on:click={handleClick}>
+    <button class="text-sky-700 tabular-nums" onclick={handleClick}>
       {count}
     </button>
   </div>

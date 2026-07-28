@@ -113,7 +113,8 @@ it('should support abort stream', async () => {
             result.push(value);
             if (result.length === 2) {
               unsubscribe();
-              resolve(result);
+              // Copy so late packets cannot mutate the resolved snapshot.
+              resolve([...result]);
             }
           },
           error: reason => reject(reason),
@@ -126,7 +127,6 @@ it('should support abort stream', async () => {
   expect(cleanupFn).toBeCalled();
   expect(completeFn).not.toBeCalled();
 
-  await sleep();
   expectMessagingIsNotLeaked(receiver);
   expectMessagingIsNotLeaked(sender);
 });
@@ -198,4 +198,45 @@ it('should support abort request', async () => {
 
   expectMessagingIsNotLeaked(receiver);
   expectMessagingIsNotLeaked(sender);
+});
+
+it('should ignore stream values after unsubscribe', async () => {
+  const { port1, port2 } = new MessageChannel();
+
+  const receiver = createMessaging(fromMessagePort(port1), {
+    async onStream(_message, subscriber) {
+      // Emit extra values after a short delay to simulate in-flight ticks after unsubscribe.
+      subscriber.next(0);
+      subscriber.next(1);
+      await sleep(20);
+      subscriber.next(2);
+      subscriber.next(3);
+      subscriber.complete();
+    },
+  });
+  const sender = createMessaging(fromMessagePort(port2));
+
+  const nextFn = vi.fn();
+  const completeFn = vi.fn();
+  await new Promise<void>((resolve, reject) => {
+    const unsubscribe = sender.stream(null, {
+      next(value) {
+        nextFn(value);
+        if (nextFn.mock.calls.length === 2) {
+          unsubscribe();
+          resolve();
+        }
+      },
+      error: reject,
+      complete: completeFn,
+    });
+  });
+
+  await sleep(50);
+  expect(nextFn.mock.calls).toEqual([[0], [1]]);
+  expect(completeFn).not.toBeCalled();
+  expectMessagingIsNotLeaked(sender);
+
+  receiver.dispose();
+  sender.dispose();
 });

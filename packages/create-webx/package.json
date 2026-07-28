@@ -26,14 +26,14 @@
     "lint:type": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/debug": "^4.1.12",
+    "@types/debug": "^4.1.13",
     "@types/prompts": "^2.4.9",
     "debug": "^4.4.3",
-    "execa": "^9.6.1",
+    "execa": "^10.0.0",
     "kleur": "^4.1.5",
     "prompts": "^2.4.2",
-    "tsdown": "^0.19.0",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.17"
+    "tsdown": "^0.22.14",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
   }
 }
