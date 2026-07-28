@@ -1,4 +1,4 @@
-import type { BundlerPluginInstance, RsbuildPluginAPI } from '@rsbuild/core';
+import type { Rspack, RsbuildPluginAPI } from '@rsbuild/core';
 import { isDev, isProd } from '../env';
 import { registerManifestTransformer } from '../manifest';
 import { castArray } from '../../utils/misc';
@@ -93,7 +93,7 @@ export function applyContentScriptsSupport(api: RsbuildPluginAPI, options: Norma
           tools: {
             htmlPlugin: false,
             rspack(_config, { appendPlugins }) {
-              const plugins: BundlerPluginInstance[] = isDev()
+              const plugins: Rspack.Plugin[] = isDev()
                 ? [
                     new ContentScriptHMRPlugin(contentScriptNames),
                     new ContentScriptShadowRootPlugin(contentScriptNames),

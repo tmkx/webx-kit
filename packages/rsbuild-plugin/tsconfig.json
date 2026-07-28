@@ -8,6 +8,7 @@
     "skipLibCheck": true,
     "declaration": true,
     "isolatedModules": true,
+    "types": ["chrome"],
     "allowJs": true,
     "noEmit": true
   },

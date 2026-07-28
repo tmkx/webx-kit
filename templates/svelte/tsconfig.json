@@ -15,7 +15,7 @@
     "isolatedModules": true,
     "moduleResolution": "bundler",
     "verbatimModuleSyntax": true,
-    "baseUrl": "./",
+    "rootDir": "./",
     "paths": {
       "@/*": ["./src/*"]
     }

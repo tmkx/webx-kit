@@ -23,7 +23,14 @@ test('Messaging', async ({ context, getURL }) => {
   await Promise.all([
     optionsPage.goto(await getURL('options.html')),
     popupPage.goto(await getURL('popup.html')),
+    // Open a normal page so the content script is injected.
     contentPage.goto(getWebpageURL()),
+  ]);
+
+  // Ensure extension page scripts finished loading before messaging (slow on Windows CI).
+  await Promise.all([
+    optionsPage.waitForFunction(() => typeof globalThis.__clientMessaging !== 'undefined'),
+    popupPage.waitForFunction(() => typeof globalThis.__clientMessaging !== 'undefined'),
   ]);
 
   await expect(optionsPage.evaluate(() => globalThis.__clientMessaging.request('options'))).resolves.toEqual({
@@ -47,18 +54,27 @@ test('Messaging', async ({ context, getURL }) => {
     )
   );
 
-  await expect(
-    popupPage.evaluate(tabId => globalThis.__clientMessaging.requestTo(tabId!, 'popup to content-script'), webpage.id)
-  ).resolves.toEqual({
-    reply: 'content-script',
-    data: 'popup to content-script',
-  });
+  // Content-script injection can lag behind navigation on Windows; retry until it answers.
+  await expect
+    .poll(
+      () =>
+        popupPage.evaluate(
+          tabId => globalThis.__clientMessaging.requestTo(tabId!, 'popup to content-script'),
+          webpage.id
+        ),
+      { timeout: 10_000 }
+    )
+    .toEqual({
+      reply: 'content-script',
+      data: 'popup to content-script',
+    });
 });
 
 test('Stream', async ({ context, getURL }) => {
   const optionsPage = await context.newPage();
 
   await optionsPage.goto(await getURL('options.html'));
+  await optionsPage.waitForFunction(() => typeof globalThis.__clientMessaging !== 'undefined');
 
   const result = await optionsPage.evaluate(() => {
     return new Promise<unknown[]>((resolve, reject) => {

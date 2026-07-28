@@ -60,13 +60,13 @@
   },
   "dependencies": {
     "@webx-kit/chrome-types": "workspace:^",
-    "commander": "^14.0.2",
+    "commander": "^15.0.0",
     "kleur": "^4.1.5"
   },
   "devDependencies": {
-    "@playwright/test": "^1.57.0",
-    "@types/node": "^25.0.9",
-    "typescript": "^5.9.3"
+    "@playwright/test": "^1.62.0",
+    "@types/node": "^26.1.2",
+    "typescript": "^6.0.3"
   },
   "peerDependencies": {
     "@playwright/test": "^1.30.0"

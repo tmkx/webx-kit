@@ -1,7 +1,7 @@
 import { expect, test } from './context';
 import { ChromeStorage } from '@/index';
 
-declare module globalThis {
+declare namespace globalThis {
   const __storage: ChromeStorage;
   let __log: unknown[];
 }

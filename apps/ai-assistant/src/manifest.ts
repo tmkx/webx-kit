@@ -13,6 +13,7 @@ export default defineManifest(() => ({
   },
   options_ui: {
     page: 'options.html',
+    open_in_tab: false,
   },
   host_permissions: ['<all_urls>'],
   web_accessible_resources: [

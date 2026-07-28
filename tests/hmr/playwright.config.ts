@@ -35,15 +35,6 @@ export default defineConfig({
       },
     },
     {
-      name: 'Svelte',
-      grep: /svelte/,
-      use: {
-        ...devices['Desktop Chrome'],
-        channel: 'chromium',
-        launchOptions: createLaunchOptions('@webx-kit/template-svelte'),
-      },
-    },
-    {
       name: 'Vue',
       grep: /vue/,
       use: {

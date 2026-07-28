@@ -58,15 +58,19 @@ export function createWebxTest({ extensionPath, browser = chromium }: CreateWebx
       if (cachedExtensionIdMap.has(extensionPath)) return use(cachedExtensionIdMap.get(extensionPath)!);
       const page = await context.newPage();
       await page.goto('chrome://extensions');
-      const extensionId = await page.evaluate(
-        extPath =>
-          chrome.developerPrivate
-            .getExtensionsInfo()
-            .then(extensions => extensions.find(ext => ext.path === extPath)?.id),
-        extensionPath
-      );
+      // Normalize path separators / casing so Windows path comparisons succeed.
+      const normalizedPath = path.resolve(extensionPath).replace(/\\/g, '/').toLowerCase();
+      const extensionId = await page.evaluate(async extPath => {
+        const extensions = await chrome.developerPrivate.getExtensionsInfo();
+        const normalize = (p: string) => p.replace(/\\/g, '/').toLowerCase();
+        return extensions.find(ext => {
+          if (!ext.path) return false;
+          const path = normalize(ext.path);
+          return path === extPath || path.endsWith(extPath);
+        })?.id;
+      }, normalizedPath);
       await page.close();
-      if (!extensionId) throw new Error('Cannot get extension id');
+      if (!extensionId) throw new Error(`Cannot get extension id for path: ${extensionPath}`);
       cachedExtensionIdMap.set(extensionPath, extensionId);
       return use(extensionId);
     },

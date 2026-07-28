@@ -201,6 +201,7 @@ describe('Basic', () => {
     const onErrorFn = vi.fn();
     const onStoppedFn = vi.fn();
     const unsubscribeResolver = withResolvers<void>();
+    streamCleanupFn.mockClear();
     const unsubscribe = client.streamInterval.subscribe(
       { from: 666, interval: 10 },
       {
@@ -218,15 +219,13 @@ describe('Basic', () => {
       }
     );
     await unsubscribeResolver.promise;
-    expect(streamCleanupFn).not.toBeCalled();
-    await sleep();
+    await vi.waitFor(() => expect(streamCleanupFn).toBeCalledTimes(1));
     expect(onStartedFn).toBeCalledTimes(1);
     expect(onCompleteFn).not.toBeCalled();
+    // Only the first two values should be delivered; late ticks after unsubscribe are dropped.
     expect(onDataFn.mock.calls).toEqual([[666], [667]]);
     expect(onErrorFn).not.toBeCalled();
     expect(onStoppedFn).not.toBeCalled();
-    expect(streamCleanupFn).toBeCalledTimes(1);
-    await sleep();
   });
 
   it('should support async generator', async () => {
@@ -277,6 +276,7 @@ describe('Basic', () => {
     const onErrorFn = vi.fn();
     const onStoppedFn = vi.fn();
     const unsubscribeResolver = withResolvers<void>();
+    generatorCleanupFn.mockClear();
     const unsubscribe = client.generatorInterval.subscribe(
       { from: 666, interval: 10 },
       {
@@ -294,14 +294,12 @@ describe('Basic', () => {
       }
     );
     await unsubscribeResolver.promise;
-    expect(generatorCleanupFn).not.toBeCalled();
-    await sleep();
+    await vi.waitFor(() => expect(generatorCleanupFn).toBeCalledTimes(1));
     expect(onStartedFn).toBeCalledTimes(1);
     expect(onCompleteFn).not.toBeCalled();
+    // Only the first two values should be delivered; late yields after abort are dropped.
     expect(onDataFn.mock.calls).toEqual([[666], [667]]);
     expect(onErrorFn).not.toBeCalled();
     expect(onStoppedFn).not.toBeCalled();
-    expect(generatorCleanupFn).toBeCalledTimes(1);
-    await sleep();
   });
 });

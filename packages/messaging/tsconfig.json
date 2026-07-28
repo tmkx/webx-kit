@@ -12,7 +12,7 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "moduleResolution": "bundler",
-    "baseUrl": "./",
+    "rootDir": "./",
     "paths": {
       "@/*": ["./src/*"]
     }

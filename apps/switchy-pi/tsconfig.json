@@ -14,7 +14,8 @@
     "isolatedModules": true,
     "moduleResolution": "bundler",
     "noEmit": true,
-    "baseUrl": "./",
+    "types": ["chrome"],
+    "rootDir": "./",
     "paths": {
       "@/*": ["./src/*"]
     }

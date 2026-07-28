@@ -13,8 +13,8 @@ export function fromMessagePort(port: MessagePort): Port {
 }
 
 export function expectMessagingIsNotLeaked(messaging: Messaging) {
-  // @ts-expect-error
-  expect(messaging.ongoingRequestResolvers).toHaveLength(0);
-  // @ts-expect-error
-  expect(messaging.ongoingStreamObservers).toHaveLength(0);
+  // @ts-expect-error - test-only maps attached in createMessaging
+  expect(messaging.ongoingRequestResolvers.size).toBe(0);
+  // @ts-expect-error - test-only maps attached in createMessaging
+  expect(messaging.ongoingStreamObservers.size).toBe(0);
 }

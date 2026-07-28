@@ -4,27 +4,21 @@
   "engines": {
     "node": ">=18.19.0"
   },
-  "packageManager": "pnpm@10.28.0",
+  "packageManager": "pnpm@11.17.0",
   "scripts": {
     "lint:type": "nx run-many -t lint:type",
     "build": "nx run-many -t build",
     "test": "nx run-many -t test"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.8",
-    "@nx/shared-fs-cache": "^5.0.0",
-    "@playwright/test": "^1.57.0",
-    "nx": "^22.3.3",
-    "prettier": "^3.8.0",
-    "prettier-plugin-tailwindcss": "^0.7.2",
-    "typescript": "^5.9.3"
+    "@changesets/cli": "^2.31.1",
+    "@playwright/test": "^1.62.0",
+    "nx": "^23.1.0",
+    "prettier": "^3.9.6",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "typescript": "^6.0.3"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "nx"
-    ]
   }
 }

@@ -87,7 +87,6 @@ chromium
  * @param {string} root
  * @returns {boolean}
  */
-
 function isLerna(root) {
   return fs.existsSync(path.join(root, WORKSPACE_FILES.LERNA));
 }
@@ -124,16 +123,16 @@ function isMonorepo(root) {
  * @returns {string | undefined}
  */
 function findMonorepoRoot(appDirectory, maxDepth = 5) {
-  let inMonorepo = false;
-  let monorepoRoot = appDirectory;
+  let current = appDirectory;
 
   for (let depth = 0; depth < maxDepth; depth++) {
-    if (isMonorepo(appDirectory)) {
-      inMonorepo = true;
-      break;
+    if (isMonorepo(current)) {
+      return current;
     }
-    monorepoRoot = path.dirname(appDirectory);
+    const parent = path.dirname(current);
+    if (parent === current) break;
+    current = parent;
   }
 
-  return inMonorepo ? monorepoRoot : undefined;
+  return undefined;
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { LanguagesIcon, ListTreeIcon, Loader2Icon } from 'lucide-react';
 import { unstable_createSelectionMenu as createSelectionMenu, isPageInDark } from '@webx-kit/runtime/content-scripts';
 import { createTrpcClient } from '@webx-kit/messaging/client';
-import clsx from 'clsx';
+import { cn } from 'tailwind-variants';
 import type { AppRouter } from '@/background/router';
 import { DialogTrigger, TooltipTrigger } from 'react-aria-components';
 import { Button, Popover, Tooltip } from '@/components';
@@ -101,7 +101,7 @@ export function App() {
       <div
         ref={containerRef}
         tabIndex={visible ? undefined : -1}
-        className={clsx(
+        className={cn(
           'absolute top-0 left-0 z-2147483647 transition-opacity',
           isDarkMode && 'dark',
           visible ? 'opacity-100' : 'pointer-events-none opacity-0'
